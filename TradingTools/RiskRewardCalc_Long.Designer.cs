@@ -589,7 +589,7 @@ namespace TradingTools
             this.tableLayoutPanel6.ColumnCount = 3;
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.334F));
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.666F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 201F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 202F));
             this.tableLayoutPanel6.Controls.Add(this.textBox1, 2, 1);
             this.tableLayoutPanel6.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel6.Controls.Add(this.textBox2, 1, 1);
@@ -606,7 +606,7 @@ namespace TradingTools
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(502, 29);
+            this.textBox1.Location = new System.Drawing.Point(501, 29);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(169, 23);
@@ -636,9 +636,9 @@ namespace TradingTools
             // 
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label3.Location = new System.Drawing.Point(502, 0);
+            this.label3.Location = new System.Drawing.Point(501, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(196, 15);
+            this.label3.Size = new System.Drawing.Size(197, 15);
             this.label3.TabIndex = 5;
             this.label3.Text = "Profit minus Total Trading Cost";
             // 
@@ -648,7 +648,7 @@ namespace TradingTools
             this.label4.Dock = System.Windows.Forms.DockStyle.Top;
             this.label4.Location = new System.Drawing.Point(224, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(272, 15);
+            this.label4.Size = new System.Drawing.Size(271, 15);
             this.label4.TabIndex = 5;
             this.label4.Text = "Price Target";
             // 
@@ -689,7 +689,7 @@ namespace TradingTools
             this.tableLayoutPanel4.ColumnCount = 3;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.334F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.666F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 201F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 202F));
             this.tableLayoutPanel4.Controls.Add(this.textBox21, 2, 1);
             this.tableLayoutPanel4.Controls.Add(this.label23, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.textBox20, 1, 1);
@@ -706,7 +706,7 @@ namespace TradingTools
             // 
             // textBox21
             // 
-            this.textBox21.Location = new System.Drawing.Point(502, 29);
+            this.textBox21.Location = new System.Drawing.Point(501, 29);
             this.textBox21.Name = "textBox21";
             this.textBox21.ReadOnly = true;
             this.textBox21.Size = new System.Drawing.Size(169, 23);
@@ -736,9 +736,9 @@ namespace TradingTools
             // 
             this.label25.AutoSize = true;
             this.label25.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label25.Location = new System.Drawing.Point(502, 0);
+            this.label25.Location = new System.Drawing.Point(501, 0);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(196, 15);
+            this.label25.Size = new System.Drawing.Size(197, 15);
             this.label25.TabIndex = 5;
             this.label25.Text = "Loss plus Total Trading Cost";
             // 
@@ -748,7 +748,7 @@ namespace TradingTools
             this.label24.Dock = System.Windows.Forms.DockStyle.Top;
             this.label24.Location = new System.Drawing.Point(224, 0);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(272, 15);
+            this.label24.Size = new System.Drawing.Size(271, 15);
             this.label24.TabIndex = 5;
             this.label24.Text = "Price Target";
             // 
