@@ -17,5 +17,9 @@ namespace TradingTools
             InitializeComponent();
         }
 
+        private void btnRefreshTables_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
