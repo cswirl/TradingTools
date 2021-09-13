@@ -39,17 +39,23 @@ namespace TradingTools
 
 
             // step 4: Represent data back to UI
-            txtPositionValue.Text = "";
+            txtPositionValue.Text = _position.PositionValue.ToString();
             txtTradingFee_dollar.Text = _tradingCost.GetTradingFee_in_dollar(_position.PositionValue).ToString();
             txtTotalTradingCost_dollar.Text = _tradingCost.TotalTradingCost.ToString();
 
-
+            
             dgvPriceIncreaseTable.DataSource = _RR_Calc.PriceIncreaseTable.GenerateTable(
                 _position.EntryPriceAvg, 
                 _position.PositionValue, 
                 _tradingCost.TotalTradingCost, 
                 _tradingCost.TradingCostProfitRatio
                 ).OrderByDescending(o => o.PriceIncreasePercentage).ToList();
+
+            dgvPriceDecreaseTable.DataSource = _RR_Calc.PriceDecreaseTable.GenerateTable(
+                _position.EntryPriceAvg,
+                _position.PositionValue,
+                _tradingCost.TotalTradingCost
+                );
         }
 
         private void frmRRC_Long_Load(object sender, EventArgs e)
