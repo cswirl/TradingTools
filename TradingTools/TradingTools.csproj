@@ -6,4 +6,9 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TradingTools.Services\TradingTools.Services.csproj" />
+    <ProjectReference Include="..\TradingTools.Trunk\TradingTools.Trunk.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -33,6 +33,15 @@ namespace TradingTools
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btnRefreshTables = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtStrategy = new System.Windows.Forms.TextBox();
+            this.txtNote = new System.Windows.Forms.TextBox();
+            this.label32 = new System.Windows.Forms.Label();
+            this.txtTicker = new System.Windows.Forms.TextBox();
+            this.label31 = new System.Windows.Forms.Label();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.label30 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.label8 = new System.Windows.Forms.Label();
@@ -45,37 +54,42 @@ namespace TradingTools
             this.txtBorrowAmount = new System.Windows.Forms.TextBox();
             this.txtDayCount = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.txtTradingCost_dollar = new System.Windows.Forms.TextBox();
+            this.txtTotalTradingCost_dollar = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.txtTradingCost_percent = new System.Windows.Forms.TextBox();
+            this.txtTotalTradingCost_percent = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.txtLotSize = new System.Windows.Forms.TextBox();
             this.txtEntryPrice = new System.Windows.Forms.TextBox();
-            this.txtLeverage = new System.Windows.Forms.TextBox();
             this.txtPositionValue = new System.Windows.Forms.TextBox();
-            this.txtTradeNum = new System.Windows.Forms.TextBox();
-            this.txtCapital = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
             this.txtAccountEquity = new System.Windows.Forms.TextBox();
-            this.label26 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
+            this.txtLotSize = new System.Windows.Forms.TextBox();
+            this.txtLeverage = new System.Windows.Forms.TextBox();
+            this.txtTradeNum = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.txtCapital = new System.Windows.Forms.TextBox();
+            this.label33 = new System.Windows.Forms.Label();
+            this.txtStopLoss = new System.Windows.Forms.TextBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnPriceIncrease_custom = new System.Windows.Forms.Button();
             this.txtPriceIncrease_profit = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtPriceIncrease_target = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txtPriceIncrease = new System.Windows.Forms.TextBox();
+            this.txtPriceIncrease_target = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.dgvPriceIncreaseTable = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnPriceDecrease_custom = new System.Windows.Forms.Button();
             this.txtPriceDecrease_loss = new System.Windows.Forms.TextBox();
             this.label23 = new System.Windows.Forms.Label();
             this.txtPriceDecrease_target = new System.Windows.Forms.TextBox();
@@ -86,6 +100,7 @@ namespace TradingTools
             this.dgvPriceDecreaseTable = new System.Windows.Forms.DataGridView();
             this.panel3 = new System.Windows.Forms.Panel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
@@ -94,27 +109,13 @@ namespace TradingTools
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
-            this.txtStopLoss = new System.Windows.Forms.TextBox();
-            this.label29 = new System.Windows.Forms.Label();
-            this.txtTicker = new System.Windows.Forms.TextBox();
-            this.label30 = new System.Windows.Forms.Label();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label31 = new System.Windows.Forms.Label();
-            this.txtNote = new System.Windows.Forms.TextBox();
-            this.label32 = new System.Windows.Forms.Label();
-            this.txtStrategy = new System.Windows.Forms.TextBox();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.label33 = new System.Windows.Forms.Label();
-            this.btnRefreshTables = new System.Windows.Forms.Button();
-            this.btnPriceIncrease_custom = new System.Windows.Forms.Button();
-            this.btnPriceDecrease_custom = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -132,7 +133,6 @@ namespace TradingTools
             this.statusStrip1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -179,6 +179,7 @@ namespace TradingTools
             this.splitContainer1.Panel1.Controls.Add(this.groupBox2);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel1.Controls.Add(this.tableLayoutPanel1);
+            this.splitContainer1.Panel1.Cursor = System.Windows.Forms.Cursors.Default;
             // 
             // splitContainer1.Panel2
             // 
@@ -186,6 +187,95 @@ namespace TradingTools
             this.splitContainer1.Size = new System.Drawing.Size(1231, 653);
             this.splitContainer1.SplitterDistance = 617;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // btnRefreshTables
+            // 
+            this.btnRefreshTables.Location = new System.Drawing.Point(360, 33);
+            this.btnRefreshTables.Name = "btnRefreshTables";
+            this.btnRefreshTables.Size = new System.Drawing.Size(243, 52);
+            this.btnRefreshTables.TabIndex = 8;
+            this.btnRefreshTables.Text = "&REFRESH TABLES";
+            this.btnRefreshTables.UseVisualStyleBackColor = true;
+            this.btnRefreshTables.Click += new System.EventHandler(this.btnRefreshTables_Click);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.txtStrategy);
+            this.groupBox2.Controls.Add(this.txtNote);
+            this.groupBox2.Controls.Add(this.label32);
+            this.groupBox2.Controls.Add(this.txtTicker);
+            this.groupBox2.Controls.Add(this.label31);
+            this.groupBox2.Controls.Add(this.btnSave);
+            this.groupBox2.Controls.Add(this.label30);
+            this.groupBox2.Location = new System.Drawing.Point(341, 288);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(255, 329);
+            this.groupBox2.TabIndex = 7;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "SAVE STATE";
+            // 
+            // txtStrategy
+            // 
+            this.txtStrategy.Location = new System.Drawing.Point(19, 158);
+            this.txtStrategy.Multiline = true;
+            this.txtStrategy.Name = "txtStrategy";
+            this.txtStrategy.Size = new System.Drawing.Size(230, 58);
+            this.txtStrategy.TabIndex = 4;
+            this.txtStrategy.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // txtNote
+            // 
+            this.txtNote.Location = new System.Drawing.Point(19, 77);
+            this.txtNote.Multiline = true;
+            this.txtNote.Name = "txtNote";
+            this.txtNote.Size = new System.Drawing.Size(230, 58);
+            this.txtNote.TabIndex = 4;
+            this.txtNote.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(19, 140);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(50, 15);
+            this.label32.TabIndex = 5;
+            this.label32.Text = "Strategy";
+            // 
+            // txtTicker
+            // 
+            this.txtTicker.Location = new System.Drawing.Point(125, 27);
+            this.txtTicker.Name = "txtTicker";
+            this.txtTicker.Size = new System.Drawing.Size(124, 23);
+            this.txtTicker.TabIndex = 4;
+            this.txtTicker.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(19, 59);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(33, 15);
+            this.label31.TabIndex = 5;
+            this.label31.Text = "Note";
+            // 
+            // btnSave
+            // 
+            this.btnSave.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnSave.Location = new System.Drawing.Point(131, 289);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(124, 34);
+            this.btnSave.TabIndex = 6;
+            this.btnSave.Text = "&SAVE";
+            this.btnSave.UseVisualStyleBackColor = true;
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(19, 30);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(69, 15);
+            this.label30.TabIndex = 5;
+            this.label30.Text = "Ticker / Pair";
             // 
             // groupBox1
             // 
@@ -212,12 +302,12 @@ namespace TradingTools
             this.tableLayoutPanel5.Controls.Add(this.txtBorrowAmount, 1, 2);
             this.tableLayoutPanel5.Controls.Add(this.txtDayCount, 1, 3);
             this.tableLayoutPanel5.Controls.Add(this.label11, 0, 2);
-            this.tableLayoutPanel5.Controls.Add(this.txtTradingCost_dollar, 1, 10);
+            this.tableLayoutPanel5.Controls.Add(this.txtTotalTradingCost_dollar, 1, 10);
             this.tableLayoutPanel5.Controls.Add(this.label12, 0, 7);
             this.tableLayoutPanel5.Controls.Add(this.label13, 0, 8);
             this.tableLayoutPanel5.Controls.Add(this.label14, 0, 10);
             this.tableLayoutPanel5.Controls.Add(this.label15, 0, 11);
-            this.tableLayoutPanel5.Controls.Add(this.txtTradingCost_percent, 1, 11);
+            this.tableLayoutPanel5.Controls.Add(this.txtTotalTradingCost_percent, 1, 11);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 19);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
@@ -296,7 +386,6 @@ namespace TradingTools
             this.txtTradingFee_percent.Size = new System.Drawing.Size(144, 23);
             this.txtTradingFee_percent.TabIndex = 4;
             this.txtTradingFee_percent.TabStop = false;
-            this.txtTradingFee_percent.Text = "0.001";
             this.txtTradingFee_percent.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // txtTradingFee_dollar
@@ -336,15 +425,15 @@ namespace TradingTools
             this.label11.Text = "Borrowed Amount";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // txtTradingCost_dollar
+            // txtTotalTradingCost_dollar
             // 
-            this.txtTradingCost_dollar.Location = new System.Drawing.Point(142, 217);
-            this.txtTradingCost_dollar.Name = "txtTradingCost_dollar";
-            this.txtTradingCost_dollar.ReadOnly = true;
-            this.txtTradingCost_dollar.Size = new System.Drawing.Size(144, 23);
-            this.txtTradingCost_dollar.TabIndex = 4;
-            this.txtTradingCost_dollar.TabStop = false;
-            this.txtTradingCost_dollar.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtTotalTradingCost_dollar.Location = new System.Drawing.Point(142, 217);
+            this.txtTotalTradingCost_dollar.Name = "txtTotalTradingCost_dollar";
+            this.txtTotalTradingCost_dollar.ReadOnly = true;
+            this.txtTotalTradingCost_dollar.Size = new System.Drawing.Size(144, 23);
+            this.txtTotalTradingCost_dollar.TabIndex = 4;
+            this.txtTotalTradingCost_dollar.TabStop = false;
+            this.txtTotalTradingCost_dollar.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label12
             // 
@@ -396,15 +485,15 @@ namespace TradingTools
             this.label15.Text = "Total Trading Cost %";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // txtTradingCost_percent
+            // txtTotalTradingCost_percent
             // 
-            this.txtTradingCost_percent.Location = new System.Drawing.Point(142, 246);
-            this.txtTradingCost_percent.Name = "txtTradingCost_percent";
-            this.txtTradingCost_percent.ReadOnly = true;
-            this.txtTradingCost_percent.Size = new System.Drawing.Size(144, 23);
-            this.txtTradingCost_percent.TabIndex = 4;
-            this.txtTradingCost_percent.TabStop = false;
-            this.txtTradingCost_percent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtTotalTradingCost_percent.Location = new System.Drawing.Point(142, 246);
+            this.txtTotalTradingCost_percent.Name = "txtTotalTradingCost_percent";
+            this.txtTotalTradingCost_percent.ReadOnly = true;
+            this.txtTotalTradingCost_percent.Size = new System.Drawing.Size(144, 23);
+            this.txtTotalTradingCost_percent.TabIndex = 4;
+            this.txtTotalTradingCost_percent.TabStop = false;
+            this.txtTotalTradingCost_percent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // tableLayoutPanel1
             // 
@@ -477,14 +566,6 @@ namespace TradingTools
             this.label7.Text = "Entry Price (Avg)";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // txtLotSize
-            // 
-            this.txtLotSize.Location = new System.Drawing.Point(153, 90);
-            this.txtLotSize.Name = "txtLotSize";
-            this.txtLotSize.Size = new System.Drawing.Size(144, 23);
-            this.txtLotSize.TabIndex = 2;
-            this.txtLotSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
             // txtEntryPrice
             // 
             this.txtEntryPrice.Location = new System.Drawing.Point(153, 61);
@@ -493,14 +574,6 @@ namespace TradingTools
             this.txtEntryPrice.TabIndex = 3;
             this.txtEntryPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // txtLeverage
-            // 
-            this.txtLeverage.Location = new System.Drawing.Point(153, 148);
-            this.txtLeverage.Name = "txtLeverage";
-            this.txtLeverage.Size = new System.Drawing.Size(144, 23);
-            this.txtLeverage.TabIndex = 4;
-            this.txtLeverage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // txtPositionValue
             // 
             this.txtPositionValue.Location = new System.Drawing.Point(153, 119);
@@ -508,6 +581,41 @@ namespace TradingTools
             this.txtPositionValue.Size = new System.Drawing.Size(144, 23);
             this.txtPositionValue.TabIndex = 4;
             this.txtPositionValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // txtAccountEquity
+            // 
+            this.txtAccountEquity.Location = new System.Drawing.Point(153, 206);
+            this.txtAccountEquity.Name = "txtAccountEquity";
+            this.txtAccountEquity.Size = new System.Drawing.Size(144, 23);
+            this.txtAccountEquity.TabIndex = 4;
+            this.txtAccountEquity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label28.Location = new System.Drawing.Point(3, 203);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(144, 31);
+            this.label28.TabIndex = 8;
+            this.label28.Text = "Account Equity";
+            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtLotSize
+            // 
+            this.txtLotSize.Location = new System.Drawing.Point(153, 90);
+            this.txtLotSize.Name = "txtLotSize";
+            this.txtLotSize.Size = new System.Drawing.Size(144, 23);
+            this.txtLotSize.TabIndex = 2;
+            this.txtLotSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // txtLeverage
+            // 
+            this.txtLeverage.Location = new System.Drawing.Point(153, 148);
+            this.txtLeverage.Name = "txtLeverage";
+            this.txtLeverage.Size = new System.Drawing.Size(144, 23);
+            this.txtLeverage.TabIndex = 4;
+            this.txtLeverage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtTradeNum
             // 
@@ -522,14 +630,6 @@ namespace TradingTools
             this.txtTradeNum.Text = "1";
             this.txtTradeNum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // txtCapital
-            // 
-            this.txtCapital.Location = new System.Drawing.Point(153, 32);
-            this.txtCapital.Name = "txtCapital";
-            this.txtCapital.Size = new System.Drawing.Size(144, 23);
-            this.txtCapital.TabIndex = 1;
-            this.txtCapital.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
             // label22
             // 
             this.label22.AutoSize = true;
@@ -541,14 +641,6 @@ namespace TradingTools
             this.label22.TabIndex = 5;
             this.label22.Text = "TRADE NO.";
             this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // txtAccountEquity
-            // 
-            this.txtAccountEquity.Location = new System.Drawing.Point(153, 206);
-            this.txtAccountEquity.Name = "txtAccountEquity";
-            this.txtAccountEquity.Size = new System.Drawing.Size(144, 23);
-            this.txtAccountEquity.TabIndex = 4;
-            this.txtAccountEquity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label26
             // 
@@ -563,16 +655,44 @@ namespace TradingTools
             this.label26.Text = "Leverage";
             this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label28
+            // label29
             // 
-            this.label28.AutoSize = true;
-            this.label28.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label28.Location = new System.Drawing.Point(3, 203);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(144, 31);
-            this.label28.TabIndex = 8;
-            this.label28.Text = "Account Equity";
-            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label29.AutoSize = true;
+            this.label29.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label29.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label29.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.label29.Location = new System.Drawing.Point(3, 174);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(144, 29);
+            this.label29.TabIndex = 9;
+            this.label29.Text = "Stop-Loss";
+            // 
+            // txtCapital
+            // 
+            this.txtCapital.Location = new System.Drawing.Point(153, 32);
+            this.txtCapital.Name = "txtCapital";
+            this.txtCapital.Size = new System.Drawing.Size(144, 23);
+            this.txtCapital.TabIndex = 1;
+            this.txtCapital.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label33.Location = new System.Drawing.Point(3, 29);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(144, 29);
+            this.label33.TabIndex = 10;
+            this.label33.Text = "Capital";
+            this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtStopLoss
+            // 
+            this.txtStopLoss.Location = new System.Drawing.Point(153, 177);
+            this.txtStopLoss.Name = "txtStopLoss";
+            this.txtStopLoss.Size = new System.Drawing.Size(144, 23);
+            this.txtStopLoss.TabIndex = 4;
+            this.txtStopLoss.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // splitContainer2
             // 
@@ -602,7 +722,7 @@ namespace TradingTools
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.13793F));
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.86207F));
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 78F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 181F));
             this.tableLayoutPanel6.Controls.Add(this.btnPriceIncrease_custom, 2, 1);
             this.tableLayoutPanel6.Controls.Add(this.txtPriceIncrease_profit, 3, 1);
             this.tableLayoutPanel6.Controls.Add(this.label1, 0, 0);
@@ -617,6 +737,15 @@ namespace TradingTools
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55.71429F));
             this.tableLayoutPanel6.Size = new System.Drawing.Size(549, 59);
             this.tableLayoutPanel6.TabIndex = 3;
+            // 
+            // btnPriceIncrease_custom
+            // 
+            this.btnPriceIncrease_custom.Location = new System.Drawing.Point(293, 29);
+            this.btnPriceIncrease_custom.Name = "btnPriceIncrease_custom";
+            this.btnPriceIncrease_custom.Size = new System.Drawing.Size(53, 23);
+            this.btnPriceIncrease_custom.TabIndex = 9;
+            this.btnPriceIncrease_custom.Text = "GO";
+            this.btnPriceIncrease_custom.UseVisualStyleBackColor = true;
             // 
             // txtPriceIncrease_profit
             // 
@@ -637,14 +766,6 @@ namespace TradingTools
             this.label1.Size = new System.Drawing.Size(151, 15);
             this.label1.TabIndex = 4;
             this.label1.Text = "Price Increase";
-            // 
-            // txtPriceIncrease_target
-            // 
-            this.txtPriceIncrease_target.Location = new System.Drawing.Point(160, 29);
-            this.txtPriceIncrease_target.Name = "txtPriceIncrease_target";
-            this.txtPriceIncrease_target.Size = new System.Drawing.Size(127, 23);
-            this.txtPriceIncrease_target.TabIndex = 4;
-            this.txtPriceIncrease_target.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label3
             // 
@@ -676,6 +797,14 @@ namespace TradingTools
             this.txtPriceIncrease.TabStop = false;
             this.txtPriceIncrease.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // txtPriceIncrease_target
+            // 
+            this.txtPriceIncrease_target.Location = new System.Drawing.Point(160, 29);
+            this.txtPriceIncrease_target.Name = "txtPriceIncrease_target";
+            this.txtPriceIncrease_target.Size = new System.Drawing.Size(127, 23);
+            this.txtPriceIncrease_target.TabIndex = 4;
+            this.txtPriceIncrease_target.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // panel5
             // 
             this.panel5.Controls.Add(this.dgvPriceIncreaseTable);
@@ -704,7 +833,7 @@ namespace TradingTools
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.62712F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.37288F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 71F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 182F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 195F));
             this.tableLayoutPanel4.Controls.Add(this.btnPriceDecrease_custom, 2, 1);
             this.tableLayoutPanel4.Controls.Add(this.txtPriceDecrease_loss, 3, 1);
             this.tableLayoutPanel4.Controls.Add(this.label23, 0, 0);
@@ -720,9 +849,18 @@ namespace TradingTools
             this.tableLayoutPanel4.Size = new System.Drawing.Size(549, 59);
             this.tableLayoutPanel4.TabIndex = 2;
             // 
+            // btnPriceDecrease_custom
+            // 
+            this.btnPriceDecrease_custom.Location = new System.Drawing.Point(285, 29);
+            this.btnPriceDecrease_custom.Name = "btnPriceDecrease_custom";
+            this.btnPriceDecrease_custom.Size = new System.Drawing.Size(48, 23);
+            this.btnPriceDecrease_custom.TabIndex = 10;
+            this.btnPriceDecrease_custom.Text = "GO";
+            this.btnPriceDecrease_custom.UseVisualStyleBackColor = true;
+            // 
             // txtPriceDecrease_loss
             // 
-            this.txtPriceDecrease_loss.Location = new System.Drawing.Point(369, 29);
+            this.txtPriceDecrease_loss.Location = new System.Drawing.Point(356, 29);
             this.txtPriceDecrease_loss.Name = "txtPriceDecrease_loss";
             this.txtPriceDecrease_loss.ReadOnly = true;
             this.txtPriceDecrease_loss.Size = new System.Drawing.Size(169, 23);
@@ -736,15 +874,15 @@ namespace TradingTools
             this.label23.Dock = System.Windows.Forms.DockStyle.Top;
             this.label23.Location = new System.Drawing.Point(3, 0);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(164, 15);
+            this.label23.Size = new System.Drawing.Size(157, 15);
             this.label23.TabIndex = 4;
             this.label23.Text = "Price Decrease";
             // 
             // txtPriceDecrease_target
             // 
-            this.txtPriceDecrease_target.Location = new System.Drawing.Point(173, 29);
+            this.txtPriceDecrease_target.Location = new System.Drawing.Point(166, 29);
             this.txtPriceDecrease_target.Name = "txtPriceDecrease_target";
-            this.txtPriceDecrease_target.Size = new System.Drawing.Size(114, 23);
+            this.txtPriceDecrease_target.Size = new System.Drawing.Size(113, 23);
             this.txtPriceDecrease_target.TabIndex = 4;
             this.txtPriceDecrease_target.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -752,9 +890,9 @@ namespace TradingTools
             // 
             this.label25.AutoSize = true;
             this.label25.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label25.Location = new System.Drawing.Point(369, 0);
+            this.label25.Location = new System.Drawing.Point(356, 0);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(177, 15);
+            this.label25.Size = new System.Drawing.Size(190, 15);
             this.label25.TabIndex = 5;
             this.label25.Text = "Loss plus Total Trading Cost";
             // 
@@ -762,9 +900,9 @@ namespace TradingTools
             // 
             this.label24.AutoSize = true;
             this.label24.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label24.Location = new System.Drawing.Point(173, 0);
+            this.label24.Location = new System.Drawing.Point(166, 0);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(119, 15);
+            this.label24.Size = new System.Drawing.Size(113, 15);
             this.label24.TabIndex = 5;
             this.label24.Text = "Price Target";
             // 
@@ -820,6 +958,13 @@ namespace TradingTools
             this.statusStrip1.Size = new System.Drawing.Size(1261, 22);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.BackColor = System.Drawing.Color.Transparent;
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(106, 17);
+            this.toolStripStatusLabel1.Text = "Status message . . .";
             // 
             // tableLayoutPanel2
             // 
@@ -910,151 +1055,6 @@ namespace TradingTools
             this.label21.TabIndex = 3;
             this.label21.Text = "Capital";
             // 
-            // txtStopLoss
-            // 
-            this.txtStopLoss.Location = new System.Drawing.Point(153, 177);
-            this.txtStopLoss.Name = "txtStopLoss";
-            this.txtStopLoss.Size = new System.Drawing.Size(144, 23);
-            this.txtStopLoss.TabIndex = 4;
-            this.txtStopLoss.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label29
-            // 
-            this.label29.AutoSize = true;
-            this.label29.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label29.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label29.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.label29.Location = new System.Drawing.Point(3, 174);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(144, 29);
-            this.label29.TabIndex = 9;
-            this.label29.Text = "Stop-Loss";
-            // 
-            // txtTicker
-            // 
-            this.txtTicker.Location = new System.Drawing.Point(125, 27);
-            this.txtTicker.Name = "txtTicker";
-            this.txtTicker.Size = new System.Drawing.Size(124, 23);
-            this.txtTicker.TabIndex = 4;
-            this.txtTicker.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(19, 30);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(69, 15);
-            this.label30.TabIndex = 5;
-            this.label30.Text = "Ticker / Pair";
-            // 
-            // btnSave
-            // 
-            this.btnSave.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnSave.Location = new System.Drawing.Point(131, 289);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(124, 34);
-            this.btnSave.TabIndex = 6;
-            this.btnSave.Text = "&SAVE";
-            this.btnSave.UseVisualStyleBackColor = true;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.txtStrategy);
-            this.groupBox2.Controls.Add(this.txtNote);
-            this.groupBox2.Controls.Add(this.label32);
-            this.groupBox2.Controls.Add(this.txtTicker);
-            this.groupBox2.Controls.Add(this.label31);
-            this.groupBox2.Controls.Add(this.btnSave);
-            this.groupBox2.Controls.Add(this.label30);
-            this.groupBox2.Location = new System.Drawing.Point(341, 288);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(255, 329);
-            this.groupBox2.TabIndex = 7;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "SAVE STATE";
-            // 
-            // label31
-            // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(19, 59);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(33, 15);
-            this.label31.TabIndex = 5;
-            this.label31.Text = "Note";
-            // 
-            // txtNote
-            // 
-            this.txtNote.Location = new System.Drawing.Point(19, 77);
-            this.txtNote.Multiline = true;
-            this.txtNote.Name = "txtNote";
-            this.txtNote.Size = new System.Drawing.Size(230, 58);
-            this.txtNote.TabIndex = 4;
-            this.txtNote.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label32
-            // 
-            this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(19, 140);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(50, 15);
-            this.label32.TabIndex = 5;
-            this.label32.Text = "Strategy";
-            // 
-            // txtStrategy
-            // 
-            this.txtStrategy.Location = new System.Drawing.Point(19, 158);
-            this.txtStrategy.Multiline = true;
-            this.txtStrategy.Name = "txtStrategy";
-            this.txtStrategy.Size = new System.Drawing.Size(230, 58);
-            this.txtStrategy.TabIndex = 4;
-            this.txtStrategy.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(106, 17);
-            this.toolStripStatusLabel1.Text = "Status message . . .";
-            // 
-            // label33
-            // 
-            this.label33.AutoSize = true;
-            this.label33.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label33.Location = new System.Drawing.Point(3, 29);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(144, 29);
-            this.label33.TabIndex = 10;
-            this.label33.Text = "Capital";
-            this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // btnRefreshTables
-            // 
-            this.btnRefreshTables.Location = new System.Drawing.Point(360, 33);
-            this.btnRefreshTables.Name = "btnRefreshTables";
-            this.btnRefreshTables.Size = new System.Drawing.Size(243, 52);
-            this.btnRefreshTables.TabIndex = 8;
-            this.btnRefreshTables.Text = "&REFRESH TABLES";
-            this.btnRefreshTables.UseVisualStyleBackColor = true;
-            this.btnRefreshTables.Click += new System.EventHandler(this.btnRefreshTables_Click);
-            // 
-            // btnPriceIncrease_custom
-            // 
-            this.btnPriceIncrease_custom.Location = new System.Drawing.Point(293, 29);
-            this.btnPriceIncrease_custom.Name = "btnPriceIncrease_custom";
-            this.btnPriceIncrease_custom.Size = new System.Drawing.Size(53, 23);
-            this.btnPriceIncrease_custom.TabIndex = 9;
-            this.btnPriceIncrease_custom.Text = "GO";
-            this.btnPriceIncrease_custom.UseVisualStyleBackColor = true;
-            // 
-            // btnPriceDecrease_custom
-            // 
-            this.btnPriceDecrease_custom.Location = new System.Drawing.Point(298, 29);
-            this.btnPriceDecrease_custom.Name = "btnPriceDecrease_custom";
-            this.btnPriceDecrease_custom.Size = new System.Drawing.Size(48, 23);
-            this.btnPriceDecrease_custom.TabIndex = 10;
-            this.btnPriceDecrease_custom.Text = "GO";
-            this.btnPriceDecrease_custom.UseVisualStyleBackColor = true;
-            // 
             // frmRRC_Long
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1066,6 +1066,7 @@ namespace TradingTools
             this.Name = "frmRRC_Long";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Risk Reward Calculator";
+            this.Load += new System.EventHandler(this.frmRRC_Long_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -1073,6 +1074,8 @@ namespace TradingTools
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
@@ -1098,8 +1101,6 @@ namespace TradingTools
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1157,12 +1158,12 @@ namespace TradingTools
         private System.Windows.Forms.TextBox txtBorrowAmount;
         private System.Windows.Forms.TextBox txtDayCount;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox txtTradingCost_dollar;
+        private System.Windows.Forms.TextBox txtTotalTradingCost_dollar;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox txtTradingCost_percent;
+        private System.Windows.Forms.TextBox txtTotalTradingCost_percent;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
         private System.Windows.Forms.TextBox txtPriceIncrease_profit;
         private System.Windows.Forms.Label label1;
