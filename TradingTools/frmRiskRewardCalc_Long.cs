@@ -24,7 +24,7 @@ namespace TradingTools
             InitializeComponent();
         }
 
-        private void btnRefreshTables_Click(object sender, EventArgs e)
+        private void btnReCalculate_Click(object sender, EventArgs e)
         {
             
             // step 2: Collect data from Receptors
@@ -35,16 +35,20 @@ namespace TradingTools
 
             // step 3: Process Data collected including others supporting data
             _position.InitialPositionValue = _position.EntryPriceAvg * _position.LotSize;
-            _tradingCost.TotalTradingCost = _tradingCost.GetTotalTradingCost(_position.InitialPositionValue, 0); // 0.16 is for testing only
-            //_tradingCost.TCPVR = _tradingCost.TotalTradingCost / _position.InitialPositionValue;                 This is removed in the program
-
+            _tradingCost.Borrow.Amount = _position.InitialPositionValue - _position.Capital;
+            _tradingCost.Borrow.InterestCost = _tradingCost.Borrow.Amount * nudDailyInterestRate.Value * nudDayCount.Value;
+            _tradingCost.TotalTradingCost = _tradingCost.GetTotalTradingCost(_position.InitialPositionValue, _tradingCost.Borrow.InterestCost);
 
             // step 4: Represent data back to UI
             txtInitalPositionValue.Text = _position.InitialPositionValue.ToString();
             txtTradingFee_dollar.Text = _tradingCost.GetTradingFee_in_dollar(_position.InitialPositionValue).ToString();
             txtTotalTradingCost_dollar.Text = _tradingCost.TotalTradingCost.ToString();
 
-            
+            txtLeverage.Text = (_position.InitialPositionValue / _position.Capital).ToString();
+            txtBorrowAmount.Text = _tradingCost.Borrow.Amount.ToString();
+            txtInterestCost.Text = _tradingCost.Borrow.InterestCost.ToString();
+            txtAccountEquity.Text = (_position.InitialPositionValue - _tradingCost.Borrow.Amount).ToString();
+
             dgvPriceIncreaseTable.DataSource = _RR_Calc.PriceIncreaseTable.GenerateTable(
                 _position.EntryPriceAvg, 
                 _position.InitialPositionValue, 

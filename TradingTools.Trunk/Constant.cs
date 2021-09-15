@@ -30,7 +30,13 @@ namespace TradingTools.Trunk
 
     public class TradingCost
     {
-        public Borrow Borrow { get; set; }
+        private Borrow _borrow;
+        public TradingCost()
+        {
+            _borrow = new();
+        }
+
+        public Borrow Borrow { get { return _borrow; } }
         public decimal TradingFee_percentage { get; set; }
         public decimal GetTradingFee_in_dollar(decimal positionValue)
         {
