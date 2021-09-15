@@ -24,7 +24,7 @@ namespace TradingTools.Trunk
     {
         public decimal Amount { get; set; }
         public int DayCount { get; set; }
-        public decimal DailyInterest { get; set; }
+        public decimal InterestPerDay { get; set; }
         public decimal InterestCost { get; set; }
     }
 

@@ -8,6 +8,8 @@ namespace TradingTools.Services
         private PriceIncreaseTable _priceIncreaseTable;
         private PriceDecreaseTable _priceDecreaseTable;
 
+        //public static PriceIncreaseRecord GetPriceIncreaseRecord()
+
         public PriceIncreaseTable PriceIncreaseTable { get { return _priceIncreaseTable; } }
         public PriceDecreaseTable PriceDecreaseTable { get { return _priceDecreaseTable; } }
 
@@ -17,7 +19,12 @@ namespace TradingTools.Services
             _priceDecreaseTable = new();
         }
 
-       
+        public PriceIncreaseRecord MakePriceIncreaseRecord(decimal priceTarget)
+        {
+
+
+            return null;
+        }
     }
 
     public class PriceIncreaseTable
@@ -29,7 +36,7 @@ namespace TradingTools.Services
 
         private IList<PriceIncreaseRecord> _list = new List<PriceIncreaseRecord>();
 
-        public IList<PriceIncreaseRecord> GenerateTable(decimal entryPriceAverage, decimal PositionValue, decimal TradingCost, decimal TradingCostProfitRatio)
+        public IList<PriceIncreaseRecord> GenerateTable(decimal entryPriceAverage, decimal PositionValue, decimal TradingCost)
         {
             foreach (decimal pip in priceIncreasePercentage_array)
             {
@@ -38,7 +45,7 @@ namespace TradingTools.Services
                 var rec = new PriceIncreaseRecord
                 {
                     PriceIncreasePercentage = pip,
-                    PriceTarget = entryPriceAverage * (1 + dec_pip + TradingCostProfitRatio),
+                    PriceTarget = entryPriceAverage * (1 + dec_pip),
                     Profit = (PositionValue * dec_pip) - TradingCost
                 };
                 
@@ -53,6 +60,7 @@ namespace TradingTools.Services
             decimal pip = ((priceTarget - entryPriceAverage) / entryPriceAverage) * 100;
             return new PriceIncreaseRecord
             {
+                PriceTarget = priceTarget,
                 PriceIncreasePercentage = pip,
                 Profit = (positionValue * pip/100) - tradingCost
             };
@@ -94,6 +102,17 @@ namespace TradingTools.Services
             }
 
             return _list;
+        }
+
+        public PriceDecreaseRecord GeneratePriceDecreaseRecord(decimal priceTarget, decimal entryPriceAverage, decimal positionValue, decimal tradingCost)
+        {
+            decimal pdp = (entryPriceAverage - priceTarget) / entryPriceAverage * 100;
+            return new PriceDecreaseRecord
+            {
+                PriceTarget = priceTarget,
+                PriceDecreasePercentage = pdp,
+                Loss = (positionValue * pdp / 100) + tradingCost
+            };
         }
     }
 

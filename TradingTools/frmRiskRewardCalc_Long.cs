@@ -17,6 +17,7 @@ namespace TradingTools
         private RiskRewardCalc_Long _RR_Calc = new();
         private Position _position = new();
         private TradingCost _tradingCost = new();
+        private Borrow _borrow = new();
 
         public frmRRC_Long()
         {
@@ -34,7 +35,7 @@ namespace TradingTools
 
             // step 3: Process Data collected including others supporting data
             _position.PositionValue = _position.EntryPriceAvg * _position.LotSize;
-            _tradingCost.TotalTradingCost = _tradingCost.GetTotalTradingCost(_position.PositionValue, 0.16m); // 0.16 is for testing only
+            _tradingCost.TotalTradingCost = _tradingCost.GetTotalTradingCost(_position.PositionValue, 0); // 0.16 is for testing only
             _tradingCost.TradingCostProfitRatio = _tradingCost.TotalTradingCost / _position.PositionValue;
 
 
@@ -47,8 +48,7 @@ namespace TradingTools
             dgvPriceIncreaseTable.DataSource = _RR_Calc.PriceIncreaseTable.GenerateTable(
                 _position.EntryPriceAvg, 
                 _position.PositionValue, 
-                _tradingCost.TotalTradingCost, 
-                _tradingCost.TradingCostProfitRatio
+                _tradingCost.TotalTradingCost
                 ).OrderByDescending(o => o.PriceIncreasePercentage).ToList();
 
             dgvPriceDecreaseTable.DataSource = _RR_Calc.PriceDecreaseTable.GenerateTable(
@@ -56,12 +56,45 @@ namespace TradingTools
                 _position.PositionValue,
                 _tradingCost.TotalTradingCost
                 );
+
+
         }
 
         private void frmRRC_Long_Load(object sender, EventArgs e)
         {
             //
             txtTradingFee_percent.Text = Constant.TRADING_FEE.ToString();
+        }
+
+        private void btnPriceIncrease_custom_Click(object sender, EventArgs e)
+        {
+            // 2
+            decimal priceTarget = Convert.ToDecimal(txtPriceIncrease_target.Text);
+            //_position.EntryPriceAvg = Convert.ToDecimal(txtEntryPrice.Text);
+
+            // 3
+            var rec = _RR_Calc.PriceIncreaseTable.GeneratePriceIncreaseRecord(priceTarget, _position.EntryPriceAvg, _position.PositionValue, _tradingCost.TotalTradingCost);
+
+            // 4
+            if (rec == null) return;
+            txtPriceIncreasePercentage.Text = rec.PriceIncreasePercentage.ToString();
+            txtPriceIncrease_profit.Text = rec.Profit.ToString();
+    
+        }
+
+        private void btnPriceDecrease_custom_Click(object sender, EventArgs e)
+        {
+            // 2
+            decimal priceTarget = Convert.ToDecimal(txtPriceDecrease_target.Text);
+            //_position.EntryPriceAvg = Convert.ToDecimal(txtEntryPrice.Text);
+
+            // 3
+            var rec = _RR_Calc.PriceDecreaseTable.GeneratePriceDecreaseRecord(priceTarget, _position.EntryPriceAvg, _position.PositionValue, _tradingCost.TotalTradingCost);
+
+            // 4
+            if (rec == null) return;
+            txtPriceDecreasePercentage.Text = rec.PriceDecreasePercentage.ToString();
+            txtPriceDecrease_loss.Text = rec.Loss.ToString();
         }
     }
 }
