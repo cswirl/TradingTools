@@ -34,26 +34,26 @@ namespace TradingTools
 
 
             // step 3: Process Data collected including others supporting data
-            _position.PositionValue = _position.EntryPriceAvg * _position.LotSize;
-            _tradingCost.TotalTradingCost = _tradingCost.GetTotalTradingCost(_position.PositionValue, 0); // 0.16 is for testing only
-            //_tradingCost.TCPVR = _tradingCost.TotalTradingCost / _position.PositionValue;                 This is removed in the program
+            _position.InitialPositionValue = _position.EntryPriceAvg * _position.LotSize;
+            _tradingCost.TotalTradingCost = _tradingCost.GetTotalTradingCost(_position.InitialPositionValue, 0); // 0.16 is for testing only
+            //_tradingCost.TCPVR = _tradingCost.TotalTradingCost / _position.InitialPositionValue;                 This is removed in the program
 
 
             // step 4: Represent data back to UI
-            txtPositionValue.Text = _position.PositionValue.ToString();
-            txtTradingFee_dollar.Text = _tradingCost.GetTradingFee_in_dollar(_position.PositionValue).ToString();
+            txtInitalPositionValue.Text = _position.InitialPositionValue.ToString();
+            txtTradingFee_dollar.Text = _tradingCost.GetTradingFee_in_dollar(_position.InitialPositionValue).ToString();
             txtTotalTradingCost_dollar.Text = _tradingCost.TotalTradingCost.ToString();
 
             
             dgvPriceIncreaseTable.DataSource = _RR_Calc.PriceIncreaseTable.GenerateTable(
                 _position.EntryPriceAvg, 
-                _position.PositionValue, 
+                _position.InitialPositionValue, 
                 _tradingCost.TotalTradingCost
                 ).OrderByDescending(o => o.PriceIncreasePercentage).ToList();
 
             dgvPriceDecreaseTable.DataSource = _RR_Calc.PriceDecreaseTable.GenerateTable(
                 _position.EntryPriceAvg,
-                _position.PositionValue,
+                _position.InitialPositionValue,
                 _tradingCost.TotalTradingCost
                 );
 
@@ -62,8 +62,11 @@ namespace TradingTools
 
         private void frmRRC_Long_Load(object sender, EventArgs e)
         {
-            //
+            // Initalize UI controls
             txtTradingFee_percent.Text = Constant.TRADING_FEE.ToString();
+            txtBorrowAmount.Text = "0";
+            nudDayCount.Value = 1;
+            nudDailyInterestRate.Value = Constant.DAILY_INTEREST_RATE;
         }
 
         private void btnPriceIncrease_custom_Click(object sender, EventArgs e)
@@ -73,7 +76,7 @@ namespace TradingTools
             //_position.EntryPriceAvg = Convert.ToDecimal(txtEntryPrice.Text);
 
             // 3
-            var rec = _RR_Calc.PriceIncreaseTable.GeneratePriceIncreaseRecord(priceTarget, _position.EntryPriceAvg, _position.PositionValue, _tradingCost.TotalTradingCost);
+            var rec = _RR_Calc.PriceIncreaseTable.GeneratePriceIncreaseRecord(priceTarget, _position.EntryPriceAvg, _position.InitialPositionValue, _tradingCost.TotalTradingCost);
 
             // 4
             if (rec == null) return;
@@ -89,7 +92,7 @@ namespace TradingTools
             //_position.EntryPriceAvg = Convert.ToDecimal(txtEntryPrice.Text);
 
             // 3
-            var rec = _RR_Calc.PriceDecreaseTable.GeneratePriceDecreaseRecord(priceTarget, _position.EntryPriceAvg, _position.PositionValue, _tradingCost.TotalTradingCost);
+            var rec = _RR_Calc.PriceDecreaseTable.GeneratePriceDecreaseRecord(priceTarget, _position.EntryPriceAvg, _position.InitialPositionValue, _tradingCost.TotalTradingCost);
 
             // 4
             if (rec == null) return;

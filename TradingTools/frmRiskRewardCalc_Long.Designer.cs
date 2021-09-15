@@ -33,6 +33,7 @@ namespace TradingTools
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.label27 = new System.Windows.Forms.Label();
             this.btnRefreshTables = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.txtStrategy = new System.Windows.Forms.TextBox();
@@ -47,12 +48,10 @@ namespace TradingTools
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.txtInterestPerDay = new System.Windows.Forms.TextBox();
             this.txtInterestCost = new System.Windows.Forms.TextBox();
             this.txtTradingFee_percent = new System.Windows.Forms.TextBox();
             this.txtTradingFee_dollar = new System.Windows.Forms.TextBox();
             this.txtBorrowAmount = new System.Windows.Forms.TextBox();
-            this.txtDayCount = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.txtTotalTradingCost_dollar = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -60,12 +59,14 @@ namespace TradingTools
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.txtTotalTradingCost_percent = new System.Windows.Forms.TextBox();
+            this.nudDailyInterestRate = new System.Windows.Forms.NumericUpDown();
+            this.nudDayCount = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.txtEntryPrice = new System.Windows.Forms.TextBox();
-            this.txtPositionValue = new System.Windows.Forms.TextBox();
+            this.txtInitalPositionValue = new System.Windows.Forms.TextBox();
             this.txtAccountEquity = new System.Windows.Forms.TextBox();
             this.label28 = new System.Windows.Forms.Label();
             this.txtLotSize = new System.Windows.Forms.TextBox();
@@ -77,6 +78,7 @@ namespace TradingTools
             this.txtCapital = new System.Windows.Forms.TextBox();
             this.label33 = new System.Windows.Forms.Label();
             this.txtStopLoss = new System.Windows.Forms.TextBox();
+            this.txtSpeculativePV = new System.Windows.Forms.TextBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.btnPriceIncrease_custom = new System.Windows.Forms.Button();
@@ -118,6 +120,8 @@ namespace TradingTools
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDailyInterestRate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDayCount)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
@@ -175,10 +179,12 @@ namespace TradingTools
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.label27);
             this.splitContainer1.Panel1.Controls.Add(this.btnRefreshTables);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox2);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel1.Controls.Add(this.tableLayoutPanel1);
+            this.splitContainer1.Panel1.Controls.Add(this.txtSpeculativePV);
             this.splitContainer1.Panel1.Cursor = System.Windows.Forms.Cursors.Default;
             // 
             // splitContainer1.Panel2
@@ -187,6 +193,15 @@ namespace TradingTools
             this.splitContainer1.Size = new System.Drawing.Size(1231, 653);
             this.splitContainer1.SplitterDistance = 617;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(360, 124);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(174, 15);
+            this.label27.TabIndex = 9;
+            this.label27.Text = "Speculative Position Value (sPV)";
             // 
             // btnRefreshTables
             // 
@@ -293,12 +308,10 @@ namespace TradingTools
             this.tableLayoutPanel5.Controls.Add(this.label8, 0, 4);
             this.tableLayoutPanel5.Controls.Add(this.label9, 0, 5);
             this.tableLayoutPanel5.Controls.Add(this.label10, 0, 3);
-            this.tableLayoutPanel5.Controls.Add(this.txtInterestPerDay, 1, 4);
             this.tableLayoutPanel5.Controls.Add(this.txtInterestCost, 1, 5);
             this.tableLayoutPanel5.Controls.Add(this.txtTradingFee_percent, 1, 7);
             this.tableLayoutPanel5.Controls.Add(this.txtTradingFee_dollar, 1, 8);
             this.tableLayoutPanel5.Controls.Add(this.txtBorrowAmount, 1, 2);
-            this.tableLayoutPanel5.Controls.Add(this.txtDayCount, 1, 3);
             this.tableLayoutPanel5.Controls.Add(this.label11, 0, 2);
             this.tableLayoutPanel5.Controls.Add(this.txtTotalTradingCost_dollar, 1, 10);
             this.tableLayoutPanel5.Controls.Add(this.label12, 0, 7);
@@ -306,6 +319,8 @@ namespace TradingTools
             this.tableLayoutPanel5.Controls.Add(this.label14, 0, 10);
             this.tableLayoutPanel5.Controls.Add(this.label15, 0, 11);
             this.tableLayoutPanel5.Controls.Add(this.txtTotalTradingCost_percent, 1, 11);
+            this.tableLayoutPanel5.Controls.Add(this.nudDailyInterestRate, 1, 4);
+            this.tableLayoutPanel5.Controls.Add(this.nudDayCount, 1, 3);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 19);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
@@ -333,7 +348,7 @@ namespace TradingTools
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(133, 29);
             this.label8.TabIndex = 2;
-            this.label8.Text = "Interest per Day";
+            this.label8.Text = "Daily Interest Rate";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label9
@@ -358,14 +373,6 @@ namespace TradingTools
             this.label10.Text = "Day Count";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // txtInterestPerDay
-            // 
-            this.txtInterestPerDay.Location = new System.Drawing.Point(142, 61);
-            this.txtInterestPerDay.Name = "txtInterestPerDay";
-            this.txtInterestPerDay.Size = new System.Drawing.Size(144, 23);
-            this.txtInterestPerDay.TabIndex = 2;
-            this.txtInterestPerDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
             // txtInterestCost
             // 
             this.txtInterestCost.Location = new System.Drawing.Point(142, 90);
@@ -380,7 +387,6 @@ namespace TradingTools
             // 
             this.txtTradingFee_percent.Location = new System.Drawing.Point(142, 139);
             this.txtTradingFee_percent.Name = "txtTradingFee_percent";
-            this.txtTradingFee_percent.ReadOnly = true;
             this.txtTradingFee_percent.Size = new System.Drawing.Size(144, 23);
             this.txtTradingFee_percent.TabIndex = 4;
             this.txtTradingFee_percent.TabStop = false;
@@ -403,14 +409,6 @@ namespace TradingTools
             this.txtBorrowAmount.Size = new System.Drawing.Size(144, 23);
             this.txtBorrowAmount.TabIndex = 0;
             this.txtBorrowAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // txtDayCount
-            // 
-            this.txtDayCount.Location = new System.Drawing.Point(142, 32);
-            this.txtDayCount.Name = "txtDayCount";
-            this.txtDayCount.Size = new System.Drawing.Size(144, 23);
-            this.txtDayCount.TabIndex = 1;
-            this.txtDayCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label11
             // 
@@ -493,6 +491,35 @@ namespace TradingTools
             this.txtTotalTradingCost_percent.TabStop = false;
             this.txtTotalTradingCost_percent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // nudDailyInterestRate
+            // 
+            this.nudDailyInterestRate.DecimalPlaces = 5;
+            this.nudDailyInterestRate.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            327680});
+            this.nudDailyInterestRate.Location = new System.Drawing.Point(142, 61);
+            this.nudDailyInterestRate.Name = "nudDailyInterestRate";
+            this.nudDailyInterestRate.Size = new System.Drawing.Size(146, 23);
+            this.nudDailyInterestRate.TabIndex = 10;
+            this.nudDailyInterestRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nudDailyInterestRate.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            262144});
+            // 
+            // nudDayCount
+            // 
+            this.nudDayCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudDayCount.Location = new System.Drawing.Point(220, 32);
+            this.nudDayCount.Name = "nudDayCount";
+            this.nudDayCount.Size = new System.Drawing.Size(68, 23);
+            this.nudDayCount.TabIndex = 11;
+            this.nudDayCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
@@ -502,7 +529,7 @@ namespace TradingTools
             this.tableLayoutPanel1.Controls.Add(this.label6, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.label7, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.txtEntryPrice, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.txtPositionValue, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.txtInitalPositionValue, 1, 6);
             this.tableLayoutPanel1.Controls.Add(this.txtAccountEquity, 1, 10);
             this.tableLayoutPanel1.Controls.Add(this.label28, 0, 10);
             this.tableLayoutPanel1.Controls.Add(this.txtLotSize, 1, 5);
@@ -550,7 +577,7 @@ namespace TradingTools
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(144, 29);
             this.label6.TabIndex = 1;
-            this.label6.Text = "Position Value";
+            this.label6.Text = "Initial Position Value (iPV)";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label7
@@ -572,18 +599,20 @@ namespace TradingTools
             this.txtEntryPrice.TabIndex = 2;
             this.txtEntryPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // txtPositionValue
+            // txtInitalPositionValue
             // 
-            this.txtPositionValue.Location = new System.Drawing.Point(153, 119);
-            this.txtPositionValue.Name = "txtPositionValue";
-            this.txtPositionValue.Size = new System.Drawing.Size(144, 23);
-            this.txtPositionValue.TabIndex = 4;
-            this.txtPositionValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtInitalPositionValue.Location = new System.Drawing.Point(153, 119);
+            this.txtInitalPositionValue.Name = "txtInitalPositionValue";
+            this.txtInitalPositionValue.ReadOnly = true;
+            this.txtInitalPositionValue.Size = new System.Drawing.Size(144, 23);
+            this.txtInitalPositionValue.TabIndex = 4;
+            this.txtInitalPositionValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // txtAccountEquity
             // 
             this.txtAccountEquity.Location = new System.Drawing.Point(153, 206);
             this.txtAccountEquity.Name = "txtAccountEquity";
+            this.txtAccountEquity.ReadOnly = true;
             this.txtAccountEquity.Size = new System.Drawing.Size(144, 23);
             this.txtAccountEquity.TabIndex = 7;
             this.txtAccountEquity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -611,6 +640,7 @@ namespace TradingTools
             // 
             this.txtLeverage.Location = new System.Drawing.Point(153, 148);
             this.txtLeverage.Name = "txtLeverage";
+            this.txtLeverage.ReadOnly = true;
             this.txtLeverage.Size = new System.Drawing.Size(144, 23);
             this.txtLeverage.TabIndex = 5;
             this.txtLeverage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -692,6 +722,14 @@ namespace TradingTools
             this.txtStopLoss.Size = new System.Drawing.Size(144, 23);
             this.txtStopLoss.TabIndex = 6;
             this.txtStopLoss.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // txtSpeculativePV
+            // 
+            this.txtSpeculativePV.Location = new System.Drawing.Point(360, 142);
+            this.txtSpeculativePV.Name = "txtSpeculativePV";
+            this.txtSpeculativePV.Size = new System.Drawing.Size(174, 23);
+            this.txtSpeculativePV.TabIndex = 6;
+            this.txtSpeculativePV.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // splitContainer2
             // 
@@ -833,7 +871,7 @@ namespace TradingTools
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.62712F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.37288F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 71F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 215F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 221F));
             this.tableLayoutPanel4.Controls.Add(this.btnPriceDecrease_custom, 2, 1);
             this.tableLayoutPanel4.Controls.Add(this.txtPriceDecrease_loss, 3, 1);
             this.tableLayoutPanel4.Controls.Add(this.label23, 0, 0);
@@ -851,7 +889,7 @@ namespace TradingTools
             // 
             // btnPriceDecrease_custom
             // 
-            this.btnPriceDecrease_custom.Location = new System.Drawing.Point(265, 29);
+            this.btnPriceDecrease_custom.Location = new System.Drawing.Point(259, 29);
             this.btnPriceDecrease_custom.Name = "btnPriceDecrease_custom";
             this.btnPriceDecrease_custom.Size = new System.Drawing.Size(48, 23);
             this.btnPriceDecrease_custom.TabIndex = 10;
@@ -861,7 +899,7 @@ namespace TradingTools
             // 
             // txtPriceDecrease_loss
             // 
-            this.txtPriceDecrease_loss.Location = new System.Drawing.Point(336, 29);
+            this.txtPriceDecrease_loss.Location = new System.Drawing.Point(330, 29);
             this.txtPriceDecrease_loss.Name = "txtPriceDecrease_loss";
             this.txtPriceDecrease_loss.ReadOnly = true;
             this.txtPriceDecrease_loss.Size = new System.Drawing.Size(169, 23);
@@ -875,15 +913,15 @@ namespace TradingTools
             this.label23.Dock = System.Windows.Forms.DockStyle.Top;
             this.label23.Location = new System.Drawing.Point(3, 0);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(145, 15);
+            this.label23.Size = new System.Drawing.Size(142, 15);
             this.label23.TabIndex = 4;
             this.label23.Text = "Price Decrease % (PDP)";
             // 
             // txtPriceDecrease_target
             // 
-            this.txtPriceDecrease_target.Location = new System.Drawing.Point(154, 29);
+            this.txtPriceDecrease_target.Location = new System.Drawing.Point(151, 29);
             this.txtPriceDecrease_target.Name = "txtPriceDecrease_target";
-            this.txtPriceDecrease_target.Size = new System.Drawing.Size(105, 23);
+            this.txtPriceDecrease_target.Size = new System.Drawing.Size(102, 23);
             this.txtPriceDecrease_target.TabIndex = 4;
             this.txtPriceDecrease_target.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -891,9 +929,9 @@ namespace TradingTools
             // 
             this.label25.AutoSize = true;
             this.label25.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label25.Location = new System.Drawing.Point(336, 0);
+            this.label25.Location = new System.Drawing.Point(330, 0);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(210, 15);
+            this.label25.Size = new System.Drawing.Size(216, 15);
             this.label25.TabIndex = 5;
             this.label25.Text = "Loss plus Total Trading Cost";
             // 
@@ -901,9 +939,9 @@ namespace TradingTools
             // 
             this.label24.AutoSize = true;
             this.label24.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label24.Location = new System.Drawing.Point(154, 0);
+            this.label24.Location = new System.Drawing.Point(151, 0);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(105, 15);
+            this.label24.Size = new System.Drawing.Size(102, 15);
             this.label24.TabIndex = 5;
             this.label24.Text = "Price Target";
             // 
@@ -1072,6 +1110,7 @@ namespace TradingTools
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
@@ -1080,6 +1119,8 @@ namespace TradingTools
             this.groupBox1.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDailyInterestRate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDayCount)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
@@ -1121,7 +1162,7 @@ namespace TradingTools
         private System.Windows.Forms.TextBox txtLotSize;
         private System.Windows.Forms.TextBox txtEntryPrice;
         private System.Windows.Forms.TextBox txtLeverage;
-        private System.Windows.Forms.TextBox txtPositionValue;
+        private System.Windows.Forms.TextBox txtInitalPositionValue;
         private System.Windows.Forms.TextBox txtTradeNum;
         private System.Windows.Forms.TextBox txtCapital;
         private System.Windows.Forms.Label label22;
@@ -1152,12 +1193,10 @@ namespace TradingTools
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox txtInterestPerDay;
         private System.Windows.Forms.TextBox txtInterestCost;
         private System.Windows.Forms.TextBox txtTradingFee_percent;
         private System.Windows.Forms.TextBox txtTradingFee_dollar;
         private System.Windows.Forms.TextBox txtBorrowAmount;
-        private System.Windows.Forms.TextBox txtDayCount;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox txtTotalTradingCost_dollar;
         private System.Windows.Forms.Label label12;
@@ -1188,6 +1227,10 @@ namespace TradingTools
         private System.Windows.Forms.Button btnRefreshTables;
         private System.Windows.Forms.Button btnPriceIncrease_custom;
         private System.Windows.Forms.Button btnPriceDecrease_custom;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.TextBox txtSpeculativePV;
+        private System.Windows.Forms.NumericUpDown nudDailyInterestRate;
+        private System.Windows.Forms.NumericUpDown nudDayCount;
     }
 }
 

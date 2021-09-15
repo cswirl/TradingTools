@@ -5,7 +5,7 @@ namespace TradingTools.Trunk
     public static class Constant
     {
         public const decimal TRADING_FEE = 0.001M;      // Binance
-
+        public const decimal DAILY_INTEREST_RATE = 0.0002M;
     }
 
     public class Position
@@ -14,7 +14,7 @@ namespace TradingTools.Trunk
         public decimal EntryPriceAvg { get; set; }
         public decimal LotSize { get; set; }
         public decimal Leverage { get; set; }
-        public decimal PositionValue { get; set; }
+        public decimal InitialPositionValue { get; set; }
         public decimal AccountEquity { get; set; }
         public decimal StopLoss_limit { get; set; }
         public bool Direction { get; set; }             // 1 or True for Long, 0 or False Short
