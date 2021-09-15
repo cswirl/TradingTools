@@ -37,13 +37,7 @@ namespace TradingTools.Trunk
             return positionValue * Constant.TRADING_FEE;
         }
 
-        //Can be deleted
         public decimal TotalTradingCost { get; set; }
-
-        
-        //Must be Non-Negative number
-        //Use decimal form for Trading Cost in Percent i.e. divide by 100
-        public decimal TradingCostProfitRatio { get; set; }
 
         public decimal GetTotalTradingCost(decimal positionValue, decimal borrowCost)
         {

@@ -36,7 +36,7 @@ namespace TradingTools
             // step 3: Process Data collected including others supporting data
             _position.PositionValue = _position.EntryPriceAvg * _position.LotSize;
             _tradingCost.TotalTradingCost = _tradingCost.GetTotalTradingCost(_position.PositionValue, 0); // 0.16 is for testing only
-            _tradingCost.TradingCostProfitRatio = _tradingCost.TotalTradingCost / _position.PositionValue;
+            //_tradingCost.TCPVR = _tradingCost.TotalTradingCost / _position.PositionValue;                 This is removed in the program
 
 
             // step 4: Represent data back to UI
