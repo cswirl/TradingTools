@@ -34,11 +34,11 @@ namespace TradingTools.Services
 
         //readonly decimal[] priceIncreasePercentage_array = { 7m, 8m, 10m, 15m, 20m, 25m, 30m };
 
-        private IList<PriceIncreaseRecord> _list = new List<PriceIncreaseRecord>();
+        private IList<PriceIncreaseRecord> _list;
 
         public IList<PriceIncreaseRecord> GenerateTable(decimal entryPriceAverage, decimal PositionValue, decimal TradingCost)
         {
-            _list.Clear();
+            _list = new List<PriceIncreaseRecord>();
             foreach (decimal pip in priceIncreasePercentage_array)
             {
                 decimal dec_pip = pip / 100;        // We simply need the Decimal value of Price Increase Percentage
@@ -84,11 +84,11 @@ namespace TradingTools.Services
 
         //readonly decimal[] priceDecreasePercentage_array = { 1m, 2m, 3m, 4m, 5m, 7m, 10m };
 
-        private IList<PriceDecreaseRecord> _list = new List<PriceDecreaseRecord>();
+        private IList<PriceDecreaseRecord> _list;
 
         public IList<PriceDecreaseRecord> GenerateTable(decimal entryPriceAverage, decimal PositionValue, decimal TradingCost)
         {
-            _list.Clear();
+            _list = new List<PriceDecreaseRecord>();
             foreach (decimal pdp in priceDecreasePercentage_array)
             {
                 decimal dec_pdp = pdp / 100;        // We simply need the Decimal value of Price Decrease Percentage

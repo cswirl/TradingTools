@@ -410,7 +410,7 @@ namespace TradingTools
             this.txtBorrowAmount.ReadOnly = true;
             this.txtBorrowAmount.Size = new System.Drawing.Size(144, 23);
             this.txtBorrowAmount.TabIndex = 0;
-            this.txtBorrowAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtBorrowAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label11
             // 
@@ -873,7 +873,7 @@ namespace TradingTools
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.62712F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.37288F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 71F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 222F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 223F));
             this.tableLayoutPanel4.Controls.Add(this.btnPriceDecrease_custom, 2, 1);
             this.tableLayoutPanel4.Controls.Add(this.txtPriceDecrease_loss, 3, 1);
             this.tableLayoutPanel4.Controls.Add(this.label23, 0, 0);
@@ -891,7 +891,7 @@ namespace TradingTools
             // 
             // btnPriceDecrease_custom
             // 
-            this.btnPriceDecrease_custom.Location = new System.Drawing.Point(258, 29);
+            this.btnPriceDecrease_custom.Location = new System.Drawing.Point(257, 29);
             this.btnPriceDecrease_custom.Name = "btnPriceDecrease_custom";
             this.btnPriceDecrease_custom.Size = new System.Drawing.Size(48, 23);
             this.btnPriceDecrease_custom.TabIndex = 10;
@@ -901,7 +901,7 @@ namespace TradingTools
             // 
             // txtPriceDecrease_loss
             // 
-            this.txtPriceDecrease_loss.Location = new System.Drawing.Point(329, 29);
+            this.txtPriceDecrease_loss.Location = new System.Drawing.Point(328, 29);
             this.txtPriceDecrease_loss.Name = "txtPriceDecrease_loss";
             this.txtPriceDecrease_loss.ReadOnly = true;
             this.txtPriceDecrease_loss.Size = new System.Drawing.Size(169, 23);
@@ -915,13 +915,13 @@ namespace TradingTools
             this.label23.Dock = System.Windows.Forms.DockStyle.Top;
             this.label23.Location = new System.Drawing.Point(3, 0);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(141, 15);
+            this.label23.Size = new System.Drawing.Size(140, 15);
             this.label23.TabIndex = 4;
             this.label23.Text = "Price Decrease % (PDP)";
             // 
             // txtPriceDecrease_target
             // 
-            this.txtPriceDecrease_target.Location = new System.Drawing.Point(150, 29);
+            this.txtPriceDecrease_target.Location = new System.Drawing.Point(149, 29);
             this.txtPriceDecrease_target.Name = "txtPriceDecrease_target";
             this.txtPriceDecrease_target.Size = new System.Drawing.Size(102, 23);
             this.txtPriceDecrease_target.TabIndex = 4;
@@ -931,9 +931,9 @@ namespace TradingTools
             // 
             this.label25.AutoSize = true;
             this.label25.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label25.Location = new System.Drawing.Point(329, 0);
+            this.label25.Location = new System.Drawing.Point(328, 0);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(217, 15);
+            this.label25.Size = new System.Drawing.Size(218, 15);
             this.label25.TabIndex = 5;
             this.label25.Text = "Loss plus Total Trading Cost";
             // 
@@ -941,7 +941,7 @@ namespace TradingTools
             // 
             this.label24.AutoSize = true;
             this.label24.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label24.Location = new System.Drawing.Point(150, 0);
+            this.label24.Location = new System.Drawing.Point(149, 0);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(102, 15);
             this.label24.TabIndex = 5;
