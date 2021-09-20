@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TradingTools.Trunk;
 
 namespace TradingTools.Services
 {
@@ -7,8 +8,6 @@ namespace TradingTools.Services
     {
         private PriceIncreaseTable _priceIncreaseTable;
         private PriceDecreaseTable _priceDecreaseTable;
-
-        //public static PriceIncreaseRecord GetPriceIncreaseRecord()
 
         public PriceIncreaseTable PriceIncreaseTable { get { return _priceIncreaseTable; } }
         public PriceDecreaseTable PriceDecreaseTable { get { return _priceDecreaseTable; } }
@@ -18,110 +17,135 @@ namespace TradingTools.Services
             _priceIncreaseTable = new();
             _priceDecreaseTable = new();
         }
-
-        public PriceIncreaseRecord MakePriceIncreaseRecord(decimal priceTarget)
-        {
-
-
-            return null;
-        }
     }
+
+    public class PriceChangeTable
+    {
+
+        decimal[] _princeChangeIncrements = { 1m, 2m, 3m, 4m, 5m };
+
+        public IList<PriceChangeRecord> GenerateTable(decimal EntPA, decimal lotSize, decimal borrowCost, decimal[] increments = null)
+        {
+            _princeChangeIncrements = increments != null ? increments : _princeChangeIncrements;
+            var list = new List<PriceChangeRecord>();
+            foreach (decimal pcp in _princeChangeIncrements)
+            {
+                decimal dec_pcp = pcp / 100;        // We simply need the Decimal value of Price Increase Percentage
+                decimal ExitPrice = EntPA * (1 + dec_pcp);
+                decimal tradingCost = TradingCost(ExitPrice, lotSize, borrowCost);
+                var rec = new PriceChangeRecord
+                {
+                    PriceChangePercentage = pcp,
+                    ExitPrice = ExitPrice,
+                    PnL = (EntPA * lotSize * dec_pcp) - tradingCost,
+                    TradingCost = tradingCost
+                };
+
+                list.Add(rec);
+            }
+
+            return list;
+        }
+
+        public PriceChangeRecord GeneratePriceChangeRecord(decimal ExitPrice, decimal EntryPrice, decimal lotSize, decimal borrowCost)
+        {
+            decimal pip = (ExitPrice - EntryPrice) / EntryPrice * 100;
+            decimal tradingCost = TradingCost(ExitPrice, lotSize, borrowCost);
+
+            return new PriceChangeRecord
+            {
+                PriceChangePercentage = pip,
+                ExitPrice = ExitPrice,
+                PnL = (EntryPrice * lotSize * pip / 100) - tradingCost,
+                TradingCost = tradingCost
+            };
+        }
+
+        private decimal TradingCost(decimal ExitPrice, decimal lotSize, decimal borrowCost) => SpeculativeTradingFee(ExitPrice, lotSize) + borrowCost;
+
+        private decimal SpeculativeTradingFee(decimal ExitPrice, decimal lotSize) => ExitPrice * lotSize * Constant.TRADING_FEE;
+
+        
+    }
+
+    // C#9 book page 177 - more about record
+    public record PriceChangeRecord
+    {
+        public decimal PriceChangePercentage { get; init; }
+        public decimal ExitPrice { get; init; }
+        public decimal PnL { get; init; }
+        public decimal TradingCost { get; set; }
+    }
+
+
 
     public class PriceIncreaseTable
     {
         // For Testing
-        readonly decimal[] priceIncreasePercentage_array = { 1m, 2m, 3m, 4m, 5m};
+        //readonly decimal[] priceIncreasePercentage_array = { 1m, 2m, 3m, 4m, 5m};
 
-        //readonly decimal[] priceIncreasePercentage_array = { 7m, 8m, 10m, 15m, 20m, 25m, 30m };
+        readonly decimal[] priceIncreasePercentage_array = { 7m, 8m, 10m, 15m, 20m, 25m, 30m };
 
-        private IList<PriceIncreaseRecord> _list;
+        private PriceChangeTable _priceChangeTable;
 
-        public IList<PriceIncreaseRecord> GenerateTable(decimal entryPriceAverage, decimal PositionValue, decimal TradingCost)
+        public PriceIncreaseTable()
         {
-            _list = new List<PriceIncreaseRecord>();
-            foreach (decimal pip in priceIncreasePercentage_array)
-            {
-                decimal dec_pip = pip / 100;        // We simply need the Decimal value of Price Increase Percentage
-                
-                var rec = new PriceIncreaseRecord
-                {
-                    PriceIncreasePercentage = pip,
-                    PriceTarget = entryPriceAverage * (1 + dec_pip),
-                    Profit = (PositionValue * dec_pip) - TradingCost
-                };
-                
-                _list.Add(rec);
-            }
-
-            return _list;
+            _priceChangeTable = new();
         }
 
-        public PriceIncreaseRecord GeneratePriceIncreaseRecord(decimal priceTarget, decimal entryPriceAverage, decimal positionValue, decimal tradingCost)
+
+        public IList<PriceChangeRecord> GenerateTable(decimal EntPA, decimal lotSize, decimal borrowCost)
         {
-            decimal pip = ((priceTarget - entryPriceAverage) / entryPriceAverage) * 100;
-            return new PriceIncreaseRecord
-            {
-                PriceTarget = priceTarget,
-                PriceIncreasePercentage = pip,
-                Profit = (positionValue * pip/100) - tradingCost
-            };
+            return _priceChangeTable.GenerateTable(EntPA, lotSize, borrowCost, priceIncreasePercentage_array);
+        }
+
+        public PriceChangeRecord GeneratePriceIncreaseRecord(decimal exitPrice, decimal entryPrice, decimal lotSize, decimal borrowCost)
+        {
+            return _priceChangeTable.GeneratePriceChangeRecord(exitPrice, entryPrice, lotSize, borrowCost);
         }
 
     }
 
-    // C#9 book page 177 - more about record
-    public record PriceIncreaseRecord
-    {
-        public decimal PriceIncreasePercentage { get; init; }
-        public decimal PriceTarget { get; init; }
-        public decimal Profit { get; init; }
-    }
 
     public class PriceDecreaseTable
     {
         // For Testing
-        readonly decimal[] priceDecreasePercentage_array = { 0.3m, 0.5m, 0.7m, 0.8m, 0.9m, 1m, 1.1m};
+        //readonly decimal[] priceDecreasePercentage_array = { -0.3m, -0.5m, -0.7m, -0.8m, -0.9m, -1m, -1.1m};
 
-        //readonly decimal[] priceDecreasePercentage_array = { 1m, 2m, 3m, 4m, 5m, 7m, 10m };
+        readonly decimal[] priceDecreasePercentage_array = { -1m, -2m, -3m, -4m, -5m, -7m, -10m };
 
-        private IList<PriceDecreaseRecord> _list;
+        private PriceChangeTable _priceChangeTable;
 
-        public IList<PriceDecreaseRecord> GenerateTable(decimal entryPriceAverage, decimal PositionValue, decimal TradingCost)
+        public PriceDecreaseTable()
         {
-            _list = new List<PriceDecreaseRecord>();
-            foreach (decimal pdp in priceDecreasePercentage_array)
-            {
-                decimal dec_pdp = pdp / 100;        // We simply need the Decimal value of Price Decrease Percentage
-
-                var rec = new PriceDecreaseRecord
-                {
-                    PriceDecreasePercentage = pdp,
-                    PriceTarget = entryPriceAverage - (dec_pdp * entryPriceAverage),
-                    Loss = (PositionValue * dec_pdp) + TradingCost
-                };
-
-                _list.Add(rec);
-            }
-
-            return _list;
+            _priceChangeTable = new();
         }
 
-        public PriceDecreaseRecord GeneratePriceDecreaseRecord(decimal priceTarget, decimal entryPriceAverage, decimal positionValue, decimal tradingCost)
+        public IList<PriceChangeRecord> GenerateTable(decimal EntPA, decimal lotSize, decimal borrowCost)
         {
-            decimal pdp = (entryPriceAverage - priceTarget) / entryPriceAverage * 100;
-            return new PriceDecreaseRecord
-            {
-                PriceTarget = priceTarget,
-                PriceDecreasePercentage = pdp,
-                Loss = (positionValue * pdp / 100) + tradingCost
-            };
+            return _priceChangeTable.GenerateTable(EntPA, lotSize, borrowCost, priceDecreasePercentage_array);
+        }
+
+        public PriceChangeRecord GeneratePriceDecreaseRecord(decimal exitPrice, decimal entryPrice, decimal lotSize, decimal borrowCost)
+        {
+            return _priceChangeTable.GeneratePriceChangeRecord(exitPrice, entryPrice, lotSize, borrowCost);
         }
     }
 
-    public record PriceDecreaseRecord
-    {
-        public decimal PriceDecreasePercentage { get; init; }
-        public decimal PriceTarget { get; init; }
-        public decimal Loss { get; init; }
-    }
+
+    //public record PriceIncreaseRecord
+    //{
+    //    public decimal PriceIncreasePercentage { get; init; }
+    //    public decimal PriceTarget { get; init; }
+    //    public decimal Profit { get; init; }
+    //    public decimal TradingCost { get; set; }
+    //}
+
+    //public record PriceDecreaseRecord
+    //{
+    //    public decimal PriceDecreasePercentage { get; init; }
+    //    public decimal PriceTarget { get; init; }
+    //    public decimal Loss { get; init; }
+    //    public decimal TradingCost { get; set; }
+    //}
 }
