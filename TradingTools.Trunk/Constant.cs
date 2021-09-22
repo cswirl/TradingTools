@@ -28,19 +28,28 @@ namespace TradingTools.Trunk
         public decimal InterestCost { get; set; }
     }
 
-    public class TradingCost
+    public class ClosingCost
     {
         private Borrow _borrow;
-        public TradingCost()
+        private TradingCost _tradingCost;
+
+        public ClosingCost()
         {
             _borrow = new();
+            _tradingCost = new();
         }
 
         public Borrow Borrow { get { return _borrow; } }
+        public TradingCost TradingCost { get { return _tradingCost; } }
+     
+    }
+
+    public class TradingCost
+    {
         public decimal TradingFee_percentage { get; set; }
-        public decimal GetTradingFee_in_dollar(decimal positionValue)
+        public decimal GetTradingFee_in_dollar(decimal accountSize)
         {
-            return positionValue * Constant.TRADING_FEE;
+            return accountSize * Constant.TRADING_FEE;
         }
 
         public decimal TotalTradingCost { get; set; }
@@ -49,9 +58,14 @@ namespace TradingTools.Trunk
         {
             return GetTradingFee_in_dollar(positionValue) + borrowCost;
         }
+        public decimal GetTotalTradingCost(decimal capital)
+        {
+            return GetTradingFee_in_dollar(capital);
+        }
     }
 
     
+
 
 
 }

@@ -16,7 +16,7 @@ namespace TradingTools
     {
         private RiskRewardCalc_Long _RR_Calc = new();
         private Position _position = new();
-        private TradingCost _tradingCost = new();
+        private TradingCost _openingCost = new();
         private Borrow _borrow = new();
 
         public frmRRC_Long()
@@ -35,31 +35,33 @@ namespace TradingTools
 
             // step 3: Process Data collected including others supporting data
             _position.InitialPositionValue = _position.EntryPriceAvg * _position.LotSize;
-            _tradingCost.Borrow.Amount = _position.InitialPositionValue - _position.Capital;
-            _tradingCost.Borrow.InterestCost = _tradingCost.Borrow.Amount * nudDailyInterestRate.Value * nudDayCount.Value;
-            _tradingCost.TotalTradingCost = _tradingCost.GetTotalTradingCost(_position.InitialPositionValue, _tradingCost.Borrow.InterestCost);
+            _borrow.Amount = _position.InitialPositionValue - _position.Capital;
+            _borrow.InterestCost = _borrow.Amount * nudDailyInterestRate.Value * nudDayCount.Value;
+            _openingCost.TotalTradingCost = _openingCost.GetTotalTradingCost(_position.Capital);
 
             // step 4: Represent data back to UI
             txtInitalPositionValue.Text = _position.InitialPositionValue.ToString();
-            txtTradingFee_dollar.Text = _tradingCost.GetTradingFee_in_dollar(_position.InitialPositionValue).ToString();
-            txtTotalTradingCost_dollar.Text = _tradingCost.TotalTradingCost.ToString();
+            txtTradingFee_dollar.Text = _openingCost.GetTradingFee_in_dollar(_position.Capital).ToString();
+            txtTotalTradingCost_dollar.Text = _openingCost.TotalTradingCost.ToString();
 
             txtLeverage.Text = (_position.InitialPositionValue / _position.Capital).ToString();
-            txtBorrowAmount.Text = _tradingCost.Borrow.Amount.ToString();
-            txtInterestCost.Text = _tradingCost.Borrow.InterestCost.ToString();
-            txtAccountEquity.Text = (_position.InitialPositionValue - _tradingCost.Borrow.Amount).ToString();
+            txtBorrowAmount.Text = _borrow.Amount.ToString();
+            txtInterestCost.Text = _borrow.InterestCost.ToString();
+            txtAccountEquity.Text = (_position.InitialPositionValue - _borrow.Amount).ToString();
 
+
+            //Closing Position
             dgvPriceIncreaseTable.DataSource = _RR_Calc.PriceIncreaseTable.GenerateTable(
                 _position.EntryPriceAvg, 
-                _position.InitialPositionValue, 
-                _tradingCost.TotalTradingCost
-                ).OrderByDescending(o => o.PriceIncreasePercentage).ToList();
+                _position.LotSize,
+                _borrow.InterestCost
+                ).OrderByDescending(o => o.PriceChangePercentage).ToList();
 
             dgvPriceDecreaseTable.DataSource = _RR_Calc.PriceDecreaseTable.GenerateTable(
                 _position.EntryPriceAvg,
-                _position.InitialPositionValue,
-                _tradingCost.TotalTradingCost
-                );
+                _position.LotSize,
+                _borrow.InterestCost
+                ).OrderByDescending(o => o.PriceChangePercentage).ToList();
 
 
         }
@@ -80,12 +82,14 @@ namespace TradingTools
             //_position.EntryPriceAvg = Convert.ToDecimal(txtEntryPrice.Text);
 
             // 3
-            var rec = _RR_Calc.PriceIncreaseTable.GeneratePriceIncreaseRecord(priceTarget, _position.EntryPriceAvg, _position.InitialPositionValue, _tradingCost.TotalTradingCost);
+            var rec = _RR_Calc.PriceIncreaseTable.GeneratePriceIncreaseRecord(
+                priceTarget, _position.EntryPriceAvg, 
+                _position.LotSize, _borrow.InterestCost);
 
             // 4
             if (rec == null) return;
-            txtPriceIncreasePercentage.Text = rec.PriceIncreasePercentage.ToString();
-            txtPriceIncrease_profit.Text = rec.Profit.ToString();
+            txtPriceIncreasePercentage.Text = rec.PriceChangePercentage.ToString();
+            txtPriceIncrease_profit.Text = rec.PnL.ToString();
     
         }
 
@@ -96,12 +100,14 @@ namespace TradingTools
             //_position.EntryPriceAvg = Convert.ToDecimal(txtEntryPrice.Text);
 
             // 3
-            var rec = _RR_Calc.PriceDecreaseTable.GeneratePriceDecreaseRecord(priceTarget, _position.EntryPriceAvg, _position.InitialPositionValue, _tradingCost.TotalTradingCost);
+            var rec = _RR_Calc.PriceDecreaseTable.GeneratePriceDecreaseRecord(
+                priceTarget, _position.EntryPriceAvg, 
+                _position.LotSize, _borrow.InterestCost);
 
             // 4
             if (rec == null) return;
-            txtPriceDecreasePercentage.Text = rec.PriceDecreasePercentage.ToString();
-            txtPriceDecrease_loss.Text = rec.Loss.ToString();
+            txtPriceDecreasePercentage.Text = rec.PriceChangePercentage.ToString();
+            txtPriceDecrease_loss.Text = rec.PnL.ToString();
         }
     }
 }
