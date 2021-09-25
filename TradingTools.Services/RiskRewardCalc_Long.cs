@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TradingTools.Trunk;
 
+
 namespace TradingTools.Services
 {
     public class RiskRewardCalc_Long
@@ -24,7 +25,7 @@ namespace TradingTools.Services
 
         decimal[] _princeChangeIncrements = { 1m, 2m, 3m, 4m, 5m };
 
-        public IList<PriceChangeRecord> GenerateTable(decimal EntPA, decimal lotSize, decimal borrowCost, decimal[] increments = null)
+        public IList<PriceChangeRecord> GenerateTable(decimal EntPA, decimal lotSize, decimal borrowCost, decimal capital, decimal[] increments = null)
         {
             _princeChangeIncrements = increments != null ? increments : _princeChangeIncrements;
             var list = new List<PriceChangeRecord>();
@@ -33,11 +34,13 @@ namespace TradingTools.Services
                 decimal dec_pcp = pcp / 100;        // We simply need the Decimal value of Price Increase Percentage
                 decimal ExitPrice = EntPA * (1 + dec_pcp);
                 decimal tradingCost = TradingCost(ExitPrice, lotSize, borrowCost);
+                decimal pnl = (EntPA * lotSize * dec_pcp) - tradingCost;
                 var rec = new PriceChangeRecord
                 {
                     PriceChangePercentage = pcp,
                     ExitPrice = ExitPrice,
-                    PnL = (EntPA * lotSize * dec_pcp) - tradingCost,
+                    PnL = pnl,
+                    PnL_Percentage = pnl / capital * 100,
                     TradingCost = tradingCost
                 };
 
@@ -47,16 +50,17 @@ namespace TradingTools.Services
             return list;
         }
 
-        public PriceChangeRecord GeneratePriceChangeRecord(decimal ExitPrice, decimal EntryPrice, decimal lotSize, decimal borrowCost)
+        public PriceChangeRecord GeneratePriceChangeRecord(decimal ExitPrice, decimal EntryPrice, decimal lotSize, decimal borrowCost, decimal capital)
         {
             decimal pip = (ExitPrice - EntryPrice) / EntryPrice * 100;
             decimal tradingCost = TradingCost(ExitPrice, lotSize, borrowCost);
-
+            decimal pnl = (EntryPrice * lotSize * pip / 100) - tradingCost;
             return new PriceChangeRecord
             {
                 PriceChangePercentage = pip,
                 ExitPrice = ExitPrice,
-                PnL = (EntryPrice * lotSize * pip / 100) - tradingCost,
+                PnL = pnl,
+                PnL_Percentage = pnl / capital * 100,
                 TradingCost = tradingCost
             };
         }
@@ -74,7 +78,12 @@ namespace TradingTools.Services
         public decimal PriceChangePercentage { get; init; }
         public decimal ExitPrice { get; init; }
         public decimal PnL { get; init; }
+        public decimal PnL_Percentage { get; set; }
         public decimal TradingCost { get; set; }
+
+        
+
+
     }
 
 
@@ -94,14 +103,14 @@ namespace TradingTools.Services
         }
 
 
-        public IList<PriceChangeRecord> GenerateTable(decimal EntPA, decimal lotSize, decimal borrowCost)
+        public IList<PriceChangeRecord> GenerateTable(decimal EntPA, decimal lotSize, decimal borrowCost, decimal capital)
         {
-            return _priceChangeTable.GenerateTable(EntPA, lotSize, borrowCost, priceIncreasePercentage_array);
+            return _priceChangeTable.GenerateTable(EntPA, lotSize, borrowCost, capital, priceIncreasePercentage_array);
         }
 
-        public PriceChangeRecord GeneratePriceIncreaseRecord(decimal exitPrice, decimal entryPrice, decimal lotSize, decimal borrowCost)
+        public PriceChangeRecord GeneratePriceIncreaseRecord(decimal exitPrice, decimal entryPrice, decimal lotSize, decimal borrowCost, decimal capital)
         {
-            return _priceChangeTable.GeneratePriceChangeRecord(exitPrice, entryPrice, lotSize, borrowCost);
+            return _priceChangeTable.GeneratePriceChangeRecord(exitPrice, entryPrice, lotSize, borrowCost, capital);
         }
 
     }
@@ -121,14 +130,14 @@ namespace TradingTools.Services
             _priceChangeTable = new();
         }
 
-        public IList<PriceChangeRecord> GenerateTable(decimal EntPA, decimal lotSize, decimal borrowCost)
+        public IList<PriceChangeRecord> GenerateTable(decimal EntPA, decimal lotSize, decimal borrowCost, decimal capital)
         {
-            return _priceChangeTable.GenerateTable(EntPA, lotSize, borrowCost, priceDecreasePercentage_array);
+            return _priceChangeTable.GenerateTable(EntPA, lotSize, borrowCost, capital, priceDecreasePercentage_array);
         }
 
-        public PriceChangeRecord GeneratePriceDecreaseRecord(decimal exitPrice, decimal entryPrice, decimal lotSize, decimal borrowCost)
+        public PriceChangeRecord GeneratePriceDecreaseRecord(decimal exitPrice, decimal entryPrice, decimal lotSize, decimal borrowCost, decimal capital)
         {
-            return _priceChangeTable.GeneratePriceChangeRecord(exitPrice, entryPrice, lotSize, borrowCost);
+            return _priceChangeTable.GeneratePriceChangeRecord(exitPrice, entryPrice, lotSize, borrowCost, capital);
         }
     }
 

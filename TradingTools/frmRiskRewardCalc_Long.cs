@@ -57,13 +57,15 @@ namespace TradingTools
             dgvPriceIncreaseTable.DataSource = _RR_Calc.PriceIncreaseTable.GenerateTable(
                 _calc.Position.EntryPriceAvg, 
                 _calc.Position.LotSize,
-                _calc.Borrow.InterestCost
+                _calc.Borrow.InterestCost,
+                _calc.Position.Capital
                 ).OrderByDescending(o => o.PriceChangePercentage).ToList();
 
             dgvPriceDecreaseTable.DataSource = _RR_Calc.PriceDecreaseTable.GenerateTable(
                 _calc.Position.EntryPriceAvg,
                 _calc.Position.LotSize,
-                _calc.Borrow.InterestCost
+                _calc.Borrow.InterestCost,
+                _calc.Position.Capital
                 ).OrderByDescending(o => o.PriceChangePercentage).ToList();
 
 
@@ -86,13 +88,20 @@ namespace TradingTools
 
             // 3
             var rec = _RR_Calc.PriceIncreaseTable.GeneratePriceIncreaseRecord(
-                priceTarget, _calc.Position.EntryPriceAvg, 
-                _calc.Position.LotSize, _calc.Borrow.InterestCost);
+                priceTarget, 
+                _calc.Position.EntryPriceAvg, 
+                _calc.Position.LotSize, 
+                _calc.Borrow.InterestCost, 
+                _calc.Position.Capital);
 
             // 4
             if (rec == null) return;
             txtPriceIncreasePercentage.Text = rec.PriceChangePercentage.ToString();
             txtPriceIncrease_profit.Text = rec.PnL.ToString();
+            txtProfitPercentage.Text = rec.PnL_Percentage.ToString();
+
+            txtSpeculativePV.Text = _calc.GetSpeculativePositionValue(priceTarget).ToString();
+            txtAccountEquity.Text = _calc.GetSpeculativeAccountEquity(priceTarget).ToString();
     
         }
 
@@ -104,13 +113,17 @@ namespace TradingTools
 
             // 3
             var rec = _RR_Calc.PriceDecreaseTable.GeneratePriceDecreaseRecord(
-                priceTarget, _calc.Position.EntryPriceAvg, 
-                _calc.Position.LotSize, _calc.Borrow.InterestCost);
+                priceTarget, 
+                _calc.Position.EntryPriceAvg, 
+                _calc.Position.LotSize, 
+                _calc.Borrow.InterestCost, 
+                _calc.Position.Capital);
 
             // 4
             if (rec == null) return;
             txtPriceDecreasePercentage.Text = rec.PriceChangePercentage.ToString();
             txtPriceDecrease_loss.Text = rec.PnL.ToString();
+            txtLossPercentage.Text = rec.PnL_Percentage.ToString();
         }
 
     }
