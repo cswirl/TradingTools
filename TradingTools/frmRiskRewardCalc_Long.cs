@@ -50,7 +50,7 @@ namespace TradingTools
 
             txtBorrowAmount.Text = _calc.Borrow.Amount.ToString();
             txtInterestCost.Text = _calc.Borrow.InterestCost.ToString();
-            txtAccountEquity.Text = (_calc.Position.InitialPositionValue - _calc.Borrow.Amount).ToString();
+            txtPEP_AccountEquity.Text = (_calc.Position.InitialPositionValue - _calc.Borrow.Amount).ToString();
 
 
             //Closing Position
@@ -99,10 +99,6 @@ namespace TradingTools
             txtPriceIncreasePercentage.Text = rec.PriceChangePercentage.ToString();
             txtPriceIncrease_profit.Text = rec.PnL.ToString();
             txtProfitPercentage.Text = rec.PnL_Percentage.ToString();
-
-            txtSpeculativePV.Text = _calc.GetSpeculativePositionValue(priceTarget).ToString();
-            txtAccountEquity.Text = _calc.GetSpeculativeAccountEquity(priceTarget).ToString();
-    
         }
 
         private void btnPriceDecrease_custom_Click(object sender, EventArgs e)
@@ -126,5 +122,83 @@ namespace TradingTools
             txtLossPercentage.Text = rec.PnL_Percentage.ToString();
         }
 
+        private void updateRRR()
+        {
+            decimal profit;
+            decimal loss;
+            decimal? rrr = null;
+            if (Decimal.TryParse(txtPEP_Profit.Text, out profit) && Decimal.TryParse(txtLEP_Loss.Text, out loss))
+            {
+                rrr = profit / Math.Abs(loss);
+            }
+
+            // Display RRR
+            txtRRR.Text = "1 / " + (rrr == null ? "1" : rrr);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // 2
+            decimal priceTarget = Convert.ToDecimal(txtPEP_ExitPrice.Text);
+
+            // 3
+            var rec = _RR_Calc.PriceIncreaseTable.GeneratePriceIncreaseRecord(
+                priceTarget,
+                _calc.Position.EntryPriceAvg,
+                _calc.Position.LotSize,
+                _calc.Borrow.InterestCost,
+                _calc.Position.Capital);
+
+            // 4
+            if (rec == null) return;
+            txtPEP_sPV.Text = _calc.GetSpeculativePositionValue(priceTarget).ToString();
+            txtPEP_AccountEquity.Text = _calc.GetSpeculativeAccountEquity(priceTarget).ToString();
+
+            txtPEP_PCP.Text = rec.PriceChangePercentage.ToString();
+            txtPEP_RealProfit_percent.Text = rec.PnL_Percentage.ToString();
+            txtPEP_Profit.Text = rec.PnL.ToString();
+            txtPEP_TradingCost.Text = rec.TradingCost.ToString();
+
+            updateRRR();
+        }
+
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            // 2
+            decimal priceTarget = Convert.ToDecimal(txtLEP_ExitPrice.Text);
+
+            // 3
+            var rec = _RR_Calc.PriceDecreaseTable.GeneratePriceDecreaseRecord(
+                priceTarget,
+                _calc.Position.EntryPriceAvg,
+                _calc.Position.LotSize,
+                _calc.Borrow.InterestCost,
+                _calc.Position.Capital);
+
+            // 4
+            if (rec == null) return;
+            txtLEP_sPV.Text = _calc.GetSpeculativePositionValue(priceTarget).ToString();
+            txtLEP_AccountEquity.Text = _calc.GetSpeculativeAccountEquity(priceTarget).ToString();
+
+            txtLEP_PCP.Text = rec.PriceChangePercentage.ToString();
+            txtLEP_RealLoss_percent.Text = rec.PnL_Percentage.ToString();
+            txtLEP_Loss.Text = rec.PnL.ToString();
+            txtLEP_TradingCost.Text = rec.TradingCost.ToString();
+
+            updateRRR();
+        }
+
+        private void btnSetLEP_Click(object sender, EventArgs e)
+        {
+            txtLEP_ExitPrice.Text = txtPriceDecrease_target.Text;
+            btnLEP_compute.PerformClick();
+        }
+
+        private void btnSetPEP_Click(object sender, EventArgs e)
+        {
+            txtPEP_ExitPrice.Text = txtPriceIncrease_target.Text;
+            btnPEP_compute.PerformClick();
+        }
     }
 }
