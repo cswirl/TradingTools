@@ -9,7 +9,10 @@ namespace TradingTools.DAL
 {
     public class Configuration
     {
-        private const string connectionStringName = "TradingToolsConnectionString";
+        //private const string connectionStringName = "TradingToolsConnectionString";
+
+        private  const string connectionStringName = @"Server=X470\SQLEXPRESS;Database=TradingToolsDB;Trusted_Connection=True;";
+
         public static void SetConnectionString(string connectionString)
         {
             ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString = connectionString;

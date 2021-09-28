@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace TradingTools.Trunk.Entity
 {
     public class CalculatorState
     {
+        [Key]
+        public int Id { get; set; }
+        [Required]
         public decimal Capital { get; set; }
+        [Required]
         public decimal Leverage { get; set; }
+        [Required]
         public decimal EntryPriceAvg { get; set; }
         public int DayCount { get; set; }
         public decimal DailyInterestRate { get; set; }
@@ -19,6 +25,8 @@ namespace TradingTools.Trunk.Entity
         public string PEP_Note { get; set; }
         public decimal LEP_ExitPrice { get; set; }
         public string LEP_Note { get; set; }
+
+        [MaxLength(20)]
         public string Ticker { get; set; }
         public string Strategy { get; set; }
         public string Note { get; set; }
