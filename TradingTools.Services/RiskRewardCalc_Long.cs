@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using TradingTools.Trunk;
-
+using TradingTools.DAL;
+using TradingTools.Trunk.Entity;
 
 namespace TradingTools.Services
 {
     public class RiskRewardCalc_Long
-    {
+    {   
+        private RiskRewardCalc_Long_DAL _rrc_DAL;
+
         private PriceIncreaseTable _priceIncreaseTable;
         private PriceDecreaseTable _priceDecreaseTable;
 
@@ -15,8 +18,20 @@ namespace TradingTools.Services
 
         public RiskRewardCalc_Long()
         {
+            _rrc_DAL = new();
+
             _priceIncreaseTable = new();
             _priceDecreaseTable = new();
+        }
+
+        public void SaveState(CalculatorState calcState)
+        {
+            _rrc_DAL.SaveState(calcState);
+        }
+
+        public CalculatorState RetrieveState()
+        {
+            return _rrc_DAL.RetrieveState();
         }
     }
 

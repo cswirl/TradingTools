@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TradingTools.Trunk.Entity
 {
-    class CalculatorState
+    public class CalculatorState
     {
         public decimal Capital { get; set; }
         public decimal Leverage { get; set; }

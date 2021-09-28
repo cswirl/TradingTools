@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using TradingTools.Model;
 using TradingTools.Services;
 using TradingTools.Trunk;
+using TradingTools.Trunk.Entity;
 
 namespace TradingTools
 {
@@ -21,6 +22,12 @@ namespace TradingTools
         public frmRRC_Long()
         {
             InitializeComponent();
+
+            // Initalize UI controls
+            txtOpeningTradingFee_percent.Text = Constant.TRADING_FEE.ToString();
+            txtBorrowAmount.Text = "0";
+            nudDayCount.Value = 1;
+            nudDailyInterestRate.Value = Constant.DAILY_INTEREST_RATE;
         }
 
         private void btnReCalculate_Click(object sender, EventArgs e)
@@ -73,11 +80,7 @@ namespace TradingTools
 
         private void frmRRC_Long_Load(object sender, EventArgs e)
         {
-            // Initalize UI controls
-            txtOpeningTradingFee_percent.Text = Constant.TRADING_FEE.ToString();
-            txtBorrowAmount.Text = "0";
-            nudDayCount.Value = 1;
-            nudDailyInterestRate.Value = Constant.DAILY_INTEREST_RATE;
+            
         }
 
         private void btnPriceIncrease_custom_Click(object sender, EventArgs e)
@@ -199,6 +202,13 @@ namespace TradingTools
         {
             txtPEP_ExitPrice.Text = txtPriceIncrease_target.Text;
             btnPEP_compute.PerformClick();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            // Validate First - make sure its clean before calling SaveState
+
+            _RR_Calc.SaveState(new CalculatorState());
         }
     }
 }
