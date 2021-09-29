@@ -19,15 +19,14 @@ namespace TradingTools
         private RiskRewardCalc_Long _RR_Calc = new();
         private CalculationDetails _calc = new();
 
+        public RiskRewardCalcState State { get; set; } = RiskRewardCalcState.Empty;
+
         public frmRRC_Long()
         {
             InitializeComponent();
 
-            // Initalize UI controls
-            txtOpeningTradingFee_percent.Text = Constant.TRADING_FEE.ToString();
-            txtBorrowAmount.Text = "0";
-            nudDayCount.Value = 1;
-            nudDailyInterestRate.Value = Constant.DAILY_INTEREST_RATE;
+
+            
         }
 
         private void btnReCalculate_Click(object sender, EventArgs e)
@@ -80,7 +79,18 @@ namespace TradingTools
 
         private void frmRRC_Long_Load(object sender, EventArgs e)
         {
-            
+            if (State == RiskRewardCalcState.Empty)
+            {
+                // Initalize UI controls
+                txtOpeningTradingFee_percent.Text = Constant.TRADING_FEE.ToString();
+                txtBorrowAmount.Text = "0";
+                nudDayCount.Value = 1;
+                nudDailyInterestRate.Value = Constant.DAILY_INTEREST_RATE;
+            }
+            else if (State == RiskRewardCalcState.Loaded)
+            {
+
+            }
         }
 
         private void btnPriceIncrease_custom_Click(object sender, EventArgs e)

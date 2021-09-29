@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TradingTools.Trunk.Entity
 {
@@ -12,12 +13,14 @@ namespace TradingTools.Trunk.Entity
         [Key]
         public int Id { get; set; }
         [Required]
+        [Column(TypeName = "money")]
         public decimal Capital { get; set; }
         [Required]
         public decimal Leverage { get; set; }
         [Required]
         public decimal EntryPriceAvg { get; set; }
         public int DayCount { get; set; }
+        [Column(TypeName = "decimal(18, 5)")]
         public decimal DailyInterestRate { get; set; }
         public decimal PriceIncreaseTarget { get; set; }
         public decimal PriceDecreaseTarget { get; set; }
