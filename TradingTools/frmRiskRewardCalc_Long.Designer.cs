@@ -143,7 +143,7 @@ namespace TradingTools
             this.dgvPriceDecreaseTable = new System.Windows.Forms.DataGridView();
             this.panel3 = new System.Windows.Forms.Panel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusMessage = new System.Windows.Forms.ToolStripStatusLabel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
@@ -158,6 +158,7 @@ namespace TradingTools
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -221,7 +222,7 @@ namespace TradingTools
             this.panel2.Location = new System.Drawing.Point(0, 59);
             this.panel2.Name = "panel2";
             this.panel2.Padding = new System.Windows.Forms.Padding(15);
-            this.panel2.Size = new System.Drawing.Size(1456, 723);
+            this.panel2.Size = new System.Drawing.Size(1456, 787);
             this.panel2.TabIndex = 1;
             // 
             // splitContainer1
@@ -260,7 +261,7 @@ namespace TradingTools
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(1426, 693);
+            this.splitContainer1.Size = new System.Drawing.Size(1426, 757);
             this.splitContainer1.SplitterDistance = 851;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -269,7 +270,7 @@ namespace TradingTools
             this.label53.AutoSize = true;
             this.label53.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label53.ForeColor = System.Drawing.Color.SlateBlue;
-            this.label53.Location = new System.Drawing.Point(25, 301);
+            this.label53.Location = new System.Drawing.Point(25, 369);
             this.label53.Name = "label53";
             this.label53.Size = new System.Drawing.Size(132, 19);
             this.label53.TabIndex = 16;
@@ -287,7 +288,7 @@ namespace TradingTools
             this.groupBox5.Controls.Add(this.label47);
             this.groupBox5.Controls.Add(this.txtLEP_AccountEquity);
             this.groupBox5.Controls.Add(this.label48);
-            this.groupBox5.Location = new System.Drawing.Point(25, 514);
+            this.groupBox5.Location = new System.Drawing.Point(25, 587);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(783, 147);
             this.groupBox5.TabIndex = 15;
@@ -531,7 +532,7 @@ namespace TradingTools
             // 
             this.txtRRR.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.txtRRR.ForeColor = System.Drawing.Color.SlateBlue;
-            this.txtRRR.Location = new System.Drawing.Point(163, 298);
+            this.txtRRR.Location = new System.Drawing.Point(163, 366);
             this.txtRRR.Name = "txtRRR";
             this.txtRRR.ReadOnly = true;
             this.txtRRR.Size = new System.Drawing.Size(92, 25);
@@ -600,7 +601,7 @@ namespace TradingTools
             this.groupBox4.Controls.Add(this.label29);
             this.groupBox4.Controls.Add(this.txtPEP_AccountEquity);
             this.groupBox4.Controls.Add(this.label28);
-            this.groupBox4.Location = new System.Drawing.Point(25, 339);
+            this.groupBox4.Location = new System.Drawing.Point(25, 412);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(783, 147);
             this.groupBox4.TabIndex = 14;
@@ -991,6 +992,7 @@ namespace TradingTools
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnDelete);
             this.groupBox2.Controls.Add(this.txtStrategy);
             this.groupBox2.Controls.Add(this.txtNote);
             this.groupBox2.Controls.Add(this.label32);
@@ -1000,7 +1002,7 @@ namespace TradingTools
             this.groupBox2.Controls.Add(this.label30);
             this.groupBox2.Location = new System.Drawing.Point(395, 194);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(416, 135);
+            this.groupBox2.Size = new System.Drawing.Size(416, 194);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "SAVE STATE";
@@ -1010,15 +1012,15 @@ namespace TradingTools
             this.txtStrategy.Location = new System.Drawing.Point(19, 77);
             this.txtStrategy.Multiline = true;
             this.txtStrategy.Name = "txtStrategy";
-            this.txtStrategy.Size = new System.Drawing.Size(179, 45);
+            this.txtStrategy.Size = new System.Drawing.Size(179, 104);
             this.txtStrategy.TabIndex = 6;
             // 
             // txtNote
             // 
-            this.txtNote.Location = new System.Drawing.Point(226, 77);
+            this.txtNote.Location = new System.Drawing.Point(213, 77);
             this.txtNote.Multiline = true;
             this.txtNote.Name = "txtNote";
-            this.txtNote.Size = new System.Drawing.Size(179, 45);
+            this.txtNote.Size = new System.Drawing.Size(192, 104);
             this.txtNote.TabIndex = 5;
             // 
             // label32
@@ -1238,8 +1240,8 @@ namespace TradingTools
             this.splitContainer2.Panel2.Controls.Add(this.btnPriceDecrease_custom);
             this.splitContainer2.Panel2.Controls.Add(this.tableLayoutPanel4);
             this.splitContainer2.Panel2.Controls.Add(this.panel4);
-            this.splitContainer2.Size = new System.Drawing.Size(571, 693);
-            this.splitContainer2.SplitterDistance = 331;
+            this.splitContainer2.Size = new System.Drawing.Size(571, 757);
+            this.splitContainer2.SplitterDistance = 361;
             this.splitContainer2.TabIndex = 0;
             // 
             // btnSetPEP
@@ -1376,7 +1378,7 @@ namespace TradingTools
             // 
             this.panel5.Controls.Add(this.dgvPriceIncreaseTable);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel5.Location = new System.Drawing.Point(0, 84);
+            this.panel5.Location = new System.Drawing.Point(0, 114);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(571, 247);
             this.panel5.TabIndex = 0;
@@ -1553,7 +1555,7 @@ namespace TradingTools
             this.panel3.Controls.Add(this.statusStrip1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel3.ForeColor = System.Drawing.Color.Black;
-            this.panel3.Location = new System.Drawing.Point(0, 750);
+            this.panel3.Location = new System.Drawing.Point(0, 814);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1456, 32);
             this.panel3.TabIndex = 2;
@@ -1561,19 +1563,19 @@ namespace TradingTools
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
+            this.statusMessage});
             this.statusStrip1.Location = new System.Drawing.Point(0, 10);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1456, 22);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // toolStripStatusLabel1
+            // statusMessage
             // 
-            this.toolStripStatusLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(106, 17);
-            this.toolStripStatusLabel1.Text = "Status message . . .";
+            this.statusMessage.BackColor = System.Drawing.Color.Transparent;
+            this.statusMessage.Name = "statusMessage";
+            this.statusMessage.Size = new System.Drawing.Size(106, 17);
+            this.statusMessage.Text = "Status message . . .";
             // 
             // tableLayoutPanel2
             // 
@@ -1742,11 +1744,23 @@ namespace TradingTools
             this.label11.Text = "Interest Cost";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // btnDelete
+            // 
+            this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnDelete.ForeColor = System.Drawing.Color.Red;
+            this.btnDelete.Location = new System.Drawing.Point(213, 20);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(93, 34);
+            this.btnDelete.TabIndex = 7;
+            this.btnDelete.Text = "&DELETE";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // frmRRC_Long
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1456, 782);
+            this.ClientSize = new System.Drawing.Size(1456, 846);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -1865,7 +1879,7 @@ namespace TradingTools
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Label label30;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel statusMessage;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Button btnReCalculate;
         private System.Windows.Forms.Button btnPriceIncrease_custom;
@@ -1939,6 +1953,7 @@ namespace TradingTools
         private System.Windows.Forms.TextBox txtRRR;
         private System.Windows.Forms.Label label51;
         private System.Windows.Forms.TextBox txtPEP_PCP;
+        private System.Windows.Forms.Button btnDelete;
     }
 }
 

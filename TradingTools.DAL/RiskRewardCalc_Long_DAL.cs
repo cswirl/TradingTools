@@ -16,18 +16,29 @@ namespace TradingTools.DAL
             _dbContext = new();
         }
 
-        public void SaveState(CalculatorState calcState)
+        public List<CalculatorState> RetrieveList()
         {
-            // Use ApplicationDbContext here
-            _dbContext.CalculatorStates.Add(calcState);
-            _dbContext.SaveChanges();
 
+            return _dbContext.CalculatorStates.ToList();
         }
 
-        public CalculatorState RetrieveState()
+        public void Add(CalculatorState calculatorState)
         {
+            // Use ApplicationDbContext here
+            _dbContext.CalculatorStates.Add(calculatorState);
+            _dbContext.SaveChanges();
+        }
 
-            return new CalculatorState();
+        public void Update(CalculatorState calculatorState)
+        {
+            _dbContext.CalculatorStates.Update(calculatorState);
+            _dbContext.SaveChanges();
+        }
+
+        public void Delete(CalculatorState calculatorState)
+        {
+            _dbContext.CalculatorStates.Remove(calculatorState);
+            _dbContext.SaveChanges();
         }
     }
 }

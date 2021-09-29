@@ -24,14 +24,24 @@ namespace TradingTools.Services
             _priceDecreaseTable = new();
         }
 
-        public void SaveState(CalculatorState calcState)
+        public List<CalculatorState> RetrieveList()
         {
-            _rrc_DAL.SaveState(calcState);
+            return _rrc_DAL.RetrieveList();
         }
 
-        public CalculatorState RetrieveState()
+        public void Add(CalculatorState calculatorState)
         {
-            return _rrc_DAL.RetrieveState();
+            _rrc_DAL.Add(calculatorState);
+        }
+
+        public void Update(CalculatorState calculatorState)
+        {
+            _rrc_DAL.Update(calculatorState);
+        }
+
+        public void Delete(CalculatorState calculatorState)
+        {
+            _rrc_DAL.Delete(calculatorState);
         }
     }
 

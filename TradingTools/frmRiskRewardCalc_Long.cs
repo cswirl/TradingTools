@@ -18,8 +18,11 @@ namespace TradingTools
     {
         private RiskRewardCalc_Long _RR_Calc = new();
         private CalculationDetails _calc = new();
+        public CalculatorState CalculatorState { get; set; }
 
         public RiskRewardCalcState State { get; set; } = RiskRewardCalcState.Empty;
+
+
 
         public frmRRC_Long()
         {
@@ -81,6 +84,7 @@ namespace TradingTools
         {
             if (State == RiskRewardCalcState.Empty)
             {
+                CalculatorState = new();
                 // Initalize UI controls
                 txtOpeningTradingFee_percent.Text = Constant.TRADING_FEE.ToString();
                 txtBorrowAmount.Text = "0";
@@ -89,7 +93,45 @@ namespace TradingTools
             }
             else if (State == RiskRewardCalcState.Loaded)
             {
+                if (CalculatorState == null)
+                {
+                    statusMessage.Text = "CalculatorState instance was not forwarded.";
+                    MessageBox.Show( statusMessage.Text, "Error", MessageBoxButtons.OK);
+                    this.Close();
+                    return;
+                }
+                else
+                {
+                    // sys flow 1
+                    txtCapital.Text = CalculatorState.Capital.ToString();
+                    txtLeverage.Text = CalculatorState.Leverage.ToString();
+                    txtEntryPrice.Text = CalculatorState.EntryPriceAvg.ToString();
+                    nudDayCount.Value = CalculatorState.DayCount;
+                    nudDailyInterestRate.Value = CalculatorState.DailyInterestRate;
+                    btnReCalculate.PerformClick();
 
+                    // sys flow 2
+                    txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget.ToString();
+                    btnPriceIncrease_custom.PerformClick();
+                    txtPriceDecrease_target.Text = CalculatorState.PriceDecreaseTarget.ToString();
+                    btnPriceDecrease_custom.PerformClick();
+
+                    // sys flow 3
+                    txtPEP_ExitPrice.Text = CalculatorState.PEP_ExitPrice.ToString();
+                    txtPEP_Note.Text = CalculatorState.PEP_Note;
+                    btnPEP_compute.PerformClick();
+
+                    // sys flow
+                    txtLEP_ExitPrice.Text = CalculatorState.LEP_ExitPrice.ToString();
+                    txtLEP_Note.Text = CalculatorState.LEP_Note;
+                    btnLEP_compute.PerformClick();
+
+                    // Independent data
+                    txtTicker.Text = CalculatorState.Ticker;
+                    txtStrategy.Text = CalculatorState.Strategy;
+                    txtNote.Text = CalculatorState.Note;
+
+                }
             }
         }
 
@@ -217,26 +259,40 @@ namespace TradingTools
         private void btnSave_Click(object sender, EventArgs e)
         {
             // Todo: Validate First - make sure its clean before calling SaveState
-            // This object must maintain one instance of CalculatorState
-            var calc = new CalculatorState()
-            {
-                Capital = _calc.Position.Capital,
-                Leverage = _calc.Position.Leverage,
-                EntryPriceAvg = _calc.Position.EntryPriceAvg,
-                DayCount = _calc.Borrow.DayCount,
-                DailyInterestRate = _calc.Borrow.DailyInterestRate,
-                PriceIncreaseTarget = Convert.ToDecimal(txtPriceIncrease_target.Text),
-                PriceDecreaseTarget = Convert.ToDecimal(txtPriceDecrease_target.Text),
-                PEP_ExitPrice = Convert.ToDecimal(txtPEP_ExitPrice.Text),
-                PEP_Note = txtPEP_Note.Text,
-                LEP_ExitPrice = Convert.ToDecimal(txtLEP_ExitPrice.Text),
-                LEP_Note = txtLEP_Note.Text,
-                Ticker = txtTicker.Text,
-                Strategy = txtStrategy.Text,
-                Note = txtNote.Text
-            };
+            // Capture state
+            CalculatorState.Capital = _calc.Position.Capital;
+            CalculatorState.Leverage = _calc.Position.Leverage;
+            CalculatorState.EntryPriceAvg = _calc.Position.EntryPriceAvg;
+            CalculatorState.DayCount = _calc.Borrow.DayCount;
+            CalculatorState.DailyInterestRate = _calc.Borrow.DailyInterestRate;
+            CalculatorState.PriceIncreaseTarget = Convert.ToDecimal(txtPriceIncrease_target.Text);
+            CalculatorState.PriceDecreaseTarget = Convert.ToDecimal(txtPriceDecrease_target.Text);
+            CalculatorState.PEP_ExitPrice = Convert.ToDecimal(txtPEP_ExitPrice.Text);
+            CalculatorState.PEP_Note = txtPEP_Note.Text;
+            CalculatorState.LEP_ExitPrice = Convert.ToDecimal(txtLEP_ExitPrice.Text);
+            CalculatorState.LEP_Note = txtLEP_Note.Text;
+            CalculatorState.Ticker = txtTicker.Text;
+            CalculatorState.Strategy = txtStrategy.Text;
+            CalculatorState.Note = txtNote.Text;
 
-            _RR_Calc.SaveState(calc);
+            if (State == RiskRewardCalcState.Empty)
+            {
+                _RR_Calc.Add(CalculatorState);
+            }
+            else if (State == RiskRewardCalcState.Loaded)
+            {
+                _RR_Calc.Update(CalculatorState);
+            }
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            DialogResult objDialog = MessageBox.Show("Are you sure you want to DELETE this State", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (objDialog == DialogResult.Yes)
+            {
+                _RR_Calc.Delete(CalculatorState);
+            }
+            
         }
     }
 }
