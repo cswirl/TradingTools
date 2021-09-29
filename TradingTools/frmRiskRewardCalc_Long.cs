@@ -206,9 +206,27 @@ namespace TradingTools
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // Validate First - make sure its clean before calling SaveState
+            // Todo: Validate First - make sure its clean before calling SaveState
+            // This object must maintain one instance of CalculatorState
+            var calc = new CalculatorState()
+            {
+                Capital = _calc.Position.Capital,
+                Leverage = _calc.Position.Leverage,
+                EntryPriceAvg = _calc.Position.EntryPriceAvg,
+                DayCount = _calc.Borrow.DayCount,
+                DailyInterestRate = _calc.Borrow.DailyInterestRate,
+                PriceIncreaseTarget = Convert.ToDecimal(txtPriceIncrease_target.Text),
+                PriceDecreaseTarget = Convert.ToDecimal(txtPriceDecrease_target.Text),
+                PEP_ExitPrice = Convert.ToDecimal(txtPEP_ExitPrice.Text),
+                PEP_Note = txtPEP_Note.Text,
+                LEP_ExitPrice = Convert.ToDecimal(txtLEP_ExitPrice.Text),
+                LEP_Note = txtLEP_Note.Text,
+                Ticker = txtTicker.Text,
+                Strategy = txtStrategy.Text,
+                Note = txtNote.Text
+            };
 
-            _RR_Calc.SaveState(new CalculatorState());
+            _RR_Calc.SaveState(calc);
         }
     }
 }
