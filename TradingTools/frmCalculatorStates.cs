@@ -14,17 +14,17 @@ namespace TradingTools
 {
     public partial class frmCalculatorStates : Form
     {
-        private RiskRewardCalc_Long _rrc_serv = new();
+        private CalculatorState_Serv _calc_serv = new();
 
-        private BindingSource _binding = new();
+        private BindingList<CalculatorState> _bindingList;
 
         public frmCalculatorStates()
         {
             InitializeComponent();
 
             // As of now, the binding source is only useful for adding new state object - i need to access the internal list of DbContext DbSet
-            _binding.DataSource = _rrc_serv.RetrieveList();
-            dgvCalculatorStates.DataSource = _binding;
+            _bindingList = _calc_serv.GetBindingList();
+            dgvCalculatorStates.DataSource = _bindingList;
         }
 
         private void frmCalculatorStates_Load(object sender, EventArgs e)
@@ -61,9 +61,31 @@ namespace TradingTools
         }
 
         // temporary fix - an event listener sounds perfect for this - maybe a queueu
-        public void AddNewCalcStateObject(CalculatorState calc)
+        // Return True if no error
+        public bool CalculatorState_Add(CalculatorState calculatorState)
         {
-            _binding.Add(calc);
+            _bindingList.Add(calculatorState);
+            // This one line code must persist the new object in the database
+            _calc_serv.SaveChanges();
+
+            return true;
+        }
+
+        public bool CalculatorState_Update()
+        {
+            _calc_serv.SaveChanges();
+            dgvCalculatorStates.Invalidate();       // Refereshes the DataGridView
+
+            return true;
+        }
+
+        public bool CalculatorState_Delete(CalculatorState calculatorState)
+        {
+            _bindingList.Remove(calculatorState);
+            // This one line code must persist the new object in the database
+            _calc_serv.SaveChanges();
+
+            return true;
         }
     }
 }

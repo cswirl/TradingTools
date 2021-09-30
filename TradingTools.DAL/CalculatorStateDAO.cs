@@ -8,25 +8,30 @@ using TradingTools.Trunk.Entity;
 
 namespace TradingTools.DAL
 {
-    public class RiskRewardCalc_Long_DAL
+    public class CalculatorStateDAO
     {
         private TradingToolsDbContext _dbContext;
 
-        public RiskRewardCalc_Long_DAL()
+        public CalculatorStateDAO()
         {
             _dbContext = new();
         }
 
-        public List<CalculatorState> RetrieveList()
-        {
+        //public List<CalculatorState> RetrieveList()
+        //{
 
-            return _dbContext.CalculatorStates.ToList();
-        }
+        //    return _dbContext.CalculatorStates.ToList();
+        //}
 
         public BindingList<CalculatorState> RetrieveBindingList()
         {
-
+            Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.Load(_dbContext.CalculatorStates);
             return _dbContext.CalculatorStates.Local.ToBindingList();
+        }
+
+        public void SaveChanges()
+        {
+            _dbContext.SaveChanges();
         }
 
         public void Add(CalculatorState calculatorState)

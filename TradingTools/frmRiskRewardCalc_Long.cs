@@ -16,20 +16,17 @@ namespace TradingTools
 {
     public partial class frmRiskRewardCalc_Long : Form
     {
-        private RiskRewardCalc_Long _rrc_serv = new();
+        private RiskRewardCalc_Serv _rrc_serv = new();
         private CalculationDetails _calc = new();
-        public CalculatorState CalculatorState { get; set; }
 
         public RiskRewardCalcState State { get; set; } = RiskRewardCalcState.Empty;
 
-
+        public CalculatorState CalculatorState { get; set; }
 
         public frmRiskRewardCalc_Long()
         {
             InitializeComponent();
-
-
-            
+  
         }
 
         private void btnReCalculate_Click(object sender, EventArgs e)
@@ -82,9 +79,15 @@ namespace TradingTools
 
         private void frmRRC_Long_Load(object sender, EventArgs e)
         {
+            callOnLoad();
+        }
+
+        private void callOnLoad()
+        {
             if (State == RiskRewardCalcState.Empty)
             {
                 CalculatorState = new();
+
                 // Initalize UI controls
                 txtOpeningTradingFee_percent.Text = Constant.TRADING_FEE.ToString();
                 txtBorrowAmount.Text = "0";
@@ -96,7 +99,7 @@ namespace TradingTools
                 if (CalculatorState == null)
                 {
                     statusMessage.Text = "CalculatorState instance was not forwarded.";
-                    MessageBox.Show( statusMessage.Text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    MessageBox.Show(statusMessage.Text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     this.Close();
                     return;
                 }
@@ -275,28 +278,54 @@ namespace TradingTools
             CalculatorState.Strategy = txtStrategy.Text;
             CalculatorState.Note = txtNote.Text;
 
+            var o = (frmCalculatorStates)this.Owner;
             if (State == RiskRewardCalcState.Empty)
             {
-                _rrc_serv.Add(CalculatorState);
-
-                // Update the Dashboard List
-                var o = (frmCalculatorStates)this.Owner;
-                o.AddNewCalcStateObject(CalculatorState);
+                // Add to the Owner's List
+                if (o.CalculatorState_Add(CalculatorState))
+                {
+                    State = RiskRewardCalcState.Loaded;
+                    statusMessage.Text = "State save successfully.";
+                }
+                else statusMessage.Text = "Saving state failed."; 
             }
             else if (State == RiskRewardCalcState.Loaded)
             {
-                _rrc_serv.Update(CalculatorState);
+                if (o.CalculatorState_Update())
+                {
+                    statusMessage.Text = "State updated successfully.";
+                }
+                else statusMessage.Text = "Updating state failed.";
             }
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            DialogResult objDialog = MessageBox.Show("Are you sure you want to DELETE this State", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult objDialog = MessageBox.Show("Are you sure you want to DELETE this State", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (objDialog == DialogResult.Yes)
             {
-                _rrc_serv.Delete(CalculatorState);
+                var o = (frmCalculatorStates)this.Owner;
+                // Remove from the Owner's List
+                if (o.CalculatorState_Delete(CalculatorState))
+                {
+                    statusMessage.Text = "State was deleted successfully. \n\nThis form will now close.";
+                    MessageBox.Show(statusMessage.Text, "Delete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    resetFromEmpty();
+                }
+                else
+                {
+                    statusMessage.Text = "Deleting state failed.";
+                    MessageBox.Show(statusMessage.Text, "Delete", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            
+
+
+        }
+
+        private void resetFromEmpty()
+        {
+            // just close the form
+            this.Close();
         }
     }
 }

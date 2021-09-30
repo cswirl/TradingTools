@@ -6,42 +6,18 @@ using TradingTools.Trunk.Entity;
 
 namespace TradingTools.Services
 {
-    public class RiskRewardCalc_Long
+    public class RiskRewardCalc_Serv
     {   
-        private RiskRewardCalc_Long_DAL _rrc_DAL;
-
         private PriceIncreaseTable _priceIncreaseTable;
         private PriceDecreaseTable _priceDecreaseTable;
 
         public PriceIncreaseTable PriceIncreaseTable { get { return _priceIncreaseTable; } }
         public PriceDecreaseTable PriceDecreaseTable { get { return _priceDecreaseTable; } }
 
-        public RiskRewardCalc_Long()
+        public RiskRewardCalc_Serv()
         {
-            _rrc_DAL = new();
-
             _priceIncreaseTable = new();
             _priceDecreaseTable = new();
-        }
-
-        public List<CalculatorState> RetrieveList()
-        {
-            return _rrc_DAL.RetrieveList();
-        }
-
-        public void Add(CalculatorState calculatorState)
-        {
-            _rrc_DAL.Add(calculatorState);
-        }
-
-        public void Update(CalculatorState calculatorState)
-        {
-            _rrc_DAL.Update(calculatorState);
-        }
-
-        public void Delete(CalculatorState calculatorState)
-        {
-            _rrc_DAL.Delete(calculatorState);
         }
     }
 
