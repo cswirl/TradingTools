@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,12 @@ namespace TradingTools.DAL
         {
 
             return _dbContext.CalculatorStates.ToList();
+        }
+
+        public BindingList<CalculatorState> RetrieveBindingList()
+        {
+
+            return _dbContext.CalculatorStates.Local.ToBindingList();
         }
 
         public void Add(CalculatorState calculatorState)

@@ -14,9 +14,9 @@ using TradingTools.Trunk.Entity;
 
 namespace TradingTools
 {
-    public partial class frmRRC_Long : Form
+    public partial class frmRiskRewardCalc_Long : Form
     {
-        private RiskRewardCalc_Long _RR_Calc = new();
+        private RiskRewardCalc_Long _rrc_serv = new();
         private CalculationDetails _calc = new();
         public CalculatorState CalculatorState { get; set; }
 
@@ -24,7 +24,7 @@ namespace TradingTools
 
 
 
-        public frmRRC_Long()
+        public frmRiskRewardCalc_Long()
         {
             InitializeComponent();
 
@@ -37,7 +37,7 @@ namespace TradingTools
             
             // step 2: Collect data from Receptors
             _calc.Position.Capital = Convert.ToDecimal(txtCapital.Text);
-            _calc.Position.Leverage = Convert.ToInt32(txtLeverage.Text);
+            _calc.Position.Leverage = Convert.ToDecimal(txtLeverage.Text);
             _calc.Position.EntryPriceAvg = Convert.ToDecimal(txtEntryPrice.Text);
 
 
@@ -63,14 +63,14 @@ namespace TradingTools
 
 
             //Closing Position
-            dgvPriceIncreaseTable.DataSource = _RR_Calc.PriceIncreaseTable.GenerateTable(
+            dgvPriceIncreaseTable.DataSource = _rrc_serv.PriceIncreaseTable.GenerateTable(
                 _calc.Position.EntryPriceAvg, 
                 _calc.Position.LotSize,
                 _calc.Borrow.InterestCost,
                 _calc.Position.Capital
                 ).OrderByDescending(o => o.PriceChangePercentage).ToList();
 
-            dgvPriceDecreaseTable.DataSource = _RR_Calc.PriceDecreaseTable.GenerateTable(
+            dgvPriceDecreaseTable.DataSource = _rrc_serv.PriceDecreaseTable.GenerateTable(
                 _calc.Position.EntryPriceAvg,
                 _calc.Position.LotSize,
                 _calc.Borrow.InterestCost,
@@ -96,7 +96,7 @@ namespace TradingTools
                 if (CalculatorState == null)
                 {
                     statusMessage.Text = "CalculatorState instance was not forwarded.";
-                    MessageBox.Show( statusMessage.Text, "Error", MessageBoxButtons.OK);
+                    MessageBox.Show( statusMessage.Text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     this.Close();
                     return;
                 }
@@ -142,7 +142,7 @@ namespace TradingTools
             //_position.EntryPriceAvg = Convert.ToDecimal(txtEntryPrice.Text);
 
             // 3
-            var rec = _RR_Calc.PriceIncreaseTable.GeneratePriceIncreaseRecord(
+            var rec = _rrc_serv.PriceIncreaseTable.GeneratePriceIncreaseRecord(
                 priceTarget, 
                 _calc.Position.EntryPriceAvg, 
                 _calc.Position.LotSize, 
@@ -163,7 +163,7 @@ namespace TradingTools
             //_position.EntryPriceAvg = Convert.ToDecimal(txtEntryPrice.Text);
 
             // 3
-            var rec = _RR_Calc.PriceDecreaseTable.GeneratePriceDecreaseRecord(
+            var rec = _rrc_serv.PriceDecreaseTable.GeneratePriceDecreaseRecord(
                 priceTarget, 
                 _calc.Position.EntryPriceAvg, 
                 _calc.Position.LotSize, 
@@ -197,7 +197,7 @@ namespace TradingTools
             decimal priceTarget = Convert.ToDecimal(txtPEP_ExitPrice.Text);
 
             // 3
-            var rec = _RR_Calc.PriceIncreaseTable.GeneratePriceIncreaseRecord(
+            var rec = _rrc_serv.PriceIncreaseTable.GeneratePriceIncreaseRecord(
                 priceTarget,
                 _calc.Position.EntryPriceAvg,
                 _calc.Position.LotSize,
@@ -224,7 +224,7 @@ namespace TradingTools
             decimal priceTarget = Convert.ToDecimal(txtLEP_ExitPrice.Text);
 
             // 3
-            var rec = _RR_Calc.PriceDecreaseTable.GeneratePriceDecreaseRecord(
+            var rec = _rrc_serv.PriceDecreaseTable.GeneratePriceDecreaseRecord(
                 priceTarget,
                 _calc.Position.EntryPriceAvg,
                 _calc.Position.LotSize,
@@ -277,11 +277,15 @@ namespace TradingTools
 
             if (State == RiskRewardCalcState.Empty)
             {
-                _RR_Calc.Add(CalculatorState);
+                _rrc_serv.Add(CalculatorState);
+
+                // Update the Dashboard List
+                var o = (frmCalculatorStates)this.Owner;
+                o.AddNewCalcStateObject(CalculatorState);
             }
             else if (State == RiskRewardCalcState.Loaded)
             {
-                _RR_Calc.Update(CalculatorState);
+                _rrc_serv.Update(CalculatorState);
             }
         }
 
@@ -290,7 +294,7 @@ namespace TradingTools
             DialogResult objDialog = MessageBox.Show("Are you sure you want to DELETE this State", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (objDialog == DialogResult.Yes)
             {
-                _RR_Calc.Delete(CalculatorState);
+                _rrc_serv.Delete(CalculatorState);
             }
             
         }

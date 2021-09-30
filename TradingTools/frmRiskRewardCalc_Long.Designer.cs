@@ -1,7 +1,7 @@
 ﻿
 namespace TradingTools
 {
-    partial class frmRRC_Long
+    partial class frmRiskRewardCalc_Long
     {
         /// <summary>
         ///  Required designer variable.
@@ -95,6 +95,7 @@ namespace TradingTools
             this.nudDayCount = new System.Windows.Forms.NumericUpDown();
             this.btnReCalculate = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.txtStrategy = new System.Windows.Forms.TextBox();
             this.txtNote = new System.Windows.Forms.TextBox();
             this.label32 = new System.Windows.Forms.Label();
@@ -158,7 +159,6 @@ namespace TradingTools
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.btnDelete = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -201,7 +201,7 @@ namespace TradingTools
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1456, 59);
+            this.panel1.Size = new System.Drawing.Size(1456, 37);
             this.panel1.TabIndex = 0;
             // 
             // label2
@@ -209,7 +209,7 @@ namespace TradingTools
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(652, 14);
+            this.label2.Location = new System.Drawing.Point(652, 3);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(153, 30);
             this.label2.TabIndex = 1;
@@ -219,10 +219,10 @@ namespace TradingTools
             // 
             this.panel2.Controls.Add(this.splitContainer1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 59);
+            this.panel2.Location = new System.Drawing.Point(0, 37);
             this.panel2.Name = "panel2";
             this.panel2.Padding = new System.Windows.Forms.Padding(15);
-            this.panel2.Size = new System.Drawing.Size(1456, 787);
+            this.panel2.Size = new System.Drawing.Size(1456, 809);
             this.panel2.TabIndex = 1;
             // 
             // splitContainer1
@@ -261,7 +261,7 @@ namespace TradingTools
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(1426, 757);
+            this.splitContainer1.Size = new System.Drawing.Size(1426, 779);
             this.splitContainer1.SplitterDistance = 851;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -270,7 +270,7 @@ namespace TradingTools
             this.label53.AutoSize = true;
             this.label53.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label53.ForeColor = System.Drawing.Color.SlateBlue;
-            this.label53.Location = new System.Drawing.Point(25, 369);
+            this.label53.Location = new System.Drawing.Point(34, 356);
             this.label53.Name = "label53";
             this.label53.Size = new System.Drawing.Size(132, 19);
             this.label53.TabIndex = 16;
@@ -288,16 +288,16 @@ namespace TradingTools
             this.groupBox5.Controls.Add(this.label47);
             this.groupBox5.Controls.Add(this.txtLEP_AccountEquity);
             this.groupBox5.Controls.Add(this.label48);
-            this.groupBox5.Location = new System.Drawing.Point(25, 587);
+            this.groupBox5.Location = new System.Drawing.Point(25, 582);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(783, 147);
+            this.groupBox5.Size = new System.Drawing.Size(812, 174);
             this.groupBox5.TabIndex = 15;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "LOSS EXIT PLAN";
             // 
             // btnLEP_compute
             // 
-            this.btnLEP_compute.Location = new System.Drawing.Point(705, 15);
+            this.btnLEP_compute.Location = new System.Drawing.Point(731, 15);
             this.btnLEP_compute.Name = "btnLEP_compute";
             this.btnLEP_compute.Size = new System.Drawing.Size(75, 23);
             this.btnLEP_compute.TabIndex = 11;
@@ -434,10 +434,11 @@ namespace TradingTools
             // 
             // txtLEP_Note
             // 
-            this.txtLEP_Note.Location = new System.Drawing.Point(514, 44);
+            this.txtLEP_Note.Location = new System.Drawing.Point(476, 44);
             this.txtLEP_Note.Multiline = true;
             this.txtLEP_Note.Name = "txtLEP_Note";
-            this.txtLEP_Note.Size = new System.Drawing.Size(261, 84);
+            this.txtLEP_Note.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtLEP_Note.Size = new System.Drawing.Size(330, 124);
             this.txtLEP_Note.TabIndex = 5;
             // 
             // label45
@@ -462,7 +463,7 @@ namespace TradingTools
             // label46
             // 
             this.label46.AutoSize = true;
-            this.label46.Location = new System.Drawing.Point(514, 26);
+            this.label46.Location = new System.Drawing.Point(476, 26);
             this.label46.Name = "label46";
             this.label46.Size = new System.Drawing.Size(33, 15);
             this.label46.TabIndex = 5;
@@ -532,7 +533,7 @@ namespace TradingTools
             // 
             this.txtRRR.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.txtRRR.ForeColor = System.Drawing.Color.SlateBlue;
-            this.txtRRR.Location = new System.Drawing.Point(163, 366);
+            this.txtRRR.Location = new System.Drawing.Point(172, 353);
             this.txtRRR.Name = "txtRRR";
             this.txtRRR.ReadOnly = true;
             this.txtRRR.Size = new System.Drawing.Size(92, 25);
@@ -601,16 +602,16 @@ namespace TradingTools
             this.groupBox4.Controls.Add(this.label29);
             this.groupBox4.Controls.Add(this.txtPEP_AccountEquity);
             this.groupBox4.Controls.Add(this.label28);
-            this.groupBox4.Location = new System.Drawing.Point(25, 412);
+            this.groupBox4.Location = new System.Drawing.Point(25, 394);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(783, 147);
+            this.groupBox4.Size = new System.Drawing.Size(812, 182);
             this.groupBox4.TabIndex = 14;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "PROFIT EXIT PLAN";
             // 
             // btnPEP_compute
             // 
-            this.btnPEP_compute.Location = new System.Drawing.Point(705, 15);
+            this.btnPEP_compute.Location = new System.Drawing.Point(731, 15);
             this.btnPEP_compute.Name = "btnPEP_compute";
             this.btnPEP_compute.Size = new System.Drawing.Size(75, 23);
             this.btnPEP_compute.TabIndex = 11;
@@ -747,10 +748,11 @@ namespace TradingTools
             // 
             // txtPEP_Note
             // 
-            this.txtPEP_Note.Location = new System.Drawing.Point(514, 44);
+            this.txtPEP_Note.Location = new System.Drawing.Point(476, 44);
             this.txtPEP_Note.Multiline = true;
             this.txtPEP_Note.Name = "txtPEP_Note";
-            this.txtPEP_Note.Size = new System.Drawing.Size(261, 84);
+            this.txtPEP_Note.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtPEP_Note.Size = new System.Drawing.Size(330, 119);
             this.txtPEP_Note.TabIndex = 5;
             // 
             // label27
@@ -775,7 +777,7 @@ namespace TradingTools
             // label41
             // 
             this.label41.AutoSize = true;
-            this.label41.Location = new System.Drawing.Point(514, 26);
+            this.label41.Location = new System.Drawing.Point(476, 23);
             this.label41.Name = "label41";
             this.label41.Size = new System.Drawing.Size(33, 15);
             this.label41.TabIndex = 5;
@@ -850,7 +852,7 @@ namespace TradingTools
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.tableLayoutPanel7);
-            this.groupBox3.Location = new System.Drawing.Point(576, 19);
+            this.groupBox3.Location = new System.Drawing.Point(599, 19);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(238, 158);
             this.groupBox3.TabIndex = 10;
@@ -1000,27 +1002,41 @@ namespace TradingTools
             this.groupBox2.Controls.Add(this.label31);
             this.groupBox2.Controls.Add(this.btnSave);
             this.groupBox2.Controls.Add(this.label30);
-            this.groupBox2.Location = new System.Drawing.Point(395, 194);
+            this.groupBox2.Location = new System.Drawing.Point(333, 194);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(416, 194);
+            this.groupBox2.Size = new System.Drawing.Size(504, 194);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "SAVE STATE";
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnDelete.ForeColor = System.Drawing.Color.Red;
+            this.btnDelete.Location = new System.Drawing.Point(306, 20);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(93, 34);
+            this.btnDelete.TabIndex = 7;
+            this.btnDelete.Text = "&DELETE";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // txtStrategy
             // 
             this.txtStrategy.Location = new System.Drawing.Point(19, 77);
             this.txtStrategy.Multiline = true;
             this.txtStrategy.Name = "txtStrategy";
-            this.txtStrategy.Size = new System.Drawing.Size(179, 104);
+            this.txtStrategy.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtStrategy.Size = new System.Drawing.Size(240, 104);
             this.txtStrategy.TabIndex = 6;
             // 
             // txtNote
             // 
-            this.txtNote.Location = new System.Drawing.Point(213, 77);
+            this.txtNote.Location = new System.Drawing.Point(272, 77);
             this.txtNote.Multiline = true;
             this.txtNote.Name = "txtNote";
-            this.txtNote.Size = new System.Drawing.Size(192, 104);
+            this.txtNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtNote.Size = new System.Drawing.Size(224, 104);
             this.txtNote.TabIndex = 5;
             // 
             // label32
@@ -1036,14 +1052,14 @@ namespace TradingTools
             // 
             this.txtTicker.Location = new System.Drawing.Point(94, 27);
             this.txtTicker.Name = "txtTicker";
-            this.txtTicker.Size = new System.Drawing.Size(104, 23);
+            this.txtTicker.Size = new System.Drawing.Size(108, 23);
             this.txtTicker.TabIndex = 4;
             this.txtTicker.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label31
             // 
             this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(226, 59);
+            this.label31.Location = new System.Drawing.Point(272, 59);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(33, 15);
             this.label31.TabIndex = 5;
@@ -1052,7 +1068,7 @@ namespace TradingTools
             // btnSave
             // 
             this.btnSave.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnSave.Location = new System.Drawing.Point(312, 20);
+            this.btnSave.Location = new System.Drawing.Point(405, 20);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(93, 34);
             this.btnSave.TabIndex = 6;
@@ -1098,7 +1114,7 @@ namespace TradingTools
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.tableLayoutPanel5);
-            this.groupBox1.Location = new System.Drawing.Point(353, 20);
+            this.groupBox1.Location = new System.Drawing.Point(333, 20);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(202, 157);
             this.groupBox1.TabIndex = 2;
@@ -1240,8 +1256,8 @@ namespace TradingTools
             this.splitContainer2.Panel2.Controls.Add(this.btnPriceDecrease_custom);
             this.splitContainer2.Panel2.Controls.Add(this.tableLayoutPanel4);
             this.splitContainer2.Panel2.Controls.Add(this.panel4);
-            this.splitContainer2.Size = new System.Drawing.Size(571, 757);
-            this.splitContainer2.SplitterDistance = 361;
+            this.splitContainer2.Size = new System.Drawing.Size(571, 779);
+            this.splitContainer2.SplitterDistance = 370;
             this.splitContainer2.TabIndex = 0;
             // 
             // btnSetPEP
@@ -1378,7 +1394,7 @@ namespace TradingTools
             // 
             this.panel5.Controls.Add(this.dgvPriceIncreaseTable);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel5.Location = new System.Drawing.Point(0, 114);
+            this.panel5.Location = new System.Drawing.Point(0, 123);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(571, 247);
             this.panel5.TabIndex = 0;
@@ -1744,19 +1760,7 @@ namespace TradingTools
             this.label11.Text = "Interest Cost";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // btnDelete
-            // 
-            this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnDelete.ForeColor = System.Drawing.Color.Red;
-            this.btnDelete.Location = new System.Drawing.Point(213, 20);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(93, 34);
-            this.btnDelete.TabIndex = 7;
-            this.btnDelete.Text = "&DELETE";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.button1_Click_1);
-            // 
-            // frmRRC_Long
+            // frmRiskRewardCalc_Long
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -1764,7 +1768,7 @@ namespace TradingTools
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Name = "frmRRC_Long";
+            this.Name = "frmRiskRewardCalc_Long";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Risk Reward Calculator";
             this.Load += new System.EventHandler(this.frmRRC_Long_Load);
