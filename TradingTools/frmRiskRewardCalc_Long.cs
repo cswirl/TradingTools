@@ -84,12 +84,14 @@ namespace TradingTools
 
         private void callOnLoad()
         {
+            // State independent controls
+            txtOpeningTradingFee_percent.Text = Constant.TRADING_FEE.ToString();
+
             if (State == RiskRewardCalcState.Empty)
             {
                 CalculatorState = new();
 
                 // Initalize UI controls
-                txtOpeningTradingFee_percent.Text = Constant.TRADING_FEE.ToString();
                 txtBorrowAmount.Text = "0";
                 nudDayCount.Value = 1;
                 nudDailyInterestRate.Value = Constant.DAILY_INTEREST_RATE;
