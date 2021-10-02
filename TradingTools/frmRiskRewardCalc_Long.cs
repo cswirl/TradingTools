@@ -11,6 +11,7 @@ using TradingTools.Model;
 using TradingTools.Services;
 using TradingTools.Trunk;
 using TradingTools.Trunk.Entity;
+using TradingTools.Trunk.Validation;
 
 namespace TradingTools
 {
@@ -29,8 +30,30 @@ namespace TradingTools
   
         }
 
+       private bool calculate_main_validated()
+        {
+            if (string.IsNullOrEmpty(txtCapital.Text) || string.IsNullOrEmpty(txtLeverage.Text) || string.IsNullOrEmpty(txtEntryPrice.Text))
+            {
+                return false;
+            }
+
+            return true;
+        }
         private void btnReCalculate_Click(object sender, EventArgs e)
         {
+            //if (!ValidateChildren(ValidationConstraints.Enabled))
+            //{
+            //    statusMessage.Text = "Please fill-up the required data";
+            //    MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            //    return;
+            //}
+
+            if (!calculate_main_validated())
+            {
+                statusMessage.Text = "Please fill-up the required data";
+                MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
             
             // step 2: Collect data from Receptors
             _calc.Position.Capital = Convert.ToDecimal(txtCapital.Text);
@@ -264,6 +287,7 @@ namespace TradingTools
         private void btnSave_Click(object sender, EventArgs e)
         {
             // Todo: Validate First - make sure its clean before calling SaveState
+            decimal def_out;
             // Capture state
             CalculatorState.Capital = _calc.Position.Capital;
             CalculatorState.Leverage = _calc.Position.Leverage;
@@ -328,6 +352,97 @@ namespace TradingTools
         {
             // just close the form
             this.Close();
+        }
+
+        private void TextBox_Decimal_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+                (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+
+            // only allow one decimal point
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void TextBox_Numeric_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void TextBox_Money_Validating(object sender, CancelEventArgs e)
+        {
+            var tb = (TextBox)sender;
+            string msg;
+
+            if(!Format.isMoney(tb.Text, out msg))
+            {
+                //e.Cancel = true;
+                errorProvider1.SetError(tb, msg);
+            }
+            else
+            {
+                e.Cancel = false;
+                errorProvider1.SetError(tb, null);
+            }
+        }
+
+        private void TextBox_Integer_Validating(object sender, CancelEventArgs e)
+        {
+            var tb = (TextBox)sender;
+            string msg;
+
+            if (!Format.isInteger(tb.Text, out msg))
+            {
+                //e.Cancel = true;
+                errorProvider1.SetError(tb, msg);
+            }
+            else
+            {
+                e.Cancel = false;
+                errorProvider1.SetError(tb, null);
+            }
+        }
+
+        private void TextBox_Decimal_Validating(object sender, CancelEventArgs e)
+        {
+            var tb = (TextBox)sender;
+            string msg;
+
+            if (!Format.isDecimal(tb.Text, out msg))
+            {
+                //e.Cancel = true;
+                errorProvider1.SetError(tb, msg);
+            }
+            else
+            {
+                e.Cancel = false;
+                errorProvider1.SetError(tb, null);
+            }
+        }
+
+        private void frmRiskRewardCalc_Long_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (AutoValidate != AutoValidate.Disable)
+            {
+                AutoValidate = AutoValidate.Disable;
+                this.Close();
+
+                //DialogResult objDialog = MessageBox.Show("Some data are missing. \n\nAre you sure you want to close this form?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                //if (objDialog == DialogResult.Yes)
+                //{
+                //    AutoValidate = AutoValidate.Disable;
+                //    this.Close();
+                //}
+            }
+            
         }
     }
 }

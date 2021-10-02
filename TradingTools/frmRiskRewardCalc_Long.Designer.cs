@@ -29,6 +29,7 @@ namespace TradingTools
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -159,6 +160,7 @@ namespace TradingTools
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -192,6 +194,7 @@ namespace TradingTools
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
             this.tableLayoutPanel9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -476,6 +479,7 @@ namespace TradingTools
             this.txtLEP_ExitPrice.Size = new System.Drawing.Size(92, 23);
             this.txtLEP_ExitPrice.TabIndex = 7;
             this.txtLEP_ExitPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtLEP_ExitPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
             // 
             // label47
             // 
@@ -513,18 +517,20 @@ namespace TradingTools
             this.txtLeverage.ForeColor = System.Drawing.Color.Red;
             this.txtLeverage.Location = new System.Drawing.Point(172, 78);
             this.txtLeverage.Name = "txtLeverage";
-            this.txtLeverage.Size = new System.Drawing.Size(144, 23);
+            this.txtLeverage.Size = new System.Drawing.Size(111, 23);
             this.txtLeverage.TabIndex = 2;
             this.txtLeverage.Tag = "";
             this.txtLeverage.Text = "1";
             this.txtLeverage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtLeverage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Numeric_KeyPress);
+            this.txtLeverage.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Integer_Validating);
             // 
             // txtInitalPositionValue
             // 
             this.txtInitalPositionValue.Location = new System.Drawing.Point(172, 194);
             this.txtInitalPositionValue.Name = "txtInitalPositionValue";
             this.txtInitalPositionValue.ReadOnly = true;
-            this.txtInitalPositionValue.Size = new System.Drawing.Size(144, 23);
+            this.txtInitalPositionValue.Size = new System.Drawing.Size(111, 23);
             this.txtInitalPositionValue.TabIndex = 4;
             this.txtInitalPositionValue.TabStop = false;
             this.txtInitalPositionValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -546,16 +552,18 @@ namespace TradingTools
             // 
             this.txtEntryPrice.Location = new System.Drawing.Point(172, 107);
             this.txtEntryPrice.Name = "txtEntryPrice";
-            this.txtEntryPrice.Size = new System.Drawing.Size(144, 23);
+            this.txtEntryPrice.Size = new System.Drawing.Size(111, 23);
             this.txtEntryPrice.TabIndex = 3;
             this.txtEntryPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtEntryPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
+            this.txtEntryPrice.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Decimal_Validating);
             // 
             // txtLotSize
             // 
             this.txtLotSize.Location = new System.Drawing.Point(172, 136);
             this.txtLotSize.Name = "txtLotSize";
             this.txtLotSize.ReadOnly = true;
-            this.txtLotSize.Size = new System.Drawing.Size(144, 23);
+            this.txtLotSize.Size = new System.Drawing.Size(111, 23);
             this.txtLotSize.TabIndex = 4;
             this.txtLotSize.TabStop = false;
             this.txtLotSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -585,7 +593,7 @@ namespace TradingTools
             this.txtLeveragedCapital.Location = new System.Drawing.Point(172, 165);
             this.txtLeveragedCapital.Name = "txtLeveragedCapital";
             this.txtLeveragedCapital.ReadOnly = true;
-            this.txtLeveragedCapital.Size = new System.Drawing.Size(144, 23);
+            this.txtLeveragedCapital.Size = new System.Drawing.Size(111, 23);
             this.txtLeveragedCapital.TabIndex = 1;
             this.txtLeveragedCapital.TabStop = false;
             this.txtLeveragedCapital.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -790,6 +798,7 @@ namespace TradingTools
             this.txtPEP_ExitPrice.Size = new System.Drawing.Size(92, 23);
             this.txtPEP_ExitPrice.TabIndex = 7;
             this.txtPEP_ExitPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtPEP_ExitPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
             // 
             // label29
             // 
@@ -845,9 +854,11 @@ namespace TradingTools
             // 
             this.txtCapital.Location = new System.Drawing.Point(172, 49);
             this.txtCapital.Name = "txtCapital";
-            this.txtCapital.Size = new System.Drawing.Size(144, 23);
+            this.txtCapital.Size = new System.Drawing.Size(111, 23);
             this.txtCapital.TabIndex = 1;
             this.txtCapital.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtCapital.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
+            this.txtCapital.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Money_Validating);
             // 
             // groupBox3
             // 
@@ -986,7 +997,7 @@ namespace TradingTools
             // 
             this.btnReCalculate.Location = new System.Drawing.Point(172, 223);
             this.btnReCalculate.Name = "btnReCalculate";
-            this.btnReCalculate.Size = new System.Drawing.Size(144, 39);
+            this.btnReCalculate.Size = new System.Drawing.Size(111, 39);
             this.btnReCalculate.TabIndex = 8;
             this.btnReCalculate.Text = "&RE-CALCULATE";
             this.btnReCalculate.UseVisualStyleBackColor = true;
@@ -1105,7 +1116,7 @@ namespace TradingTools
             this.txtTradeNum.Location = new System.Drawing.Point(172, 20);
             this.txtTradeNum.Name = "txtTradeNum";
             this.txtTradeNum.ReadOnly = true;
-            this.txtTradeNum.Size = new System.Drawing.Size(144, 23);
+            this.txtTradeNum.Size = new System.Drawing.Size(111, 23);
             this.txtTradeNum.TabIndex = 0;
             this.txtTradeNum.TabStop = false;
             this.txtTradeNum.Text = "###";
@@ -1343,6 +1354,7 @@ namespace TradingTools
             this.txtPriceIncrease_target.Size = new System.Drawing.Size(82, 23);
             this.txtPriceIncrease_target.TabIndex = 4;
             this.txtPriceIncrease_target.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtPriceIncrease_target.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
             // 
             // label3
             // 
@@ -1473,6 +1485,7 @@ namespace TradingTools
             this.txtPriceDecrease_target.Size = new System.Drawing.Size(90, 23);
             this.txtPriceDecrease_target.TabIndex = 4;
             this.txtPriceDecrease_target.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtPriceDecrease_target.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
             // 
             // label24
             // 
@@ -1760,6 +1773,10 @@ namespace TradingTools
             this.label11.Text = "Interest Cost";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // frmRiskRewardCalc_Long
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1771,6 +1788,7 @@ namespace TradingTools
             this.Name = "frmRiskRewardCalc_Long";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Risk Reward Calculator";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmRiskRewardCalc_Long_FormClosing);
             this.Load += new System.EventHandler(this.frmRRC_Long_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -1822,6 +1840,7 @@ namespace TradingTools
             this.tableLayoutPanel8.PerformLayout();
             this.tableLayoutPanel9.ResumeLayout(false);
             this.tableLayoutPanel9.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1958,6 +1977,7 @@ namespace TradingTools
         private System.Windows.Forms.Label label51;
         private System.Windows.Forms.TextBox txtPEP_PCP;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }
 
