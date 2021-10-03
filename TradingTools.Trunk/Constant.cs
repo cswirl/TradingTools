@@ -15,16 +15,10 @@ namespace TradingTools.Trunk
         public decimal EntryPriceAvg { get; set; }
         public decimal InitialPositionValue { get; set; }
         public decimal LeveragedCapital { get { return Capital * Leverage; } }
-        public decimal LotSize { 
-            get 
-            {
-                if (EntryPriceAvg == 0) return default;
-                return InitialPositionValue / EntryPriceAvg;  
-            } 
-        }
+        public decimal LotSize { get; set; }
         public decimal AccountEquity { get; set; }
         public decimal StopLoss_limit { get; set; }
-        public bool Side { get; set; }             // 1 or True for Long, 0 or False Short
+        public bool Side { get; set; }             // 1 or True for Long, 0 or False Short - MAYBE USE STRING TO SIMPLIFY
 
         
     }

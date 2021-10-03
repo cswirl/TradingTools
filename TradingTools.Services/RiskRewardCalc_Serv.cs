@@ -19,6 +19,17 @@ namespace TradingTools.Services
             _priceIncreaseTable = new();
             _priceDecreaseTable = new();
         }
+
+        public bool CalculatorState_Validate(CalculatorState c, out string msg)
+        {
+            msg = string.Empty;
+            if (c.Capital <= 10 | c.Leverage < 1 | c.EntryPriceAvg <= 0)
+            {
+                msg = "Invalid input data";
+                return false;
+            }
+            return true;
+        }
     }
 
     public class PriceChangeTable
@@ -30,40 +41,58 @@ namespace TradingTools.Services
         {
             _princeChangeIncrements = increments != null ? increments : _princeChangeIncrements;
             var list = new List<PriceChangeRecord>();
-            foreach (decimal pcp in _princeChangeIncrements)
+
+            try
             {
-                decimal dec_pcp = pcp / 100;        // We simply need the Decimal value of Price Increase Percentage
-                decimal ExitPrice = EntPA * (1 + dec_pcp);
-                decimal tradingCost = TradingCost(ExitPrice, lotSize, borrowCost);
-                decimal pnl = (EntPA * lotSize * dec_pcp) - tradingCost;
-                var rec = new PriceChangeRecord
+                foreach (decimal pcp in _princeChangeIncrements)
                 {
-                    PriceChangePercentage = pcp,
+                    decimal dec_pcp = pcp / 100;        // We simply need the Decimal value of Price Increase Percentage
+                    decimal ExitPrice = EntPA * (1 + dec_pcp);
+                    decimal tradingCost = TradingCost(ExitPrice, lotSize, borrowCost);
+                    decimal pnl = (EntPA * lotSize * dec_pcp) - tradingCost;
+                    var rec = new PriceChangeRecord
+                    {
+                        PriceChangePercentage = pcp,
+                        ExitPrice = ExitPrice,
+                        PnL = pnl,
+                        PnL_Percentage = pnl / capital * 100,
+                        TradingCost = tradingCost
+                    };
+
+                    list.Add(rec);
+                }
+
+                return list;
+            }
+            catch (DivideByZeroException dex)
+            {
+
+            }
+
+            return null;
+        }
+
+        public PriceChangeRecord GeneratePriceChangeRecord(decimal ExitPrice, decimal EntryPrice, decimal lotSize, decimal borrowCost, decimal capital)
+        {
+            try
+            {
+                decimal pip = (ExitPrice - EntryPrice) / EntryPrice * 100;
+                decimal tradingCost = TradingCost(ExitPrice, lotSize, borrowCost);
+                decimal pnl = (EntryPrice * lotSize * pip / 100) - tradingCost;
+                return new PriceChangeRecord
+                {
+                    PriceChangePercentage = pip,
                     ExitPrice = ExitPrice,
                     PnL = pnl,
                     PnL_Percentage = pnl / capital * 100,
                     TradingCost = tradingCost
                 };
-
-                list.Add(rec);
             }
-
-            return list;
-        }
-
-        public PriceChangeRecord GeneratePriceChangeRecord(decimal ExitPrice, decimal EntryPrice, decimal lotSize, decimal borrowCost, decimal capital)
-        {
-            decimal pip = (ExitPrice - EntryPrice) / EntryPrice * 100;
-            decimal tradingCost = TradingCost(ExitPrice, lotSize, borrowCost);
-            decimal pnl = (EntryPrice * lotSize * pip / 100) - tradingCost;
-            return new PriceChangeRecord
+            catch (DivideByZeroException dex)
             {
-                PriceChangePercentage = pip,
-                ExitPrice = ExitPrice,
-                PnL = pnl,
-                PnL_Percentage = pnl / capital * 100,
-                TradingCost = tradingCost
-            };
+                
+            }
+            return null;
         }
 
         private decimal TradingCost(decimal ExitPrice, decimal lotSize, decimal borrowCost) => SpeculativeTradingFee(ExitPrice, lotSize) + borrowCost;

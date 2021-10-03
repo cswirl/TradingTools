@@ -27,13 +27,27 @@ namespace TradingTools
         public frmRiskRewardCalc_Long()
         {
             InitializeComponent();
-  
+
         }
 
-       private bool calculate_main_validated()
+        private bool calculate_main_validated()
         {
-            if (string.IsNullOrEmpty(txtCapital.Text) || string.IsNullOrEmpty(txtLeverage.Text) || string.IsNullOrEmpty(txtEntryPrice.Text))
+            //// Empty string
+            //if (string.IsNullOrEmpty(txtCapital.Text) || string.IsNullOrEmpty(txtLeverage.Text) || string.IsNullOrEmpty(txtEntryPrice.Text))
+            //{
+            //    statusMessage.Text = "Please fill-up the required data";
+            //    MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            //    return false;
+            //}
+
+            // Minimum Value
+            decimal capital = InputConverter.Decimal(txtCapital.Text);
+            decimal leverage = InputConverter.Decimal(txtLeverage.Text);
+            decimal entryPrice = InputConverter.Decimal(txtEntryPrice.Text);
+            if (capital <= 10 || leverage < 1 || entryPrice <= 0)
             {
+                statusMessage.Text = "Invalid input data";
+                MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return false;
             }
 
@@ -41,33 +55,23 @@ namespace TradingTools
         }
         private void btnReCalculate_Click(object sender, EventArgs e)
         {
-            //if (!ValidateChildren(ValidationConstraints.Enabled))
-            //{
-            //    statusMessage.Text = "Please fill-up the required data";
-            //    MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-            //    return;
-            //}
+            // step 2: Collect data -Receptors
+            // step 2-B: Validation 
+            // step 3: Process Data collected including others supporting data
+            string msg;
+            var r = _calc.Calculate(
+                InputConverter.Decimal(txtCapital.Text),
+                InputConverter.Decimal(txtLeverage.Text),
+                InputConverter.Decimal(txtEntryPrice.Text),
+                (int)nudDayCount.Value,
+                nudDailyInterestRate.Value, out msg);
 
-            if (!calculate_main_validated())
+            if (r == false)
             {
-                statusMessage.Text = "Please fill-up the required data";
+                statusMessage.Text = msg;
                 MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;
             }
-            
-            // step 2: Collect data from Receptors
-            _calc.Position.Capital = Convert.ToDecimal(txtCapital.Text);
-            _calc.Position.Leverage = Convert.ToDecimal(txtLeverage.Text);
-            _calc.Position.EntryPriceAvg = Convert.ToDecimal(txtEntryPrice.Text);
-
-
-            // step 3: Process Data collected including others supporting data
-            _calc.OpeningCost.TradingFee = TradingCost.GetTradingFee_in_dollar(_calc.Position.LeveragedCapital);
-            _calc.Position.InitialPositionValue = _calc.Position.LeveragedCapital - _calc.OpeningCost.TradingFee;
-            
-            _calc.Borrow.Amount = _calc.Position.LeveragedCapital - _calc.Position.Capital;
-            _calc.Borrow.DayCount = (int)nudDayCount.Value;
-            _calc.Borrow.DailyInterestRate = nudDailyInterestRate.Value;
 
 
             // step 4: Represent data back to UI
@@ -79,25 +83,27 @@ namespace TradingTools
 
             txtBorrowAmount.Text = _calc.Borrow.Amount.ToString();
             txtInterestCost.Text = _calc.Borrow.InterestCost.ToString();
-            txtPEP_AccountEquity.Text = (_calc.Position.InitialPositionValue - _calc.Borrow.Amount).ToString();
 
 
             //Closing Position
-            dgvPriceIncreaseTable.DataSource = _rrc_serv.PriceIncreaseTable.GenerateTable(
-                _calc.Position.EntryPriceAvg, 
-                _calc.Position.LotSize,
-                _calc.Borrow.InterestCost,
-                _calc.Position.Capital
-                ).OrderByDescending(o => o.PriceChangePercentage).ToList();
-
-            dgvPriceDecreaseTable.DataSource = _rrc_serv.PriceDecreaseTable.GenerateTable(
+            var pit = _rrc_serv.PriceIncreaseTable.GenerateTable(
                 _calc.Position.EntryPriceAvg,
                 _calc.Position.LotSize,
                 _calc.Borrow.InterestCost,
                 _calc.Position.Capital
                 ).OrderByDescending(o => o.PriceChangePercentage).ToList();
 
+            if (pit != null) dgvPriceIncreaseTable.DataSource = pit;
 
+
+            var pdt = _rrc_serv.PriceDecreaseTable.GenerateTable(
+                _calc.Position.EntryPriceAvg,
+                _calc.Position.LotSize,
+                _calc.Borrow.InterestCost,
+                _calc.Position.Capital
+                ).OrderByDescending(o => o.PriceChangePercentage).ToList();
+
+            if (pdt != null) dgvPriceDecreaseTable.DataSource = pdt;
         }
 
         private void frmRRC_Long_Load(object sender, EventArgs e)
@@ -110,6 +116,8 @@ namespace TradingTools
             // State independent controls
             txtOpeningTradingFee_percent.Text = Constant.TRADING_FEE.ToString();
 
+
+            // State Implementations
             if (State == RiskRewardCalcState.Empty)
             {
                 CalculatorState = new();
@@ -131,8 +139,8 @@ namespace TradingTools
                 else
                 {
                     // sys flow 1
-                    txtCapital.Text = CalculatorState.Capital.ToString();
-                    txtLeverage.Text = CalculatorState.Leverage.ToString();
+                    txtCapital.Text = CalculatorState.Capital.ToString("0.00");
+                    txtLeverage.Text = CalculatorState.Leverage.ToString("0");
                     txtEntryPrice.Text = CalculatorState.EntryPriceAvg.ToString();
                     nudDayCount.Value = CalculatorState.DayCount;
                     nudDailyInterestRate.Value = CalculatorState.DailyInterestRate;
@@ -166,15 +174,15 @@ namespace TradingTools
         private void btnPriceIncrease_custom_Click(object sender, EventArgs e)
         {
             // 2
-            decimal priceTarget = Convert.ToDecimal(txtPriceIncrease_target.Text);
-            //_position.EntryPriceAvg = Convert.ToDecimal(txtEntryPrice.Text);
+            decimal priceTarget = InputConverter.Decimal(txtPriceIncrease_target.Text);
+            if (priceTarget <= 0) return;
 
             // 3
             var rec = _rrc_serv.PriceIncreaseTable.GeneratePriceIncreaseRecord(
-                priceTarget, 
-                _calc.Position.EntryPriceAvg, 
-                _calc.Position.LotSize, 
-                _calc.Borrow.InterestCost, 
+                priceTarget,
+                _calc.Position.EntryPriceAvg,
+                _calc.Position.LotSize,
+                _calc.Borrow.InterestCost,
                 _calc.Position.Capital);
 
             // 4
@@ -187,15 +195,15 @@ namespace TradingTools
         private void btnPriceDecrease_custom_Click(object sender, EventArgs e)
         {
             // 2
-            decimal priceTarget = Convert.ToDecimal(txtPriceDecrease_target.Text);
-            //_position.EntryPriceAvg = Convert.ToDecimal(txtEntryPrice.Text);
+            decimal priceTarget = InputConverter.Decimal(txtPriceDecrease_target.Text);
+            if (priceTarget <= 0) return;
 
             // 3
             var rec = _rrc_serv.PriceDecreaseTable.GeneratePriceDecreaseRecord(
-                priceTarget, 
-                _calc.Position.EntryPriceAvg, 
-                _calc.Position.LotSize, 
-                _calc.Borrow.InterestCost, 
+                priceTarget,
+                _calc.Position.EntryPriceAvg,
+                _calc.Position.LotSize,
+                _calc.Borrow.InterestCost,
                 _calc.Position.Capital);
 
             // 4
@@ -216,13 +224,14 @@ namespace TradingTools
             }
 
             // Display RRR
-            txtRRR.Text = "1 / " + (rrr == null ? "1" : rrr);
+            txtRRR.Text = "1 / " + (rrr == null ? "1" : rrr?.ToString("0.00"));
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             // 2
-            decimal priceTarget = Convert.ToDecimal(txtPEP_ExitPrice.Text);
+            decimal priceTarget = InputConverter.Decimal(txtPEP_ExitPrice.Text);
+            if (priceTarget <= 0) return;
 
             // 3
             var rec = _rrc_serv.PriceIncreaseTable.GeneratePriceIncreaseRecord(
@@ -249,7 +258,8 @@ namespace TradingTools
         private void button2_Click(object sender, EventArgs e)
         {
             // 2
-            decimal priceTarget = Convert.ToDecimal(txtLEP_ExitPrice.Text);
+            decimal priceTarget = InputConverter.Decimal(txtLEP_ExitPrice.Text);
+            if (priceTarget <= 0) return;
 
             // 3
             var rec = _rrc_serv.PriceDecreaseTable.GeneratePriceDecreaseRecord(
@@ -286,24 +296,38 @@ namespace TradingTools
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // Todo: Validate First - make sure its clean before calling SaveState
-            decimal def_out;
+            Save();
+        }
+
+        private bool Save()
+        {
             // Capture state
-            CalculatorState.Capital = _calc.Position.Capital;
-            CalculatorState.Leverage = _calc.Position.Leverage;
-            CalculatorState.EntryPriceAvg = _calc.Position.EntryPriceAvg;
-            CalculatorState.DayCount = _calc.Borrow.DayCount;
-            CalculatorState.DailyInterestRate = _calc.Borrow.DailyInterestRate;
-            CalculatorState.PriceIncreaseTarget = Convert.ToDecimal(txtPriceIncrease_target.Text);
-            CalculatorState.PriceDecreaseTarget = Convert.ToDecimal(txtPriceDecrease_target.Text);
-            CalculatorState.PEP_ExitPrice = Convert.ToDecimal(txtPEP_ExitPrice.Text);
+            // 1
+            CalculatorState.Capital = InputConverter.Decimal(txtCapital.Text);
+            CalculatorState.Leverage = InputConverter.Decimal(txtLeverage.Text);
+            CalculatorState.EntryPriceAvg = InputConverter.Decimal(txtEntryPrice.Text);
+            CalculatorState.DayCount = (int)nudDayCount.Value <= 0 ? 1 : (int)nudDayCount.Value;
+            CalculatorState.DailyInterestRate = nudDailyInterestRate.Value;
+            CalculatorState.PriceIncreaseTarget = InputConverter.Decimal(txtPriceIncrease_target.Text);
+            CalculatorState.PriceDecreaseTarget = InputConverter.Decimal(txtPriceDecrease_target.Text);
+            CalculatorState.PEP_ExitPrice = InputConverter.Decimal(txtPEP_ExitPrice.Text);
             CalculatorState.PEP_Note = txtPEP_Note.Text;
-            CalculatorState.LEP_ExitPrice = Convert.ToDecimal(txtLEP_ExitPrice.Text);
+            CalculatorState.LEP_ExitPrice = InputConverter.Decimal(txtLEP_ExitPrice.Text);
             CalculatorState.LEP_Note = txtLEP_Note.Text;
             CalculatorState.Ticker = txtTicker.Text;
             CalculatorState.Strategy = txtStrategy.Text;
             CalculatorState.Note = txtNote.Text;
 
+            // 2-B Validation - the implementation may be incomplete but suffice for nowInputConverter.Decimal
+            string msg;
+            if (!_rrc_serv.CalculatorState_Validate(this.CalculatorState, out msg))
+            {
+                statusMessage.Text = msg;
+                MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return false;
+            }
+
+            // 3 - process data collected - this will save data into a data store - no need for step 4 which is to Display Data 
             var o = (frmCalculatorStates)this.Owner;
             if (State == RiskRewardCalcState.Empty)
             {
@@ -313,7 +337,7 @@ namespace TradingTools
                     State = RiskRewardCalcState.Loaded;
                     statusMessage.Text = "State save successfully.";
                 }
-                else statusMessage.Text = "Saving state failed."; 
+                else statusMessage.Text = "Saving state failed.";
             }
             else if (State == RiskRewardCalcState.Loaded)
             {
@@ -323,10 +347,14 @@ namespace TradingTools
                 }
                 else statusMessage.Text = "Updating state failed.";
             }
+
+            return true;
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
+            if (State == RiskRewardCalcState.Empty) return;
+
             DialogResult objDialog = MessageBox.Show("Are you sure you want to DELETE this State", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (objDialog == DialogResult.Yes)
             {
@@ -382,7 +410,7 @@ namespace TradingTools
             var tb = (TextBox)sender;
             string msg;
 
-            if(!Format.isMoney(tb.Text, out msg))
+            if (!Format.isMoney(tb.Text, out msg))
             {
                 //e.Cancel = true;
                 errorProvider1.SetError(tb, msg);
@@ -430,19 +458,22 @@ namespace TradingTools
 
         private void frmRiskRewardCalc_Long_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (AutoValidate != AutoValidate.Disable)
+            DialogResult objDialog = MessageBox.Show("Do you want to save before closing ?", "", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            if (objDialog == DialogResult.Cancel)
             {
-                AutoValidate = AutoValidate.Disable;
-                this.Close();
-
-                //DialogResult objDialog = MessageBox.Show("Some data are missing. \n\nAre you sure you want to close this form?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                //if (objDialog == DialogResult.Yes)
-                //{
-                //    AutoValidate = AutoValidate.Disable;
-                //    this.Close();
-                //}
+                // keep the form open
+                e.Cancel = true;
             }
-            
+            else if (objDialog == DialogResult.No)
+            {
+                // let the form close gracefully
+            }
+            else if (objDialog == DialogResult.Yes)
+            {
+                // try saving state then let it close gracefully
+                // BUT keep the form open if is any are complication while saving
+                e.Cancel = !Save();
+            }
         }
     }
 }

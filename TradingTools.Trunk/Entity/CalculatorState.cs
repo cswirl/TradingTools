@@ -33,5 +33,6 @@ namespace TradingTools.Trunk.Entity
         public string Ticker { get; set; }
         public string Strategy { get; set; }
         public string Note { get; set; }
+
     }
 }
