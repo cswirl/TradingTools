@@ -28,6 +28,8 @@ namespace TradingTools
         {
             InitializeComponent();
 
+            panelBandTop.Height = 3;
+            panelBandBottom.Height = 3;
         }
 
         private void btnReCalculate_Click(object sender, EventArgs e)
@@ -86,7 +88,7 @@ namespace TradingTools
 
         private void frmRRC_Long_Load(object sender, EventArgs e)
         {
-            // Todo: rename to InitComponents then change to public. Place to the constructor.
+            // Todo: rename to InitStateDependentComponents then change to public. Place in the constructor.
             callOnLoad();
         }
 
@@ -95,7 +97,7 @@ namespace TradingTools
             // State independent controls
             txtOpeningTradingFee_percent.Text = Constant.TRADING_FEE.ToString();
 
-
+            setBand();
             // State Implementations
             if (State == RiskRewardCalcState.Empty)
             {
@@ -316,6 +318,7 @@ namespace TradingTools
                 if (o.CalculatorState_Add(CalculatorState))
                 {
                     State = RiskRewardCalcState.Loaded;
+                    setBand();
                     statusMessage.Text = "State save successfully.";
                 }
                 else statusMessage.Text = "Saving state failed.";
@@ -330,6 +333,32 @@ namespace TradingTools
             }
 
             return true;
+        }
+
+        private void setBand()
+        {
+            switch (State)
+            {
+                case RiskRewardCalcState.Empty:
+                    panelBandTop.BackColor = BandColor.Empty;
+                    panelBandBottom.BackColor = BandColor.Empty;
+                    break;
+
+                case RiskRewardCalcState.Loaded:
+                    panelBandTop.BackColor = BandColor.Loaded;
+                    panelBandBottom.BackColor = BandColor.Loaded;
+                    break;
+
+                case RiskRewardCalcState.OpenPosition:
+                    panelBandTop.BackColor = BandColor.OpenPosition;
+                    panelBandBottom.BackColor = BandColor.OpenPosition;
+                    break;
+
+                case RiskRewardCalcState.ClosedPosition:
+                    panelBandTop.BackColor = BandColor.ClosedPosition;
+                    panelBandBottom.BackColor = BandColor.ClosedPosition;
+                    break;
+            }
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -439,7 +468,7 @@ namespace TradingTools
 
         private void frmRiskRewardCalc_Long_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // show the form in case was minimized
+            // show the form in case was minimized and closing was came from external such as from a parent form
             this.WindowState = FormWindowState.Normal;
             this.Focus();
 
@@ -460,5 +489,6 @@ namespace TradingTools
                 e.Cancel = !Save();
             }
         }
+
     }
 }
