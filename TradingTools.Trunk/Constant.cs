@@ -6,6 +6,10 @@ namespace TradingTools.Trunk
     {
         public const decimal TRADING_FEE = 0.001M;      // Binance
         public const decimal DAILY_INTEREST_RATE = 0.0002M;
+
+        public const string MAX_DECIMAL_PLACE_FORMAT = "0.########";
+        public const string MONEY_FORMAT = "C";
+        public const string PERCENTAGE_FORMAT = "F";
     }
 
     public class Position

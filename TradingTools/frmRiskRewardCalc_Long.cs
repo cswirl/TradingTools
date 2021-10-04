@@ -30,31 +30,9 @@ namespace TradingTools
 
         }
 
-        private bool calculate_main_validated()
-        {
-            //// Empty string
-            //if (string.IsNullOrEmpty(txtCapital.Text) || string.IsNullOrEmpty(txtLeverage.Text) || string.IsNullOrEmpty(txtEntryPrice.Text))
-            //{
-            //    statusMessage.Text = "Please fill-up the required data";
-            //    MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-            //    return false;
-            //}
-
-            // Minimum Value
-            decimal capital = InputConverter.Decimal(txtCapital.Text);
-            decimal leverage = InputConverter.Decimal(txtLeverage.Text);
-            decimal entryPrice = InputConverter.Decimal(txtEntryPrice.Text);
-            if (capital <= 10 || leverage < 1 || entryPrice <= 0)
-            {
-                statusMessage.Text = "Invalid input data";
-                MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return false;
-            }
-
-            return true;
-        }
         private void btnReCalculate_Click(object sender, EventArgs e)
         {
+            // _calc.Calculate() internal do the step 2 and 3
             // step 2: Collect data -Receptors
             // step 2-B: Validation 
             // step 3: Process Data collected including others supporting data
@@ -75,17 +53,17 @@ namespace TradingTools
 
 
             // step 4: Represent data back to UI
-            txtLotSize.Text = _calc.Position.LotSize.ToString();
-            txtLeveragedCapital.Text = _calc.Position.LeveragedCapital.ToString();
-            txtInitalPositionValue.Text = _calc.Position.InitialPositionValue.ToString();
-            txtOpeningTradingFee_dollar.Text = _calc.OpeningCost.TradingFee.ToString();
-            txtOpeningTradingCost.Text = _calc.OpeningCost.TradingFee.ToString();
+            txtLotSize.Text = _calc.Position.LotSize.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+            txtLeveragedCapital.Text = _calc.Position.LeveragedCapital.ToString(Constant.MONEY_FORMAT);
+            txtInitalPositionValue.Text = _calc.Position.InitialPositionValue.ToString(Constant.MONEY_FORMAT);
+            txtOpeningTradingFee_dollar.Text = _calc.OpeningCost.TradingFee.ToString(Constant.MONEY_FORMAT);
+            txtOpeningTradingCost.Text = _calc.OpeningCost.TradingFee.ToString(Constant.MONEY_FORMAT);
 
-            txtBorrowAmount.Text = _calc.Borrow.Amount.ToString();
-            txtInterestCost.Text = _calc.Borrow.InterestCost.ToString();
+            txtBorrowAmount.Text = _calc.Borrow.Amount.ToString(Constant.MONEY_FORMAT);
+            txtInterestCost.Text = _calc.Borrow.InterestCost.ToString(Constant.MONEY_FORMAT);
 
 
-            //Closing Position
+            //Closing Position - information
             var pit = _rrc_serv.PriceIncreaseTable.GenerateTable(
                 _calc.Position.EntryPriceAvg,
                 _calc.Position.LotSize,
@@ -108,10 +86,11 @@ namespace TradingTools
 
         private void frmRRC_Long_Load(object sender, EventArgs e)
         {
+            // Todo: rename to InitComponents then change to public. Place to the constructor.
             callOnLoad();
         }
 
-        private void callOnLoad()
+        private bool callOnLoad()
         {
             // State independent controls
             txtOpeningTradingFee_percent.Text = Constant.TRADING_FEE.ToString();
@@ -123,7 +102,7 @@ namespace TradingTools
                 CalculatorState = new();
 
                 // Initalize UI controls
-                txtBorrowAmount.Text = "0";
+                txtBorrowAmount.Text = Constant.MONEY_FORMAT;
                 nudDayCount.Value = 1;
                 nudDailyInterestRate.Value = Constant.DAILY_INTEREST_RATE;
             }
@@ -134,31 +113,31 @@ namespace TradingTools
                     statusMessage.Text = "CalculatorState instance was not forwarded.";
                     MessageBox.Show(statusMessage.Text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     this.Close();
-                    return;
+                    return false;
                 }
                 else
                 {
                     // sys flow 1
-                    txtCapital.Text = CalculatorState.Capital.ToString("0.00");
-                    txtLeverage.Text = CalculatorState.Leverage.ToString("0");
+                    txtCapital.Text = CalculatorState.Capital.ToString("0.00");     // dont change format
+                    txtLeverage.Text = CalculatorState.Leverage.ToString("0");      // dont change format
                     txtEntryPrice.Text = CalculatorState.EntryPriceAvg.ToString();
                     nudDayCount.Value = CalculatorState.DayCount;
                     nudDailyInterestRate.Value = CalculatorState.DailyInterestRate;
                     btnReCalculate.PerformClick();
 
                     // sys flow 2
-                    txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget.ToString();
+                    txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                     btnPriceIncrease_custom.PerformClick();
-                    txtPriceDecrease_target.Text = CalculatorState.PriceDecreaseTarget.ToString();
+                    txtPriceDecrease_target.Text = CalculatorState.PriceDecreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                     btnPriceDecrease_custom.PerformClick();
 
                     // sys flow 3
-                    txtPEP_ExitPrice.Text = CalculatorState.PEP_ExitPrice.ToString();
+                    txtPEP_ExitPrice.Text = CalculatorState.PEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                     txtPEP_Note.Text = CalculatorState.PEP_Note;
                     btnPEP_compute.PerformClick();
 
                     // sys flow
-                    txtLEP_ExitPrice.Text = CalculatorState.LEP_ExitPrice.ToString();
+                    txtLEP_ExitPrice.Text = CalculatorState.LEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                     txtLEP_Note.Text = CalculatorState.LEP_Note;
                     btnLEP_compute.PerformClick();
 
@@ -169,6 +148,8 @@ namespace TradingTools
 
                 }
             }
+
+            return true;
         }
 
         private void btnPriceIncrease_custom_Click(object sender, EventArgs e)
@@ -187,9 +168,9 @@ namespace TradingTools
 
             // 4
             if (rec == null) return;
-            txtPriceIncreasePercentage.Text = rec.PriceChangePercentage.ToString();
-            txtPriceIncrease_profit.Text = rec.PnL.ToString();
-            txtProfitPercentage.Text = rec.PnL_Percentage.ToString();
+            txtPriceIncreasePercentage.Text = rec.PriceChangePercentage.ToString(Constant.PERCENTAGE_FORMAT);
+            txtPriceIncrease_profit.Text = rec.PnL.ToString(Constant.MONEY_FORMAT);
+            txtProfitPercentage.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT);
         }
 
         private void btnPriceDecrease_custom_Click(object sender, EventArgs e)
@@ -208,9 +189,9 @@ namespace TradingTools
 
             // 4
             if (rec == null) return;
-            txtPriceDecreasePercentage.Text = rec.PriceChangePercentage.ToString();
-            txtPriceDecrease_loss.Text = rec.PnL.ToString();
-            txtLossPercentage.Text = rec.PnL_Percentage.ToString();
+            txtPriceDecreasePercentage.Text = rec.PriceChangePercentage.ToString(Constant.PERCENTAGE_FORMAT);
+            txtPriceDecrease_loss.Text = rec.PnL.ToString(Constant.MONEY_FORMAT);
+            txtLossPercentage.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT);
         }
 
         private void updateRRR()
@@ -224,7 +205,7 @@ namespace TradingTools
             }
 
             // Display RRR
-            txtRRR.Text = "1 / " + (rrr == null ? "1" : rrr?.ToString("0.00"));
+            txtRRR.Text = "1 / " + (rrr == null ? "1" : rrr?.ToString("0.0"));
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -243,13 +224,13 @@ namespace TradingTools
 
             // 4
             if (rec == null) return;
-            txtPEP_sPV.Text = _calc.GetSpeculativePositionValue(priceTarget).ToString();
-            txtPEP_AccountEquity.Text = _calc.GetSpeculativeAccountEquity(priceTarget).ToString();
+            txtPEP_sPV.Text = _calc.GetSpeculativePositionValue(priceTarget).ToString(Constant.MONEY_FORMAT);
+            txtPEP_AccountEquity.Text = _calc.GetSpeculativeAccountEquity(priceTarget).ToString(Constant.MONEY_FORMAT);
 
-            txtPEP_PCP.Text = rec.PriceChangePercentage.ToString();
-            txtPEP_RealProfit_percent.Text = rec.PnL_Percentage.ToString();
-            txtPEP_Profit.Text = rec.PnL.ToString();
-            txtPEP_TradingCost.Text = rec.TradingCost.ToString();
+            txtPEP_PCP.Text = rec.PriceChangePercentage.ToString(Constant.PERCENTAGE_FORMAT);
+            txtPEP_RealProfit_percent.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT);
+            txtPEP_Profit.Text = rec.PnL.ToString(Constant.MONEY_FORMAT);
+            txtPEP_TradingCost.Text = rec.TradingCost.ToString(Constant.MONEY_FORMAT);
 
             updateRRR();
         }
@@ -271,13 +252,13 @@ namespace TradingTools
 
             // 4
             if (rec == null) return;
-            txtLEP_sPV.Text = _calc.GetSpeculativePositionValue(priceTarget).ToString();
-            txtLEP_AccountEquity.Text = _calc.GetSpeculativeAccountEquity(priceTarget).ToString();
+            txtLEP_sPV.Text = _calc.GetSpeculativePositionValue(priceTarget).ToString(Constant.MONEY_FORMAT);
+            txtLEP_AccountEquity.Text = _calc.GetSpeculativeAccountEquity(priceTarget).ToString(Constant.MONEY_FORMAT);
 
-            txtLEP_PCP.Text = rec.PriceChangePercentage.ToString();
-            txtLEP_RealLoss_percent.Text = rec.PnL_Percentage.ToString();
-            txtLEP_Loss.Text = rec.PnL.ToString();
-            txtLEP_TradingCost.Text = rec.TradingCost.ToString();
+            txtLEP_PCP.Text = rec.PriceChangePercentage.ToString(Constant.PERCENTAGE_FORMAT);
+            txtLEP_RealLoss_percent.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT);
+            txtLEP_Loss.Text = rec.PnL.ToString(Constant.MONEY_FORMAT);
+            txtLEP_TradingCost.Text = rec.TradingCost.ToString(Constant.MONEY_FORMAT);
 
             updateRRR();
         }
@@ -458,6 +439,10 @@ namespace TradingTools
 
         private void frmRiskRewardCalc_Long_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // show the form in case was minimized
+            this.WindowState = FormWindowState.Normal;
+            this.Focus();
+
             DialogResult objDialog = MessageBox.Show("Do you want to save before closing ?", "", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
             if (objDialog == DialogResult.Cancel)
             {

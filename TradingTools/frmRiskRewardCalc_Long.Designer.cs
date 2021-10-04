@@ -1397,7 +1397,7 @@ namespace TradingTools
             this.label50.Name = "label50";
             this.label50.Size = new System.Drawing.Size(93, 32);
             this.label50.TabIndex = 5;
-            this.label50.Text = "Profit %";
+            this.label50.Text = "Real Profit %";
             this.label50.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtProfitPercentage
@@ -1551,7 +1551,7 @@ namespace TradingTools
             this.label49.Name = "label49";
             this.label49.Size = new System.Drawing.Size(91, 32);
             this.label49.TabIndex = 5;
-            this.label49.Text = "Loss %";
+            this.label49.Text = "Real Loss %";
             this.label49.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtLossPercentage
