@@ -30,6 +30,8 @@ namespace TradingTools
 
             panelBandTop.Height = 3;
             panelBandBottom.Height = 3;
+            // timer
+            timer1.Interval = Presentation.INTERNAL_TIMER_REFRESH_VALUE;
         }
 
         private void btnReCalculate_Click(object sender, EventArgs e)
@@ -490,5 +492,10 @@ namespace TradingTools
             }
         }
 
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            setBand();
+            statusMessage.Text = "Status message . . .";
+        }
     }
 }

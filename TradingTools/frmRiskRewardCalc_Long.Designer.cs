@@ -163,6 +163,7 @@ namespace TradingTools
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -1094,7 +1095,7 @@ namespace TradingTools
             // 
             // txtTicker
             // 
-            this.txtTicker.Location = new System.Drawing.Point(94, 27);
+            this.txtTicker.Location = new System.Drawing.Point(94, 23);
             this.txtTicker.Name = "txtTicker";
             this.txtTicker.Size = new System.Drawing.Size(97, 23);
             this.txtTicker.TabIndex = 4;
@@ -1804,6 +1805,11 @@ namespace TradingTools
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // frmRiskRewardCalc_Long
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -2010,6 +2016,7 @@ namespace TradingTools
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Panel panelBandBottom;
         private System.Windows.Forms.Panel panelBandTop;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 
