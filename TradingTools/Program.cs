@@ -17,7 +17,7 @@ namespace TradingTools
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmCalculatorStates());
+            Application.Run(new master());
         }
     }
 }

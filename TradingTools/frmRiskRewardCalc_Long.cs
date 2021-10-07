@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -109,6 +110,9 @@ namespace TradingTools
                 txtBorrowAmount.Text = Constant.MONEY_FORMAT;
                 nudDayCount.Value = 1;
                 nudDailyInterestRate.Value = Constant.DAILY_INTEREST_RATE;
+
+                txtPEP_Note.Text = "take-profit: inactive";
+                txtPEP_Note.Text = "stop-loss: inactive";
             }
             else if (State == RiskRewardCalcState.Loaded)
             {
@@ -200,16 +204,15 @@ namespace TradingTools
 
         private void updateRRR()
         {
-            decimal profit;
-            decimal loss;
+            decimal profit = StringToNumeric.Decimal(txtPEP_Profit.Text);
+            decimal loss = StringToNumeric.Decimal(txtLEP_Loss.Text);
             decimal? rrr = null;
-            if (Decimal.TryParse(txtPEP_Profit.Text, out profit) && Decimal.TryParse(txtLEP_Loss.Text, out loss))
-            {
-                rrr = profit / Math.Abs(loss);
-            }
+
+            if (loss != 0) rrr = profit / Math.Abs(loss);
+
 
             // Display RRR
-            txtRRR.Text = "1 / " + (rrr == null ? "1" : rrr?.ToString("0.0"));
+            txtRRR.Text = "1 / " + (rrr == null ? "NA" : rrr?.ToString("0.0"));
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -374,6 +377,7 @@ namespace TradingTools
                 // Remove from the Owner's List
                 if (o.CalculatorState_Delete(CalculatorState))
                 {
+                    State = RiskRewardCalcState.Deleted;
                     statusMessage.Text = "State was deleted successfully. \n\nThis form will now close.";
                     MessageBox.Show(statusMessage.Text, "Delete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     resetFromEmpty();
@@ -470,6 +474,9 @@ namespace TradingTools
 
         private void frmRiskRewardCalc_Long_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // Just ignore if the reason for closing was cause by deletion
+            if (State == RiskRewardCalcState.Deleted) return;
+
             // show the form in case was minimized and closing was came from external such as from a parent form
             this.WindowState = FormWindowState.Normal;
             this.Focus();

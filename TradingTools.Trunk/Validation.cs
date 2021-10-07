@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -73,6 +74,19 @@ namespace TradingTools.Trunk.Validation
         {
             decimal def_out;
             return decimal.TryParse(value, out def_out) ? def_out : 0;
+        }
+
+    }
+
+    public class StringToNumeric
+    {
+        public static decimal Decimal(string value)
+        {
+            NumberStyles style = NumberStyles.Currency;
+            CultureInfo culture = null;
+            decimal def_out;
+
+            return decimal.TryParse(value, style, culture, out def_out) ? def_out : 0;
         }
 
     }

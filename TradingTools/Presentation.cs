@@ -18,7 +18,8 @@ namespace TradingTools
         Empty,
         Loaded,
         OpenPosition,
-        ClosedPosition
+        ClosedPosition,
+        Deleted
     }
 
     public static class BandColor
