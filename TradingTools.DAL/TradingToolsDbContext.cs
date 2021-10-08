@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,9 @@ namespace TradingTools.DAL
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(Configuration.GetConnectionString());
+            optionsBuilder.UseSqlServer(Configuration.GetConnectionString())
+                .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information)
+                .EnableSensitiveDataLogging();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -29,6 +32,7 @@ namespace TradingTools.DAL
             }
         }
 
+        public DbSet<Trade> Trades { get; set; }
         public DbSet<CalculatorState> CalculatorStates { get; set; }
     }
 }

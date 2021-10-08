@@ -20,6 +20,7 @@ namespace TradingTools.Trunk.Entity
         [Required]
         public decimal EntryPriceAvg { get; set; }
         public int DayCount { get; set; }
+
         [Column(TypeName = "decimal(18, 5)")]
         public decimal DailyInterestRate { get; set; }
         public decimal PriceIncreaseTarget { get; set; }
@@ -34,5 +35,8 @@ namespace TradingTools.Trunk.Entity
         public string Strategy { get; set; }
         public string Note { get; set; }
 
+        // Trade
+        public int? TradeId { get; set; }
+        public virtual Trade Trade { get; set; }
     }
 }

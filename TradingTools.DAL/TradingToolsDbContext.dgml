@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+<Node Id="IModel" Label="TradingToolsDbContext" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot" PropertyAccessMode="PropertyAccessMode.Default" ProductVersion="5.0.10" Annotations="Relational:MaxIdentifierLength: 128
+Relational:RelationalModel: Microsoft.EntityFrameworkCore.Metadata.Internal.RelationalModel
+SqlServer:ValueGenerationStrategy: IdentityColumn" Category="Model" Group="Expanded" />
+<Node Id = "CalculatorState" Label="CalculatorState" Name="CalculatorState" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="ConstructorBinding: Microsoft.EntityFrameworkCore.Metadata.ConstructorBinding
+Relational:DefaultMappings: System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.Internal.TableMappingBase]
+Relational:TableMappings: System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.Internal.TableMapping]
+Relational:TableName: CalculatorStates
+ServiceOnlyConstructorBinding: Microsoft.EntityFrameworkCore.Metadata.ConstructorBinding" Category="EntityType" Group="Expanded" />
+<Node Id = "Trade" Label="Trade" Name="Trade" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="ConstructorBinding: Microsoft.EntityFrameworkCore.Metadata.ConstructorBinding
+Relational:DefaultMappings: System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.Internal.TableMappingBase]
+Relational:TableMappings: System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.Internal.TableMapping]
+Relational:TableName: Trades
+ServiceOnlyConstructorBinding: Microsoft.EntityFrameworkCore.Metadata.ConstructorBinding" Category="EntityType" Group="Expanded" />
+<Node Id = "CalculatorState.Id" Label="Id" Name="Id" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]
+SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "CalculatorState.Trade" Label="Trade (1)" Name="Trade" Category="Navigation Property" Type="Trade"  Field="" Dependent="" Principal="Trade" Inverse="CalculatorState" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "CalculatorState.Capital" Label="Capital" Name="Capital" Category="Property Required" Type="decimal" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "CalculatorState.DailyInterestRate" Label="DailyInterestRate" Name="DailyInterestRate" Category="Property Required" Type="decimal" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "CalculatorState.DayCount" Label="DayCount" Name="DayCount" Category="Property Required" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "CalculatorState.EntryPriceAvg" Label="EntryPriceAvg" Name="EntryPriceAvg" Category="Property Required" Type="decimal" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "CalculatorState.LEP_ExitPrice" Label="LEP_ExitPrice" Name="LEP_ExitPrice" Category="Property Required" Type="decimal" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "CalculatorState.LEP_Note" Label="LEP_Note" Name="LEP_Note" Category="Property Optional" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "CalculatorState.Leverage" Label="Leverage" Name="Leverage" Category="Property Required" Type="decimal" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "CalculatorState.Note" Label="Note" Name="Note" Category="Property Optional" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "CalculatorState.PEP_ExitPrice" Label="PEP_ExitPrice" Name="PEP_ExitPrice" Category="Property Required" Type="decimal" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "CalculatorState.PEP_Note" Label="PEP_Note" Name="PEP_Note" Category="Property Optional" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "CalculatorState.PriceDecreaseTarget" Label="PriceDecreaseTarget" Name="PriceDecreaseTarget" Category="Property Required" Type="decimal" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "CalculatorState.PriceIncreaseTarget" Label="PriceIncreaseTarget" Name="PriceIncreaseTarget" Category="Property Required" Type="decimal" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "CalculatorState.Strategy" Label="Strategy" Name="Strategy" Category="Property Optional" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "CalculatorState.Ticker" Label="Ticker" Name="Ticker" Category="Property Optional" Type="string" MaxLength="(20)" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="MaxLength: 20
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "CalculatorState.TradeId" Label="TradeId" Name="TradeId" Category="Property Foreign" Type="Nullable&lt;int&gt;" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="True" IsRequired="False" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Trade" Label="Trade" Name="Trade" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="" Category="EntityType" Group="Expanded" />
+<Node Id = "Trade.Id" Label="Id" Name="Id" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]
+SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "Trade.CalculatorState" Label="CalculatorState (1)" Name="CalculatorState" Category="Navigation Property" Type="CalculatorState"  Field="" Dependent="CalculatorState" Principal="" Inverse="Trade" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "Trade.BorrowAmount" Label="BorrowAmount" Name="BorrowAmount" Category="Property Required" Type="decimal" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Trade.Capital" Label="Capital" Name="Capital" Category="Property Required" Type="decimal" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Trade.ClosingTradingCost" Label="ClosingTradingCost" Name="ClosingTradingCost" Category="Property Optional" Type="Nullable&lt;decimal&gt;" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Trade.ClosingTradingFee" Label="ClosingTradingFee" Name="ClosingTradingFee" Category="Property Optional" Type="Nullable&lt;decimal&gt;" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Trade.DailyInterestRate" Label="DailyInterestRate" Name="DailyInterestRate" Category="Property Required" Type="decimal" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Trade.DateEnter" Label="DateEnter" Name="DateEnter" Category="Property Required" Type="DateTime" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Trade.DateExit" Label="DateExit" Name="DateExit" Category="Property Optional" Type="Nullable&lt;DateTime&gt;" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Trade.DayCount" Label="DayCount" Name="DayCount" Category="Property Required" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Trade.EntryPriceAvg" Label="EntryPriceAvg" Name="EntryPriceAvg" Category="Property Required" Type="decimal" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Trade.ExitPriceAvg" Label="ExitPriceAvg" Name="ExitPriceAvg" Category="Property Optional" Type="Nullable&lt;decimal&gt;" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Trade.InterestCost" Label="InterestCost" Name="InterestCost" Category="Property Required" Type="decimal" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Trade.Leverage" Label="Leverage" Name="Leverage" Category="Property Required" Type="decimal" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Trade.LeveragedCapital" Label="LeveragedCapital" Name="LeveragedCapital" Category="Property Required" Type="decimal" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Trade.LotSize" Label="LotSize" Name="LotSize" Category="Property Required" Type="decimal" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Trade.OpeningTradingCost" Label="OpeningTradingCost" Name="OpeningTradingCost" Category="Property Required" Type="decimal" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Trade.OpeningTradingFee" Label="OpeningTradingFee" Name="OpeningTradingFee" Category="Property Required" Type="decimal" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Trade.PnL" Label="PnL" Name="PnL" Category="Property Optional" Type="Nullable&lt;decimal&gt;" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: decimal(18, 6)
+Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Trade.PositionSide" Label="PositionSide" Name="PositionSide" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Trade.Status" Label="Status" Name="Status" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Trade.Ticker" Label="Ticker" Name="Ticker" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+  </Nodes>
+  <Links>
+<Link Source = "IModel" Target="CalculatorState" Category="Contains" />
+<Link Source = "IModel" Target="Trade" Category="Contains" />
+<Link Source = "CalculatorState" Target="CalculatorState.Trade" Category="Contains" />
+<Link Source = "CalculatorState" Target="CalculatorState.Id" Category="Contains" />
+<Link Source="CalculatorState" Target="Trade" From="CalculatorState.TradeId" To="Trade.Id" Name="CalculatorState -> Trade" Annotations="Relational:ForeignKeyMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ForeignKeyConstraint]" IsUnique="True" Label="1:1" Category="Foreign Key" />
+<Link Source = "CalculatorState" Target="CalculatorState.Capital" Category="Contains" />
+<Link Source = "CalculatorState" Target="CalculatorState.DailyInterestRate" Category="Contains" />
+<Link Source = "CalculatorState" Target="CalculatorState.DayCount" Category="Contains" />
+<Link Source = "CalculatorState" Target="CalculatorState.EntryPriceAvg" Category="Contains" />
+<Link Source = "CalculatorState" Target="CalculatorState.LEP_ExitPrice" Category="Contains" />
+<Link Source = "CalculatorState" Target="CalculatorState.LEP_Note" Category="Contains" />
+<Link Source = "CalculatorState" Target="CalculatorState.Leverage" Category="Contains" />
+<Link Source = "CalculatorState" Target="CalculatorState.Note" Category="Contains" />
+<Link Source = "CalculatorState" Target="CalculatorState.PEP_ExitPrice" Category="Contains" />
+<Link Source = "CalculatorState" Target="CalculatorState.PEP_Note" Category="Contains" />
+<Link Source = "CalculatorState" Target="CalculatorState.PriceDecreaseTarget" Category="Contains" />
+<Link Source = "CalculatorState" Target="CalculatorState.PriceIncreaseTarget" Category="Contains" />
+<Link Source = "CalculatorState" Target="CalculatorState.Strategy" Category="Contains" />
+<Link Source = "CalculatorState" Target="CalculatorState.Ticker" Category="Contains" />
+<Link Source = "CalculatorState" Target="CalculatorState.TradeId" Category="Contains" />
+<Link Source = "IModel" Target="Trade" Category="Contains" />
+<Link Source = "Trade" Target="Trade.CalculatorState" Category="Contains" />
+<Link Source = "Trade" Target="Trade.Id" Category="Contains" />
+<Link Source = "Trade" Target="Trade.BorrowAmount" Category="Contains" />
+<Link Source = "Trade" Target="Trade.Capital" Category="Contains" />
+<Link Source = "Trade" Target="Trade.ClosingTradingCost" Category="Contains" />
+<Link Source = "Trade" Target="Trade.ClosingTradingFee" Category="Contains" />
+<Link Source = "Trade" Target="Trade.DailyInterestRate" Category="Contains" />
+<Link Source = "Trade" Target="Trade.DateEnter" Category="Contains" />
+<Link Source = "Trade" Target="Trade.DateExit" Category="Contains" />
+<Link Source = "Trade" Target="Trade.DayCount" Category="Contains" />
+<Link Source = "Trade" Target="Trade.EntryPriceAvg" Category="Contains" />
+<Link Source = "Trade" Target="Trade.ExitPriceAvg" Category="Contains" />
+<Link Source = "Trade" Target="Trade.InterestCost" Category="Contains" />
+<Link Source = "Trade" Target="Trade.Leverage" Category="Contains" />
+<Link Source = "Trade" Target="Trade.LeveragedCapital" Category="Contains" />
+<Link Source = "Trade" Target="Trade.LotSize" Category="Contains" />
+<Link Source = "Trade" Target="Trade.OpeningTradingCost" Category="Contains" />
+<Link Source = "Trade" Target="Trade.OpeningTradingFee" Category="Contains" />
+<Link Source = "Trade" Target="Trade.PnL" Category="Contains" />
+<Link Source = "Trade" Target="Trade.PositionSide" Category="Contains" />
+<Link Source = "Trade" Target="Trade.Status" Category="Contains" />
+<Link Source = "Trade" Target="Trade.Ticker" Category="Contains" />
+  </Links>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="EntityType" ValueLabel="True">
+      <Condition Expression="HasCategory('EntityType')" />
+      <Setter Property="Background" Value="#FFC0C0C0" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Property Primary" ValueLabel="True">
+      <Condition Expression="HasCategory('Property Primary')" />
+      <Setter Property="Background" Value="#FF008000" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Property Optional" ValueLabel="True">
+      <Condition Expression="HasCategory('Property Optional')" />
+      <Setter Property="Background" Value="#FF808040" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Property Foreign" ValueLabel="True">
+      <Condition Expression="HasCategory('Property Foreign')" />
+      <Setter Property="Background" Value="#FF8080FF" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Property Required" ValueLabel="True">
+      <Condition Expression="HasCategory('Property Required')" />
+      <Setter Property="Background" Value="#FFC0A000" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Navigation Property" ValueLabel="True">
+      <Condition Expression="HasCategory('Navigation Property')" />
+      <Setter Property="Background" Value="#FF990000" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Navigation Collection" ValueLabel="True">
+      <Condition Expression="HasCategory('Navigation Collection')" />
+      <Setter Property="Background" Value="#FFFF3232" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Model" ValueLabel="True">
+      <Condition Expression="HasCategory('Model')" />
+      <Setter Property="Background" Value="#FFFFFFFF" />
+    </Style>
+  </Styles>
+  <Properties>
+    <Property Id="Name" Group="Model Properties" DataType="System.String" />
+    <Property Id="Field"  Description="Backing field" Group="Model Properties" DataType="System.String" />
+    <Property Id="Type"  Description="CLR data type" Group="Model Properties" DataType="System.String" />
+    <Property Id="To" Description="Source property" Group="Model Properties" DataType="System.String" />
+    <Property Id="From" Description="Target property" Group="Model Properties" DataType="System.String" />
+    <Property Id="Dependent" Description="Dependent entity" Group="Model Properties" DataType="System.String" />
+    <Property Id="Inverse" Description="Inverse entity" Group="Model Properties" DataType="System.String" />
+    <Property Id="Principal" Description="Principal entity" Group="Model Properties" DataType="System.String" />    
+    <Property Id="Annotations" Description="Annotations" Group="Model Properties" DataType="System.String" />
+    <Property Id="BaseClass"  Description="Base class" Group="Model Properties" DataType="System.String" />
+    <Property Id="ChangeTrackingStrategy" Description="Change tracking strategy" Group="Model Properties" DataType="System.String" />
+    <Property Id="IsUnique" Group="Model Properties" DataType="System.Boolean" />
+    <Property Id="IsAbstract" Group="Model Properties" DataType="System.Boolean" />
+    <Property Id="ProductVersion" Label="Product Version" Description="EF Core product version" Group="Model Properties" DataType="System.String" />
+    <Property Id="IsIndexed" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsRequired" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsPrimaryKey" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsForeignKey" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsShadow" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsAlternateKey" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsConcurrencyToken" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsIndexed" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsUnicode" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="ValueGenerated" Group="Property Flags" DataType="System.String" />
+    <Property Id="BeforeSaveBehavior" Group="Property Flags" DataType="System.String" />
+    <Property Id="AfterSaveBehavior" Group="Property Flags" DataType="System.String" />
+    <Property Id="PropertyAccessMode" Group="Property Flags" DataType="System.String" />
+  </Properties>
+</DirectedGraph>
