@@ -61,6 +61,20 @@ namespace TradingTools.Trunk.Validation
             return true;
         }
 
+        public static bool isTicker(string value, out string errorMsg)
+        {
+            //TODO - needs to validate
+            string pattern = @"^[a-zA-Z]{1,5}[\/][a-zA-Z]{1,5}$";
+            Regex rg = new Regex(pattern);
+
+            errorMsg = "";
+            if (!rg.IsMatch(value))
+            {
+                errorMsg = message("Must be a trading pair", "btc/usdt or BTC/USDT");
+                return false;
+            }
+            return true;
+        }
         private static string message(string msg, string example)
         {
             return $"Incorrect format. \n\n{msg}. \n\nExample: {example}";

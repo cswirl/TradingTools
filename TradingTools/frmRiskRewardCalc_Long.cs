@@ -112,7 +112,7 @@ namespace TradingTools
                 nudDailyInterestRate.Value = Constant.DAILY_INTEREST_RATE;
 
                 txtPEP_Note.Text = "take-profit: inactive";
-                txtPEP_Note.Text = "stop-loss: inactive";
+                txtLEP_Note.Text = "stop-loss: inactive";
             }
             else if (State == RiskRewardCalcState.Loaded)
             {
@@ -287,10 +287,8 @@ namespace TradingTools
             Save();
         }
 
-        private bool Save()
+        private void captureState()
         {
-            // Capture state
-            // 1
             CalculatorState.Capital = InputConverter.Decimal(txtCapital.Text);
             CalculatorState.Leverage = InputConverter.Decimal(txtLeverage.Text);
             CalculatorState.EntryPriceAvg = InputConverter.Decimal(txtEntryPrice.Text);
@@ -305,6 +303,13 @@ namespace TradingTools
             CalculatorState.Ticker = txtTicker.Text;
             CalculatorState.Strategy = txtStrategy.Text;
             CalculatorState.Note = txtNote.Text;
+        }
+
+        private bool Save()
+        {
+            // Capture state
+            // 1
+            captureState();
 
             // 2-B Validation - the implementation may be incomplete but suffice for nowInputConverter.Decimal
             string msg;
@@ -316,13 +321,14 @@ namespace TradingTools
             }
 
             // 3 - process data collected - this will save data into a data store - no need for step 4 which is to Display Data 
-            var o = (frmCalculatorStates)this.Owner;
+            var o = (master)this.Owner;
             if (State == RiskRewardCalcState.Empty)
             {
                 // Add to the Owner's List
                 if (o.CalculatorState_Add(CalculatorState))
                 {
                     State = RiskRewardCalcState.Loaded;
+                    this.Text = CalculatorState.Ticker;
                     setBand();
                     statusMessage.Text = "State save successfully.";
                 }
@@ -332,6 +338,7 @@ namespace TradingTools
             {
                 if (o.CalculatorState_Update())
                 {
+                    this.Text = CalculatorState.Ticker;
                     statusMessage.Text = "State updated successfully.";
                 }
                 else statusMessage.Text = "Updating state failed.";
@@ -354,33 +361,37 @@ namespace TradingTools
                     panelBandBottom.BackColor = BandColor.Loaded;
                     break;
 
-                case RiskRewardCalcState.OpenPosition:
+                case RiskRewardCalcState.TradeOpen:
                     panelBandTop.BackColor = BandColor.OpenPosition;
                     panelBandBottom.BackColor = BandColor.OpenPosition;
                     break;
 
-                case RiskRewardCalcState.ClosedPosition:
+                case RiskRewardCalcState.TradeClosed:
                     panelBandTop.BackColor = BandColor.ClosedPosition;
                     panelBandBottom.BackColor = BandColor.ClosedPosition;
                     break;
             }
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void btnDelete_Click(object sender, EventArgs e)
         {
             if (State == RiskRewardCalcState.Empty) return;
+            // Deletion not allowed when Trade was Officialized
+            if (State == RiskRewardCalcState.TradeOpen) return;
+            if (State == RiskRewardCalcState.TradeClosed) return;
 
             DialogResult objDialog = MessageBox.Show("Are you sure you want to DELETE this State", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (objDialog == DialogResult.Yes)
             {
-                var o = (frmCalculatorStates)this.Owner;
+                var o = (master)this.Owner;
                 // Remove from the Owner's List
                 if (o.CalculatorState_Delete(CalculatorState))
                 {
                     State = RiskRewardCalcState.Deleted;
                     statusMessage.Text = "State was deleted successfully. \n\nThis form will now close.";
                     MessageBox.Show(statusMessage.Text, "Delete", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    resetFromEmpty();
+                    // just close the form
+                    this.Close();
                 }
                 else
                 {
@@ -390,12 +401,6 @@ namespace TradingTools
             }
 
 
-        }
-
-        private void resetFromEmpty()
-        {
-            // just close the form
-            this.Close();
         }
 
         private void TextBox_Decimal_KeyPress(object sender, KeyPressEventArgs e)
@@ -472,16 +477,36 @@ namespace TradingTools
             }
         }
 
+        private void TextBox_Ticker_Validating(object sender, CancelEventArgs e)
+        {
+            var tb = (TextBox)sender;
+            string msg;
+
+            if (!Format.isTicker(tb.Text, out msg))
+            {
+                //e.Cancel = true;
+                errorProvider1.SetError(tb, msg);
+            }
+            else
+            {
+                e.Cancel = false;
+                errorProvider1.SetError(tb, null);
+            }
+        }
+
         private void frmRiskRewardCalc_Long_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Just ignore if the reason for closing was cause by deletion
             if (State == RiskRewardCalcState.Deleted) return;
 
+            // Saving not allowed when Trade is Closed
+            if (State == RiskRewardCalcState.TradeClosed) return;
+
             // show the form in case was minimized and closing was came from external such as from a parent form
             this.WindowState = FormWindowState.Normal;
             this.Focus();
 
-            DialogResult objDialog = MessageBox.Show("Do you want to save before closing ?", "", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            DialogResult objDialog = MessageBox.Show("Do you want to save before closing ?", this.Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
             if (objDialog == DialogResult.Cancel)
             {
                 // keep the form open
@@ -503,6 +528,81 @@ namespace TradingTools
         {
             setBand();
             statusMessage.Text = "Status message . . .";
+        }
+
+        private void btnOfficializedTrade_Click(object sender, EventArgs e)
+        {
+            if (State == RiskRewardCalcState.Empty | State == RiskRewardCalcState.Loaded)
+            {
+                officializedTrade();
+            }
+            else if (State == RiskRewardCalcState.TradeClosed)
+            {
+
+                //else if (State == RiskRewardCalcState.TradeOpen)
+                //{
+                //    if (o.Trade_ClosePosition(CalculatorState))
+                //    {
+                //        statusMessage.Text = "Trade is marked as closed.";
+                //    }
+                //    else statusMessage.Text = "Marking trade as closed failed.";
+                //}
+            }
+        }
+
+        private bool officializedTrade()
+        {
+            // Capture state
+            // 1
+            captureState();        // calculator state must be captured first
+            var c = CalculatorState;
+            var p = _calc.Position;
+            var oc = _calc.OpeningCost;
+            var b = _calc.Borrow;
+            var t = new Trade
+            {
+                Ticker = c.Ticker,
+                PositionSide = "long",
+                Status = "open",
+                DateEnter = DateTime.Now,
+                Capital = c.Capital,
+                Leverage = c.Leverage,
+                LeveragedCapital = p.LeveragedCapital,
+                EntryPriceAvg = c.EntryPriceAvg,
+                LotSize = p.LotSize,
+                OpeningTradingFee = oc.TradingFee,
+                OpeningTradingCost = oc.TradingFee,
+                BorrowAmount = b.Amount,
+                DayCount = b.DayCount,
+                DailyInterestRate = b.DailyInterestRate,
+                InterestCost = b.InterestCost,
+                CalculatorState = this.CalculatorState
+            };
+
+            // 2-B Validation - the implementation may be incomplete but suffice for nowInputConverter.Decimal
+            string msg;
+            var _trade_service = new Trade_Serv();
+            if (!_trade_service.Trade_Validate(t, out msg) | !_rrc_serv.CalculatorState_Validate(this.CalculatorState, out msg))
+            {
+                statusMessage.Text = msg;
+                MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return false;
+            }
+
+            // 3 - process data collected - this will save data into a data store - no need for step 4 which is to Display Data 
+            var o = (master)this.Owner;
+            // Add to the Owner's List
+            if (o.Trade_Add(t))
+            {
+                State = RiskRewardCalcState.TradeOpen;
+                this.Text = CalculatorState.Ticker;
+                setBand();
+                statusMessage.Text = "Trade has been officialized successfully.";
+            }
+            else statusMessage.Text = "Officializing trade failure";
+
+
+            return true;
         }
     }
 }

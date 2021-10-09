@@ -36,6 +36,7 @@ namespace TradingTools
             this.panelBandTop = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btnOfficializedTrade = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.txtNote = new System.Windows.Forms.TextBox();
             this.label53 = new System.Windows.Forms.Label();
@@ -265,6 +266,7 @@ namespace TradingTools
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.btnOfficializedTrade);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox6);
             this.splitContainer1.Panel1.Controls.Add(this.label53);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox5);
@@ -296,6 +298,19 @@ namespace TradingTools
             this.splitContainer1.Size = new System.Drawing.Size(1670, 806);
             this.splitContainer1.SplitterDistance = 1102;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // btnOfficializedTrade
+            // 
+            this.btnOfficializedTrade.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOfficializedTrade.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnOfficializedTrade.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnOfficializedTrade.Location = new System.Drawing.Point(700, 385);
+            this.btnOfficializedTrade.Name = "btnOfficializedTrade";
+            this.btnOfficializedTrade.Size = new System.Drawing.Size(397, 41);
+            this.btnOfficializedTrade.TabIndex = 18;
+            this.btnOfficializedTrade.Text = "Save-To-Official Trades";
+            this.btnOfficializedTrade.UseVisualStyleBackColor = true;
+            this.btnOfficializedTrade.Click += new System.EventHandler(this.btnOfficializedTrade_Click);
             // 
             // groupBox6
             // 
@@ -1073,7 +1088,7 @@ namespace TradingTools
             this.btnDelete.TabIndex = 7;
             this.btnDelete.Text = "&DELETE";
             this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.button1_Click_1);
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // txtStrategy
             // 
@@ -1100,6 +1115,7 @@ namespace TradingTools
             this.txtTicker.Size = new System.Drawing.Size(97, 23);
             this.txtTicker.TabIndex = 4;
             this.txtTicker.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtTicker.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Ticker_Validating);
             // 
             // btnSave
             // 
@@ -2017,6 +2033,7 @@ namespace TradingTools
         private System.Windows.Forms.Panel panelBandBottom;
         private System.Windows.Forms.Panel panelBandTop;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Button btnOfficializedTrade;
     }
 }
 

@@ -10,15 +10,15 @@ namespace TradingTools
     class Presentation
     {
         private const int SECOND = 1000;
-        public const int INTERNAL_TIMER_REFRESH_VALUE = SECOND * 15;
+        public const int INTERNAL_TIMER_REFRESH_VALUE = SECOND * 60;
     }
 
     public enum RiskRewardCalcState
     {
         Empty,
         Loaded,
-        OpenPosition,
-        ClosedPosition,
+        TradeOpen,
+        TradeClosed,
         Deleted
     }
 
