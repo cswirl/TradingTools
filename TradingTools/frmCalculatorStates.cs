@@ -39,10 +39,10 @@ namespace TradingTools
             CalculatorState_Loaded_OnRequest((CalculatorState)dgvUnofficial.CurrentRow.DataBoundItem);
         }
 
-        public void dgvUnofficial_Refresh()
+        public void dgvUnofficial_Renew_Datasource()
         {
             // As of now, the binding list is able to track changes
-            dgvUnofficial.DataSource = _master.GetCalculatorStates_Unofficial_List();
+            dgvUnofficial.DataSource = _master.GetCalculatorStates_Unofficial_BindingList();
             //dgvUnofficial.Invalidate();
         }
 
@@ -51,7 +51,7 @@ namespace TradingTools
             dgvUnofficial.Invalidate();
         }
 
-        public void dgvTrades_Open_Refresh()
+        public void dgvTrades_Open_Renew_Datasource()
         {
             dgvTrades_Open.DataSource = _master.GetTrades_Open();
             //dgvTrades_Open.Invalidate();
@@ -69,8 +69,8 @@ namespace TradingTools
 
         private void frmCalculatorStates_Load(object sender, EventArgs e)
         {
-            dgvUnofficial.DataSource = _master.GetCalculatorStates_Unofficial_List();
-            dgvTrades_Open.DataSource = _master.GetTrades_Open();
+            //dgvTrades_Open.DataSource = _master.GetTrades_Open();
+            dgvUnofficial.DataSource = _master.GetCalculatorStates_Unofficial_BindingList();
 
             // Adds- complexity - not used
             //dgvUnsaved.DataSource = _master.GetCalculatorStates_Unsaved_BindingSource();
