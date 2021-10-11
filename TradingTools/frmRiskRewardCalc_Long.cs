@@ -313,7 +313,7 @@ namespace TradingTools
 
             // 2-B Validation - the implementation may be incomplete but suffice for nowInputConverter.Decimal
             string msg;
-            if (!_rrc_serv.CalculatorState_Validate(this.CalculatorState, out msg))
+            if (!RiskRewardCalc_Serv.CalculatorState_Validate(this.CalculatorState, out msg))
             {
                 statusMessage.Text = msg;
                 MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
@@ -582,7 +582,7 @@ namespace TradingTools
             // 2-B Validation - the implementation may be incomplete but suffice for nowInputConverter.Decimal
             string msg;
             var _trade_service = new Trade_Serv();
-            if (!_trade_service.Trade_Validate(t, out msg) | !_rrc_serv.CalculatorState_Validate(this.CalculatorState, out msg))
+            if (!_trade_service.Trade_Validate(t, out msg) | !RiskRewardCalc_Serv.CalculatorState_Validate(this.CalculatorState, out msg))
             {
                 statusMessage.Text = msg;
                 MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
@@ -599,7 +599,12 @@ namespace TradingTools
                 setBand();
                 statusMessage.Text = "Trade has been officialized successfully.";
             }
-            else statusMessage.Text = "Officializing trade failure";
+            else
+            {
+                statusMessage.Text = "Officializing trade failure";
+                MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return false;
+            }
 
 
             return true;

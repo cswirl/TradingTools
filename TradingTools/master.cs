@@ -131,15 +131,6 @@ namespace TradingTools
         //    return _calcStates_List;
         //}
 
-        #region Factories
-        public Trade_Serv TradeService_GetInstance()
-        {
-            if (TradeService == null) TradeService = new(DbContext);
-            return TradeService;
-        }
-
-        #endregion
-
         public BindingList<CalculatorState> GetCalculatorStates_Unofficial_BindingList()
         {
             _calculatorStates_unofficial_bindingList = new BindingList<CalculatorState>(DbContext.CalculatorStates
@@ -190,9 +181,10 @@ namespace TradingTools
 
         internal bool Trade_Add(Trade t)
         {
-            _trades_open_bindingList.Add(t);
+            DbContext.Trades.Add(t);
             DbContext.SaveChanges();
-            frmCalcStates.dgvUnofficial_Invalidate();       // Refereshes the DataGridView
+            _trades_open_bindingList.Add(t);
+            _calculatorStates_unofficial_bindingList.Remove(t.CalculatorState);     //hope may not cause prob with Officialized v2-Direct since obj does not exist yet
 
             return true;
         }
