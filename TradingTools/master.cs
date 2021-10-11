@@ -189,10 +189,11 @@ namespace TradingTools
             return true;
         }
 
+        // UNFINISHED
         internal bool Trade_ClosePosition(CalculatorState calculatorState)
         {
-            DbContext.SaveChanges();
-            frmCalcStates.dgvTrades_Open_Invalidate();       // Refereshes the DataGridView
+            //DbContext.SaveChanges();
+            //frmCalcStates.dgvTrades_Open_Invalidate();       // Refereshes the DataGridView
 
             return true;
         }

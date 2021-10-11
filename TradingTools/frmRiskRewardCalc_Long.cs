@@ -20,6 +20,7 @@ namespace TradingTools
     {
         private RiskRewardCalc_Serv _rrc_serv = new();
         private CalculationDetails _calc = new();
+        public EventHandler<RiskRewardCalcState> OnStateChanged;
 
         public RiskRewardCalcState State { get; set; } = RiskRewardCalcState.Empty;
 
@@ -33,6 +34,7 @@ namespace TradingTools
             panelBandBottom.Height = 3;
             // timer
             timer1.Interval = Presentation.INTERNAL_TIMER_REFRESH_VALUE;
+            // events
         }
 
         private void btnReCalculate_Click(object sender, EventArgs e)
@@ -95,70 +97,6 @@ namespace TradingTools
             callOnLoad();
         }
 
-        private bool callOnLoad()
-        {
-            // State independent controls
-            txtOpeningTradingFee_percent.Text = Constant.TRADING_FEE.ToString();
-
-            setBand();
-            // State Implementations
-            if (State == RiskRewardCalcState.Empty)
-            {
-                CalculatorState = new();
-
-                // Initalize UI controls
-                txtBorrowAmount.Text = Constant.MONEY_FORMAT;
-                nudDayCount.Value = 1;
-                nudDailyInterestRate.Value = Constant.DAILY_INTEREST_RATE;
-
-                txtPEP_Note.Text = "take-profit: inactive";
-                txtLEP_Note.Text = "stop-loss: inactive";
-            }
-            else if (State == RiskRewardCalcState.Loaded)
-            {
-                if (CalculatorState == null)
-                {
-                    statusMessage.Text = "CalculatorState instance was not forwarded.";
-                    MessageBox.Show(statusMessage.Text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    this.Close();
-                    return false;
-                }
-                else
-                {
-                    // sys flow 1
-                    txtCapital.Text = CalculatorState.Capital.ToString("0.00");     // dont change format
-                    txtLeverage.Text = CalculatorState.Leverage.ToString("0");      // dont change format
-                    txtEntryPrice.Text = CalculatorState.EntryPriceAvg.ToString();
-                    nudDayCount.Value = CalculatorState.DayCount;
-                    nudDailyInterestRate.Value = CalculatorState.DailyInterestRate;
-                    btnReCalculate.PerformClick();
-
-                    // sys flow 2
-                    txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
-                    btnPriceIncrease_custom.PerformClick();
-                    txtPriceDecrease_target.Text = CalculatorState.PriceDecreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
-                    btnPriceDecrease_custom.PerformClick();
-
-                    // sys flow 3
-                    txtPEP_ExitPrice.Text = CalculatorState.PEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
-                    txtPEP_Note.Text = CalculatorState.PEP_Note;
-                    btnPEP_compute.PerformClick();
-
-                    // sys flow
-                    txtLEP_ExitPrice.Text = CalculatorState.LEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
-                    txtLEP_Note.Text = CalculatorState.LEP_Note;
-                    btnLEP_compute.PerformClick();
-
-                    // Independent data
-                    txtTicker.Text = CalculatorState.Ticker;
-                    txtStrategy.Text = CalculatorState.Strategy;
-                    txtNote.Text = CalculatorState.Note;
-
-                }
-            }
-
-            return true;
-        }
 
         private void btnPriceIncrease_custom_Click(object sender, EventArgs e)
         {
@@ -327,14 +265,13 @@ namespace TradingTools
                 // Add to the Owner's List
                 if (o.CalculatorState_Add(CalculatorState))
                 {
-                    State = RiskRewardCalcState.Loaded;
                     this.Text = CalculatorState.Ticker;
-                    setBand();
+                    ChangeState(RiskRewardCalcState.Loaded);
                     statusMessage.Text = "State save successfully.";
                 }
                 else statusMessage.Text = "Saving state failed.";
             }
-            else if (State == RiskRewardCalcState.Loaded)
+            else if (State == RiskRewardCalcState.Loaded | State == RiskRewardCalcState.TradeOpen)
             {
                 if (o.CalculatorState_Update())
                 {
@@ -347,32 +284,6 @@ namespace TradingTools
             return true;
         }
 
-        private void setBand()
-        {
-            switch (State)
-            {
-                case RiskRewardCalcState.Empty:
-                    panelBandTop.BackColor = BandColor.Empty;
-                    panelBandBottom.BackColor = BandColor.Empty;
-                    break;
-
-                case RiskRewardCalcState.Loaded:
-                    panelBandTop.BackColor = BandColor.Loaded;
-                    panelBandBottom.BackColor = BandColor.Loaded;
-                    break;
-
-                case RiskRewardCalcState.TradeOpen:
-                    panelBandTop.BackColor = BandColor.OpenPosition;
-                    panelBandBottom.BackColor = BandColor.OpenPosition;
-                    break;
-
-                case RiskRewardCalcState.TradeClosed:
-                    panelBandTop.BackColor = BandColor.ClosedPosition;
-                    panelBandBottom.BackColor = BandColor.ClosedPosition;
-                    break;
-            }
-        }
-
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (State == RiskRewardCalcState.Empty) return;
@@ -380,14 +291,14 @@ namespace TradingTools
             if (State == RiskRewardCalcState.TradeOpen) return;
             if (State == RiskRewardCalcState.TradeClosed) return;
 
-            DialogResult objDialog = MessageBox.Show("Are you sure you want to DELETE this State", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult objDialog = MyMessageBox.Question_YesNo("Are you sure you want to DELETE this State", "Delete");
             if (objDialog == DialogResult.Yes)
             {
                 var o = (master)this.Owner;
                 // Remove from the Owner's List
                 if (o.CalculatorState_Delete(CalculatorState))
                 {
-                    State = RiskRewardCalcState.Deleted;
+                    ChangeState(RiskRewardCalcState.Deleted);
                     statusMessage.Text = "State was deleted successfully. \n\nThis form will now close.";
                     MessageBox.Show(statusMessage.Text, "Delete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     // just close the form
@@ -526,15 +437,19 @@ namespace TradingTools
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            setBand();
             statusMessage.Text = "Status message . . .";
         }
 
         private void btnOfficializedTrade_Click(object sender, EventArgs e)
         {
+            
             if (State == RiskRewardCalcState.Empty | State == RiskRewardCalcState.Loaded)
             {
-                officializedTrade();
+                var result = MyMessageBox.Question_YesNo("Confirm save this Trade as Official?", "Trade Officialize");
+                if (result == DialogResult.Yes)
+                {
+                    officializedTrade();
+                }
             }
             else if (State == RiskRewardCalcState.TradeClosed)
             {
@@ -594,9 +509,9 @@ namespace TradingTools
             // Add to the Owner's List
             if (o.Trade_Add(t))
             {
-                State = RiskRewardCalcState.TradeOpen;
-                this.Text = CalculatorState.Ticker;
-                setBand();
+                txtTradeNum.Text = t.Id.ToString();
+                this.Text = t.Ticker + " - OPEN";
+                ChangeState(RiskRewardCalcState.TradeOpen);
                 statusMessage.Text = "Trade has been officialized successfully.";
             }
             else
@@ -608,6 +523,114 @@ namespace TradingTools
 
 
             return true;
+        }
+
+        private void callOnLoad()
+        {
+            // State independent controls
+            txtOpeningTradingFee_percent.Text = Constant.TRADING_FEE.ToString();
+
+            ChangeState(this.State);
+        }
+        private void ChangeState(RiskRewardCalcState s)
+        {
+            State = s;
+            switch (State)
+            {
+                case RiskRewardCalcState.Empty:
+                    panelBandTop.BackColor = BandColor.Empty;
+                    panelBandBottom.BackColor = BandColor.Empty;
+
+                    CalculatorState = new();
+                    // Initalize UI controls
+                    txtBorrowAmount.Text = Constant.MONEY_FORMAT;
+                    nudDayCount.Value = 1;
+                    nudDailyInterestRate.Value = Constant.DAILY_INTEREST_RATE;
+
+                    txtPEP_Note.Text = "take-profit: inactive";
+                    txtLEP_Note.Text = "stop-loss: inactive";
+
+                    btnCloseTheTrade.Visible = false;
+                    break;
+
+                case RiskRewardCalcState.Loaded:
+                    panelBandTop.BackColor = BandColor.Loaded;
+                    panelBandBottom.BackColor = BandColor.Loaded;
+
+                    if (CalculatorState == null)
+                    {
+                        statusMessage.Text = "CalculatorState instance was not forwarded.";
+                        MessageBox.Show(statusMessage.Text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        this.Close();
+                        return;
+                    }
+                    else
+                    {
+                        // sys flow 1
+                        txtCapital.Text = CalculatorState.Capital.ToString("0.00");     // dont change format
+                        txtLeverage.Text = CalculatorState.Leverage.ToString("0");      // dont change format
+                        txtEntryPrice.Text = CalculatorState.EntryPriceAvg.ToString();
+                        nudDayCount.Value = CalculatorState.DayCount;
+                        nudDailyInterestRate.Value = CalculatorState.DailyInterestRate;
+                        btnReCalculate.PerformClick();
+
+                        // sys flow 2
+                        txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                        btnPriceIncrease_custom.PerformClick();
+                        txtPriceDecrease_target.Text = CalculatorState.PriceDecreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                        btnPriceDecrease_custom.PerformClick();
+
+                        // sys flow 3
+                        txtPEP_ExitPrice.Text = CalculatorState.PEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                        txtPEP_Note.Text = CalculatorState.PEP_Note;
+                        btnPEP_compute.PerformClick();
+
+                        // sys flow
+                        txtLEP_ExitPrice.Text = CalculatorState.LEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                        txtLEP_Note.Text = CalculatorState.LEP_Note;
+                        btnLEP_compute.PerformClick();
+
+                        // Independent data
+                        txtTicker.Text = CalculatorState.Ticker;
+                        txtStrategy.Text = CalculatorState.Strategy;
+                        txtNote.Text = CalculatorState.Note;
+
+                        btnCloseTheTrade.Visible = false;
+                    }
+                    break;
+
+                case RiskRewardCalcState.TradeOpen:
+                    panelBandTop.BackColor = BandColor.OpenPosition;
+                    panelBandBottom.BackColor = BandColor.OpenPosition;
+
+                    lblHeader.Text += " - OPEN";
+
+                    txtCapital.ReadOnly = true;
+                    txtLeverage.ReadOnly = true;
+                    txtEntryPrice.ReadOnly = true;
+                    txtTicker.ReadOnly = true;
+
+                    btnDelete.Visible = false;
+                    btnOfficializedTrade.Enabled = false;
+                    btnCloseTheTrade.Visible = true;
+                    break;
+
+                case RiskRewardCalcState.TradeClosed:
+                    panelBandTop.BackColor = BandColor.ClosedPosition;
+                    panelBandBottom.BackColor = BandColor.ClosedPosition;
+
+                    btnCloseTheTrade.Visible = false;
+                    break;
+            }
+        }
+
+        private void btnCloseTheTrade_Click(object sender, EventArgs e)
+        {
+            var result = MyMessageBox.Question_YesNo("Confirm to close this Trade?", "Trade Closing");
+            if (result == DialogResult.Yes)
+            {
+                
+            }
         }
     }
 }

@@ -31,11 +31,12 @@ namespace TradingTools
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblHeader = new System.Windows.Forms.Label();
             this.panelBandBottom = new System.Windows.Forms.Panel();
             this.panelBandTop = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btnCloseTheTrade = new System.Windows.Forms.Button();
             this.btnOfficializedTrade = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.txtNote = new System.Windows.Forms.TextBox();
@@ -205,7 +206,7 @@ namespace TradingTools
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.MediumSeaGreen;
-            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.lblHeader);
             this.panel1.Controls.Add(this.panelBandBottom);
             this.panel1.Controls.Add(this.panelBandTop);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -214,20 +215,20 @@ namespace TradingTools
             this.panel1.Size = new System.Drawing.Size(1700, 52);
             this.panel1.TabIndex = 0;
             // 
-            // label2
+            // lblHeader
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.lblHeader.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(774, 9);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(153, 30);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Long Position";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblHeader.AutoSize = true;
+            this.lblHeader.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblHeader.ForeColor = System.Drawing.Color.White;
+            this.lblHeader.Location = new System.Drawing.Point(774, 9);
+            this.lblHeader.Name = "lblHeader";
+            this.lblHeader.Size = new System.Drawing.Size(153, 30);
+            this.lblHeader.TabIndex = 1;
+            this.lblHeader.Text = "Long Position";
+            this.lblHeader.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panelBandBottom
             // 
@@ -266,6 +267,7 @@ namespace TradingTools
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.btnCloseTheTrade);
             this.splitContainer1.Panel1.Controls.Add(this.btnOfficializedTrade);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox6);
             this.splitContainer1.Panel1.Controls.Add(this.label53);
@@ -299,17 +301,30 @@ namespace TradingTools
             this.splitContainer1.SplitterDistance = 1102;
             this.splitContainer1.TabIndex = 0;
             // 
+            // btnCloseTheTrade
+            // 
+            this.btnCloseTheTrade.BackColor = System.Drawing.Color.DarkRed;
+            this.btnCloseTheTrade.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnCloseTheTrade.ForeColor = System.Drawing.Color.White;
+            this.btnCloseTheTrade.Location = new System.Drawing.Point(700, 423);
+            this.btnCloseTheTrade.Name = "btnCloseTheTrade";
+            this.btnCloseTheTrade.Size = new System.Drawing.Size(397, 32);
+            this.btnCloseTheTrade.TabIndex = 19;
+            this.btnCloseTheTrade.Text = "Close the Trade";
+            this.btnCloseTheTrade.UseVisualStyleBackColor = false;
+            this.btnCloseTheTrade.Click += new System.EventHandler(this.btnCloseTheTrade_Click);
+            // 
             // btnOfficializedTrade
             // 
-            this.btnOfficializedTrade.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOfficializedTrade.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnOfficializedTrade.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.btnOfficializedTrade.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnOfficializedTrade.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnOfficializedTrade.ForeColor = System.Drawing.Color.White;
             this.btnOfficializedTrade.Location = new System.Drawing.Point(700, 385);
             this.btnOfficializedTrade.Name = "btnOfficializedTrade";
-            this.btnOfficializedTrade.Size = new System.Drawing.Size(397, 41);
+            this.btnOfficializedTrade.Size = new System.Drawing.Size(397, 32);
             this.btnOfficializedTrade.TabIndex = 18;
             this.btnOfficializedTrade.Text = "Save-To-Official Trades";
-            this.btnOfficializedTrade.UseVisualStyleBackColor = true;
+            this.btnOfficializedTrade.UseVisualStyleBackColor = false;
             this.btnOfficializedTrade.Click += new System.EventHandler(this.btnOfficializedTrade_Click);
             // 
             // groupBox6
@@ -1900,7 +1915,7 @@ namespace TradingTools
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblHeader;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.SplitContainer splitContainer1;
@@ -2034,6 +2049,7 @@ namespace TradingTools
         private System.Windows.Forms.Panel panelBandTop;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button btnOfficializedTrade;
+        private System.Windows.Forms.Button btnCloseTheTrade;
     }
 }
 

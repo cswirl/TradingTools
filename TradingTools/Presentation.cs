@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace TradingTools
 {
@@ -29,6 +30,15 @@ namespace TradingTools
         public static readonly Color Loaded = Color.Blue;
         public static readonly Color OpenPosition = Default;
         public static readonly Color ClosedPosition = Color.Orange;
+    }
+
+    public static class MyMessageBox
+    {
+        public static DialogResult Question_YesNo(string msg, string title)
+        {
+            DialogResult objDialog = MessageBox.Show(msg, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            return objDialog;
+        }
     }
 
 }
