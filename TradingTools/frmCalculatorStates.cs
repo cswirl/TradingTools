@@ -17,6 +17,8 @@ namespace TradingTools
         //public event EventHandler<CalculatorState> FormRRCLong_Loaded_Open;
         //public event EventHandler FormRRCLong_Empty_Open;
 
+        //private BindingSource _binding_calcStates_unofficial;
+
         public delegate bool CalculatorState_OnRequest(CalculatorState c);
         public CalculatorState_OnRequest CalculatorState_Loaded_OnRequest;
 
@@ -69,10 +71,12 @@ namespace TradingTools
 
         private void frmCalculatorStates_Load(object sender, EventArgs e)
         {
-            //dgvTrades_Open.DataSource = _master.GetTrades_Open();
+            //_binding_calcStates_unofficial = new BindingSource();
+            //_binding_calcStates_unofficial.DataSource = _master.GetCalculatorStates_Unofficial_List();
+            dgvTrades_Open.DataSource = _master.GetTrades_Open();
             dgvUnofficial.DataSource = _master.GetCalculatorStates_Unofficial_BindingList();
 
-            // Adds- complexity - not used
+            // Adds- complexity - feature is on hold
             //dgvUnsaved.DataSource = _master.GetCalculatorStates_Unsaved_BindingSource();
         }
     }

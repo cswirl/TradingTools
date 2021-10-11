@@ -20,7 +20,7 @@ namespace TradingTools.Services
             _priceDecreaseTable = new();
         }
 
-        public bool CalculatorState_Validate(CalculatorState c, out string msg)
+        public static bool CalculatorState_Validate(CalculatorState c, out string msg)
         {
             msg = string.Empty;
             if (c.Capital <= 10 | c.Leverage < 1 | c.EntryPriceAvg <= 0)

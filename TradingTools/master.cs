@@ -15,14 +15,14 @@ namespace TradingTools
     public class master : Form
     {
         private List<frmRiskRewardCalc_Long> _listOf_frmRRC_Long;
-        //private BindingList<CalculatorState> _calculatorStates_unofficial_bindingList;      // not-in-use
+        private BindingList<CalculatorState> _calculatorStates_unofficial_bindingList;      // -in-use
         private BindingList<Trade> _trades_open_bindingList;
         
-        private List<CalculatorState> _calcStates_List;             // in-use
+        //private List<CalculatorState> _calcStates_unofficial_List;             // not-in-use
 
         public TradingToolsDbContext DbContext { get; set; }
         public frmCalculatorStates frmCalcStates { get; set; }
-
+        public Trade_Serv TradeService { get; private set; }
 
         public master()
         {
@@ -34,14 +34,14 @@ namespace TradingTools
             this.Load += new EventHandler(master_Load);
 
             // Initialize Components
-            DbContext = new();
+            InitializeDbContext();
             _listOf_frmRRC_Long = new();
             //_calc_serv = new();
             //_calculatorStates_unofficial_bindingList = _calc_serv.GetBindingList();
             //_calculatorStates_unsaved = new();
 
 
-            // gateway
+            // gateway form
             frmCalcStates = new();
             frmCalcStates.Owner = this;
             frmCalcStates.StartPosition = FormStartPosition.CenterScreen;
@@ -55,6 +55,17 @@ namespace TradingTools
         {
             this.Size = new System.Drawing.Size(0, 0);
 
+        }
+
+        private void InitializeDbContext()
+        {
+            DbContext = new();
+            // This will load all the CalculatorStates and all the Trades records - Except to the closed Trades - enough for current application requirement
+            //Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.Load(DbContext.CalculatorStates
+            //    .Where(x => x.Trade.Status.Equals("open"))
+            //    .Include(x => x.Trade));
+
+            //_trades_open_bindingList = DbContext.Trades.Local.ToBindingList();
         }
 
         private bool FormRRCLong_Loaded_Spawned(CalculatorState c)
@@ -96,7 +107,7 @@ namespace TradingTools
             //_calculatorStates_unsaved.Add(form.CalculatorState);
         }
 
-        
+
         //public BindingList<CalculatorState> GetCalculatorStates_Unofficial_BindingList()
         //{
         //    Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.Load(
@@ -110,67 +121,78 @@ namespace TradingTools
 
         //}
 
-        
-        public List<CalculatorState> GetCalculatorStates_Unofficial_List()
+
+        //public List<CalculatorState> GetCalculatorStates_Unofficial_List()
+        //{
+        //    _calcStates_List = DbContext.CalculatorStates
+        //        .Where(x => x.TradeId == null)
+        //        .Include(x => x.Trade).ToList();
+
+        //    return _calcStates_List;
+        //}
+
+        #region Factories
+        public Trade_Serv TradeService_GetInstance()
         {
-            _calcStates_List = DbContext.CalculatorStates
+            if (TradeService == null) TradeService = new(DbContext);
+            return TradeService;
+        }
+
+        #endregion
+
+        public BindingList<CalculatorState> GetCalculatorStates_Unofficial_BindingList()
+        {
+            _calculatorStates_unofficial_bindingList = new BindingList<CalculatorState>(DbContext.CalculatorStates
                 .Where(x => x.TradeId == null)
-                .Include(x => x.Trade).ToList();
+                .ToList());
 
-            return _calcStates_List;
-
+            return _calculatorStates_unofficial_bindingList;
         }
 
         // temporary fix - an event listener sounds perfect for this - maybe a queueu
         // Return True if no error
         public bool CalculatorState_Add(CalculatorState calculatorState)
         {
-            _calcStates_List.Add(calculatorState);
-            // This one line code must persist the new object in the database
+            DbContext.CalculatorStates.Add(calculatorState);    // order matters here
             DbContext.SaveChanges();
+            _calculatorStates_unofficial_bindingList.Add(calculatorState);
 
             return true;
         }
 
         public bool CalculatorState_Update()
         {
+            // This one line code is sufficed sinced the CalculatorState objects are referenced properly
             DbContext.SaveChanges();
-            frmCalcStates.dgvUnofficial_Refresh();       // Refereshes the DataGridView
+            frmCalcStates.dgvUnofficial_Invalidate();       // Refereshes the DataGridView
 
             return true;
         }
 
         public bool CalculatorState_Delete(CalculatorState calculatorState)
         {
-            _calcStates_List.Remove(calculatorState);
-            // This one line code must persist the new object in the database
+            DbContext.CalculatorStates.Remove(calculatorState);
             DbContext.SaveChanges();
+            _calculatorStates_unofficial_bindingList.Remove(calculatorState);
 
             return true;
         }
 
         public BindingList<Trade> GetTrades_Open()
         {
-            // im not sure if the WHERE filter will work - we'll see later on when there are Status = closed
-            Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.Load(DbContext.Trades
-                .Where(t => t.Status.Equals("open"))
-                .Include(t => t.CalculatorState));
-
-            _trades_open_bindingList = DbContext.Trades.Local.ToBindingList();
+            _trades_open_bindingList = new BindingList<Trade>(DbContext.Trades
+                .Where(x => x.Status.Equals("open"))
+                .Include(x => x.CalculatorState).ToList());
 
             return _trades_open_bindingList;
-
-            //return DbContext.Trades
-            //    .Where(t => t.Status.Equals("open"))
-            //    .Include(t => t.CalculatorState)
-            //    .ToList();
         }
+
 
         internal bool Trade_Add(Trade t)
         {
             _trades_open_bindingList.Add(t);
             DbContext.SaveChanges();
-            frmCalcStates.dgvUnofficial_Refresh();       // Refereshes the DataGridView
+            frmCalcStates.dgvUnofficial_Invalidate();       // Refereshes the DataGridView
 
             return true;
         }
@@ -178,7 +200,7 @@ namespace TradingTools
         internal bool Trade_ClosePosition(CalculatorState calculatorState)
         {
             DbContext.SaveChanges();
-            frmCalcStates.dgvTrades_Open_Refresh();       // Refereshes the DataGridView
+            frmCalcStates.dgvTrades_Open_Invalidate();       // Refereshes the DataGridView
 
             return true;
         }
