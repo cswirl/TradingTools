@@ -307,7 +307,7 @@ namespace TradingTools
                 else
                 {
                     statusMessage.Text = "Deleting state failed.";
-                    MessageBox.Show(statusMessage.Text, "Delete", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MyMessageBox.Error(statusMessage.Text, "Delete");
                 }
             }
 
@@ -442,12 +442,13 @@ namespace TradingTools
 
         private void btnOfficializedTrade_Click(object sender, EventArgs e)
         {
-            
             if (State == RiskRewardCalcState.Empty | State == RiskRewardCalcState.Loaded)
             {
                 var result = MyMessageBox.Question_YesNo("Confirm save this Trade as Official?", "Trade Officialize");
                 if (result == DialogResult.Yes)
                 {
+                    
+                    if (State == RiskRewardCalcState.Empty) btnReCalculate.PerformClick();
                     officializedTrade();
                 }
             }
@@ -496,8 +497,7 @@ namespace TradingTools
 
             // 2-B Validation - the implementation may be incomplete but suffice for nowInputConverter.Decimal
             string msg;
-            var _trade_service = new Trade_Serv();
-            if (!_trade_service.Trade_Validate(t, out msg) | !RiskRewardCalc_Serv.CalculatorState_Validate(this.CalculatorState, out msg))
+            if (!RiskRewardCalc_Serv.CalculatorState_Validate(this.CalculatorState, out msg) || !Trade_Serv.Trade_Validate(t, out msg))
             {
                 statusMessage.Text = msg;
                 MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);

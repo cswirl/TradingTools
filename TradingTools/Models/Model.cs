@@ -32,7 +32,7 @@ namespace TradingTools.Model
             return GetSpeculativePositionValue(ExitPrice) - Borrow.Amount;
         }
 
-        public bool PreCalculate_Validate(out string? msg)
+        public bool PreCalculate_Validate(out string msg)
         {
             // Minimum Value
             msg = string.Empty;

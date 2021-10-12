@@ -39,6 +39,11 @@ namespace TradingTools
             DialogResult objDialog = MessageBox.Show(msg, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             return objDialog;
         }
+
+        internal static void Error(string msg, string title = "Error")
+        {
+            MessageBox.Show(msg, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
     }
 
 }

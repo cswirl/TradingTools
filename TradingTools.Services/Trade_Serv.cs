@@ -10,55 +10,56 @@ namespace TradingTools.Services
 {
     public class Trade_Serv
     {
-
-        public Trade Trade_Create(CalculatorState c, string positionSide)
+        public static bool Trade_Validate(Trade t, out string msg)
         {
-            var t = new Trade
-            {
-                Ticker = c.Ticker,
-                PositionSide = positionSide,
-                DateEnter = DateTime.Now,
-                Capital = c.Capital,
-                Leverage = c.Leverage,
-                LeveragedCapital = c.Leverage * c.Capital,
-                EntryPriceAvg = c.EntryPriceAvg
-
-            };
-
-            return t;
-        }
-
-        //not complete or formalized
-        public bool Trade_Validate(Trade t, out string msg)
-        {
-            msg = string.Empty;
-            if (t.Ticker.Length < 1 | !Format.isTicker(t.Ticker, out msg)) return false;
-            if (t.Status.Length < 1 | !validateStatus(t.Status, out msg)) return false;
-            if (t.PositionSide.Length < 1 | !validatePositionSide(t.PositionSide, out msg)) return false;
-            if (t.DateEnter == default) return false;
+            if (!validateTicker(t.Ticker, out msg)) return false;
+            if (!validateStatus(t.Status, out msg)) return false;
+            if (!validatePositionSide(t.PositionSide, out msg)) return false;
+            if (t.DateEnter == default) { msg = "Invalid data. Date is not set."; return false; }
             if (t.Capital <= 10 | t.Leverage < 1 | t.EntryPriceAvg <= 0 | t.LotSize <= 0 | t.OpeningTradingFee <= 0 |
                 t.OpeningTradingCost <= 0)
             {
                 msg = "Invalid input data";
                 return false;
             }
-            if (t.CalculatorState == default) return false;
+            if (t.CalculatorState == default) { msg = "Internal Error: Calculator is not set."; return false; }
 
             return true;
         }
 
-        private bool validatePositionSide(string positionSide, out string msg)
+        private static bool validateTicker(string ticker, out string msg)
         {
             msg = string.Empty;
-            if (positionSide.Equals("short") | positionSide.Equals("long")) return true;
-            return false;
+            if (ticker.Length < 1 || !Format.isTicker(ticker, out msg)) 
+            { 
+                msg = msg == string.Empty ? "Invalid Ticker format." : msg;
+                return false; 
+            }
+
+            return true;
         }
 
-        private bool validateStatus(string status, out string msg)
+        private static bool validatePositionSide(string positionSide, out string msg)
         {
             msg = string.Empty;
-            if (status.Equals("open") | status.Equals("closed")) return true;
-            return false;
+            if (positionSide.Length < 1 || !(positionSide.Equals("short") | positionSide.Equals("long")))
+            {
+                msg = "Invalid position side value. Valid values are: 'long' or 'short'";
+                return false;
+            }
+            return true;
+        }
+
+        private static bool validateStatus(string status, out string msg)
+        {
+            msg = string.Empty;
+            if (status.Length < 1 || !(status.Equals("open") | status.Equals("closed")))
+            {
+                msg = "Invalid Status value. Valid values are: 'open' or 'closed'";
+                return false;
+            }
+
+            return true;
         }
     }
 }
