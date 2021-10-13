@@ -47,8 +47,9 @@ namespace TradingTools
             frmCalcStates.StartPosition = FormStartPosition.CenterScreen;
             frmCalcStates.Show();
             // delegates
-            frmCalcStates.CalculatorState_Loaded_OnRequest += this.FormRRCLong_Loaded_Spawned;
-            frmCalcStates.FormRRCLong_Empty_Open += this.FormRRCLong_Empty_Spawned;
+            frmCalcStates.CalculatorState_Loaded_OnRequest += this.FormRRCLong_Loaded_Spawn;
+            frmCalcStates.FormRRCLong_Empty_Open += this.FormRRCLong_Empty_Spawn;
+            frmCalcStates.Trade_TradeOpen_OnRequest += this.FormRRCLong_TradeOpen_Spawn;
         }
 
         private void master_Load(object sender, EventArgs e)
@@ -68,7 +69,35 @@ namespace TradingTools
             //_trades_open_bindingList = DbContext.Trades.Local.ToBindingList();
         }
 
-        private bool FormRRCLong_Loaded_Spawned(CalculatorState c)
+        private bool FormRRCLong_TradeOpen_Spawn(Trade t)
+        {
+            // TODO: the EF core list is being renew whenever a Trade is Officialized or CalculatorState is Updated
+            // - maybe use id or something, maybe hash
+            //var rrc = _listOf_frmRRC_Long.Find(x => x.CalculatorState.GetHashCode().Equals(c.GetHashCode()));
+            var rrc = _listOf_frmRRC_Long.Find(x => x.Trade.Equals(t));       // THOUGH THIS IS WORKING FINE
+            if (rrc != null)
+            {
+                rrc.WindowState = FormWindowState.Normal;
+                rrc.Focus();
+            }
+            else
+            {
+                var form = new frmRiskRewardCalc_Long();
+                form.State = RiskRewardCalcState.TradeOpen;
+                form.Owner = this;
+                form.Trade = t;
+                form.CalculatorState = t.CalculatorState;
+                form.Show();
+                //TODO: Delegates assignment here
+                form.FormClosing += (object sender, FormClosingEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc_Long)sender);
+
+                _listOf_frmRRC_Long.Add(form);
+            }
+
+            return true;
+        }
+
+        private bool FormRRCLong_Loaded_Spawn(CalculatorState c)
         {
             // TODO: the EF core list is being renew whenever a Trade is Officialized or CalculatorState is Updated
             // - maybe use id or something, maybe hash
@@ -83,7 +112,6 @@ namespace TradingTools
             {
                 var form = new frmRiskRewardCalc_Long();
                 form.State = RiskRewardCalcState.Loaded;
-                form.Text = c.Ticker;
                 form.Owner = this;
                 form.CalculatorState = c;
                 form.Show();
@@ -96,7 +124,7 @@ namespace TradingTools
             return true;
         }
 
-        private void FormRRCLong_Empty_Spawned(object sender, EventArgs e)
+        private void FormRRCLong_Empty_Spawn(object sender, EventArgs e)
         {
             var form = new frmRiskRewardCalc_Long();
             form.Owner = this;

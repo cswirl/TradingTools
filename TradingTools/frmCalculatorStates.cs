@@ -22,6 +22,9 @@ namespace TradingTools
         public delegate bool CalculatorState_OnRequest(CalculatorState c);
         public CalculatorState_OnRequest CalculatorState_Loaded_OnRequest;
 
+        public delegate bool Trade_OnRequest(Trade t);
+        public Trade_OnRequest Trade_TradeOpen_OnRequest;
+
         public event EventHandler FormRRCLong_Empty_Open;
 
         private master _master { get { return (master)this.Owner; } }
@@ -78,6 +81,11 @@ namespace TradingTools
 
             // Adds- complexity - feature is on hold
             //dgvUnsaved.DataSource = _master.GetCalculatorStates_Unsaved_BindingSource();
+        }
+
+        private void btnViewOfficial_Click(object sender, EventArgs e)
+        {
+            Trade_TradeOpen_OnRequest((Trade)dgvTrades_Open.CurrentRow.DataBoundItem);
         }
     }
 }

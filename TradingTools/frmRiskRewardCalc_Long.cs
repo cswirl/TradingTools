@@ -25,6 +25,7 @@ namespace TradingTools
         public RiskRewardCalcState State { get; set; } = RiskRewardCalcState.Empty;
 
         public CalculatorState CalculatorState { get; set; }
+        public Trade Trade { get; set; }
 
         public frmRiskRewardCalc_Long()
         {
@@ -559,7 +560,7 @@ namespace TradingTools
 
                     if (CalculatorState == null)
                     {
-                        statusMessage.Text = "CalculatorState instance was not forwarded.";
+                        statusMessage.Text = "Internal error: CalculatorState instance was not forwarded.";
                         MessageBox.Show(statusMessage.Text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                         this.Close();
                         return;
@@ -591,6 +592,7 @@ namespace TradingTools
                         btnLEP_compute.PerformClick();
 
                         // Independent data
+                        this.Text = CalculatorState.Ticker;
                         txtTicker.Text = CalculatorState.Ticker;
                         txtStrategy.Text = CalculatorState.Strategy;
                         txtNote.Text = CalculatorState.Note;
@@ -603,16 +605,65 @@ namespace TradingTools
                     panelBandTop.BackColor = BandColor.OpenPosition;
                     panelBandBottom.BackColor = BandColor.OpenPosition;
 
-                    lblHeader.Text += " - OPEN";
+                    if (CalculatorState == null)
+                    {
+                        statusMessage.Text = "Internal error: CalculatorState instance was not forwarded.";
+                        MyMessageBox.Error(statusMessage.Text);
+                        this.Close();
+                        return;
+                    }
+                    else if (Trade == null)
+                    {
+                        statusMessage.Text = "Internal error: Trade instance was not forwarded.";
+                        MyMessageBox.Error(statusMessage.Text);
+                        this.Close();
+                        return;
+                    }
+                    else
+                    {
+                        // sys flow 1
+                        txtCapital.Text = Trade.Capital.ToString("0.00");     // dont change format
+                        txtLeverage.Text = Trade.Leverage.ToString("0");      // dont change format
+                        txtEntryPrice.Text = Trade.EntryPriceAvg.ToString();
+                        nudDayCount.Value = Trade.DayCount;
+                        nudDailyInterestRate.Value = Trade.DailyInterestRate;
+                        btnReCalculate.PerformClick();
 
-                    txtCapital.ReadOnly = true;
-                    txtLeverage.ReadOnly = true;
-                    txtEntryPrice.ReadOnly = true;
-                    txtTicker.ReadOnly = true;
+                        // sys flow 2
+                        txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                        btnPriceIncrease_custom.PerformClick();
+                        txtPriceDecrease_target.Text = CalculatorState.PriceDecreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                        btnPriceDecrease_custom.PerformClick();
 
-                    btnDelete.Visible = false;
-                    btnOfficializedTrade.Enabled = false;
-                    btnCloseTheTrade.Visible = true;
+                        // sys flow 3
+                        txtPEP_ExitPrice.Text = CalculatorState.PEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                        txtPEP_Note.Text = CalculatorState.PEP_Note;
+                        btnPEP_compute.PerformClick();
+
+                        // sys flow
+                        txtLEP_ExitPrice.Text = CalculatorState.LEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                        txtLEP_Note.Text = CalculatorState.LEP_Note;
+                        btnLEP_compute.PerformClick();
+
+                        // Independent data
+                        txtTradeNum.Text = Trade.Id.ToString();
+                        txtTicker.Text = Trade.Ticker;
+                        txtStrategy.Text = CalculatorState.Strategy;
+                        txtNote.Text = CalculatorState.Note;
+
+                        //
+                        lblHeader.Text += " - OPEN";
+                        this.Text = Trade.Ticker;
+
+                        txtCapital.ReadOnly = true;
+                        txtLeverage.ReadOnly = true;
+                        txtEntryPrice.ReadOnly = true;
+                        txtTicker.ReadOnly = true;
+
+                        btnDelete.Visible = false;
+                        btnOfficializedTrade.Enabled = false;
+                        btnCloseTheTrade.Visible = true;
+                    }
                     break;
 
                 case RiskRewardCalcState.TradeClosed:
@@ -629,7 +680,8 @@ namespace TradingTools
             var result = MyMessageBox.Question_YesNo("Confirm to close this Trade?", "Trade Closing");
             if (result == DialogResult.Yes)
             {
-                
+                this.Trade.Status = "closed";
+
             }
         }
     }
