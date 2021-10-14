@@ -143,8 +143,8 @@ namespace TradingTools
 
         private void updateRRR()
         {
-            decimal profit = StringToNumeric.Decimal(txtPEP_Profit.Text);
-            decimal loss = StringToNumeric.Decimal(txtLEP_Loss.Text);
+            decimal profit = StringToNumeric.MoneyToDecimal(txtPEP_Profit.Text);
+            decimal loss = StringToNumeric.MoneyToDecimal(txtLEP_Loss.Text);
             decimal? rrr = null;
 
             if (loss != 0) rrr = profit / Math.Abs(loss);
@@ -250,7 +250,7 @@ namespace TradingTools
             // 1
             captureState();
 
-            // 2-B Validation - the implementation may be incomplete but suffice for nowInputConverter.Decimal
+            // 2-B Validation - the implementation may be incomplete but suffice for nowInputConverter.MoneyToDecimal
             string msg;
             if (!RiskRewardCalc_Serv.CalculatorState_Validate(this.CalculatorState, out msg))
             {
@@ -453,18 +453,6 @@ namespace TradingTools
                     officializedTrade();
                 }
             }
-            else if (State == RiskRewardCalcState.TradeClosed)
-            {
-
-                //else if (State == RiskRewardCalcState.TradeOpen)
-                //{
-                //    if (o.Trade_ClosePosition(CalculatorState))
-                //    {
-                //        statusMessage.Text = "Trade is marked as closed.";
-                //    }
-                //    else statusMessage.Text = "Marking trade as closed failed.";
-                //}
-            }
         }
 
         private bool officializedTrade()
@@ -476,7 +464,7 @@ namespace TradingTools
             var p = _calc.Position;
             var oc = _calc.OpeningCost;
             var b = _calc.Borrow;
-            var t = new Trade
+            this.Trade = new Trade
             {
                 Ticker = c.Ticker,
                 PositionSide = "long",
@@ -496,9 +484,9 @@ namespace TradingTools
                 CalculatorState = this.CalculatorState
             };
 
-            // 2-B Validation - the implementation may be incomplete but suffice for nowInputConverter.Decimal
+            // 2-B Validation - the implementation may be incomplete but suffice for nowInputConverter.MoneyToDecimal
             string msg;
-            if (!RiskRewardCalc_Serv.CalculatorState_Validate(this.CalculatorState, out msg) || !Trade_Serv.Trade_Validate(t, out msg))
+            if (!RiskRewardCalc_Serv.CalculatorState_Validate(this.CalculatorState, out msg) || !Trade_Serv.Trade_Validate(this.Trade, out msg))
             {
                 statusMessage.Text = msg;
                 MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
@@ -508,10 +496,10 @@ namespace TradingTools
             // 3 - process data collected - this will save data into a data store - no need for step 4 which is to Display Data 
             var o = (master)this.Owner;
             // Add to the Owner's List
-            if (o.Trade_Add(t))
+            if (o.Trade_Add(this.Trade))
             {
-                txtTradeNum.Text = t.Id.ToString();
-                this.Text = t.Ticker + " - OPEN";
+                txtTradeNum.Text = this.Trade.Id.ToString();
+                this.Text = this.Trade.Ticker + " - OPEN";
                 ChangeState(RiskRewardCalcState.TradeOpen);
                 statusMessage.Text = "Trade has been officialized successfully.";
             }
@@ -544,7 +532,7 @@ namespace TradingTools
 
                     CalculatorState = new();
                     // Initalize UI controls
-                    txtBorrowAmount.Text = Constant.MONEY_FORMAT;
+                    txtBorrowAmount.Text = "0";
                     nudDayCount.Value = 1;
                     nudDailyInterestRate.Value = Constant.DAILY_INTEREST_RATE;
 
@@ -555,9 +543,6 @@ namespace TradingTools
                     break;
 
                 case RiskRewardCalcState.Loaded:
-                    panelBandTop.BackColor = BandColor.Loaded;
-                    panelBandBottom.BackColor = BandColor.Loaded;
-
                     if (CalculatorState == null)
                     {
                         statusMessage.Text = "Internal error: CalculatorState instance was not forwarded.";
@@ -567,6 +552,9 @@ namespace TradingTools
                     }
                     else
                     {
+                        panelBandTop.BackColor = BandColor.Loaded;
+                        panelBandBottom.BackColor = BandColor.Loaded;
+
                         // sys flow 1
                         txtCapital.Text = CalculatorState.Capital.ToString("0.00");     // dont change format
                         txtLeverage.Text = CalculatorState.Leverage.ToString("0");      // dont change format
@@ -602,9 +590,6 @@ namespace TradingTools
                     break;
 
                 case RiskRewardCalcState.TradeOpen:
-                    panelBandTop.BackColor = BandColor.OpenPosition;
-                    panelBandBottom.BackColor = BandColor.OpenPosition;
-
                     if (CalculatorState == null)
                     {
                         statusMessage.Text = "Internal error: CalculatorState instance was not forwarded.";
@@ -621,12 +606,18 @@ namespace TradingTools
                     }
                     else
                     {
+                        panelBandTop.BackColor = BandColor.OpenPosition;
+                        panelBandBottom.BackColor = BandColor.OpenPosition;
+                        panelExitPrice.Visible = true;
+
                         // sys flow 1
                         txtCapital.Text = Trade.Capital.ToString("0.00");     // dont change format
                         txtLeverage.Text = Trade.Leverage.ToString("0");      // dont change format
                         txtEntryPrice.Text = Trade.EntryPriceAvg.ToString();
-                        nudDayCount.Value = Trade.DayCount;
-                        nudDailyInterestRate.Value = Trade.DailyInterestRate;
+                        //Number Up Down control throws exception when assigned value less then their Minimum value
+                        decimal d = SafeConvert.ToDecimalSafe((DateTime.Now - Trade.DateEnter).TotalDays);
+                        nudDayCount.Value = d < nudDayCount.Minimum ? nudDayCount.Minimum : d;
+                        nudDailyInterestRate.Value = Trade.DailyInterestRate < nudDailyInterestRate.Value ? nudDailyInterestRate.Minimum : Trade.DailyInterestRate;
                         btnReCalculate.PerformClick();
 
                         // sys flow 2
@@ -660,8 +651,10 @@ namespace TradingTools
                         txtEntryPrice.ReadOnly = true;
                         txtTicker.ReadOnly = true;
 
+                        
                         btnDelete.Visible = false;
                         btnOfficializedTrade.Enabled = false;
+                        btnOfficializedTrade.Visible = false;
                         btnCloseTheTrade.Visible = true;
                     }
                     break;
@@ -680,7 +673,45 @@ namespace TradingTools
             var result = MyMessageBox.Question_YesNo("Confirm to close this Trade?", "Trade Closing");
             if (result == DialogResult.Yes)
             {
-                this.Trade.Status = "closed";
+                // 1-2 - Input and Sanitize
+                decimal exitPrice = radPEP_ExitPrice.Checked ? StringToNumeric.MoneyToDecimal(txtPEP_ExitPrice.Text) : StringToNumeric.MoneyToDecimal(txtLEP_ExitPrice.Text);
+
+                // 3 - Process
+                btnReCalculate.PerformClick();
+                btnPEP_compute.PerformClick();
+                btnLEP_compute.PerformClick();
+
+                var rec = PriceChangeTable.GeneratePriceChangeRecord(
+               exitPrice,
+               _calc.Position.EntryPriceAvg,
+               _calc.Position.LotSize,
+               _calc.Borrow.InterestCost,
+               _calc.Position.Capital);
+
+                // Collect
+                Trade.DateExit = DateTime.Now;
+                Trade.ExitPriceAvg = exitPrice;
+                Trade.DayCount = _calc.Borrow.DayCount;
+                Trade.DailyInterestRate = _calc.Borrow.DailyInterestRate;
+                Trade.InterestCost = _calc.Borrow.InterestCost;
+                
+                Trade.ClosingTradingFee = PriceChangeTable.SpeculativeTradingFee(exitPrice, Trade.LotSize);
+                Trade.ClosingTradingCost = rec.TradingCost;
+                Trade.PnL = rec.PnL;
+                Trade.Status = "closed";
+
+                
+                // Validation
+                string msg;
+                if (!Trade_Serv.Trade_Validate(Trade, out msg))
+                {
+                    statusMessage.Text = msg;
+                    MyMessageBox.Error(msg);
+                    return;
+                }
+
+                // 4 - display/store
+
 
             }
         }

@@ -35,22 +35,6 @@ namespace TradingTools.Trunk
         public decimal InterestCost { get { return Amount * DailyInterestRate * DayCount; } }
     }
 
-    public class ClosingCost
-    {
-        private Borrow _borrow;
-        private TradingCost _tradingCost;
-
-        public ClosingCost()
-        {
-            _borrow = new();
-            _tradingCost = new();
-        }
-
-        public Borrow Borrow { get { return _borrow; } }
-        public TradingCost TradingCost { get { return _tradingCost; } }
-
-    }
-
     public class TradingCost
     {
         public decimal TradingFee_percentage { get; set; }

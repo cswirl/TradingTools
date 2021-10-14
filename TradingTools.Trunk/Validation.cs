@@ -94,7 +94,7 @@ namespace TradingTools.Trunk.Validation
 
     public class StringToNumeric
     {
-        public static decimal Decimal(string value)
+        public static decimal MoneyToDecimal(string value)
         {
             NumberStyles style = NumberStyles.Currency;
             CultureInfo culture = null;
@@ -103,5 +103,18 @@ namespace TradingTools.Trunk.Validation
             return decimal.TryParse(value, style, culture, out def_out) ? def_out : 0;
         }
 
+    }
+
+    public class SafeConvert
+    {
+        public static decimal ToDecimalSafe(double input)
+        {
+            if (input < (double)decimal.MinValue)
+                return decimal.MinValue;
+            else if (input > (double)decimal.MaxValue)
+                return decimal.MaxValue;
+            else
+                return (decimal)input;
+        }
     }
 }

@@ -36,6 +36,9 @@ namespace TradingTools
             this.panelBandTop = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.panelExitPrice = new System.Windows.Forms.Panel();
+            this.radLEP_ExitPrice = new System.Windows.Forms.RadioButton();
+            this.radPEP_ExitPrice = new System.Windows.Forms.RadioButton();
             this.btnCloseTheTrade = new System.Windows.Forms.Button();
             this.btnOfficializedTrade = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -172,6 +175,7 @@ namespace TradingTools
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.panelExitPrice.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
@@ -267,6 +271,7 @@ namespace TradingTools
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.panelExitPrice);
             this.splitContainer1.Panel1.Controls.Add(this.btnCloseTheTrade);
             this.splitContainer1.Panel1.Controls.Add(this.btnOfficializedTrade);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox6);
@@ -300,6 +305,43 @@ namespace TradingTools
             this.splitContainer1.Size = new System.Drawing.Size(1670, 806);
             this.splitContainer1.SplitterDistance = 1102;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // panelExitPrice
+            // 
+            this.panelExitPrice.BackColor = System.Drawing.Color.Transparent;
+            this.panelExitPrice.Controls.Add(this.radLEP_ExitPrice);
+            this.panelExitPrice.Controls.Add(this.radPEP_ExitPrice);
+            this.panelExitPrice.Location = new System.Drawing.Point(679, 461);
+            this.panelExitPrice.Name = "panelExitPrice";
+            this.panelExitPrice.Size = new System.Drawing.Size(126, 322);
+            this.panelExitPrice.TabIndex = 20;
+            this.panelExitPrice.Visible = false;
+            // 
+            // radLEP_ExitPrice
+            // 
+            this.radLEP_ExitPrice.AutoSize = true;
+            this.radLEP_ExitPrice.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.radLEP_ExitPrice.ForeColor = System.Drawing.Color.DarkRed;
+            this.radLEP_ExitPrice.Location = new System.Drawing.Point(3, 182);
+            this.radLEP_ExitPrice.Name = "radLEP_ExitPrice";
+            this.radLEP_ExitPrice.Size = new System.Drawing.Size(114, 21);
+            this.radLEP_ExitPrice.TabIndex = 1;
+            this.radLEP_ExitPrice.Text = "Loss Exit Price";
+            this.radLEP_ExitPrice.UseVisualStyleBackColor = true;
+            // 
+            // radPEP_ExitPrice
+            // 
+            this.radPEP_ExitPrice.AutoSize = true;
+            this.radPEP_ExitPrice.Checked = true;
+            this.radPEP_ExitPrice.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.radPEP_ExitPrice.ForeColor = System.Drawing.Color.DarkBlue;
+            this.radPEP_ExitPrice.Location = new System.Drawing.Point(3, 7);
+            this.radPEP_ExitPrice.Name = "radPEP_ExitPrice";
+            this.radPEP_ExitPrice.Size = new System.Drawing.Size(122, 21);
+            this.radPEP_ExitPrice.TabIndex = 0;
+            this.radPEP_ExitPrice.TabStop = true;
+            this.radPEP_ExitPrice.Text = "Profit Exit Price";
+            this.radPEP_ExitPrice.UseVisualStyleBackColor = true;
             // 
             // btnCloseTheTrade
             // 
@@ -1863,6 +1905,8 @@ namespace TradingTools
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.panelExitPrice.ResumeLayout(false);
+            this.panelExitPrice.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.groupBox5.ResumeLayout(false);
@@ -2050,6 +2094,9 @@ namespace TradingTools
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button btnOfficializedTrade;
         private System.Windows.Forms.Button btnCloseTheTrade;
+        private System.Windows.Forms.Panel panelExitPrice;
+        private System.Windows.Forms.RadioButton radLEP_ExitPrice;
+        private System.Windows.Forms.RadioButton radPEP_ExitPrice;
     }
 }
 
