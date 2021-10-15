@@ -31,7 +31,7 @@ namespace TradingTools
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnViewCalculator = new System.Windows.Forms.Button();
-            this.btnFilterStatus = new System.Windows.Forms.Button();
+            this.btnFilterByStatus = new System.Windows.Forms.Button();
             this.cmbFilterStatus = new System.Windows.Forms.ComboBox();
             this.FILTER = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -69,7 +69,7 @@ namespace TradingTools
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.panel1.Controls.Add(this.btnViewCalculator);
-            this.panel1.Controls.Add(this.btnFilterStatus);
+            this.panel1.Controls.Add(this.btnFilterByStatus);
             this.panel1.Controls.Add(this.cmbFilterStatus);
             this.panel1.Controls.Add(this.FILTER);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -89,26 +89,24 @@ namespace TradingTools
             this.btnViewCalculator.UseVisualStyleBackColor = true;
             this.btnViewCalculator.Click += new System.EventHandler(this.btnViewCalculator_Click);
             // 
-            // btnFilterStatus
+            // btnFilterByStatus
             // 
-            this.btnFilterStatus.Location = new System.Drawing.Point(180, 9);
-            this.btnFilterStatus.Name = "btnFilterStatus";
-            this.btnFilterStatus.Size = new System.Drawing.Size(67, 23);
-            this.btnFilterStatus.TabIndex = 2;
-            this.btnFilterStatus.Text = "Go";
-            this.btnFilterStatus.UseVisualStyleBackColor = true;
+            this.btnFilterByStatus.Location = new System.Drawing.Point(180, 9);
+            this.btnFilterByStatus.Name = "btnFilterByStatus";
+            this.btnFilterByStatus.Size = new System.Drawing.Size(67, 23);
+            this.btnFilterByStatus.TabIndex = 2;
+            this.btnFilterByStatus.Text = "Go";
+            this.btnFilterByStatus.UseVisualStyleBackColor = true;
+            this.btnFilterByStatus.Click += new System.EventHandler(this.btnFilterByStatus_Click);
             // 
             // cmbFilterStatus
             // 
             this.cmbFilterStatus.FormattingEnabled = true;
-            this.cmbFilterStatus.Items.AddRange(new object[] {
-            "all",
-            "closed",
-            "open"});
             this.cmbFilterStatus.Location = new System.Drawing.Point(53, 10);
             this.cmbFilterStatus.Name = "cmbFilterStatus";
             this.cmbFilterStatus.Size = new System.Drawing.Size(121, 23);
             this.cmbFilterStatus.TabIndex = 1;
+            this.cmbFilterStatus.SelectedIndexChanged += new System.EventHandler(this.cmbFilterStatus_SelectedIndexChanged);
             // 
             // FILTER
             // 
@@ -443,7 +441,7 @@ namespace TradingTools
         private System.Windows.Forms.TextBox txtPEP_sPV;
         private System.Windows.Forms.TextBox txtPEP_AccountEquity;
         private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.Button btnFilterStatus;
+        private System.Windows.Forms.Button btnFilterByStatus;
         private System.Windows.Forms.ComboBox cmbFilterStatus;
         private System.Windows.Forms.Label FILTER;
         private System.Windows.Forms.DataGridView dgvTrades;
