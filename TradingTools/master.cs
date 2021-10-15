@@ -217,11 +217,10 @@ namespace TradingTools
             return true;
         }
 
-        // UNFINISHED
-        internal bool Trade_ClosePosition(CalculatorState calculatorState)
+        internal bool Trade_Close(Trade t)
         {
-            //DbContext.SaveChanges();
-            //frmCalcStates.dgvTrades_Open_Invalidate();       // Refereshes the DataGridView
+            DbContext.SaveChanges();
+            _trades_open_bindingList.Remove(t);
 
             return true;
         }

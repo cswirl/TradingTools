@@ -10,7 +10,7 @@ namespace TradingTools.Services
 {
     public class Trade_Serv
     {
-        public static bool Trade_Validate(Trade t, out string msg)
+        public static bool TradeOpening_Validate(Trade t, out string msg)
         {
             if (!validateTicker(t.Ticker, out msg)) return false;
             if (!validateStatus(t.Status, out msg)) return false;
@@ -23,6 +23,26 @@ namespace TradingTools.Services
                 return false;
             }
             if (t.CalculatorState == default) { msg = "Internal Error: Calculator is not set."; return false; }
+
+            return true;
+        }
+
+        public static bool TradeClosing_Validate(Trade t, out string msg)
+        {
+            msg = string.Empty;
+            string pref = "Trade Closing Validation failed: ";
+            if (t.ExitPriceAvg <= 0 | t.DayCount < 0 | t.DailyInterestRate < 0 | t.InterestCost < 0 ) 
+            {
+                msg =  pref + " invalid data found.";
+                return false; 
+            }
+            if (t.DateEnter >= t.DateExit) { msg = pref + " 'Date Exit' must come later in time from 'Date Enter'"; return false; }
+            if (t.ClosingTradingFee < 0 | t.ClosingTradingCost < 0 | t.ClosingTradingFee > t.ClosingTradingCost)
+            {
+                msg = pref + " invalid data found.";
+                return false;
+            }
+            if (!t.Status.Equals("closed")) { msg = pref + "invalid Status value"; return false; }
 
             return true;
         }

@@ -15,7 +15,6 @@ namespace TradingTools.Model
     public class CalculationDetails
     {
         public OpeningCost OpeningCost = new();
-        public ClosingCost ClosingCost = new();
         public Position Position = new();
         public Borrow Borrow = new();
 
@@ -46,7 +45,6 @@ namespace TradingTools.Model
 
         public bool Calculate(decimal capital, decimal leverage, decimal entryPrice, int dayCount, decimal dailyInterestRate, out string msg)
         {
-            msg = string.Empty;
             // step 2: Collect data
             // Receptors
             Position.Capital = capital;
@@ -68,14 +66,6 @@ namespace TradingTools.Model
 
             return true;
         }
-
-        //private OpeningCost _openingCost;
-        //private ClosingCost _closingCost;
-        //private Position _position = new();
-
-        //public OpeningCost OpeningCost { get { return _openingCost; }}
-        //public ClosingCost ClosingCost { get { return _closingCost; } }
-        //public Position Position { get { return _position; } }
     }
 
     public class OpeningCost
@@ -83,14 +73,4 @@ namespace TradingTools.Model
         public decimal TradingFee { get; set; }
     }
 
-    public class ClosingCost
-    {
-        public decimal BorrowCost { get; set; }
-        public decimal TradingFee { get; set; }
-    }
-
-    public record PriceChangeRecordLeveraged : PriceChangeRecord
-    {
-        public decimal Real { get; set; }
-    }
 }

@@ -46,7 +46,7 @@ namespace TradingTools.Services
             {
                 foreach (decimal pcp in _princeChangeIncrements)
                 {
-                    decimal dec_pcp = pcp / 100;        // We simply need the Decimal value of Price Increase Percentage
+                    decimal dec_pcp = pcp / 100;        // We simply need the MoneyToDecimal value of Price Increase Percentage
                     decimal ExitPrice = EntPA * (1 + dec_pcp);
                     decimal tradingCost = TradingCost(ExitPrice, lotSize, borrowCost);
                     decimal pnl = (EntPA * lotSize * dec_pcp) - tradingCost;
@@ -72,7 +72,7 @@ namespace TradingTools.Services
             return null;
         }
 
-        public PriceChangeRecord GeneratePriceChangeRecord(decimal ExitPrice, decimal EntryPrice, decimal lotSize, decimal borrowCost, decimal capital)
+        public static PriceChangeRecord GeneratePriceChangeRecord(decimal ExitPrice, decimal EntryPrice, decimal lotSize, decimal borrowCost, decimal capital)
         {
             try
             {
@@ -95,9 +95,9 @@ namespace TradingTools.Services
             return null;
         }
 
-        private decimal TradingCost(decimal ExitPrice, decimal lotSize, decimal borrowCost) => SpeculativeTradingFee(ExitPrice, lotSize) + borrowCost;
+        private static decimal TradingCost(decimal ExitPrice, decimal lotSize, decimal borrowCost) => SpeculativeTradingFee(ExitPrice, lotSize) + borrowCost;
 
-        private decimal SpeculativeTradingFee(decimal ExitPrice, decimal lotSize) => ExitPrice * lotSize * Constant.TRADING_FEE;
+        public static decimal SpeculativeTradingFee(decimal ExitPrice, decimal lotSize) => ExitPrice * lotSize * Constant.TRADING_FEE;
 
         
     }
@@ -140,7 +140,7 @@ namespace TradingTools.Services
 
         public PriceChangeRecord GeneratePriceIncreaseRecord(decimal exitPrice, decimal entryPrice, decimal lotSize, decimal borrowCost, decimal capital)
         {
-            return _priceChangeTable.GeneratePriceChangeRecord(exitPrice, entryPrice, lotSize, borrowCost, capital);
+            return PriceChangeTable.GeneratePriceChangeRecord(exitPrice, entryPrice, lotSize, borrowCost, capital);
         }
 
     }
@@ -167,7 +167,7 @@ namespace TradingTools.Services
 
         public PriceChangeRecord GeneratePriceDecreaseRecord(decimal exitPrice, decimal entryPrice, decimal lotSize, decimal borrowCost, decimal capital)
         {
-            return _priceChangeTable.GeneratePriceChangeRecord(exitPrice, entryPrice, lotSize, borrowCost, capital);
+            return PriceChangeTable.GeneratePriceChangeRecord(exitPrice, entryPrice, lotSize, borrowCost, capital);
         }
     }
 

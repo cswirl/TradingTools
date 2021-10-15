@@ -26,6 +26,7 @@ namespace TradingTools
 
         public CalculatorState CalculatorState { get; set; }
         public Trade Trade { get; set; }
+        public string Side { get; set; }
 
         public frmRiskRewardCalc_Long()
         {
@@ -231,7 +232,7 @@ namespace TradingTools
             CalculatorState.Capital = InputConverter.Decimal(txtCapital.Text);
             CalculatorState.Leverage = InputConverter.Decimal(txtLeverage.Text);
             CalculatorState.EntryPriceAvg = InputConverter.Decimal(txtEntryPrice.Text);
-            CalculatorState.DayCount = (int)nudDayCount.Value <= 0 ? 1 : (int)nudDayCount.Value;
+            CalculatorState.DayCount = (int)nudDayCount.Value;
             CalculatorState.DailyInterestRate = nudDailyInterestRate.Value;
             CalculatorState.PriceIncreaseTarget = InputConverter.Decimal(txtPriceIncrease_target.Text);
             CalculatorState.PriceDecreaseTarget = InputConverter.Decimal(txtPriceDecrease_target.Text);
@@ -458,7 +459,7 @@ namespace TradingTools
         private bool officializedTrade()
         {
             // Capture state
-            // 1
+            // 2 - Process
             captureState();        // calculator state must be captured first
             var c = CalculatorState;
             var p = _calc.Position;
@@ -484,16 +485,16 @@ namespace TradingTools
                 CalculatorState = this.CalculatorState
             };
 
-            // 2-B Validation - the implementation may be incomplete but suffice for nowInputConverter.MoneyToDecimal
+            // 3 - Validation - the implementation may be incomplete but suffice for nowInputConverter.MoneyToDecimal
             string msg;
-            if (!RiskRewardCalc_Serv.CalculatorState_Validate(this.CalculatorState, out msg) || !Trade_Serv.Trade_Validate(this.Trade, out msg))
+            if (!RiskRewardCalc_Serv.CalculatorState_Validate(this.CalculatorState, out msg) || !Trade_Serv.TradeOpening_Validate(this.Trade, out msg))
             {
                 statusMessage.Text = msg;
                 MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return false;
             }
 
-            // 3 - process data collected - this will save data into a data store - no need for step 4 which is to Display Data 
+            // 4 - this will save data into a data store - no need to Display Data 
             var o = (master)this.Owner;
             // Add to the Owner's List
             if (o.Trade_Add(this.Trade))
@@ -559,8 +560,8 @@ namespace TradingTools
                         txtCapital.Text = CalculatorState.Capital.ToString("0.00");     // dont change format
                         txtLeverage.Text = CalculatorState.Leverage.ToString("0");      // dont change format
                         txtEntryPrice.Text = CalculatorState.EntryPriceAvg.ToString();
-                        nudDayCount.Value = CalculatorState.DayCount;
-                        nudDailyInterestRate.Value = CalculatorState.DailyInterestRate;
+                        nudDayCount.Value = CalculatorState.DayCount < nudDayCount.Minimum ? nudDayCount.Minimum : CalculatorState.DayCount;
+                        nudDailyInterestRate.Value = CalculatorState.DailyInterestRate < nudDailyInterestRate.Minimum ? nudDailyInterestRate.Minimum : CalculatorState.DailyInterestRate;
                         btnReCalculate.PerformClick();
 
                         // sys flow 2
@@ -614,7 +615,7 @@ namespace TradingTools
                         txtCapital.Text = Trade.Capital.ToString("0.00");     // dont change format
                         txtLeverage.Text = Trade.Leverage.ToString("0");      // dont change format
                         txtEntryPrice.Text = Trade.EntryPriceAvg.ToString();
-                        //Number Up Down control throws exception when assigned value less then their Minimum value
+                        //Numeric Up Down control throws exception when assigned value less then their Minimum value
                         decimal d = SafeConvert.ToDecimalSafe((DateTime.Now - Trade.DateEnter).TotalDays);
                         nudDayCount.Value = d < nudDayCount.Minimum ? nudDayCount.Minimum : d;
                         nudDailyInterestRate.Value = Trade.DailyInterestRate < nudDailyInterestRate.Value ? nudDailyInterestRate.Minimum : Trade.DailyInterestRate;
@@ -643,8 +644,8 @@ namespace TradingTools
                         txtNote.Text = CalculatorState.Note;
 
                         //
-                        lblHeader.Text += " - OPEN";
-                        this.Text = Trade.Ticker;
+                        lblHeader.Text = Trade.Ticker + " - OPEN";
+                        this.Text = Trade.Ticker + " - OPEN";
 
                         txtCapital.ReadOnly = true;
                         txtLeverage.ReadOnly = true;
@@ -662,7 +663,18 @@ namespace TradingTools
                 case RiskRewardCalcState.TradeClosed:
                     panelBandTop.BackColor = BandColor.ClosedPosition;
                     panelBandBottom.BackColor = BandColor.ClosedPosition;
+                    //
+                    lblHeader.Text = Trade.Ticker + " - CLOSED"; ;
+                    lblHeader.ForeColor = Color.LightSteelBlue;
+                    this.Text = Trade.Ticker + " - CLOSED"; ;
 
+                    txtPEP_ExitPrice.ReadOnly = true;
+                    txtLEP_ExitPrice.ReadOnly = true;
+                    btnSetPEP.Visible = false;
+                    btnSetLEP.Visible = false;
+                    panelExitPrice.Enabled = false;
+                    btnReCalculate.Visible = false;
+                    btnSave.Visible = false;
                     btnCloseTheTrade.Visible = false;
                     break;
             }
@@ -688,13 +700,14 @@ namespace TradingTools
                _calc.Borrow.InterestCost,
                _calc.Position.Capital);
 
-                // Collect
-                Trade.DateExit = DateTime.Now;
-                Trade.ExitPriceAvg = exitPrice;
+                // Collect - Trade Closing Data
+                //update borrow cost
                 Trade.DayCount = _calc.Borrow.DayCount;
                 Trade.DailyInterestRate = _calc.Borrow.DailyInterestRate;
                 Trade.InterestCost = _calc.Borrow.InterestCost;
-                
+
+                Trade.DateExit = DateTime.Now;
+                Trade.ExitPriceAvg = exitPrice;
                 Trade.ClosingTradingFee = PriceChangeTable.SpeculativeTradingFee(exitPrice, Trade.LotSize);
                 Trade.ClosingTradingCost = rec.TradingCost;
                 Trade.PnL = rec.PnL;
@@ -703,7 +716,7 @@ namespace TradingTools
                 
                 // Validation
                 string msg;
-                if (!Trade_Serv.Trade_Validate(Trade, out msg))
+                if (!Trade_Serv.TradeClosing_Validate(Trade, out msg))
                 {
                     statusMessage.Text = msg;
                     MyMessageBox.Error(msg);
@@ -711,7 +724,19 @@ namespace TradingTools
                 }
 
                 // 4 - display/store
-
+                var o = (master)this.Owner;
+                // Add to the Owner's List
+                if (o.Trade_Close(Trade))
+                {
+                    ChangeState(RiskRewardCalcState.TradeClosed);
+                    statusMessage.Text = $"Trade No. '{Trade.Id}' has been closed successfully.";
+                }
+                else
+                {
+                    statusMessage.Text = "An error occur while closing a trade.";
+                    MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    return;
+                }
 
             }
         }
