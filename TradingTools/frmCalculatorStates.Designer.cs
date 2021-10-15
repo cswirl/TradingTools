@@ -42,8 +42,11 @@ namespace TradingTools
             this.dgvTrades_Open = new System.Windows.Forms.DataGridView();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusMessage = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuTradeMasterFile = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUnofficial)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTrades_Open)).BeginInit();
@@ -86,6 +89,8 @@ namespace TradingTools
             // 
             // menuStrip1
             // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1288, 24);
@@ -211,6 +216,21 @@ namespace TradingTools
             this.statusMessage.Size = new System.Drawing.Size(106, 17);
             this.statusMessage.Text = "Status message . . .";
             // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuTradeMasterFile});
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(50, 20);
+            this.toolStripMenuItem1.Text = "Menu";
+            // 
+            // menuTradeMasterFile
+            // 
+            this.menuTradeMasterFile.Name = "menuTradeMasterFile";
+            this.menuTradeMasterFile.Size = new System.Drawing.Size(180, 22);
+            this.menuTradeMasterFile.Text = "Trade Master File";
+            this.menuTradeMasterFile.Click += new System.EventHandler(this.menuTradeMasterFile_Click);
+            // 
             // frmCalculatorStates
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -227,6 +247,8 @@ namespace TradingTools
             this.Load += new System.EventHandler(this.frmCalculatorStates_Load);
             this.panel1.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUnofficial)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
@@ -253,5 +275,7 @@ namespace TradingTools
         private System.Windows.Forms.Button btnViewOfficial;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel statusMessage;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem menuTradeMasterFile;
     }
 }

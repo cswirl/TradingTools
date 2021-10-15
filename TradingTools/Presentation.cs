@@ -12,6 +12,7 @@ namespace TradingTools
     {
         private const int SECOND = 1000;
         public const int INTERNAL_TIMER_REFRESH_VALUE = SECOND * 60;
+
     }
 
     public enum RiskRewardCalcState

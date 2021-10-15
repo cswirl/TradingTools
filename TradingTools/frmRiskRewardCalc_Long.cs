@@ -47,7 +47,7 @@ namespace TradingTools
             // step 3: Process Data collected including others supporting data
             string msg;
             var r = _calc.Calculate(
-                InputConverter.Decimal(txtCapital.Text),
+                StringToNumeric.MoneyToDecimal(txtCapital.Text),
                 InputConverter.Decimal(txtLeverage.Text),
                 InputConverter.Decimal(txtEntryPrice.Text),
                 (int)nudDayCount.Value,
@@ -611,6 +611,7 @@ namespace TradingTools
                         panelBandBottom.BackColor = BandColor.OpenPosition;
                         panelExitPrice.Visible = true;
 
+                        // load Trade detail
                         // sys flow 1
                         txtCapital.Text = Trade.Capital.ToString("0.00");     // dont change format
                         txtLeverage.Text = Trade.Leverage.ToString("0");      // dont change format
@@ -661,13 +662,66 @@ namespace TradingTools
                     break;
 
                 case RiskRewardCalcState.TradeClosed:
+                    
+
                     panelBandTop.BackColor = BandColor.ClosedPosition;
                     panelBandBottom.BackColor = BandColor.ClosedPosition;
+
+                    // load trade details
+                    // sys flow 1
+                    txtCapital.Text = Trade.Capital.ToString(Constant.MONEY_FORMAT);     // dont change format
+                    txtLeverage.Text = Trade.Leverage.ToString("0");      // dont change format
+                    txtEntryPrice.Text = Trade.EntryPriceAvg.ToString();
+                    //txtLotSize.Text = Trade.LotSize.ToString();
+                    //txtLeveragedCapital.Text = Trade.LeveragedCapital.ToString(Constant.MONEY_FORMAT);
+                    //txtOpeningTradingFee_dollar.Text = Trade.OpeningTradingCost.ToString(Constant.MONEY_FORMAT);
+                    //txtOpeningTradingCost.Text = Trade.OpeningTradingCost.ToString(Constant.MONEY_FORMAT);
+                    //Numeric Up Down control throws exception when assigned value less then their Minimum value
+                    nudDayCount.Value = Trade.DayCount < nudDayCount.Minimum ? nudDayCount.Minimum : Trade.DayCount;
+                    nudDailyInterestRate.Value = Trade.DailyInterestRate < nudDailyInterestRate.Value ? nudDailyInterestRate.Minimum : Trade.DailyInterestRate;
+                    btnReCalculate.PerformClick();
+
+                    // sys flow 2
+                    txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                    btnPriceIncrease_custom.PerformClick();
+                    txtPriceDecrease_target.Text = CalculatorState.PriceDecreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                    btnPriceDecrease_custom.PerformClick();
+
+                    // sys flow 3
+                    txtPEP_ExitPrice.Text = CalculatorState.PEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                    txtPEP_Note.Text = CalculatorState.PEP_Note;
+                    btnPEP_compute.PerformClick();
+
+                    // sys flow
+                    txtLEP_ExitPrice.Text = CalculatorState.LEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                    txtLEP_Note.Text = CalculatorState.LEP_Note;
+                    btnLEP_compute.PerformClick();
+
+                    // Independent data
+                    txtTradeNum.Text = Trade.Id.ToString();
+                    txtTicker.Text = Trade.Ticker;
+                    txtStrategy.Text = CalculatorState.Strategy;
+                    txtNote.Text = CalculatorState.Note;
+
+
                     //
                     lblHeader.Text = Trade.Ticker + " - CLOSED"; ;
                     lblHeader.ForeColor = Color.LightSteelBlue;
                     this.Text = Trade.Ticker + " - CLOSED"; ;
 
+                    // same as trade open
+                    txtCapital.ReadOnly = true;
+                    txtLeverage.ReadOnly = true;
+                    txtEntryPrice.ReadOnly = true;
+                    txtTicker.ReadOnly = true;
+                    nudDayCount.ReadOnly = true;
+                    nudDailyInterestRate.ReadOnly = true;
+
+                    btnDelete.Visible = false;
+                    btnOfficializedTrade.Enabled = false;
+                    btnOfficializedTrade.Visible = false;
+
+                    // trade close
                     txtPEP_ExitPrice.ReadOnly = true;
                     txtLEP_ExitPrice.ReadOnly = true;
                     btnSetPEP.Visible = false;

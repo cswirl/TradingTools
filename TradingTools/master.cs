@@ -21,7 +21,8 @@ namespace TradingTools
         //private List<CalculatorState> _calcStates_unofficial_List;             // not-in-use
 
         public TradingToolsDbContext DbContext { get; set; }
-        public frmCalculatorStates frmCalcStates { get; set; }
+        public frmCalculatorStates _frmCalcStates { get; set; }
+        public frmTradeMasterFile _frmTradeMasterFile { get; set; }
         public Trade_Serv TradeService { get; private set; }
 
         public master()
@@ -42,14 +43,15 @@ namespace TradingTools
 
 
             // gateway form
-            frmCalcStates = new();
-            frmCalcStates.Owner = this;
-            frmCalcStates.StartPosition = FormStartPosition.CenterScreen;
-            frmCalcStates.Show();
+            _frmCalcStates = new();
+            _frmCalcStates.Owner = this;
+            _frmCalcStates.StartPosition = FormStartPosition.CenterScreen;
+            _frmCalcStates.Show();
             // delegates
-            frmCalcStates.CalculatorState_Loaded_OnRequest += this.FormRRCLong_Loaded_Spawn;
-            frmCalcStates.FormRRCLong_Empty_Open += this.FormRRCLong_Empty_Spawn;
-            frmCalcStates.Trade_TradeOpen_OnRequest += this.FormRRCLong_TradeOpen_Spawn;
+            _frmCalcStates.CalculatorState_Loaded_OnRequest += this.FormRRCLong_Loaded_Spawn;
+            _frmCalcStates.FormRRCLong_Empty_Open += this.FormRRCLong_Empty_Spawn;
+            _frmCalcStates.Trade_TradeOpen_OnRequest += this.FormRRCLong_TradeOpen_Spawn;
+            _frmCalcStates.FormTradeMasterFile += this.FormTradeMasterFile;
         }
 
         private void master_Load(object sender, EventArgs e)
@@ -69,6 +71,23 @@ namespace TradingTools
             //_trades_open_bindingList = DbContext.Trades.Local.ToBindingList();
         }
 
+        private void FormTradeMasterFile(object sender, EventArgs e)
+        {
+            if (_frmTradeMasterFile == default || _frmTradeMasterFile.IsDisposed)
+            {
+                _frmTradeMasterFile = new();
+                _frmTradeMasterFile.Owner = this;
+                _frmTradeMasterFile.Show();
+                // delegates
+                _frmTradeMasterFile.Trade_TradeOpen_OnRequest += this.FormRRCLong_TradeOpen_Spawn;
+            }
+            else
+            {
+                if (_frmTradeMasterFile.WindowState == FormWindowState.Minimized) _frmTradeMasterFile.WindowState = FormWindowState.Normal;
+                _frmTradeMasterFile.Focus();
+            }
+        }
+
         private bool FormRRCLong_TradeOpen_Spawn(Trade t)
         {
             // TODO: the EF core list is being renew whenever a Trade is Officialized or CalculatorState is Updated
@@ -83,7 +102,7 @@ namespace TradingTools
             else
             {
                 var form = new frmRiskRewardCalc_Long();
-                form.State = RiskRewardCalcState.TradeOpen;
+                form.State = t.Status.Equals("open") ? RiskRewardCalcState.TradeOpen : RiskRewardCalcState.TradeClosed;
                 form.Owner = this;
                 form.Trade = t;
                 form.CalculatorState = t.CalculatorState;
@@ -183,7 +202,7 @@ namespace TradingTools
         {
             // This one line code is sufficed sinced the CalculatorState objects are referenced properly
             DbContext.SaveChanges();
-            frmCalcStates.dgvUnofficial_Invalidate();       // Refereshes the DataGridView
+            _frmCalcStates.dgvUnofficial_Invalidate();       // Refereshes the DataGridView
 
             return true;
         }
@@ -195,6 +214,23 @@ namespace TradingTools
             _calculatorStates_unofficial_bindingList.Remove(calculatorState);
 
             return true;
+        }
+
+        public BindingList<Trade> GetTrades_All()
+        {
+            _trades_open_bindingList = new BindingList<Trade>(DbContext.Trades
+                .Include(x => x.CalculatorState).ToList());
+
+            return _trades_open_bindingList;
+        }
+
+        public BindingList<Trade> GetTrades_Closed()
+        {
+            _trades_open_bindingList = new BindingList<Trade>(DbContext.Trades
+                .Where(x => x.Status.Equals("closed"))
+                .Include(x => x.CalculatorState).ToList());
+
+            return _trades_open_bindingList;
         }
 
         public BindingList<Trade> GetTrades_Open()

@@ -26,6 +26,7 @@ namespace TradingTools
         public Trade_OnRequest Trade_TradeOpen_OnRequest;
 
         public event EventHandler FormRRCLong_Empty_Open;
+        public event EventHandler FormTradeMasterFile;
 
         private master _master { get { return (master)this.Owner; } }
 
@@ -86,6 +87,11 @@ namespace TradingTools
         private void btnViewOfficial_Click(object sender, EventArgs e)
         {
             Trade_TradeOpen_OnRequest((Trade)dgvTrades_Open.CurrentRow.DataBoundItem);
+        }
+
+        private void menuTradeMasterFile_Click(object sender, EventArgs e)
+        {
+            FormTradeMasterFile?.Invoke(this, EventArgs.Empty);
         }
     }
 }
