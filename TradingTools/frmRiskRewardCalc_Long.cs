@@ -24,8 +24,8 @@ namespace TradingTools
 
         public RiskRewardCalcState State { get; set; } = RiskRewardCalcState.Empty;
 
-        public CalculatorState CalculatorState { get; set; }
-        public Trade Trade { get; set; }
+        public CalculatorState? CalculatorState { get; set; }
+        public Trade? Trade { get; set; }
         public string Side { get; set; }
 
         public frmRiskRewardCalc_Long()

@@ -60,11 +60,17 @@ namespace TradingTools
             this.label2 = new System.Windows.Forms.Label();
             this.dgvTrades = new System.Windows.Forms.DataGridView();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.correrctionModeToggleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.onToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.offToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTrades)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -75,9 +81,9 @@ namespace TradingTools
             this.panel1.Controls.Add(this.cmbFilterStatus);
             this.panel1.Controls.Add(this.FILTER);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(248, 0);
+            this.panel1.Location = new System.Drawing.Point(242, 24);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1230, 76);
+            this.panel1.Size = new System.Drawing.Size(1242, 76);
             this.panel1.TabIndex = 0;
             // 
             // btnDelete
@@ -86,7 +92,7 @@ namespace TradingTools
             this.btnDelete.BackColor = System.Drawing.Color.Red;
             this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnDelete.ForeColor = System.Drawing.Color.White;
-            this.btnDelete.Location = new System.Drawing.Point(1074, 39);
+            this.btnDelete.Location = new System.Drawing.Point(1086, 39);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(150, 31);
             this.btnDelete.TabIndex = 4;
@@ -100,7 +106,7 @@ namespace TradingTools
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnViewCalculator.Location = new System.Drawing.Point(506, 40);
             this.btnViewCalculator.Name = "btnViewCalculator";
-            this.btnViewCalculator.Size = new System.Drawing.Size(218, 31);
+            this.btnViewCalculator.Size = new System.Drawing.Size(230, 31);
             this.btnViewCalculator.TabIndex = 3;
             this.btnViewCalculator.Text = "Selected Row >> View Calculator";
             this.btnViewCalculator.UseVisualStyleBackColor = true;
@@ -129,9 +135,9 @@ namespace TradingTools
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(1478, 0);
+            this.panel2.Location = new System.Drawing.Point(1484, 24);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(32, 818);
+            this.panel2.Size = new System.Drawing.Size(26, 794);
             this.panel2.TabIndex = 1;
             // 
             // statusStrip1
@@ -156,7 +162,7 @@ namespace TradingTools
             this.txtTradeNum.BackColor = System.Drawing.SystemColors.Control;
             this.txtTradeNum.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.txtTradeNum.ForeColor = System.Drawing.Color.Blue;
-            this.txtTradeNum.Location = new System.Drawing.Point(90, 15);
+            this.txtTradeNum.Location = new System.Drawing.Point(104, 25);
             this.txtTradeNum.Name = "txtTradeNum";
             this.txtTradeNum.ReadOnly = true;
             this.txtTradeNum.Size = new System.Drawing.Size(111, 23);
@@ -169,7 +175,7 @@ namespace TradingTools
             // 
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label22.Location = new System.Drawing.Point(15, 18);
+            this.label22.Location = new System.Drawing.Point(29, 28);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(69, 15);
             this.label22.TabIndex = 22;
@@ -178,7 +184,7 @@ namespace TradingTools
             // 
             // txtTicker
             // 
-            this.txtTicker.Location = new System.Drawing.Point(90, 44);
+            this.txtTicker.Location = new System.Drawing.Point(104, 54);
             this.txtTicker.Name = "txtTicker";
             this.txtTicker.Size = new System.Drawing.Size(111, 23);
             this.txtTicker.TabIndex = 26;
@@ -187,7 +193,7 @@ namespace TradingTools
             // label30
             // 
             this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(15, 51);
+            this.label30.Location = new System.Drawing.Point(29, 61);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(69, 15);
             this.label30.TabIndex = 27;
@@ -210,9 +216,9 @@ namespace TradingTools
             this.panel3.Controls.Add(this.txtTradeNum);
             this.panel3.Controls.Add(this.label22);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel3.Location = new System.Drawing.Point(0, 0);
+            this.panel3.Location = new System.Drawing.Point(0, 24);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(248, 818);
+            this.panel3.Size = new System.Drawing.Size(242, 794);
             this.panel3.TabIndex = 26;
             // 
             // tableLayoutPanel1
@@ -386,19 +392,60 @@ namespace TradingTools
             this.dgvTrades.AllowUserToResizeRows = false;
             this.dgvTrades.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTrades.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvTrades.Location = new System.Drawing.Point(248, 76);
+            this.dgvTrades.Location = new System.Drawing.Point(242, 100);
             this.dgvTrades.MultiSelect = false;
             this.dgvTrades.Name = "dgvTrades";
             this.dgvTrades.ReadOnly = true;
             this.dgvTrades.RowTemplate.Height = 25;
             this.dgvTrades.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTrades.Size = new System.Drawing.Size(1230, 742);
+            this.dgvTrades.Size = new System.Drawing.Size(1242, 718);
             this.dgvTrades.TabIndex = 27;
             // 
             // timer1
             // 
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1510, 24);
+            this.menuStrip1.TabIndex = 28;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // menuToolStripMenuItem
+            // 
+            this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.correrctionModeToggleToolStripMenuItem});
+            this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
+            this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
+            this.menuToolStripMenuItem.Text = "Menu";
+            // 
+            // correrctionModeToggleToolStripMenuItem
+            // 
+            this.correrctionModeToggleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.onToolStripMenuItem,
+            this.offToolStripMenuItem});
+            this.correrctionModeToggleToolStripMenuItem.Name = "correrctionModeToggleToolStripMenuItem";
+            this.correrctionModeToggleToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.correrctionModeToggleToolStripMenuItem.Text = "Correrction Mode";
+            // 
+            // onToolStripMenuItem
+            // 
+            this.onToolStripMenuItem.Name = "onToolStripMenuItem";
+            this.onToolStripMenuItem.Size = new System.Drawing.Size(91, 22);
+            this.onToolStripMenuItem.Text = "On";
+            this.onToolStripMenuItem.Click += new System.EventHandler(this.onToolStripMenuItem_Click);
+            // 
+            // offToolStripMenuItem
+            // 
+            this.offToolStripMenuItem.Name = "offToolStripMenuItem";
+            this.offToolStripMenuItem.Size = new System.Drawing.Size(91, 22);
+            this.offToolStripMenuItem.Text = "Off";
+            this.offToolStripMenuItem.Click += new System.EventHandler(this.offToolStripMenuItem_Click);
             // 
             // frmTradeMasterFile
             // 
@@ -410,6 +457,7 @@ namespace TradingTools
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.menuStrip1);
             this.Name = "frmTradeMasterFile";
             this.Text = "Trade Master File";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -423,6 +471,8 @@ namespace TradingTools
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTrades)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -460,5 +510,10 @@ namespace TradingTools
         private System.Windows.Forms.Button btnViewCalculator;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem correrctionModeToggleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem onToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem offToolStripMenuItem;
     }
 }

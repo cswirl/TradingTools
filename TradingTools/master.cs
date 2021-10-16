@@ -50,7 +50,7 @@ namespace TradingTools
             // delegates
             _frmCalcStates.CalculatorState_Loaded_OnRequest += this.FormRRCLong_Loaded_Spawn;
             _frmCalcStates.FormRRCLong_Empty_Open += this.FormRRCLong_Empty_Spawn;
-            _frmCalcStates.Trade_TradeOpen_OnRequest += this.FormRRCLong_TradeOpen_Spawn;
+            _frmCalcStates.Trade_TradeOpen_OnRequest += this.FormRRCLong_Trade_Spawn;
             _frmCalcStates.FormTradeMasterFile += this.FormTradeMasterFile;
         }
 
@@ -79,7 +79,7 @@ namespace TradingTools
                 _frmTradeMasterFile.Owner = this;
                 _frmTradeMasterFile.Show();
                 // delegates
-                _frmTradeMasterFile.Trade_TradeOpen_OnRequest += this.FormRRCLong_TradeOpen_Spawn;
+                _frmTradeMasterFile.Trade_TradeOpen_OnRequest += this.FormRRCLong_Trade_Spawn;
             }
             else
             {
@@ -88,12 +88,12 @@ namespace TradingTools
             }
         }
 
-        private bool FormRRCLong_TradeOpen_Spawn(Trade t)
+        private bool FormRRCLong_Trade_Spawn(Trade t)
         {
             // TODO: the EF core list is being renew whenever a Trade is Officialized or CalculatorState is Updated
             // - maybe use id or something, maybe hash
             //var rrc = _listOf_frmRRC_Long.Find(x => x.CalculatorState.GetHashCode().Equals(c.GetHashCode()));
-            var rrc = _listOf_frmRRC_Long.Find(x => x.Trade.Equals(t));       // THOUGH THIS IS WORKING FINE
+            var rrc = _listOf_frmRRC_Long.Find(x => x.Trade?.Equals(t) ?? false);       // THOUGH THIS IS WORKING FINE
             if (rrc != null)
             {
                 rrc.WindowState = FormWindowState.Normal;
@@ -107,7 +107,7 @@ namespace TradingTools
                 form.Trade = t;
                 form.CalculatorState = t.CalculatorState;
                 form.Show();
-                //TODO: Delegates assignment here
+                //Delegates assignment here
                 form.FormClosing += (object sender, FormClosingEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc_Long)sender);
 
                 _listOf_frmRRC_Long.Add(form);
@@ -118,18 +118,15 @@ namespace TradingTools
 
         private void FormRRCLong_RemoveFromList(Trade t)
         {
-            var rrc = _listOf_frmRRC_Long.Find(x => x.Trade.Equals(t));
-            // it will be automatically removed when closed - maybe just inform user that a calculator form was removed
+            var rrc = _listOf_frmRRC_Long.Find(x => x.Trade?.Equals(t) ?? false);
+            // it will be automatically removed when from is closed - just inform user that a calculator form was removed
             //_listOf_frmRRC_Long.Remove(rrc);
             rrc?.MarkAsDeleted();
         }
 
         private bool FormRRCLong_Loaded_Spawn(CalculatorState c)
         {
-            // TODO: the EF core list is being renew whenever a Trade is Officialized or CalculatorState is Updated
-            // - maybe use id or something, maybe hash
-            //var rrc = _listOf_frmRRC_Long.Find(x => x.CalculatorState.GetHashCode().Equals(c.GetHashCode()));
-            var rrc = _listOf_frmRRC_Long.Find(x => x.CalculatorState.Equals(c));       // THOUGH THIS IS WORKING FINE
+            var rrc = _listOf_frmRRC_Long.Find(x => x.CalculatorState?.Equals(c) ?? false);
             if (rrc != null)
             {
                 rrc.WindowState = FormWindowState.Normal;
@@ -142,7 +139,7 @@ namespace TradingTools
                 form.Owner = this;
                 form.CalculatorState = c;
                 form.Show();
-                //TODO: Delegates assignment here
+                //Delegates assignment here
                 form.FormClosing += (object sender, FormClosingEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc_Long)sender);
 
                 _listOf_frmRRC_Long.Add(form);
@@ -156,7 +153,7 @@ namespace TradingTools
             var form = new frmRiskRewardCalc_Long();
             form.Owner = this;
             form.Show();
-            //TODO: Delegates assignment here
+            //Delegates assignment here
 
         }
 
@@ -213,8 +210,7 @@ namespace TradingTools
 
         public BindingList<Trade> GetTrades_Open()
         {
-            if (_trades_open_bindingList != default) return _trades_open_bindingList;
-            _trades_open_bindingList = new BindingList<Trade>(DbContext.Trades
+            _trades_open_bindingList ??= new BindingList<Trade>(DbContext.Trades
                 .Where(x => x.Status.Equals("open"))
                 .Include(x => x.CalculatorState).ToList());
 

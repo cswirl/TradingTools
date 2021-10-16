@@ -271,6 +271,7 @@ namespace TradingTools
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.BackColor = System.Drawing.SystemColors.Control;
             this.splitContainer1.Panel1.Controls.Add(this.panelExitPrice);
             this.splitContainer1.Panel1.Controls.Add(this.btnCloseTheTrade);
             this.splitContainer1.Panel1.Controls.Add(this.btnOfficializedTrade);
@@ -313,18 +314,18 @@ namespace TradingTools
             this.panelExitPrice.Controls.Add(this.radPEP_ExitPrice);
             this.panelExitPrice.Location = new System.Drawing.Point(679, 461);
             this.panelExitPrice.Name = "panelExitPrice";
-            this.panelExitPrice.Size = new System.Drawing.Size(126, 322);
+            this.panelExitPrice.Size = new System.Drawing.Size(142, 322);
             this.panelExitPrice.TabIndex = 20;
             this.panelExitPrice.Visible = false;
             // 
             // radLEP_ExitPrice
             // 
             this.radLEP_ExitPrice.AutoSize = true;
-            this.radLEP_ExitPrice.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.radLEP_ExitPrice.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.radLEP_ExitPrice.ForeColor = System.Drawing.Color.DarkRed;
             this.radLEP_ExitPrice.Location = new System.Drawing.Point(3, 182);
             this.radLEP_ExitPrice.Name = "radLEP_ExitPrice";
-            this.radLEP_ExitPrice.Size = new System.Drawing.Size(114, 21);
+            this.radLEP_ExitPrice.Size = new System.Drawing.Size(126, 24);
             this.radLEP_ExitPrice.TabIndex = 1;
             this.radLEP_ExitPrice.Text = "Loss Exit Price";
             this.radLEP_ExitPrice.UseVisualStyleBackColor = true;
@@ -333,11 +334,11 @@ namespace TradingTools
             // 
             this.radPEP_ExitPrice.AutoSize = true;
             this.radPEP_ExitPrice.Checked = true;
-            this.radPEP_ExitPrice.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.radPEP_ExitPrice.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.radPEP_ExitPrice.ForeColor = System.Drawing.Color.DarkBlue;
             this.radPEP_ExitPrice.Location = new System.Drawing.Point(3, 7);
             this.radPEP_ExitPrice.Name = "radPEP_ExitPrice";
-            this.radPEP_ExitPrice.Size = new System.Drawing.Size(122, 21);
+            this.radPEP_ExitPrice.Size = new System.Drawing.Size(135, 24);
             this.radPEP_ExitPrice.TabIndex = 0;
             this.radPEP_ExitPrice.TabStop = true;
             this.radPEP_ExitPrice.Text = "Profit Exit Price";
@@ -1697,6 +1698,7 @@ namespace TradingTools
             this.statusStrip1.Location = new System.Drawing.Point(0, 10);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1700, 22);
+            this.statusStrip1.SizingGrip = false;
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -1887,10 +1889,13 @@ namespace TradingTools
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1700, 888);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "frmRiskRewardCalc_Long";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Risk Reward Calculator";

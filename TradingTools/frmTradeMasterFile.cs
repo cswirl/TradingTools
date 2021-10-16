@@ -24,6 +24,8 @@ namespace TradingTools
         {
             InitializeComponent();
 
+            btnDelete.Visible = false;
+
             cmbFilterStatus.DataSource = Enum.GetValues(typeof(StatusFilter));
         }
 
@@ -92,6 +94,16 @@ namespace TradingTools
         private void timer1_Tick(object sender, EventArgs e)
         {
             statusMessage.Text = "Status message . . .";
+        }
+
+        private void onToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            btnDelete.Visible = true;
+        }
+
+        private void offToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            btnDelete.Visible = false;
         }
     }
 
