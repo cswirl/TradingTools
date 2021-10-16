@@ -224,6 +224,7 @@ namespace TradingTools
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            if (State == RiskRewardCalcState.Deleted) return;
             Save();
         }
 
@@ -288,6 +289,7 @@ namespace TradingTools
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            if (State == RiskRewardCalcState.Deleted) return;
             if (State == RiskRewardCalcState.Empty) return;
             // Deletion not allowed when Trade was Officialized
             if (State == RiskRewardCalcState.TradeOpen) return;
@@ -444,6 +446,8 @@ namespace TradingTools
 
         private void btnOfficializedTrade_Click(object sender, EventArgs e)
         {
+            if (State == RiskRewardCalcState.Deleted) return;
+
             if (State == RiskRewardCalcState.Empty | State == RiskRewardCalcState.Loaded)
             {
                 var result = MyMessageBox.Question_YesNo("Confirm save this Trade as Official?", "Trade Officialize");
@@ -513,6 +517,11 @@ namespace TradingTools
 
 
             return true;
+        }
+
+        public void MarkAsDeleted()
+        {
+            ChangeState(RiskRewardCalcState.Deleted);
         }
 
         private void callOnLoad()
@@ -731,11 +740,24 @@ namespace TradingTools
                     btnSave.Visible = false;
                     btnCloseTheTrade.Visible = false;
                     break;
+
+                case RiskRewardCalcState.Deleted:
+                    this.Text += " < < DELETED > >";
+                    lblHeader.Text += " < < DELETED > >";
+
+                    // disable the form from interacting to database
+                    btnSave.Visible = false;
+                    btnDelete.Visible = false;
+                    btnOfficializedTrade.Visible = false;
+                    btnCloseTheTrade.Visible = false;
+                    break;
             }
         }
 
         private void btnCloseTheTrade_Click(object sender, EventArgs e)
         {
+            if (State == RiskRewardCalcState.Deleted) return;
+
             var result = MyMessageBox.Question_YesNo("Confirm to close this Trade?", "Trade Closing");
             if (result == DialogResult.Yes)
             {

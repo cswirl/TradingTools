@@ -45,6 +45,11 @@ namespace TradingTools
         {
             MessageBox.Show(msg, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+
+        internal static void Inform(string msg, string title = "")
+        {
+            MessageBox.Show(msg, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 
 }

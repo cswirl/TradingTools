@@ -116,6 +116,14 @@ namespace TradingTools
             return true;
         }
 
+        private void FormRRCLong_RemoveFromList(Trade t)
+        {
+            var rrc = _listOf_frmRRC_Long.Find(x => x.Trade.Equals(t));
+            // it will be automatically removed when closed - maybe just inform user that a calculator form was removed
+            //_listOf_frmRRC_Long.Remove(rrc);
+            rrc?.MarkAsDeleted();
+        }
+
         private bool FormRRCLong_Loaded_Spawn(CalculatorState c)
         {
             // TODO: the EF core list is being renew whenever a Trade is Officialized or CalculatorState is Updated
@@ -150,33 +158,7 @@ namespace TradingTools
             form.Show();
             //TODO: Delegates assignment here
 
-            //TODO: Add this to a list - should i mix this with the loaded ones?
-            //_calculatorStates_unsaved.Add(form.CalculatorState);
         }
-
-
-        //public BindingList<CalculatorState> GetCalculatorStates_Unofficial_BindingList()
-        //{
-        //    Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.Load(
-        //        DbContext.CalculatorStates
-        //        .Include(x => x.Trade).Where(y => y.Trade == default)
-        //        );
-
-        //    _calculatorStates_unofficial_bindingList = DbContext.CalculatorStates.Local.ToBindingList();
-
-        //    return _calculatorStates_unofficial_bindingList;
-
-        //}
-
-
-        //public List<CalculatorState> GetCalculatorStates_Unofficial_List()
-        //{
-        //    _calcStates_List = DbContext.CalculatorStates
-        //        .Where(x => x.TradeId == null)
-        //        .Include(x => x.Trade).ToList();
-
-        //    return _calcStates_List;
-        //}
 
         public BindingList<CalculatorState> GetCalculatorStates_Unofficial_BindingList()
         {
@@ -218,23 +200,20 @@ namespace TradingTools
 
         public BindingList<Trade> GetTrades_All()
         {
-            _trades_open_bindingList = new BindingList<Trade>(DbContext.Trades
+            return new BindingList<Trade>(DbContext.Trades
                 .Include(x => x.CalculatorState).ToList());
-
-            return _trades_open_bindingList;
         }
 
         public BindingList<Trade> GetTrades_Closed()
         {
-            _trades_open_bindingList = new BindingList<Trade>(DbContext.Trades
+            return new BindingList<Trade>(DbContext.Trades
                 .Where(x => x.Status.Equals("closed"))
                 .Include(x => x.CalculatorState).ToList());
-
-            return _trades_open_bindingList;
         }
 
         public BindingList<Trade> GetTrades_Open()
         {
+            if (_trades_open_bindingList != default) return _trades_open_bindingList;
             _trades_open_bindingList = new BindingList<Trade>(DbContext.Trades
                 .Where(x => x.Status.Equals("open"))
                 .Include(x => x.CalculatorState).ToList());
@@ -261,6 +240,16 @@ namespace TradingTools
             return true;
         }
 
+        internal bool Trade_Delete(Trade t)
+        {
+            DbContext.Trades.Remove(t);
+            DbContext.CalculatorStates.Remove(t.CalculatorState);
+            DbContext.SaveChanges();
+            if (t.Status.Equals("open")) _trades_open_bindingList.Remove(t);
+            FormRRCLong_RemoveFromList(t);
+
+            return true;
+        }
 
         #region UNUSED
         private BindingSource _calculatorStates_unsaved;

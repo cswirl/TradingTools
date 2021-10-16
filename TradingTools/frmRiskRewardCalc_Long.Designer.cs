@@ -1893,7 +1893,6 @@ namespace TradingTools
             this.Controls.Add(this.panel1);
             this.Name = "frmRiskRewardCalc_Long";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Risk Reward Calculator";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmRiskRewardCalc_Long_FormClosing);
             this.Load += new System.EventHandler(this.frmRRC_Long_Load);
