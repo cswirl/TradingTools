@@ -43,6 +43,7 @@ namespace TradingTools
             this.txtTicker = new System.Windows.Forms.TextBox();
             this.label30 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.btnUpdate = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label39 = new System.Windows.Forms.Label();
             this.txtPEP_Profit = new System.Windows.Forms.TextBox();
@@ -52,8 +53,8 @@ namespace TradingTools
             this.txtPEP_PCP = new System.Windows.Forms.TextBox();
             this.txtPEP_sPV = new System.Windows.Forms.TextBox();
             this.label27 = new System.Windows.Forms.Label();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.dtpDateExit = new System.Windows.Forms.DateTimePicker();
+            this.dtpDateEnter = new System.Windows.Forms.DateTimePicker();
             this.txtPEP_AccountEquity = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
@@ -186,6 +187,7 @@ namespace TradingTools
             // 
             this.txtTicker.Location = new System.Drawing.Point(104, 54);
             this.txtTicker.Name = "txtTicker";
+            this.txtTicker.ReadOnly = true;
             this.txtTicker.Size = new System.Drawing.Size(111, 23);
             this.txtTicker.TabIndex = 26;
             this.txtTicker.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -202,11 +204,12 @@ namespace TradingTools
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel3.Controls.Add(this.btnUpdate);
             this.panel3.Controls.Add(this.tableLayoutPanel1);
             this.panel3.Controls.Add(this.txtPEP_sPV);
             this.panel3.Controls.Add(this.label27);
-            this.panel3.Controls.Add(this.dateTimePicker2);
-            this.panel3.Controls.Add(this.dateTimePicker1);
+            this.panel3.Controls.Add(this.dtpDateExit);
+            this.panel3.Controls.Add(this.dtpDateEnter);
             this.panel3.Controls.Add(this.txtTicker);
             this.panel3.Controls.Add(this.txtPEP_AccountEquity);
             this.panel3.Controls.Add(this.label3);
@@ -220,6 +223,16 @@ namespace TradingTools
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(242, 794);
             this.panel3.TabIndex = 26;
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Location = new System.Drawing.Point(122, 218);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(93, 23);
+            this.btnUpdate.TabIndex = 39;
+            this.btnUpdate.Text = "UPDATE";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -332,19 +345,19 @@ namespace TradingTools
             this.label27.TabIndex = 37;
             this.label27.Text = "Final Position Value";
             // 
-            // dateTimePicker2
+            // dtpDateExit
             // 
-            this.dateTimePicker2.Location = new System.Drawing.Point(15, 175);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(200, 23);
-            this.dateTimePicker2.TabIndex = 31;
+            this.dtpDateExit.Location = new System.Drawing.Point(15, 175);
+            this.dtpDateExit.Name = "dtpDateExit";
+            this.dtpDateExit.Size = new System.Drawing.Size(200, 23);
+            this.dtpDateExit.TabIndex = 31;
             // 
-            // dateTimePicker1
+            // dtpDateEnter
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(15, 114);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 23);
-            this.dateTimePicker1.TabIndex = 30;
+            this.dtpDateEnter.Location = new System.Drawing.Point(15, 114);
+            this.dtpDateEnter.Name = "dtpDateEnter";
+            this.dtpDateEnter.Size = new System.Drawing.Size(200, 23);
+            this.dtpDateEnter.TabIndex = 30;
             // 
             // txtPEP_AccountEquity
             // 
@@ -400,6 +413,7 @@ namespace TradingTools
             this.dgvTrades.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvTrades.Size = new System.Drawing.Size(1242, 718);
             this.dgvTrades.TabIndex = 27;
+            this.dgvTrades.SelectionChanged += new System.EventHandler(this.dgvTrades_SelectionChanged);
             // 
             // timer1
             // 
@@ -491,8 +505,8 @@ namespace TradingTools
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker dtpDateExit;
+        private System.Windows.Forms.DateTimePicker dtpDateEnter;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label39;
         private System.Windows.Forms.TextBox txtPEP_Profit;
@@ -515,5 +529,6 @@ namespace TradingTools
         private System.Windows.Forms.ToolStripMenuItem correrctionModeToggleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem onToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem offToolStripMenuItem;
+        private System.Windows.Forms.Button btnUpdate;
     }
 }

@@ -228,7 +228,7 @@ namespace TradingTools
             Save();
         }
 
-        private void captureState()
+        private void captureCalculatorState()
         {
             CalculatorState.Capital = InputConverter.Decimal(txtCapital.Text);
             CalculatorState.Leverage = InputConverter.Decimal(txtLeverage.Text);
@@ -250,7 +250,7 @@ namespace TradingTools
         {
             // Capture state
             // 1
-            captureState();
+            captureCalculatorState();
 
             // 2-B Validation - the implementation may be incomplete but suffice for nowInputConverter.MoneyToDecimal
             string msg;
@@ -453,7 +453,6 @@ namespace TradingTools
                 var result = MyMessageBox.Question_YesNo("Confirm save this Trade as Official?", "Trade Officialize");
                 if (result == DialogResult.Yes)
                 {
-                    
                     if (State == RiskRewardCalcState.Empty) btnReCalculate.PerformClick();
                     officializedTrade();
                 }
@@ -464,7 +463,7 @@ namespace TradingTools
         {
             // Capture state
             // 2 - Process
-            captureState();        // calculator state must be captured first
+            captureCalculatorState();        // calculator state must be captured first
             var c = CalculatorState;
             var p = _calc.Position;
             var oc = _calc.OpeningCost;
@@ -489,7 +488,7 @@ namespace TradingTools
                 CalculatorState = this.CalculatorState
             };
 
-            // 3 - Validation - the implementation may be incomplete but suffice for nowInputConverter.MoneyToDecimal
+            // 3 - Validation - the implementation may be incomplete but suffice for now - InputConverter.MoneyToDecimal
             string msg;
             if (!RiskRewardCalc_Serv.CalculatorState_Validate(this.CalculatorState, out msg) || !Trade_Serv.TradeOpening_Validate(this.Trade, out msg))
             {
@@ -519,7 +518,8 @@ namespace TradingTools
             return true;
         }
 
-        public void MarkAsDeleted()
+
+        public void MarkAsDeleted(Trade t)
         {
             ChangeState(RiskRewardCalcState.Deleted);
         }

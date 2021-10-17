@@ -14,6 +14,13 @@ namespace TradingTools
 {
     public class master : Form
     {
+        //public delegate void tradeOfficialized(Trade t);
+        //public tradeOfficialized Trade_Officialized;
+        Action<Trade> tradeOfficialized;
+        Action<Trade> tradeClosed;
+        Action<Trade> tradeDeleted;
+        Action<Trade> tradeUpdated;
+
         private List<frmRiskRewardCalc_Long> _listOf_frmRRC_Long;
         private BindingList<CalculatorState> _calculatorStates_unofficial_bindingList;      // -in-use
         private BindingList<Trade> _trades_open_bindingList;
@@ -52,6 +59,10 @@ namespace TradingTools
             _frmCalcStates.FormRRCLong_Empty_Open += this.FormRRCLong_Empty_Spawn;
             _frmCalcStates.Trade_TradeOpen_OnRequest += this.FormRRCLong_Trade_Spawn;
             _frmCalcStates.FormTradeMasterFile += this.FormTradeMasterFile;
+            this.tradeOfficialized += _frmCalcStates.Trade_Officialized;
+            this.tradeClosed += _frmCalcStates.Trade_Closed;
+            this.tradeDeleted += _frmCalcStates.Trade_Deleted;
+            this.tradeUpdated += _frmCalcStates.Trade_Updated;
         }
 
         private void master_Load(object sender, EventArgs e)
@@ -80,6 +91,8 @@ namespace TradingTools
                 _frmTradeMasterFile.Show();
                 // delegates
                 _frmTradeMasterFile.Trade_TradeOpen_OnRequest += this.FormRRCLong_Trade_Spawn;
+                this.tradeOfficialized += _frmTradeMasterFile.Trade_Officialized;
+                this.tradeClosed += _frmTradeMasterFile.Trade_Closed;
             }
             else
             {
@@ -109,6 +122,7 @@ namespace TradingTools
                 form.Show();
                 //Delegates assignment here
                 form.FormClosing += (object sender, FormClosingEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc_Long)sender);
+                this.tradeDeleted += form.MarkAsDeleted;
 
                 _listOf_frmRRC_Long.Add(form);
             }
@@ -116,13 +130,13 @@ namespace TradingTools
             return true;
         }
 
-        private void FormRRCLong_RemoveFromList(Trade t)
-        {
-            var rrc = _listOf_frmRRC_Long.Find(x => x.Trade?.Equals(t) ?? false);
-            // it will be automatically removed when from is closed - just inform user that a calculator form was removed
-            //_listOf_frmRRC_Long.Remove(rrc);
-            rrc?.MarkAsDeleted();
-        }
+        //private void FormRRCLong_RemoveFromList(Trade t)
+        //{
+        //    var rrc = _listOf_frmRRC_Long.Find(x => x.Trade?.Equals(t) ?? false);
+        //    // it will be automatically removed when from is closed - just inform user that a calculator form was removed
+        //    //_listOf_frmRRC_Long.Remove(rrc);
+        //    rrc?.MarkAsDeleted(t);
+        //}
 
         private bool FormRRCLong_Loaded_Spawn(CalculatorState c)
         {
@@ -210,11 +224,13 @@ namespace TradingTools
 
         public BindingList<Trade> GetTrades_Open()
         {
-            _trades_open_bindingList ??= new BindingList<Trade>(DbContext.Trades
+            //_trades_open_bindingList ??= new BindingList<Trade>(DbContext.Trades
+            //    .Where(x => x.Status.Equals("open"))
+            //    .Include(x => x.CalculatorState).ToList());
+
+            return new BindingList<Trade>(DbContext.Trades
                 .Where(x => x.Status.Equals("open"))
                 .Include(x => x.CalculatorState).ToList());
-
-            return _trades_open_bindingList;
         }
 
 
@@ -222,8 +238,7 @@ namespace TradingTools
         {
             DbContext.Trades.Add(t);
             DbContext.SaveChanges();
-            _trades_open_bindingList.Add(t);
-            _calculatorStates_unofficial_bindingList.Remove(t.CalculatorState);     //hope may not cause prob with Officialized v2-Direct since obj does not exist yet
+            tradeOfficialized?.Invoke(t);
 
             return true;
         }
@@ -231,7 +246,7 @@ namespace TradingTools
         internal bool Trade_Close(Trade t)
         {
             DbContext.SaveChanges();
-            _trades_open_bindingList.Remove(t);
+            tradeClosed?.Invoke(t);
 
             return true;
         }
@@ -241,8 +256,15 @@ namespace TradingTools
             DbContext.Trades.Remove(t);
             DbContext.CalculatorStates.Remove(t.CalculatorState);
             DbContext.SaveChanges();
-            if (t.Status.Equals("open")) _trades_open_bindingList.Remove(t);
-            FormRRCLong_RemoveFromList(t);
+            tradeDeleted?.Invoke(t);
+
+            return true;
+        }
+
+        internal bool Trade_Update(Trade t)
+        {
+            DbContext.SaveChanges();
+            tradeUpdated?.Invoke(t);
 
             return true;
         }

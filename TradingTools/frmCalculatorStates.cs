@@ -14,11 +14,9 @@ namespace TradingTools
 {
     public partial class frmCalculatorStates : Form
     {
+        //delegates
         //public event EventHandler<CalculatorState> FormRRCLong_Loaded_Open;
         //public event EventHandler FormRRCLong_Empty_Open;
-
-        //private BindingSource _binding_calcStates_unofficial;
-
         public delegate bool CalculatorState_OnRequest(CalculatorState c);
         public CalculatorState_OnRequest CalculatorState_Loaded_OnRequest;
 
@@ -27,6 +25,10 @@ namespace TradingTools
 
         public event EventHandler FormRRCLong_Empty_Open;
         public event EventHandler FormTradeMasterFile;
+
+        // fields
+        private BindingList<CalculatorState> _calculatorStates_unofficial_bindingList;      // -in-use
+        private BindingList<Trade> _trades_open_bindingList;
 
         private master _master { get { return (master)this.Owner; } }
 
@@ -45,11 +47,10 @@ namespace TradingTools
             CalculatorState_Loaded_OnRequest((CalculatorState)dgvUnofficial.CurrentRow.DataBoundItem);
         }
 
-        public void dgvUnofficial_Renew_Datasource()
+        public void dgvUnofficial_SetDatasource()
         {
-            // As of now, the binding list is able to track changes
-            dgvUnofficial.DataSource = _master.GetCalculatorStates_Unofficial_BindingList();
-            //dgvUnofficial.Invalidate();
+            _calculatorStates_unofficial_bindingList = _master.GetCalculatorStates_Unofficial_BindingList();
+            dgvUnofficial.DataSource = _calculatorStates_unofficial_bindingList;
         }
 
         public void dgvUnofficial_Invalidate()
@@ -57,10 +58,10 @@ namespace TradingTools
             dgvUnofficial.Invalidate();
         }
 
-        public void dgvTrades_Open_Renew_Datasource()
+        public void dgvTrades_Open_SetDatasource()
         {
-            dgvTrades_Open.DataSource = _master.GetTrades_Open();
-            //dgvTrades_Open.Invalidate();
+            _trades_open_bindingList = _master.GetTrades_Open();
+            dgvTrades_Open.DataSource = _trades_open_bindingList;
         }
 
         public void dgvTrades_Open_Invalidate()
@@ -75,23 +76,39 @@ namespace TradingTools
 
         private void frmCalculatorStates_Load(object sender, EventArgs e)
         {
-            //_binding_calcStates_unofficial = new BindingSource();
-            //_binding_calcStates_unofficial.DataSource = _master.GetCalculatorStates_Unofficial_List();
-            dgvTrades_Open.DataSource = _master.GetTrades_Open();
-            dgvUnofficial.DataSource = _master.GetCalculatorStates_Unofficial_BindingList();
-
-            // Adds- complexity - feature is on hold
-            //dgvUnsaved.DataSource = _master.GetCalculatorStates_Unsaved_BindingSource();
+            dgvTrades_Open_SetDatasource();
+            dgvUnofficial_SetDatasource();
         }
 
         private void btnViewOfficial_Click(object sender, EventArgs e)
         {
-            Trade_TradeOpen_OnRequest((Trade)dgvTrades_Open.CurrentRow.DataBoundItem);
+            Trade_TradeOpen_OnRequest?.Invoke((Trade)dgvTrades_Open.CurrentRow.DataBoundItem);
         }
 
         private void menuTradeMasterFile_Click(object sender, EventArgs e)
         {
             FormTradeMasterFile?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void Trade_Officialized(Trade t)
+        {
+            _calculatorStates_unofficial_bindingList.Remove(t.CalculatorState);
+            _trades_open_bindingList.Add(t);
+        }
+
+        public void Trade_Closed(Trade t)
+        {
+            _trades_open_bindingList.Remove(t);
+        }
+
+        public void Trade_Deleted(Trade t)
+        {
+            if (t.Status.Equals("open")) _trades_open_bindingList.Remove(t);
+        }
+
+        public void Trade_Updated(Trade t)
+        {
+            if (t.Status.Equals("open")) dgvTrades_Open.Invalidate();
         }
     }
 }
