@@ -30,6 +30,33 @@ namespace TradingTools.Services
             }
             return true;
         }
+
+        public static decimal PCP(decimal EntryPrice, decimal? ExitPrice)
+        {
+            if (ExitPrice == default) return 0;
+            if (EntryPrice == 0) return 0;
+            decimal exitPrice = ExitPrice ?? EntryPrice;
+            return (exitPrice - EntryPrice) / EntryPrice * 100;
+        }
+
+        public static decimal PnL_percentage(decimal capital, decimal? pnl)
+        {
+            if (capital == 0) return 0;
+            decimal _pnl = pnl ?? 0;
+            return _pnl / capital * 100;
+        }
+
+        public static decimal PnL(decimal EntryPrice, decimal lotSize, decimal pip, decimal tradingCost)
+        {
+            return (EntryPrice * lotSize * pip / 100) - tradingCost;
+        }
+
+        public static decimal FinalPositionValue(decimal lotSize, decimal? exitPrice)
+        {
+            decimal _exitPrice = exitPrice ?? 0;
+            return _exitPrice * lotSize;
+        }
+        public static decimal AccountEquity(decimal positionValue, decimal borrowedAmount) => positionValue - borrowedAmount;
     }
 
     public class PriceChangeTable
@@ -95,6 +122,8 @@ namespace TradingTools.Services
             return null;
         }
 
+        
+
         private static decimal TradingCost(decimal ExitPrice, decimal lotSize, decimal borrowCost) => SpeculativeTradingFee(ExitPrice, lotSize) + borrowCost;
 
         public static decimal SpeculativeTradingFee(decimal ExitPrice, decimal lotSize) => ExitPrice * lotSize * Constant.TRADING_FEE;
@@ -123,7 +152,7 @@ namespace TradingTools.Services
         // For Testing
         //readonly decimal[] priceIncreasePercentage_array = { 1m, 2m, 3m, 4m, 5m};
 
-        readonly decimal[] priceIncreasePercentage_array = { 7m, 8m, 10m, 15m, 20m, 25m, 30m };
+        readonly decimal[] priceIncreasePercentage_array = { 5m, 7m, 8m, 10m, 12m, 15m, 20m, 25m, 30m };
 
         private PriceChangeTable _priceChangeTable;
 
@@ -151,7 +180,7 @@ namespace TradingTools.Services
         // For Testing
         //readonly decimal[] priceDecreasePercentage_array = { -0.3m, -0.5m, -0.7m, -0.8m, -0.9m, -1m, -1.1m};
 
-        readonly decimal[] priceDecreasePercentage_array = { -1m, -2m, -3m, -4m, -5m, -7m, -10m };
+        readonly decimal[] priceDecreasePercentage_array = { -1m, -2m, -3m, -4m, -5m, -6, -7m, -8, -10m };
 
         private PriceChangeTable _priceChangeTable;
 

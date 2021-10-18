@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TradingTools.Services;
+using TradingTools.Trunk;
 using TradingTools.Trunk.Entity;
 
 namespace TradingTools
@@ -25,9 +26,11 @@ namespace TradingTools
         {
             InitializeComponent();
 
+            _statusFilter = StatusFilter.Closed;
             // initialize controls
             btnDelete.Visible = false;
-            _statusFilter = StatusFilter.Closed;
+            dtpDateEnter.MaxDate = DateTime.Now;
+            dtpDateExit.MaxDate = DateTime.Now;
 
             cmbFilterStatus.DataSource = Enum.GetValues(typeof(StatusFilter));
         }
@@ -72,6 +75,7 @@ namespace TradingTools
                     DataGridView_SetDataSource(_master?.GetTrades_Open());
                     break;
             }
+            dgvTrades.Focus();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -161,7 +165,27 @@ namespace TradingTools
             txtTradeNum.Text = t.Id.ToString();
             txtTicker.Text = t.Ticker;
             dtpDateEnter.Value = t.DateEnter;
-            dtpDateExit.Value = t.DateExit ?? DateTime.Now;
+            dtpDateExit.Value = t.DateExit ?? t.DateEnter;
+
+            if (t.Status.Equals("closed"))
+            {
+                // PCP, PnL etc
+                txtPCP.Text = RiskRewardCalc_Serv.PCP(t.EntryPriceAvg, t.ExitPriceAvg).ToString(Constant.PERCENTAGE_FORMAT);
+                txtPnL_percentage.Text = RiskRewardCalc_Serv.PnL_percentage(t.Capital, t.PnL).ToString(Constant.PERCENTAGE_FORMAT);
+                txtPnL.Text = t.PnL == default ? "0" : t.PnL?.ToString(Constant.MONEY_FORMAT);
+                decimal finalPositionValue = RiskRewardCalc_Serv.FinalPositionValue(t.LotSize, t.ExitPriceAvg);
+                txtFinalPositionValue.Text = finalPositionValue.ToString(Constant.MONEY_FORMAT);
+                txtAccountEquity.Text = RiskRewardCalc_Serv.AccountEquity(finalPositionValue, t.BorrowAmount).ToString(Constant.MONEY_FORMAT);
+            }
+            else
+            {
+                // PCP, PnL etc
+                txtPCP.Text = "0";
+                txtPnL_percentage.Text = "0";
+                txtPnL.Text = "0";
+                txtFinalPositionValue.Text = "0";
+                txtAccountEquity.Text = "0";
+            }
         }
     }
 

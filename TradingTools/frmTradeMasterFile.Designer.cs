@@ -46,16 +46,16 @@ namespace TradingTools
             this.btnUpdate = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label39 = new System.Windows.Forms.Label();
-            this.txtPEP_Profit = new System.Windows.Forms.TextBox();
+            this.txtPnL = new System.Windows.Forms.TextBox();
             this.label38 = new System.Windows.Forms.Label();
-            this.txtPEP_RealProfit_percent = new System.Windows.Forms.TextBox();
+            this.txtPnL_percentage = new System.Windows.Forms.TextBox();
             this.label51 = new System.Windows.Forms.Label();
-            this.txtPEP_PCP = new System.Windows.Forms.TextBox();
-            this.txtPEP_sPV = new System.Windows.Forms.TextBox();
+            this.txtPCP = new System.Windows.Forms.TextBox();
+            this.txtFinalPositionValue = new System.Windows.Forms.TextBox();
             this.label27 = new System.Windows.Forms.Label();
             this.dtpDateExit = new System.Windows.Forms.DateTimePicker();
             this.dtpDateEnter = new System.Windows.Forms.DateTimePicker();
-            this.txtPEP_AccountEquity = new System.Windows.Forms.TextBox();
+            this.txtAccountEquity = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -115,12 +115,15 @@ namespace TradingTools
             // 
             // cmbFilterStatus
             // 
+            this.cmbFilterStatus.BackColor = System.Drawing.Color.White;
             this.cmbFilterStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFilterStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbFilterStatus.FormattingEnabled = true;
             this.cmbFilterStatus.Location = new System.Drawing.Point(53, 10);
             this.cmbFilterStatus.Name = "cmbFilterStatus";
             this.cmbFilterStatus.Size = new System.Drawing.Size(94, 23);
             this.cmbFilterStatus.TabIndex = 1;
+            this.cmbFilterStatus.TabStop = false;
             this.cmbFilterStatus.SelectedIndexChanged += new System.EventHandler(this.cmbFilterStatus_SelectedIndexChanged);
             // 
             // FILTER
@@ -206,12 +209,12 @@ namespace TradingTools
             this.panel3.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.panel3.Controls.Add(this.btnUpdate);
             this.panel3.Controls.Add(this.tableLayoutPanel1);
-            this.panel3.Controls.Add(this.txtPEP_sPV);
+            this.panel3.Controls.Add(this.txtFinalPositionValue);
             this.panel3.Controls.Add(this.label27);
             this.panel3.Controls.Add(this.dtpDateExit);
             this.panel3.Controls.Add(this.dtpDateEnter);
             this.panel3.Controls.Add(this.txtTicker);
-            this.panel3.Controls.Add(this.txtPEP_AccountEquity);
+            this.panel3.Controls.Add(this.txtAccountEquity);
             this.panel3.Controls.Add(this.label3);
             this.panel3.Controls.Add(this.label28);
             this.panel3.Controls.Add(this.label30);
@@ -241,11 +244,11 @@ namespace TradingTools
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.5814F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.76744F));
             this.tableLayoutPanel1.Controls.Add(this.label39, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.txtPEP_Profit, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.txtPnL, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.label38, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.txtPEP_RealProfit_percent, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.txtPnL_percentage, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.label51, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.txtPEP_PCP, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.txtPCP, 0, 1);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 271);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -260,23 +263,23 @@ namespace TradingTools
             this.label39.AutoSize = true;
             this.label39.Location = new System.Drawing.Point(110, 12);
             this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(36, 15);
+            this.label39.Size = new System.Drawing.Size(27, 15);
             this.label39.TabIndex = 0;
-            this.label39.Text = "Profit";
+            this.label39.Text = "PnL";
             this.label39.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // txtPEP_Profit
+            // txtPnL
             // 
-            this.txtPEP_Profit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.txtPnL.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPEP_Profit.Location = new System.Drawing.Point(110, 30);
-            this.txtPEP_Profit.Name = "txtPEP_Profit";
-            this.txtPEP_Profit.ReadOnly = true;
-            this.txtPEP_Profit.Size = new System.Drawing.Size(102, 23);
-            this.txtPEP_Profit.TabIndex = 2;
-            this.txtPEP_Profit.TabStop = false;
-            this.txtPEP_Profit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtPnL.Location = new System.Drawing.Point(110, 30);
+            this.txtPnL.Name = "txtPnL";
+            this.txtPnL.ReadOnly = true;
+            this.txtPnL.Size = new System.Drawing.Size(102, 23);
+            this.txtPnL.TabIndex = 2;
+            this.txtPnL.TabStop = false;
+            this.txtPnL.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label38
             // 
@@ -289,18 +292,18 @@ namespace TradingTools
             this.label38.Text = "PnL %";
             this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // txtPEP_RealProfit_percent
+            // txtPnL_percentage
             // 
-            this.txtPEP_RealProfit_percent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.txtPnL_percentage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPEP_RealProfit_percent.Location = new System.Drawing.Point(56, 30);
-            this.txtPEP_RealProfit_percent.Name = "txtPEP_RealProfit_percent";
-            this.txtPEP_RealProfit_percent.ReadOnly = true;
-            this.txtPEP_RealProfit_percent.Size = new System.Drawing.Size(48, 23);
-            this.txtPEP_RealProfit_percent.TabIndex = 1;
-            this.txtPEP_RealProfit_percent.TabStop = false;
-            this.txtPEP_RealProfit_percent.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtPnL_percentage.Location = new System.Drawing.Point(56, 30);
+            this.txtPnL_percentage.Name = "txtPnL_percentage";
+            this.txtPnL_percentage.ReadOnly = true;
+            this.txtPnL_percentage.Size = new System.Drawing.Size(48, 23);
+            this.txtPnL_percentage.TabIndex = 1;
+            this.txtPnL_percentage.TabStop = false;
+            this.txtPnL_percentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label51
             // 
@@ -313,28 +316,28 @@ namespace TradingTools
             this.label51.Text = "PCP";
             this.label51.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // txtPEP_PCP
+            // txtPCP
             // 
-            this.txtPEP_PCP.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.txtPCP.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPEP_PCP.Location = new System.Drawing.Point(3, 30);
-            this.txtPEP_PCP.Name = "txtPEP_PCP";
-            this.txtPEP_PCP.ReadOnly = true;
-            this.txtPEP_PCP.Size = new System.Drawing.Size(47, 23);
-            this.txtPEP_PCP.TabIndex = 1;
-            this.txtPEP_PCP.TabStop = false;
-            this.txtPEP_PCP.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtPCP.Location = new System.Drawing.Point(3, 30);
+            this.txtPCP.Name = "txtPCP";
+            this.txtPCP.ReadOnly = true;
+            this.txtPCP.Size = new System.Drawing.Size(47, 23);
+            this.txtPCP.TabIndex = 1;
+            this.txtPCP.TabStop = false;
+            this.txtPCP.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // txtPEP_sPV
+            // txtFinalPositionValue
             // 
-            this.txtPEP_sPV.Location = new System.Drawing.Point(130, 337);
-            this.txtPEP_sPV.Name = "txtPEP_sPV";
-            this.txtPEP_sPV.ReadOnly = true;
-            this.txtPEP_sPV.Size = new System.Drawing.Size(92, 23);
-            this.txtPEP_sPV.TabIndex = 32;
-            this.txtPEP_sPV.TabStop = false;
-            this.txtPEP_sPV.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtFinalPositionValue.Location = new System.Drawing.Point(130, 337);
+            this.txtFinalPositionValue.Name = "txtFinalPositionValue";
+            this.txtFinalPositionValue.ReadOnly = true;
+            this.txtFinalPositionValue.Size = new System.Drawing.Size(92, 23);
+            this.txtFinalPositionValue.TabIndex = 32;
+            this.txtFinalPositionValue.TabStop = false;
+            this.txtFinalPositionValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label27
             // 
@@ -359,15 +362,15 @@ namespace TradingTools
             this.dtpDateEnter.Size = new System.Drawing.Size(200, 23);
             this.dtpDateEnter.TabIndex = 30;
             // 
-            // txtPEP_AccountEquity
+            // txtAccountEquity
             // 
-            this.txtPEP_AccountEquity.Location = new System.Drawing.Point(130, 366);
-            this.txtPEP_AccountEquity.Name = "txtPEP_AccountEquity";
-            this.txtPEP_AccountEquity.ReadOnly = true;
-            this.txtPEP_AccountEquity.Size = new System.Drawing.Size(92, 23);
-            this.txtPEP_AccountEquity.TabIndex = 34;
-            this.txtPEP_AccountEquity.TabStop = false;
-            this.txtPEP_AccountEquity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtAccountEquity.Location = new System.Drawing.Point(130, 366);
+            this.txtAccountEquity.Name = "txtAccountEquity";
+            this.txtAccountEquity.ReadOnly = true;
+            this.txtAccountEquity.Size = new System.Drawing.Size(92, 23);
+            this.txtAccountEquity.TabIndex = 34;
+            this.txtAccountEquity.TabStop = false;
+            this.txtAccountEquity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label3
             // 
@@ -509,14 +512,14 @@ namespace TradingTools
         private System.Windows.Forms.DateTimePicker dtpDateEnter;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label39;
-        private System.Windows.Forms.TextBox txtPEP_Profit;
+        private System.Windows.Forms.TextBox txtPnL;
         private System.Windows.Forms.Label label38;
-        private System.Windows.Forms.TextBox txtPEP_RealProfit_percent;
+        private System.Windows.Forms.TextBox txtPnL_percentage;
         private System.Windows.Forms.Label label51;
-        private System.Windows.Forms.TextBox txtPEP_PCP;
+        private System.Windows.Forms.TextBox txtPCP;
         private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.TextBox txtPEP_sPV;
-        private System.Windows.Forms.TextBox txtPEP_AccountEquity;
+        private System.Windows.Forms.TextBox txtFinalPositionValue;
+        private System.Windows.Forms.TextBox txtAccountEquity;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.ComboBox cmbFilterStatus;
         private System.Windows.Forms.Label FILTER;

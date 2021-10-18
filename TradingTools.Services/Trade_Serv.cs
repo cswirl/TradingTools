@@ -16,6 +16,11 @@ namespace TradingTools.Services
             if (!validateStatus(t.Status, out msg)) return false;
             if (!validatePositionSide(t.PositionSide, out msg)) return false;
             if (t.DateEnter == default) { msg = "Invalid data. Date is not set."; return false; }
+            if (t.DateEnter > DateTime.Now)
+            {
+                msg = "'Date Enter'cannot exceed the Date and Time right now.";
+                return false;
+            }
             if (t.Capital <= 10 | t.Leverage < 1 | t.EntryPriceAvg <= 0 | t.LotSize <= 0 | t.OpeningTradingFee <= 0 |
                 t.OpeningTradingCost <= 0)
             {
@@ -36,7 +41,16 @@ namespace TradingTools.Services
                 msg =  pref + " invalid data found.";
                 return false; 
             }
-            if (t.DateEnter >= t.DateExit) { msg = pref + " 'Date Exit' must come later in time from 'Date Enter'"; return false; }
+            if (t.DateEnter >= t.DateExit) 
+            { 
+                msg = pref + " 'Date Exit' must come later in time from 'Date Enter'"; 
+                return false; 
+            }
+            if (t.DateExit > DateTime.Now)
+            {
+                msg = pref + " 'Date Exit'cannot exceed the Date and Time right now.";
+                return false;
+            }
             if (t.ClosingTradingFee < 0 | t.ClosingTradingCost < 0 | t.ClosingTradingFee > t.ClosingTradingCost)
             {
                 msg = pref + " invalid data found.";
@@ -45,6 +59,11 @@ namespace TradingTools.Services
             if (!t.Status.Equals("closed")) { msg = pref + "invalid Status value"; return false; }
 
             return true;
+        }
+
+        public static bool Trade_Validate(Trade t, out string msg)
+        {
+            return TradeOpening_Validate(t, out msg) && TradeClosing_Validate(t, out msg);
         }
 
         private static bool validateTicker(string ticker, out string msg)

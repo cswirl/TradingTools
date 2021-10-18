@@ -1507,9 +1507,9 @@ namespace TradingTools
             // 
             this.panel5.Controls.Add(this.dgvPriceIncreaseTable);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel5.Location = new System.Drawing.Point(0, 134);
+            this.panel5.Location = new System.Drawing.Point(0, 114);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(564, 247);
+            this.panel5.Size = new System.Drawing.Size(564, 267);
             this.panel5.TabIndex = 0;
             // 
             // dgvPriceIncreaseTable
@@ -1523,12 +1523,12 @@ namespace TradingTools
             this.dgvPriceIncreaseTable.ReadOnly = true;
             this.dgvPriceIncreaseTable.RowTemplate.Height = 25;
             this.dgvPriceIncreaseTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPriceIncreaseTable.Size = new System.Drawing.Size(564, 247);
+            this.dgvPriceIncreaseTable.Size = new System.Drawing.Size(564, 267);
             this.dgvPriceIncreaseTable.TabIndex = 0;
             // 
             // btnSetLEP
             // 
-            this.btnSetLEP.Location = new System.Drawing.Point(445, 269);
+            this.btnSetLEP.Location = new System.Drawing.Point(445, 287);
             this.btnSetLEP.Name = "btnSetLEP";
             this.btnSetLEP.Size = new System.Drawing.Size(114, 23);
             this.btnSetLEP.TabIndex = 11;
@@ -1538,7 +1538,7 @@ namespace TradingTools
             // 
             // btnPriceDecrease_custom
             // 
-            this.btnPriceDecrease_custom.Location = new System.Drawing.Point(445, 296);
+            this.btnPriceDecrease_custom.Location = new System.Drawing.Point(445, 314);
             this.btnPriceDecrease_custom.Name = "btnPriceDecrease_custom";
             this.btnPriceDecrease_custom.Size = new System.Drawing.Size(114, 23);
             this.btnPriceDecrease_custom.TabIndex = 10;
@@ -1561,12 +1561,12 @@ namespace TradingTools
             this.tableLayoutPanel4.Controls.Add(this.txtPriceDecrease_loss, 2, 1);
             this.tableLayoutPanel4.Controls.Add(this.label49, 3, 0);
             this.tableLayoutPanel4.Controls.Add(this.txtLossPercentage, 3, 1);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(50, 261);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(50, 279);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 2;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 44.28571F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55.71429F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(384, 74);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(384, 73);
             this.tableLayoutPanel4.TabIndex = 2;
             // 
             // label23
@@ -1663,7 +1663,7 @@ namespace TradingTools
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(564, 245);
+            this.panel4.Size = new System.Drawing.Size(564, 265);
             this.panel4.TabIndex = 0;
             // 
             // dgvPriceDecreaseTable
@@ -1677,7 +1677,7 @@ namespace TradingTools
             this.dgvPriceDecreaseTable.ReadOnly = true;
             this.dgvPriceDecreaseTable.RowTemplate.Height = 25;
             this.dgvPriceDecreaseTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPriceDecreaseTable.Size = new System.Drawing.Size(564, 245);
+            this.dgvPriceDecreaseTable.Size = new System.Drawing.Size(564, 265);
             this.dgvPriceDecreaseTable.TabIndex = 1;
             // 
             // panel3
@@ -1898,6 +1898,7 @@ namespace TradingTools
             this.MaximizeBox = false;
             this.Name = "frmRiskRewardCalc_Long";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Risk Reward Calculator";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmRiskRewardCalc_Long_FormClosing);
             this.Load += new System.EventHandler(this.frmRRC_Long_Load);
