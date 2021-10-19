@@ -41,17 +41,46 @@ namespace TradingTools
 
         private void btnReCalculate_Click(object sender, EventArgs e)
         {
-            // _calc.Calculate() internal do the step 2 and 3
+
+            if (State == RiskRewardCalcState.Deleted) return;
+            // The _calc.Trade_Unofficial_Calculate() will do the step 2 and 3 internally
             // step 2: Collect data -Receptors
             // step 2-B: Validation 
             // step 3: Process Data collected including others supporting data
-            string msg;
-            var r = _calc.Calculate(
+            bool r = false;
+            string msg = string.Empty;
+            if (State == RiskRewardCalcState.Empty | State == RiskRewardCalcState.Loaded)
+            {
+                if (txtLotSize.Text.Length < 1 | txtLotSize.Text.Equals(string.Empty))
+                {
+                    r = _calc.Trade_Unofficial_Calculate(
                 StringToNumeric.MoneyToDecimal(txtCapital.Text),
                 InputConverter.Decimal(txtLeverage.Text),
                 InputConverter.Decimal(txtEntryPrice.Text),
                 (int)nudDayCount.Value,
                 nudDailyInterestRate.Value, out msg);
+                }
+                else
+                {
+                    r = _calc.Trade_Official_Calculate(
+                StringToNumeric.MoneyToDecimal(txtCapital.Text),
+                InputConverter.Decimal(txtLeverage.Text),
+                InputConverter.Decimal(txtLotSize.Text),
+                InputConverter.Decimal(txtEntryPrice.Text),
+                (int)nudDayCount.Value,
+                nudDailyInterestRate.Value, out msg);
+                }
+            }
+            else if (State == RiskRewardCalcState.TradeOpen | State == RiskRewardCalcState.TradeClosed)
+            {
+                r = _calc.Trade_Official_Calculate(
+                StringToNumeric.MoneyToDecimal(txtCapital.Text),
+                InputConverter.Decimal(txtLeverage.Text),
+                InputConverter.Decimal(txtLotSize.Text),
+                InputConverter.Decimal(txtEntryPrice.Text),
+                (int)nudDayCount.Value,
+                nudDailyInterestRate.Value, out msg);
+            }
 
             if (r == false)
             {
@@ -59,7 +88,6 @@ namespace TradingTools
                 MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;
             }
-
 
             // step 4: Represent data back to UI
             txtLotSize.Text = _calc.Position.LotSize.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
@@ -91,6 +119,12 @@ namespace TradingTools
                 ).OrderByDescending(o => o.PriceChangePercentage).ToList();
 
             if (pdt != null) dgvPriceDecreaseTable.DataSource = pdt;
+
+            // compute buttons
+            btnPriceIncrease_custom.PerformClick();
+            btnPriceDecrease_custom.PerformClick();
+            btnPEP_compute.PerformClick();
+            btnLEP_compute.PerformClick();
         }
 
         private void frmRRC_Long_Load(object sender, EventArgs e)
@@ -453,7 +487,6 @@ namespace TradingTools
                 var result = MyMessageBox.Question_YesNo("Confirm save this Trade as Official?", "Trade Officialize");
                 if (result == DialogResult.Yes)
                 {
-                    if (State == RiskRewardCalcState.Empty) btnReCalculate.PerformClick();
                     officializedTrade();
                 }
             }
@@ -461,6 +494,7 @@ namespace TradingTools
 
         private bool officializedTrade()
         {
+            if (State == RiskRewardCalcState.Empty) btnReCalculate.PerformClick();
             // Capture state
             // 2 - Process
             captureCalculatorState();        // calculator state must be captured first
@@ -625,6 +659,7 @@ namespace TradingTools
                         txtCapital.Text = Trade.Capital.ToString("0.00");     // dont change format
                         txtLeverage.Text = Trade.Leverage.ToString("0");      // dont change format
                         txtEntryPrice.Text = Trade.EntryPriceAvg.ToString();
+                        txtLotSize.Text = Trade.LotSize.ToString();
                         //Numeric Up Down control throws exception when assigned value less then their Minimum value
                         decimal d = SafeConvert.ToDecimalSafe((DateTime.Now - Trade.DateEnter).TotalDays);
                         nudDayCount.Value = d < nudDayCount.Minimum ? nudDayCount.Minimum : d;
@@ -681,7 +716,7 @@ namespace TradingTools
                     txtCapital.Text = Trade.Capital.ToString(Constant.MONEY_FORMAT);     // dont change format
                     txtLeverage.Text = Trade.Leverage.ToString("0");      // dont change format
                     txtEntryPrice.Text = Trade.EntryPriceAvg.ToString();
-                    //txtLotSize.Text = Trade.LotSize.ToString();
+                    txtLotSize.Text = Trade.LotSize.ToString();
                     //txtLeveragedCapital.Text = Trade.LeveragedCapital.ToString(Constant.MONEY_FORMAT);
                     //txtOpeningTradingFee_dollar.Text = Trade.OpeningTradingCost.ToString(Constant.MONEY_FORMAT);
                     //txtOpeningTradingCost.Text = Trade.OpeningTradingCost.ToString(Constant.MONEY_FORMAT);
@@ -756,7 +791,7 @@ namespace TradingTools
 
         private void btnCloseTheTrade_Click(object sender, EventArgs e)
         {
-            if (State == RiskRewardCalcState.Deleted) return;
+            if (State != RiskRewardCalcState.TradeOpen) return;
 
             var result = MyMessageBox.Question_YesNo("Confirm to close this Trade?", "Trade Closing");
             if (result == DialogResult.Yes)

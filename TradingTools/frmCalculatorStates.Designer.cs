@@ -132,13 +132,17 @@ namespace TradingTools
             // 
             // btnViewUnofficial_Loaded
             // 
-            this.btnViewUnofficial_Loaded.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnViewUnofficial_Loaded.Location = new System.Drawing.Point(898, 584);
+            this.btnViewUnofficial_Loaded.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnViewUnofficial_Loaded.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnViewUnofficial_Loaded.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnViewUnofficial_Loaded.ForeColor = System.Drawing.Color.White;
+            this.btnViewUnofficial_Loaded.Location = new System.Drawing.Point(591, 367);
             this.btnViewUnofficial_Loaded.Name = "btnViewUnofficial_Loaded";
-            this.btnViewUnofficial_Loaded.Size = new System.Drawing.Size(265, 31);
+            this.btnViewUnofficial_Loaded.Size = new System.Drawing.Size(572, 35);
             this.btnViewUnofficial_Loaded.TabIndex = 4;
             this.btnViewUnofficial_Loaded.Text = "View Selected > > >";
-            this.btnViewUnofficial_Loaded.UseVisualStyleBackColor = true;
+            this.btnViewUnofficial_Loaded.UseVisualStyleBackColor = false;
             this.btnViewUnofficial_Loaded.Click += new System.EventHandler(this.btnOpenCalc_Click);
             // 
             // tableLayoutPanel1
@@ -151,8 +155,8 @@ namespace TradingTools
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.dgvTrades_Open, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.btnViewUnofficial_Loaded, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.btnViewOfficial, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.btnViewOfficial, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btnViewUnofficial_Loaded, 1, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 24);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -208,13 +212,17 @@ namespace TradingTools
             // 
             // btnViewOfficial
             // 
-            this.btnViewOfficial.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnViewOfficial.Location = new System.Drawing.Point(898, 328);
+            this.btnViewOfficial.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnViewOfficial.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnViewOfficial.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnViewOfficial.ForeColor = System.Drawing.Color.White;
+            this.btnViewOfficial.Location = new System.Drawing.Point(591, 23);
             this.btnViewOfficial.Name = "btnViewOfficial";
-            this.btnViewOfficial.Size = new System.Drawing.Size(265, 30);
+            this.btnViewOfficial.Size = new System.Drawing.Size(572, 34);
             this.btnViewOfficial.TabIndex = 10;
             this.btnViewOfficial.Text = "View Selected > > >";
-            this.btnViewOfficial.UseVisualStyleBackColor = true;
+            this.btnViewOfficial.UseVisualStyleBackColor = false;
             this.btnViewOfficial.Click += new System.EventHandler(this.btnViewOfficial_Click);
             // 
             // statusStrip1

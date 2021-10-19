@@ -51,6 +51,11 @@ namespace TradingTools.Services
             return (EntryPrice * lotSize * pip / 100) - tradingCost;
         }
 
+        public static decimal PositionValue(decimal lotSize, decimal price)
+        {
+            return price * lotSize;
+        }
+
         public static decimal FinalPositionValue(decimal lotSize, decimal? exitPrice)
         {
             decimal _exitPrice = exitPrice ?? 0;

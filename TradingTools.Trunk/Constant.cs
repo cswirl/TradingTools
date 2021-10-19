@@ -18,7 +18,7 @@ namespace TradingTools.Trunk
         public decimal Leverage { get; set; }
         public decimal EntryPriceAvg { get; set; }
         public decimal InitialPositionValue { get; set; }
-        public decimal LeveragedCapital { get { return Capital * Leverage; } }
+        public decimal LeveragedCapital { get; set; }
         public decimal LotSize { get; set; }
         public decimal AccountEquity { get; set; }
         public decimal StopLoss_limit { get; set; }

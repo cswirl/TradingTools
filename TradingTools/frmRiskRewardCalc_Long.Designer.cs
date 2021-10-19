@@ -680,11 +680,12 @@ namespace TradingTools
             // 
             this.txtLotSize.Location = new System.Drawing.Point(155, 144);
             this.txtLotSize.Name = "txtLotSize";
-            this.txtLotSize.ReadOnly = true;
             this.txtLotSize.Size = new System.Drawing.Size(111, 23);
             this.txtLotSize.TabIndex = 4;
             this.txtLotSize.TabStop = false;
             this.txtLotSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtLotSize.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
+            this.txtLotSize.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Decimal_Validating);
             // 
             // label5
             // 
