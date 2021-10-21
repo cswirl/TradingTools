@@ -29,8 +29,8 @@ namespace TradingTools
             _statusFilter = StatusFilter.Closed;
             // initialize controls
             btnDelete.Visible = false;
-            dtpDateEnter.MaxDate = DateTime.Now;
-            dtpDateExit.MaxDate = DateTime.Now;
+            dtpDateEnter.MaxDate = DateTime.Today.AddDays(1).AddTicks(-1);
+            dtpDateExit.MaxDate = DateTime.Today.AddDays(1).AddTicks(-1);
 
             cmbFilterStatus.DataSource = Enum.GetValues(typeof(StatusFilter));
         }
@@ -186,6 +186,11 @@ namespace TradingTools
                 txtFinalPositionValue.Text = "0";
                 txtAccountEquity.Text = "0";
             }
+        }
+
+        private void dgvTrades_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            Trade_TradeOpen_OnRequest((Trade)dgvTrades.CurrentRow.DataBoundItem);
         }
     }
 

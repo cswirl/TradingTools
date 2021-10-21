@@ -416,6 +416,7 @@ namespace TradingTools
             this.dgvTrades.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvTrades.Size = new System.Drawing.Size(1242, 718);
             this.dgvTrades.TabIndex = 27;
+            this.dgvTrades.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTrades_CellDoubleClick);
             this.dgvTrades.SelectionChanged += new System.EventHandler(this.dgvTrades_SelectionChanged);
             // 
             // timer1

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Dynamic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ namespace TradingTools
     public partial class frmRiskRewardCalc_Long : Form
     {
         private RiskRewardCalc_Serv _rrc_serv = new();
-        private CalculationDetails _calc = new();
+        private CalculationDetails _calculationDetails = new();
         public EventHandler<RiskRewardCalcState> OnStateChanged;
 
         public RiskRewardCalcState State { get; set; } = RiskRewardCalcState.Empty;
@@ -43,79 +44,42 @@ namespace TradingTools
         {
 
             if (State == RiskRewardCalcState.Deleted) return;
-            // The _calc.Trade_Unofficial_Calculate() will do the step 2 and 3 internally
-            // step 2: Collect data -Receptors
-            // step 2-B: Validation 
-            // step 3: Process Data collected including others supporting data
-            bool r = false;
-            string msg = string.Empty;
-            if (State == RiskRewardCalcState.Empty | State == RiskRewardCalcState.Loaded)
-            {
-                if (txtLotSize.Text.Length < 1 | txtLotSize.Text.Equals(string.Empty))
-                {
-                    r = _calc.Trade_Unofficial_Calculate(
-                StringToNumeric.MoneyToDecimal(txtCapital.Text),
-                InputConverter.Decimal(txtLeverage.Text),
-                InputConverter.Decimal(txtEntryPrice.Text),
-                (int)nudDayCount.Value,
-                nudDailyInterestRate.Value, out msg);
-                }
-                else
-                {
-                    r = _calc.Trade_Official_Calculate(
-                StringToNumeric.MoneyToDecimal(txtCapital.Text),
-                InputConverter.Decimal(txtLeverage.Text),
-                InputConverter.Decimal(txtLotSize.Text),
-                InputConverter.Decimal(txtEntryPrice.Text),
-                (int)nudDayCount.Value,
-                nudDailyInterestRate.Value, out msg);
-                }
-            }
-            else if (State == RiskRewardCalcState.TradeOpen | State == RiskRewardCalcState.TradeClosed)
-            {
-                r = _calc.Trade_Official_Calculate(
-                StringToNumeric.MoneyToDecimal(txtCapital.Text),
-                InputConverter.Decimal(txtLeverage.Text),
-                InputConverter.Decimal(txtLotSize.Text),
-                InputConverter.Decimal(txtEntryPrice.Text),
-                (int)nudDayCount.Value,
-                nudDailyInterestRate.Value, out msg);
-            }
 
-            if (r == false)
+            string msg;
+            if (!captureCalculationDetails(out msg))
             {
                 statusMessage.Text = msg;
-                MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MyMessageBox.Error(statusMessage.Text, "");
                 return;
             }
 
             // step 4: Represent data back to UI
-            txtLotSize.Text = _calc.Position.LotSize.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
-            txtLeveragedCapital.Text = _calc.Position.LeveragedCapital.ToString(Constant.MONEY_FORMAT);
-            txtInitalPositionValue.Text = _calc.Position.InitialPositionValue.ToString(Constant.MONEY_FORMAT);
-            txtOpeningTradingFee_dollar.Text = _calc.OpeningCost.TradingFee.ToString(Constant.MONEY_FORMAT);
-            txtOpeningTradingCost.Text = _calc.OpeningCost.TradingFee.ToString(Constant.MONEY_FORMAT);
+            txtLotSize.Text = _calculationDetails.Position.LotSize.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+            txtLeveragedCapital.Text = _calculationDetails.Position.LeveragedCapital.ToString(Constant.MONEY_FORMAT);
+            txtInitalPositionValue.Text = _calculationDetails.Position.InitialPositionValue.ToString(Constant.MONEY_FORMAT);
+            txtOpeningTradingFee_dollar.Text = _calculationDetails.OpeningCost.TradingFee.ToString(Constant.MONEY_FORMAT);
+            txtOpeningTradingCost.Text = _calculationDetails.OpeningCost.TradingFee.ToString(Constant.MONEY_FORMAT);
 
-            txtBorrowAmount.Text = _calc.Borrow.Amount.ToString(Constant.MONEY_FORMAT);
-            txtInterestCost.Text = _calc.Borrow.InterestCost.ToString(Constant.MONEY_FORMAT);
+            txtBorrowAmount.Text = _calculationDetails.Borrow.Amount.ToString(Constant.MONEY_FORMAT);
+            txtInterestCost.Text = _calculationDetails.Borrow.InterestCost.ToString(Constant.MONEY_FORMAT);
 
 
             //Closing Position - information
             var pit = _rrc_serv.PriceIncreaseTable.GenerateTable(
-                _calc.Position.EntryPriceAvg,
-                _calc.Position.LotSize,
-                _calc.Borrow.InterestCost,
-                _calc.Position.Capital
+                _calculationDetails.Position.EntryPriceAvg,
+                _calculationDetails.Position.LotSize,
+                _calculationDetails.Borrow.InterestCost,
+                _calculationDetails.Position.Capital
                 ).OrderByDescending(o => o.PriceChangePercentage).ToList();
 
             if (pit != null) dgvPriceIncreaseTable.DataSource = pit;
 
 
             var pdt = _rrc_serv.PriceDecreaseTable.GenerateTable(
-                _calc.Position.EntryPriceAvg,
-                _calc.Position.LotSize,
-                _calc.Borrow.InterestCost,
-                _calc.Position.Capital
+                _calculationDetails.Position.EntryPriceAvg,
+                _calculationDetails.Position.LotSize,
+                _calculationDetails.Borrow.InterestCost,
+                _calculationDetails.Position.Capital
                 ).OrderByDescending(o => o.PriceChangePercentage).ToList();
 
             if (pdt != null) dgvPriceDecreaseTable.DataSource = pdt;
@@ -143,10 +107,10 @@ namespace TradingTools
             // 3
             var rec = _rrc_serv.PriceIncreaseTable.GeneratePriceIncreaseRecord(
                 priceTarget,
-                _calc.Position.EntryPriceAvg,
-                _calc.Position.LotSize,
-                _calc.Borrow.InterestCost,
-                _calc.Position.Capital);
+                _calculationDetails.Position.EntryPriceAvg,
+                _calculationDetails.Position.LotSize,
+                _calculationDetails.Borrow.InterestCost,
+                _calculationDetails.Position.Capital);
 
             // 4
             if (rec == null) return;
@@ -164,10 +128,10 @@ namespace TradingTools
             // 3
             var rec = _rrc_serv.PriceDecreaseTable.GeneratePriceDecreaseRecord(
                 priceTarget,
-                _calc.Position.EntryPriceAvg,
-                _calc.Position.LotSize,
-                _calc.Borrow.InterestCost,
-                _calc.Position.Capital);
+                _calculationDetails.Position.EntryPriceAvg,
+                _calculationDetails.Position.LotSize,
+                _calculationDetails.Borrow.InterestCost,
+                _calculationDetails.Position.Capital);
 
             // 4
             if (rec == null) return;
@@ -198,15 +162,15 @@ namespace TradingTools
             // 3
             var rec = _rrc_serv.PriceIncreaseTable.GeneratePriceIncreaseRecord(
                 priceTarget,
-                _calc.Position.EntryPriceAvg,
-                _calc.Position.LotSize,
-                _calc.Borrow.InterestCost,
-                _calc.Position.Capital);
+                _calculationDetails.Position.EntryPriceAvg,
+                _calculationDetails.Position.LotSize,
+                _calculationDetails.Borrow.InterestCost,
+                _calculationDetails.Position.Capital);
 
             // 4
             if (rec == null) return;
-            txtPEP_sPV.Text = _calc.GetSpeculativePositionValue(priceTarget).ToString(Constant.MONEY_FORMAT);
-            txtPEP_AccountEquity.Text = _calc.GetSpeculativeAccountEquity(priceTarget).ToString(Constant.MONEY_FORMAT);
+            txtPEP_sPV.Text = _calculationDetails.GetSpeculativePositionValue(priceTarget).ToString(Constant.MONEY_FORMAT);
+            txtPEP_AccountEquity.Text = _calculationDetails.GetSpeculativeAccountEquity(priceTarget).ToString(Constant.MONEY_FORMAT);
 
             txtPEP_PCP.Text = rec.PriceChangePercentage.ToString(Constant.PERCENTAGE_FORMAT);
             txtPEP_RealProfit_percent.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT);
@@ -226,15 +190,15 @@ namespace TradingTools
             // 3
             var rec = _rrc_serv.PriceDecreaseTable.GeneratePriceDecreaseRecord(
                 priceTarget,
-                _calc.Position.EntryPriceAvg,
-                _calc.Position.LotSize,
-                _calc.Borrow.InterestCost,
-                _calc.Position.Capital);
+                _calculationDetails.Position.EntryPriceAvg,
+                _calculationDetails.Position.LotSize,
+                _calculationDetails.Borrow.InterestCost,
+                _calculationDetails.Position.Capital);
 
             // 4
             if (rec == null) return;
-            txtLEP_sPV.Text = _calc.GetSpeculativePositionValue(priceTarget).ToString(Constant.MONEY_FORMAT);
-            txtLEP_AccountEquity.Text = _calc.GetSpeculativeAccountEquity(priceTarget).ToString(Constant.MONEY_FORMAT);
+            txtLEP_sPV.Text = _calculationDetails.GetSpeculativePositionValue(priceTarget).ToString(Constant.MONEY_FORMAT);
+            txtLEP_AccountEquity.Text = _calculationDetails.GetSpeculativeAccountEquity(priceTarget).ToString(Constant.MONEY_FORMAT);
 
             txtLEP_PCP.Text = rec.PriceChangePercentage.ToString(Constant.PERCENTAGE_FORMAT);
             txtLEP_RealLoss_percent.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT);
@@ -262,8 +226,38 @@ namespace TradingTools
             Save();
         }
 
+        private bool captureCalculationDetails(out string msg)
+        {
+            // The _calculationDetails will do the step 2 and 3 internally
+            // step 2: Collect data -Receptors
+            // step 2-B: Validation 
+            // step 3: Process Data collected including others supporting data
+            bool r = false;
+            if (txtLotSize.Text.Length < 1 | txtLotSize.Text.Equals(string.Empty))
+            {
+                r = _calculationDetails.Trade_Unofficial_Calculate(
+            StringToNumeric.MoneyToDecimal(txtCapital.Text),
+            InputConverter.Decimal(txtLeverage.Text),
+            InputConverter.Decimal(txtEntryPrice.Text),
+            (int)nudDayCount.Value,
+            nudDailyInterestRate.Value, out msg);
+            }
+            else
+            {
+                r = _calculationDetails.Trade_Official_Calculate(
+            StringToNumeric.MoneyToDecimal(txtCapital.Text),
+            InputConverter.Decimal(txtLeverage.Text),
+            InputConverter.Decimal(txtLotSize.Text),
+            InputConverter.Decimal(txtEntryPrice.Text),
+            (int)nudDayCount.Value,
+            nudDailyInterestRate.Value, out msg);
+            }
+
+            return true;
+        }
         private void captureCalculatorState()
         {
+
             CalculatorState.Capital = InputConverter.Decimal(txtCapital.Text);
             CalculatorState.Leverage = InputConverter.Decimal(txtLeverage.Text);
             CalculatorState.EntryPriceAvg = InputConverter.Decimal(txtEntryPrice.Text);
@@ -278,6 +272,15 @@ namespace TradingTools
             CalculatorState.Ticker = txtTicker.Text;
             CalculatorState.Strategy = txtStrategy.Text;
             CalculatorState.Note = txtNote.Text;
+        }
+
+        private void captureTrade_TextBoxes()
+        {
+            Trade.Ticker = txtTicker.Text;
+            Trade.Capital = InputConverter.Decimal(txtCapital.Text);
+            Trade.Leverage = InputConverter.Decimal(txtLeverage.Text);
+            Trade.LotSize = InputConverter.Decimal(txtLotSize.Text);
+            Trade.EntryPriceAvg = InputConverter.Decimal(txtEntryPrice.Text);
         }
 
         private bool Save()
@@ -352,97 +355,6 @@ namespace TradingTools
 
         }
 
-        private void TextBox_Decimal_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
-                (e.KeyChar != '.'))
-            {
-                e.Handled = true;
-            }
-
-            // only allow one decimal point
-            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void TextBox_Numeric_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void TextBox_Money_Validating(object sender, CancelEventArgs e)
-        {
-            var tb = (TextBox)sender;
-            string msg;
-
-            if (!Format.isMoney(tb.Text, out msg))
-            {
-                //e.Cancel = true;
-                errorProvider1.SetError(tb, msg);
-            }
-            else
-            {
-                e.Cancel = false;
-                errorProvider1.SetError(tb, null);
-            }
-        }
-
-        private void TextBox_Integer_Validating(object sender, CancelEventArgs e)
-        {
-            var tb = (TextBox)sender;
-            string msg;
-
-            if (!Format.isInteger(tb.Text, out msg))
-            {
-                //e.Cancel = true;
-                errorProvider1.SetError(tb, msg);
-            }
-            else
-            {
-                e.Cancel = false;
-                errorProvider1.SetError(tb, null);
-            }
-        }
-
-        private void TextBox_Decimal_Validating(object sender, CancelEventArgs e)
-        {
-            var tb = (TextBox)sender;
-            string msg;
-
-            if (!Format.isDecimal(tb.Text, out msg))
-            {
-                //e.Cancel = true;
-                errorProvider1.SetError(tb, msg);
-            }
-            else
-            {
-                e.Cancel = false;
-                errorProvider1.SetError(tb, null);
-            }
-        }
-
-        private void TextBox_Ticker_Validating(object sender, CancelEventArgs e)
-        {
-            var tb = (TextBox)sender;
-            string msg;
-
-            if (!Format.isTicker(tb.Text, out msg))
-            {
-                //e.Cancel = true;
-                errorProvider1.SetError(tb, msg);
-            }
-            else
-            {
-                e.Cancel = false;
-                errorProvider1.SetError(tb, null);
-            }
-        }
-
         private void frmRiskRewardCalc_Long_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Just ignore if the reason for closing was cause by deletion
@@ -484,35 +396,59 @@ namespace TradingTools
 
             if (State == RiskRewardCalcState.Empty | State == RiskRewardCalcState.Loaded)
             {
-                var result = MyMessageBox.Question_YesNo("Confirm save this Trade as Official?", "Trade Officialize");
-                if (result == DialogResult.Yes)
-                {
-                    officializedTrade();
-                }
+                dynamic d = new ExpandoObject();
+                d.Ticker = txtTicker.Text;
+                d.Capital = txtCapital.Text;
+                d.Leverage = txtLeverage.Text;
+                d.LotSize = txtLotSize.Text;
+                d.EntryPrice = txtEntryPrice.Text;
+
+                var officializeDialog = new TradeOfficialize();
+                officializeDialog.MyProperty = d;
+                officializeDialog.Trade_Officialize += this.officializedTrade;
+                officializeDialog.ShowDialog();
             }
         }
 
-        private bool officializedTrade()
+        private bool officializedTrade(dynamic obj)
         {
-            if (State == RiskRewardCalcState.Empty) btnReCalculate.PerformClick();
-            // Capture state
+            // 1 - Input
+            txtTicker.Text = obj.Ticker;
+            txtCapital.Text = obj.Capital.ToString();
+            txtLeverage.Text = obj.Leverage.ToString();
+            txtEntryPrice.Text = obj.EntryPrice.ToString();
+            txtLotSize.Text = Validation.HasProperty(obj, "LotSize") ? obj.LotSize.ToString() : string.Empty;
+
+            // 2 - Collect Data
+            var dateEnter = obj.DateEnter;
+            // Need to capture calculatorstate to be updated automatically by dbcontext
+            captureCalculatorState();
+            string msg;
             // 2 - Process
-            captureCalculatorState();        // calculator state must be captured first
+            bool r = captureCalculationDetails(out msg);
+            if (r == false)
+            {
+                statusMessage.Text = msg;
+                MyMessageBox.Error(statusMessage.Text, "");
+                return false;
+            }
+
             var c = CalculatorState;
-            var p = _calc.Position;
-            var oc = _calc.OpeningCost;
-            var b = _calc.Borrow;
+            var p = _calculationDetails.Position;
+            var oc = _calculationDetails.OpeningCost;
+            var b = _calculationDetails.Borrow;
+
             this.Trade = new Trade
             {
                 Ticker = c.Ticker,
                 PositionSide = "long",
                 Status = "open",
-                DateEnter = DateTime.Now,
+                DateEnter = dateEnter,
                 Capital = c.Capital,
                 Leverage = c.Leverage,
-                LeveragedCapital = p.LeveragedCapital,
                 EntryPriceAvg = c.EntryPriceAvg,
                 LotSize = p.LotSize,
+                LeveragedCapital = p.LeveragedCapital,
                 OpeningTradingFee = oc.TradingFee,
                 OpeningTradingCost = oc.TradingFee,
                 BorrowAmount = b.Amount,
@@ -523,31 +459,27 @@ namespace TradingTools
             };
 
             // 3 - Validation - the implementation may be incomplete but suffice for now - InputConverter.MoneyToDecimal
-            string msg;
             if (!RiskRewardCalc_Serv.CalculatorState_Validate(this.CalculatorState, out msg) || !Trade_Serv.TradeOpening_Validate(this.Trade, out msg))
             {
                 statusMessage.Text = msg;
-                MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MyMessageBox.Error(statusMessage.Text, "");
                 return false;
             }
 
-            // 4 - this will save data into a data store - no need to Display Data 
+            // 4 - Save data into a data store - ChangeState will Display Data 
             var o = (master)this.Owner;
-            // Add to the Owner's List
             if (o.Trade_Add(this.Trade))
             {
-                txtTradeNum.Text = this.Trade.Id.ToString();
-                this.Text = this.Trade.Ticker + " - OPEN";
                 ChangeState(RiskRewardCalcState.TradeOpen);
-                statusMessage.Text = "Trade has been officialized successfully.";
+                statusMessage.Text = $"Ticker: {Trade.Ticker} has been officialized successfully.";
+                MyMessageBox.Inform(statusMessage.Text, $"Trade No. {Trade.Id} is Official");
             }
             else
             {
-                statusMessage.Text = "Officializing trade failure";
-                MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                statusMessage.Text = "Officializing a Trade failure";
+                MyMessageBox.Error(statusMessage.Text, "");
                 return false;
             }
-
 
             return true;
         }
@@ -692,12 +624,15 @@ namespace TradingTools
                         lblHeader.Text = Trade.Ticker + " - OPEN";
                         this.Text = Trade.Ticker + " - OPEN";
 
+                        txtTicker.ReadOnly = true;
                         txtCapital.ReadOnly = true;
                         txtLeverage.ReadOnly = true;
                         txtEntryPrice.ReadOnly = true;
-                        txtTicker.ReadOnly = true;
+                        txtLotSize.ReadOnly = true;
+                        nudDayCount.ReadOnly = true;
+                        nudDailyInterestRate.ReadOnly = true;
 
-                        
+                        btnReCalculate.Visible = false;
                         btnDelete.Visible = false;
                         btnOfficializedTrade.Enabled = false;
                         btnOfficializedTrade.Visible = false;
@@ -754,10 +689,11 @@ namespace TradingTools
                     this.Text = Trade.Ticker + " - CLOSED"; ;
 
                     // same as trade open
+                    txtTicker.ReadOnly = true;
                     txtCapital.ReadOnly = true;
                     txtLeverage.ReadOnly = true;
                     txtEntryPrice.ReadOnly = true;
-                    txtTicker.ReadOnly = true;
+                    txtLotSize.ReadOnly = true;
                     nudDayCount.ReadOnly = true;
                     nudDailyInterestRate.ReadOnly = true;
 
@@ -796,26 +732,35 @@ namespace TradingTools
             var result = MyMessageBox.Question_YesNo("Confirm to close this Trade?", "Trade Closing");
             if (result == DialogResult.Yes)
             {
-                // 1-2 - Input and Sanitize
+                // 1 - Input and Sanitize
+                // Need to capture calculatorstate to be updated automatically by dbcontext
+                captureCalculatorState();
                 decimal exitPrice = radPEP_ExitPrice.Checked ? StringToNumeric.MoneyToDecimal(txtPEP_ExitPrice.Text) : StringToNumeric.MoneyToDecimal(txtLEP_ExitPrice.Text);
 
-                // 3 - Process
-                btnReCalculate.PerformClick();
-                btnPEP_compute.PerformClick();
-                btnLEP_compute.PerformClick();
+                // 2 - Process
+                string msg;
+                if (!captureCalculationDetails(out msg))
+                {
+                    statusMessage.Text = msg;
+                    MyMessageBox.Error(statusMessage.Text, "");
+                    return;
+                }
+
 
                 var rec = PriceChangeTable.GeneratePriceChangeRecord(
                exitPrice,
-               _calc.Position.EntryPriceAvg,
-               _calc.Position.LotSize,
-               _calc.Borrow.InterestCost,
-               _calc.Position.Capital);
+               _calculationDetails.Position.EntryPriceAvg,
+               _calculationDetails.Position.LotSize,
+               _calculationDetails.Borrow.InterestCost,
+               _calculationDetails.Position.Capital);
 
-                // Collect - Trade Closing Data
+                // Collect -
+                
+                // Trade Closing Data
                 //update borrow cost
-                Trade.DayCount = _calc.Borrow.DayCount;
-                Trade.DailyInterestRate = _calc.Borrow.DailyInterestRate;
-                Trade.InterestCost = _calc.Borrow.InterestCost;
+                Trade.DayCount = _calculationDetails.Borrow.DayCount;
+                Trade.DailyInterestRate = _calculationDetails.Borrow.DailyInterestRate;
+                Trade.InterestCost = _calculationDetails.Borrow.InterestCost;
 
                 Trade.DateExit = DateTime.Now;
                 Trade.ExitPriceAvg = exitPrice;
@@ -825,8 +770,7 @@ namespace TradingTools
                 Trade.Status = "closed";
 
                 
-                // Validation
-                string msg;
+                // 3 - Validation
                 if (!Trade_Serv.TradeClosing_Validate(Trade, out msg))
                 {
                     statusMessage.Text = msg;
@@ -834,7 +778,7 @@ namespace TradingTools
                     return;
                 }
 
-                // 4 - display/store
+                // 4 - store and display
                 var o = (master)this.Owner;
                 // Add to the Owner's List
                 if (o.Trade_Close(Trade))
@@ -851,5 +795,98 @@ namespace TradingTools
 
             }
         }
+
+        #region Controls Validation
+        private void TextBox_Decimal_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+                (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+
+            // only allow one decimal point
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void TextBox_Numeric_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void TextBox_Money_Validating(object sender, CancelEventArgs e)
+        {
+            var tb = (TextBox)sender;
+            string msg;
+
+            if (!Format.isMoney(tb.Text, out msg))
+            {
+                //e.Cancel = true;
+                errorProvider1.SetError(tb, msg);
+            }
+            else
+            {
+                e.Cancel = false;
+                errorProvider1.SetError(tb, null);
+            }
+        }
+
+        private void TextBox_Integer_Validating(object sender, CancelEventArgs e)
+        {
+            var tb = (TextBox)sender;
+            string msg;
+
+            if (!Format.isInteger(tb.Text, out msg))
+            {
+                //e.Cancel = true;
+                errorProvider1.SetError(tb, msg);
+            }
+            else
+            {
+                e.Cancel = false;
+                errorProvider1.SetError(tb, null);
+            }
+        }
+
+        private void TextBox_Decimal_Validating(object sender, CancelEventArgs e)
+        {
+            var tb = (TextBox)sender;
+            string msg;
+
+            if (!Format.isDecimal(tb.Text, out msg))
+            {
+                //e.Cancel = true;
+                errorProvider1.SetError(tb, msg);
+            }
+            else
+            {
+                e.Cancel = false;
+                errorProvider1.SetError(tb, null);
+            }
+        }
+
+        private void TextBox_Ticker_Validating(object sender, CancelEventArgs e)
+        {
+            var tb = (TextBox)sender;
+            string msg;
+
+            if (!Format.isTicker(tb.Text, out msg))
+            {
+                //e.Cancel = true;
+                errorProvider1.SetError(tb, msg);
+            }
+            else
+            {
+                e.Cancel = false;
+                errorProvider1.SetError(tb, null);
+            }
+        }
+        #endregion
     }
 }

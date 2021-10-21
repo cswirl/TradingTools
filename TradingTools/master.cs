@@ -130,13 +130,6 @@ namespace TradingTools
             return true;
         }
 
-        //private void FormRRCLong_RemoveFromList(Trade t)
-        //{
-        //    var rrc = _listOf_frmRRC_Long.Find(x => x.Trade?.Equals(t) ?? false);
-        //    // it will be automatically removed when from is closed - just inform user that a calculator form was removed
-        //    //_listOf_frmRRC_Long.Remove(rrc);
-        //    rrc?.MarkAsDeleted(t);
-        //}
 
         private bool FormRRCLong_Loaded_Spawn(CalculatorState c)
         {
@@ -168,7 +161,9 @@ namespace TradingTools
             form.Owner = this;
             form.Show();
             //Delegates assignment here
+            form.FormClosing += (object sender, FormClosingEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc_Long)sender);
 
+            _listOf_frmRRC_Long.Add(form);
         }
 
         public BindingList<CalculatorState> GetCalculatorStates_Unofficial_BindingList()

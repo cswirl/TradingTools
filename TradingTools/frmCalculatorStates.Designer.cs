@@ -38,9 +38,11 @@ namespace TradingTools
             this.dgvUnofficial = new System.Windows.Forms.DataGridView();
             this.btnViewUnofficial_Loaded = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.dgvTrades_Open = new System.Windows.Forms.DataGridView();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
             this.btnViewOfficial = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusMessage = new System.Windows.Forms.ToolStripStatusLabel();
@@ -50,6 +52,8 @@ namespace TradingTools
             ((System.ComponentModel.ISupportInitialize)(this.dgvUnofficial)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTrades_Open)).BeginInit();
+            this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -120,7 +124,6 @@ namespace TradingTools
             this.dgvUnofficial.AllowUserToDeleteRows = false;
             this.dgvUnofficial.AllowUserToResizeRows = false;
             this.dgvUnofficial.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tableLayoutPanel1.SetColumnSpan(this.dgvUnofficial, 2);
             this.dgvUnofficial.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvUnofficial.Location = new System.Drawing.Point(13, 408);
             this.dgvUnofficial.Name = "dgvUnofficial";
@@ -129,6 +132,7 @@ namespace TradingTools
             this.dgvUnofficial.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvUnofficial.Size = new System.Drawing.Size(1150, 170);
             this.dgvUnofficial.TabIndex = 2;
+            this.dgvUnofficial.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUnofficial_CellDoubleClick);
             // 
             // btnViewUnofficial_Loaded
             // 
@@ -137,9 +141,9 @@ namespace TradingTools
             this.btnViewUnofficial_Loaded.BackColor = System.Drawing.Color.SteelBlue;
             this.btnViewUnofficial_Loaded.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnViewUnofficial_Loaded.ForeColor = System.Drawing.Color.White;
-            this.btnViewUnofficial_Loaded.Location = new System.Drawing.Point(591, 367);
+            this.btnViewUnofficial_Loaded.Location = new System.Drawing.Point(439, 36);
             this.btnViewUnofficial_Loaded.Name = "btnViewUnofficial_Loaded";
-            this.btnViewUnofficial_Loaded.Size = new System.Drawing.Size(572, 35);
+            this.btnViewUnofficial_Loaded.Size = new System.Drawing.Size(273, 35);
             this.btnViewUnofficial_Loaded.TabIndex = 4;
             this.btnViewUnofficial_Loaded.Text = "View Selected > > >";
             this.btnViewUnofficial_Loaded.UseVisualStyleBackColor = false;
@@ -148,15 +152,12 @@ namespace TradingTools
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.White;
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.dgvUnofficial, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.dgvTrades_Open, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.btnViewOfficial, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnViewUnofficial_Loaded, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.panel3, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 24);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -170,37 +171,12 @@ namespace TradingTools
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1176, 642);
             this.tableLayoutPanel1.TabIndex = 6;
             // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label1.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label1.Location = new System.Drawing.Point(13, 385);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 20);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Unofficial";
-            // 
-            // label3
-            // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label3.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label3.Location = new System.Drawing.Point(13, 40);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(153, 20);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Official Trade - Open";
-            // 
             // dgvTrades_Open
             // 
             this.dgvTrades_Open.AllowUserToAddRows = false;
             this.dgvTrades_Open.AllowUserToDeleteRows = false;
             this.dgvTrades_Open.AllowUserToResizeRows = false;
             this.dgvTrades_Open.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tableLayoutPanel1.SetColumnSpan(this.dgvTrades_Open, 2);
             this.dgvTrades_Open.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvTrades_Open.Location = new System.Drawing.Point(13, 63);
             this.dgvTrades_Open.Name = "dgvTrades_Open";
@@ -209,6 +185,51 @@ namespace TradingTools
             this.dgvTrades_Open.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvTrades_Open.Size = new System.Drawing.Size(1150, 259);
             this.dgvTrades_Open.TabIndex = 7;
+            this.dgvTrades_Open.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTrades_Open_CellDoubleClick);
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Controls.Add(this.btnViewUnofficial_Loaded);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(13, 328);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1150, 74);
+            this.panel2.TabIndex = 11;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label1.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.label1.Location = new System.Drawing.Point(3, 54);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(77, 20);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Unofficial";
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.label3);
+            this.panel3.Controls.Add(this.btnViewOfficial);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(13, 3);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1150, 54);
+            this.panel3.TabIndex = 12;
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label3.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.label3.Location = new System.Drawing.Point(3, 34);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(153, 20);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Official Trade - Open";
             // 
             // btnViewOfficial
             // 
@@ -217,9 +238,9 @@ namespace TradingTools
             this.btnViewOfficial.BackColor = System.Drawing.Color.SteelBlue;
             this.btnViewOfficial.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnViewOfficial.ForeColor = System.Drawing.Color.White;
-            this.btnViewOfficial.Location = new System.Drawing.Point(591, 23);
+            this.btnViewOfficial.Location = new System.Drawing.Point(439, 20);
             this.btnViewOfficial.Name = "btnViewOfficial";
-            this.btnViewOfficial.Size = new System.Drawing.Size(572, 34);
+            this.btnViewOfficial.Size = new System.Drawing.Size(273, 34);
             this.btnViewOfficial.TabIndex = 10;
             this.btnViewOfficial.Text = "View Selected > > >";
             this.btnViewOfficial.UseVisualStyleBackColor = false;
@@ -262,8 +283,11 @@ namespace TradingTools
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUnofficial)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTrades_Open)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -283,10 +307,12 @@ namespace TradingTools
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dgvTrades_Open;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btnViewOfficial;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel statusMessage;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem menuTradeMasterFile;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Button btnViewOfficial;
     }
 }

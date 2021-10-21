@@ -110,5 +110,15 @@ namespace TradingTools
         {
             if (t.Status.Equals("open")) dgvTrades_Open.Invalidate();
         }
+
+        private void dgvTrades_Open_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            Trade_TradeOpen_OnRequest?.Invoke((Trade)dgvTrades_Open.CurrentRow.DataBoundItem);
+        }
+
+        private void dgvUnofficial_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            CalculatorState_Loaded_OnRequest((CalculatorState)dgvUnofficial.CurrentRow.DataBoundItem);
+        }
     }
 }
