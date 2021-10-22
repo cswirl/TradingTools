@@ -54,6 +54,7 @@ namespace TradingTools
             }
 
             // step 4: Represent data back to UI
+            // the function captureCalculationDetails is able to handle the appropriate value for Lot Size from the textbox - given it is initialized properly
             txtLotSize.Text = _calculationDetails.Position.LotSize.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
             txtLeveragedCapital.Text = _calculationDetails.Position.LeveragedCapital.ToString(Constant.MONEY_FORMAT);
             txtInitalPositionValue.Text = _calculationDetails.Position.InitialPositionValue.ToString(Constant.MONEY_FORMAT);
@@ -311,7 +312,7 @@ namespace TradingTools
                 }
                 else statusMessage.Text = "Saving state failed.";
             }
-            else if (State == RiskRewardCalcState.Loaded | State == RiskRewardCalcState.TradeOpen)
+            else if (State == RiskRewardCalcState.Loaded | State == RiskRewardCalcState.TradeOpen | State == RiskRewardCalcState.TradeClosed)
             {
                 if (o.CalculatorState_Update())
                 {
@@ -487,7 +488,7 @@ namespace TradingTools
 
         public void MarkAsDeleted(Trade t)
         {
-            ChangeState(RiskRewardCalcState.Deleted);
+            if (Trade != default && Trade.Equals(t)) ChangeState(RiskRewardCalcState.Deleted);
         }
 
         private void callOnLoad()
@@ -596,7 +597,7 @@ namespace TradingTools
                         decimal d = SafeConvert.ToDecimalSafe((DateTime.Now - Trade.DateEnter).TotalDays);
                         nudDayCount.Value = d < nudDayCount.Minimum ? nudDayCount.Minimum : d;
                         nudDailyInterestRate.Value = Trade.DailyInterestRate < nudDailyInterestRate.Value ? nudDailyInterestRate.Minimum : Trade.DailyInterestRate;
-                        btnReCalculate.PerformClick();
+                        btnReCalculate_Click(null, null);
 
                         // sys flow 2
                         txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
@@ -652,13 +653,14 @@ namespace TradingTools
                     txtLeverage.Text = Trade.Leverage.ToString("0");      // dont change format
                     txtEntryPrice.Text = Trade.EntryPriceAvg.ToString();
                     txtLotSize.Text = Trade.LotSize.ToString();
-                    //txtLeveragedCapital.Text = Trade.LeveragedCapital.ToString(Constant.MONEY_FORMAT);
-                    //txtOpeningTradingFee_dollar.Text = Trade.OpeningTradingCost.ToString(Constant.MONEY_FORMAT);
-                    //txtOpeningTradingCost.Text = Trade.OpeningTradingCost.ToString(Constant.MONEY_FORMAT);
+                    txtLeveragedCapital.Text = Trade.LeveragedCapital.ToString(Constant.MONEY_FORMAT);
+                    txtOpeningTradingFee_dollar.Text = Trade.OpeningTradingCost.ToString(Constant.MONEY_FORMAT);
+                    txtOpeningTradingCost.Text = Trade.OpeningTradingCost.ToString(Constant.MONEY_FORMAT);
+                    txtBorrowAmount.Text = Trade.BorrowAmount.ToString(Constant.MONEY_FORMAT);
                     //Numeric Up Down control throws exception when assigned value less then their Minimum value
                     nudDayCount.Value = Trade.DayCount < nudDayCount.Minimum ? nudDayCount.Minimum : Trade.DayCount;
                     nudDailyInterestRate.Value = Trade.DailyInterestRate < nudDailyInterestRate.Value ? nudDailyInterestRate.Minimum : Trade.DailyInterestRate;
-                    btnReCalculate.PerformClick();
+                    btnReCalculate_Click(null, null);
 
                     // sys flow 2
                     txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
@@ -793,6 +795,15 @@ namespace TradingTools
                     return;
                 }
 
+            }
+        }
+
+        public void Trade_Updated(Trade t)
+        {
+            if (Trade != default && Trade.Equals(t))
+            {
+                Save();
+                ChangeState(State); 
             }
         }
 

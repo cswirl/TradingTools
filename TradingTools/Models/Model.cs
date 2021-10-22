@@ -97,6 +97,46 @@ namespace TradingTools.Model
 
             return true;
         }
+
+        public static CalculationDetails GetCalculationDetails(
+            decimal capital,
+            decimal leverage,
+            decimal entryPrice,
+            decimal lotSize,
+            int dayCount,
+            decimal dailyInterestRate,
+            out string msg)
+        {
+            bool r = false;
+            CalculationDetails cd = new();
+            if (lotSize <= 0)
+            {
+                r = cd.Trade_Unofficial_Calculate(
+                    capital,
+                    leverage,
+                    entryPrice,
+                    dayCount,
+                    dailyInterestRate,
+                    out msg
+                    );
+            }
+            else
+            {
+                r = cd.Trade_Official_Calculate(
+                    capital,
+                    leverage,
+                    lotSize,
+                    entryPrice,
+                    dayCount,
+                    dailyInterestRate,
+                    out msg
+                    );
+            }
+
+            if (!r) return default;
+
+            return cd;
+        }
     }
 
     public class OpeningCost

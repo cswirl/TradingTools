@@ -123,6 +123,7 @@ namespace TradingTools
                 //Delegates assignment here
                 form.FormClosing += (object sender, FormClosingEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc_Long)sender);
                 this.tradeDeleted += form.MarkAsDeleted;
+                this.tradeUpdated += form.Trade_Updated;
 
                 _listOf_frmRRC_Long.Add(form);
             }
@@ -148,6 +149,8 @@ namespace TradingTools
                 form.Show();
                 //Delegates assignment here
                 form.FormClosing += (object sender, FormClosingEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc_Long)sender);
+                this.tradeDeleted += form.MarkAsDeleted;
+                this.tradeUpdated += form.Trade_Updated;
 
                 _listOf_frmRRC_Long.Add(form);
             }
@@ -162,6 +165,8 @@ namespace TradingTools
             form.Show();
             //Delegates assignment here
             form.FormClosing += (object sender, FormClosingEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc_Long)sender);
+            this.tradeDeleted += form.MarkAsDeleted;
+            this.tradeUpdated += form.Trade_Updated;
 
             _listOf_frmRRC_Long.Add(form);
         }

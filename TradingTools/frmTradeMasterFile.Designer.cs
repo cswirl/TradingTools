@@ -31,6 +31,7 @@ namespace TradingTools
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cbCorrection = new System.Windows.Forms.CheckBox();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnViewCalculator = new System.Windows.Forms.Button();
             this.cmbFilterStatus = new System.Windows.Forms.ComboBox();
@@ -43,7 +44,10 @@ namespace TradingTools
             this.txtTicker = new System.Windows.Forms.TextBox();
             this.label30 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.btnUpdate = new System.Windows.Forms.Button();
+            this.txtLeverage = new System.Windows.Forms.TextBox();
+            this.panelTradeClosed = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.dtpDateExit = new System.Windows.Forms.DateTimePicker();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label39 = new System.Windows.Forms.Label();
             this.txtPnL = new System.Windows.Forms.TextBox();
@@ -52,31 +56,36 @@ namespace TradingTools
             this.label51 = new System.Windows.Forms.Label();
             this.txtPCP = new System.Windows.Forms.TextBox();
             this.txtFinalPositionValue = new System.Windows.Forms.TextBox();
-            this.label27 = new System.Windows.Forms.Label();
-            this.dtpDateExit = new System.Windows.Forms.DateTimePicker();
-            this.dtpDateEnter = new System.Windows.Forms.DateTimePicker();
             this.txtAccountEquity = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
+            this.txtEntryPrice = new System.Windows.Forms.TextBox();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.txtLotSize = new System.Windows.Forms.TextBox();
+            this.dtpDateEnter = new System.Windows.Forms.DateTimePicker();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtCapital = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.dgvTrades = new System.Windows.Forms.DataGridView();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.correrctionModeToggleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.onToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.offToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.panel1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.panelTradeClosed.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTrades)).BeginInit();
-            this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel1.Controls.Add(this.cbCorrection);
             this.panel1.Controls.Add(this.btnDelete);
             this.panel1.Controls.Add(this.btnViewCalculator);
             this.panel1.Controls.Add(this.cmbFilterStatus);
@@ -86,6 +95,17 @@ namespace TradingTools
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1242, 76);
             this.panel1.TabIndex = 0;
+            // 
+            // cbCorrection
+            // 
+            this.cbCorrection.AutoSize = true;
+            this.cbCorrection.Location = new System.Drawing.Point(7, 50);
+            this.cbCorrection.Name = "cbCorrection";
+            this.cbCorrection.Size = new System.Drawing.Size(82, 19);
+            this.cbCorrection.TabIndex = 5;
+            this.cbCorrection.Text = "Correction";
+            this.cbCorrection.UseVisualStyleBackColor = true;
+            this.cbCorrection.CheckedChanged += new System.EventHandler(this.cbEditMode_CheckedChanged);
             // 
             // btnDelete
             // 
@@ -166,7 +186,7 @@ namespace TradingTools
             this.txtTradeNum.BackColor = System.Drawing.SystemColors.Control;
             this.txtTradeNum.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.txtTradeNum.ForeColor = System.Drawing.Color.Blue;
-            this.txtTradeNum.Location = new System.Drawing.Point(104, 25);
+            this.txtTradeNum.Location = new System.Drawing.Point(111, 76);
             this.txtTradeNum.Name = "txtTradeNum";
             this.txtTradeNum.ReadOnly = true;
             this.txtTradeNum.Size = new System.Drawing.Size(111, 23);
@@ -179,7 +199,7 @@ namespace TradingTools
             // 
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label22.Location = new System.Drawing.Point(29, 28);
+            this.label22.Location = new System.Drawing.Point(36, 79);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(69, 15);
             this.label22.TabIndex = 22;
@@ -188,17 +208,18 @@ namespace TradingTools
             // 
             // txtTicker
             // 
-            this.txtTicker.Location = new System.Drawing.Point(104, 54);
+            this.txtTicker.Location = new System.Drawing.Point(111, 105);
             this.txtTicker.Name = "txtTicker";
             this.txtTicker.ReadOnly = true;
             this.txtTicker.Size = new System.Drawing.Size(111, 23);
-            this.txtTicker.TabIndex = 26;
+            this.txtTicker.TabIndex = 1;
             this.txtTicker.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtTicker.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Ticker_Validating);
             // 
             // label30
             // 
             this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(29, 61);
+            this.label30.Location = new System.Drawing.Point(36, 112);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(69, 15);
             this.label30.TabIndex = 27;
@@ -207,18 +228,20 @@ namespace TradingTools
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel3.Controls.Add(this.txtLeverage);
+            this.panel3.Controls.Add(this.panelTradeClosed);
+            this.panel3.Controls.Add(this.txtEntryPrice);
             this.panel3.Controls.Add(this.btnUpdate);
-            this.panel3.Controls.Add(this.tableLayoutPanel1);
-            this.panel3.Controls.Add(this.txtFinalPositionValue);
-            this.panel3.Controls.Add(this.label27);
-            this.panel3.Controls.Add(this.dtpDateExit);
+            this.panel3.Controls.Add(this.txtLotSize);
             this.panel3.Controls.Add(this.dtpDateEnter);
+            this.panel3.Controls.Add(this.label5);
             this.panel3.Controls.Add(this.txtTicker);
-            this.panel3.Controls.Add(this.txtAccountEquity);
-            this.panel3.Controls.Add(this.label3);
-            this.panel3.Controls.Add(this.label28);
+            this.panel3.Controls.Add(this.label7);
             this.panel3.Controls.Add(this.label30);
+            this.panel3.Controls.Add(this.txtCapital);
+            this.panel3.Controls.Add(this.label26);
             this.panel3.Controls.Add(this.label2);
+            this.panel3.Controls.Add(this.label15);
             this.panel3.Controls.Add(this.txtTradeNum);
             this.panel3.Controls.Add(this.label22);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
@@ -227,15 +250,52 @@ namespace TradingTools
             this.panel3.Size = new System.Drawing.Size(242, 794);
             this.panel3.TabIndex = 26;
             // 
-            // btnUpdate
+            // txtLeverage
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(122, 218);
-            this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(93, 23);
-            this.btnUpdate.TabIndex = 39;
-            this.btnUpdate.Text = "UPDATE";
-            this.btnUpdate.UseVisualStyleBackColor = true;
-            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            this.txtLeverage.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.txtLeverage.ForeColor = System.Drawing.Color.Red;
+            this.txtLeverage.Location = new System.Drawing.Point(111, 293);
+            this.txtLeverage.Name = "txtLeverage";
+            this.txtLeverage.ReadOnly = true;
+            this.txtLeverage.Size = new System.Drawing.Size(111, 23);
+            this.txtLeverage.TabIndex = 6;
+            this.txtLeverage.Tag = "";
+            this.txtLeverage.Text = "1";
+            this.txtLeverage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtLeverage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
+            this.txtLeverage.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Decimal_Validating);
+            // 
+            // panelTradeClosed
+            // 
+            this.panelTradeClosed.BackColor = System.Drawing.SystemColors.Control;
+            this.panelTradeClosed.Controls.Add(this.label3);
+            this.panelTradeClosed.Controls.Add(this.dtpDateExit);
+            this.panelTradeClosed.Controls.Add(this.tableLayoutPanel1);
+            this.panelTradeClosed.Controls.Add(this.txtFinalPositionValue);
+            this.panelTradeClosed.Controls.Add(this.txtAccountEquity);
+            this.panelTradeClosed.Controls.Add(this.label27);
+            this.panelTradeClosed.Controls.Add(this.label28);
+            this.panelTradeClosed.Location = new System.Drawing.Point(3, 338);
+            this.panelTradeClosed.Name = "panelTradeClosed";
+            this.panelTradeClosed.Size = new System.Drawing.Size(233, 282);
+            this.panelTradeClosed.TabIndex = 40;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 9);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(53, 15);
+            this.label3.TabIndex = 29;
+            this.label3.Text = "Date Exit";
+            // 
+            // dtpDateExit
+            // 
+            this.dtpDateExit.Enabled = false;
+            this.dtpDateExit.Location = new System.Drawing.Point(6, 27);
+            this.dtpDateExit.Name = "dtpDateExit";
+            this.dtpDateExit.Size = new System.Drawing.Size(200, 23);
+            this.dtpDateExit.TabIndex = 7;
             // 
             // tableLayoutPanel1
             // 
@@ -249,7 +309,7 @@ namespace TradingTools
             this.tableLayoutPanel1.Controls.Add(this.txtPnL_percentage, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.label51, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.txtPCP, 0, 1);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 271);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(9, 131);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -331,7 +391,7 @@ namespace TradingTools
             // 
             // txtFinalPositionValue
             // 
-            this.txtFinalPositionValue.Location = new System.Drawing.Point(130, 337);
+            this.txtFinalPositionValue.Location = new System.Drawing.Point(127, 197);
             this.txtFinalPositionValue.Name = "txtFinalPositionValue";
             this.txtFinalPositionValue.ReadOnly = true;
             this.txtFinalPositionValue.Size = new System.Drawing.Size(92, 23);
@@ -339,32 +399,9 @@ namespace TradingTools
             this.txtFinalPositionValue.TabStop = false;
             this.txtFinalPositionValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(15, 340);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(109, 15);
-            this.label27.TabIndex = 37;
-            this.label27.Text = "Final Position Value";
-            // 
-            // dtpDateExit
-            // 
-            this.dtpDateExit.Location = new System.Drawing.Point(15, 175);
-            this.dtpDateExit.Name = "dtpDateExit";
-            this.dtpDateExit.Size = new System.Drawing.Size(200, 23);
-            this.dtpDateExit.TabIndex = 31;
-            // 
-            // dtpDateEnter
-            // 
-            this.dtpDateEnter.Location = new System.Drawing.Point(15, 114);
-            this.dtpDateEnter.Name = "dtpDateEnter";
-            this.dtpDateEnter.Size = new System.Drawing.Size(200, 23);
-            this.dtpDateEnter.TabIndex = 30;
-            // 
             // txtAccountEquity
             // 
-            this.txtAccountEquity.Location = new System.Drawing.Point(130, 366);
+            this.txtAccountEquity.Location = new System.Drawing.Point(127, 226);
             this.txtAccountEquity.Name = "txtAccountEquity";
             this.txtAccountEquity.ReadOnly = true;
             this.txtAccountEquity.Size = new System.Drawing.Size(92, 23);
@@ -372,33 +409,129 @@ namespace TradingTools
             this.txtAccountEquity.TabStop = false;
             this.txtAccountEquity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // label3
+            // label27
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(15, 157);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(53, 15);
-            this.label3.TabIndex = 29;
-            this.label3.Text = "Date Exit";
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(12, 200);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(109, 15);
+            this.label27.TabIndex = 37;
+            this.label27.Text = "Final Position Value";
             // 
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(36, 369);
+            this.label28.Location = new System.Drawing.Point(33, 229);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(88, 15);
             this.label28.TabIndex = 36;
             this.label28.Text = "Account Equity";
             this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // txtEntryPrice
+            // 
+            this.txtEntryPrice.Location = new System.Drawing.Point(111, 264);
+            this.txtEntryPrice.Name = "txtEntryPrice";
+            this.txtEntryPrice.ReadOnly = true;
+            this.txtEntryPrice.Size = new System.Drawing.Size(111, 23);
+            this.txtEntryPrice.TabIndex = 5;
+            this.txtEntryPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtEntryPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
+            this.txtEntryPrice.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Decimal_Validating);
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.BackColor = System.Drawing.Color.MediumAquamarine;
+            this.btnUpdate.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnUpdate.ForeColor = System.Drawing.Color.White;
+            this.btnUpdate.Location = new System.Drawing.Point(12, 13);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(210, 38);
+            this.btnUpdate.TabIndex = 39;
+            this.btnUpdate.Text = "UPDATE";
+            this.btnUpdate.UseVisualStyleBackColor = false;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
+            // txtLotSize
+            // 
+            this.txtLotSize.Location = new System.Drawing.Point(111, 235);
+            this.txtLotSize.Name = "txtLotSize";
+            this.txtLotSize.ReadOnly = true;
+            this.txtLotSize.Size = new System.Drawing.Size(111, 23);
+            this.txtLotSize.TabIndex = 4;
+            this.txtLotSize.TabStop = false;
+            this.txtLotSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtLotSize.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
+            this.txtLotSize.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Decimal_Validating);
+            // 
+            // dtpDateEnter
+            // 
+            this.dtpDateEnter.Enabled = false;
+            this.dtpDateEnter.Location = new System.Drawing.Point(22, 165);
+            this.dtpDateEnter.Name = "dtpDateEnter";
+            this.dtpDateEnter.Size = new System.Drawing.Size(200, 23);
+            this.dtpDateEnter.TabIndex = 2;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(58, 242);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(47, 15);
+            this.label5.TabIndex = 31;
+            this.label5.Text = "Lot Size";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(10, 267);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(95, 15);
+            this.label7.TabIndex = 33;
+            this.label7.Text = "Entry Price (Avg)";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtCapital
+            // 
+            this.txtCapital.Location = new System.Drawing.Point(111, 206);
+            this.txtCapital.Name = "txtCapital";
+            this.txtCapital.ReadOnly = true;
+            this.txtCapital.Size = new System.Drawing.Size(111, 23);
+            this.txtCapital.TabIndex = 3;
+            this.txtCapital.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtCapital.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
+            this.txtCapital.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Money_Validating);
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label26.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.label26.Location = new System.Drawing.Point(46, 296);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(59, 15);
+            this.label26.TabIndex = 35;
+            this.label26.Text = "Leverage";
+            this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 96);
+            this.label2.Location = new System.Drawing.Point(22, 147);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(61, 15);
             this.label2.TabIndex = 28;
             this.label2.Text = "Date Enter";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(61, 209);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(44, 15);
+            this.label15.TabIndex = 36;
+            this.label15.Text = "Capital";
             // 
             // dgvTrades
             // 
@@ -426,44 +559,15 @@ namespace TradingTools
             // 
             // menuStrip1
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1510, 24);
             this.menuStrip1.TabIndex = 28;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // menuToolStripMenuItem
+            // errorProvider1
             // 
-            this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.correrctionModeToggleToolStripMenuItem});
-            this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
-            this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
-            this.menuToolStripMenuItem.Text = "Menu";
-            // 
-            // correrctionModeToggleToolStripMenuItem
-            // 
-            this.correrctionModeToggleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.onToolStripMenuItem,
-            this.offToolStripMenuItem});
-            this.correrctionModeToggleToolStripMenuItem.Name = "correrctionModeToggleToolStripMenuItem";
-            this.correrctionModeToggleToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.correrctionModeToggleToolStripMenuItem.Text = "Correrction Mode";
-            // 
-            // onToolStripMenuItem
-            // 
-            this.onToolStripMenuItem.Name = "onToolStripMenuItem";
-            this.onToolStripMenuItem.Size = new System.Drawing.Size(91, 22);
-            this.onToolStripMenuItem.Text = "On";
-            this.onToolStripMenuItem.Click += new System.EventHandler(this.onToolStripMenuItem_Click);
-            // 
-            // offToolStripMenuItem
-            // 
-            this.offToolStripMenuItem.Name = "offToolStripMenuItem";
-            this.offToolStripMenuItem.Size = new System.Drawing.Size(91, 22);
-            this.offToolStripMenuItem.Text = "Off";
-            this.offToolStripMenuItem.Click += new System.EventHandler(this.offToolStripMenuItem_Click);
+            this.errorProvider1.ContainerControl = this;
             // 
             // frmTradeMasterFile
             // 
@@ -486,11 +590,12 @@ namespace TradingTools
             this.statusStrip1.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.panelTradeClosed.ResumeLayout(false);
+            this.panelTradeClosed.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTrades)).EndInit();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -529,10 +634,17 @@ namespace TradingTools
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem correrctionModeToggleToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem onToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem offToolStripMenuItem;
         private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.Panel panelTradeClosed;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.TextBox txtLeverage;
+        private System.Windows.Forms.TextBox txtEntryPrice;
+        private System.Windows.Forms.TextBox txtLotSize;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtCapital;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.CheckBox cbCorrection;
     }
 }
