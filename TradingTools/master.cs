@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TradingTools.DAL;
 using TradingTools.Services;
+using TradingTools.Trunk;
 using TradingTools.Trunk.Entity;
 
 namespace TradingTools
@@ -63,6 +64,7 @@ namespace TradingTools
             this.tradeClosed += _frmCalcStates.Trade_Closed;
             this.tradeDeleted += _frmCalcStates.Trade_Deleted;
             this.tradeUpdated += _frmCalcStates.Trade_Updated;
+
         }
 
         private void master_Load(object sender, EventArgs e)
@@ -265,6 +267,36 @@ namespace TradingTools
         {
             DbContext.SaveChanges();
             tradeUpdated?.Invoke(t);
+
+            return true;
+        }
+
+
+        // DONE AND SUCCESSFUL
+        public bool MigrationWave_1()
+        {
+            return true;    // will seal this function
+
+            var list = DbContext.Trades.Include(x => x.CalculatorState).ToList();
+            CalculatorState c;
+            foreach (var t in list)
+            {
+                c = t.CalculatorState;
+
+                c.LotSize = t.LotSize;
+                c.ExchangeFee = Constant.TRADING_FEE;
+                c.OpeningTradingFee = t.OpeningTradingFee;
+                c.OpeningTradingCost = t.OpeningTradingCost;
+                c.DailyInterestRate = t.DailyInterestRate;
+                c.InterestCost = t.InterestCost;
+                if (t.Status.Equals("closed"))
+                {
+                    c.ClosingTradingFee = t.ClosingTradingFee;
+                    c.ClosingTradingCost = t.ClosingTradingCost;
+                }
+            }
+
+            DbContext.SaveChanges();
 
             return true;
         }
