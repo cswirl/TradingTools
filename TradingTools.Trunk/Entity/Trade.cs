@@ -16,6 +16,8 @@ namespace TradingTools.Trunk.Entity
         public string Ticker { get; set; }
         [Required, MaxLength(20)]
         public string PositionSide { get; set; }      //long or short
+        [Required, MaxLength(20)]
+        public string? TradingStyle { get; set; }
         [Required]
         public DateTime DateEnter { get; set; }
         // Position
@@ -31,31 +33,34 @@ namespace TradingTools.Trunk.Entity
         public decimal EntryPriceAvg { get; set; }
         [Required]
         public decimal LotSize { get; set; }
-        // Opening Cost
-        [Required]
-        public decimal OpeningTradingFee { get; set; }
-        [Required]
-        public decimal OpeningTradingCost { get; set; }
         // Borrow
         [Required]
         public decimal BorrowAmount { get; set; }
         [Required]
         public int DayCount { get; set; }
-        [Required]
-        public decimal DailyInterestRate { get; set; }
-        [Required]
-        public decimal InterestCost { get; set; }
+        
         // Closing
         public DateTime? DateExit { get; set; }
         public decimal? ExitPriceAvg { get; set; }
-        // Closing Cost
-        public decimal? ClosingTradingFee { get; set; }
-        public decimal? ClosingTradingCost { get; set; }
+        public decimal? FinalCapital { get; set; }
 
         public decimal? PnL { get; set; }
+        public decimal? PnL_percentage { get; set; }
 
         [Required, MaxLength(20), DefaultValue("open")]
         public string Status { get; set; }
+
+        // To be removed
+        [Required]
+        public decimal OpeningTradingFee { get; set; }
+        [Required]
+        public decimal OpeningTradingCost { get; set; }
+        [Column(TypeName = "decimal(18, 5)")]
+        public decimal DailyInterestRate { get; set; }
+        [Required]
+        public decimal InterestCost { get; set; }
+        public decimal? ClosingTradingFee { get; set; }
+        public decimal? ClosingTradingCost { get; set; }
 
         // CalculatorState
         public virtual CalculatorState CalculatorState { get; set; }

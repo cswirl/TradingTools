@@ -271,7 +271,7 @@ namespace TradingTools
             CalculatorState.LEP_ExitPrice = InputConverter.Decimal(txtLEP_ExitPrice.Text);
             CalculatorState.LEP_Note = txtLEP_Note.Text;
             CalculatorState.Ticker = txtTicker.Text;
-            CalculatorState.Strategy = txtStrategy.Text;
+            CalculatorState.ReasonForEntry = txtStrategy.Text;
             CalculatorState.Note = txtNote.Text;
         }
 
@@ -559,7 +559,7 @@ namespace TradingTools
                         // Independent data
                         this.Text = CalculatorState.Ticker;
                         txtTicker.Text = CalculatorState.Ticker;
-                        txtStrategy.Text = CalculatorState.Strategy;
+                        txtStrategy.Text = CalculatorState.ReasonForEntry;
                         txtNote.Text = CalculatorState.Note;
 
                         btnCloseTheTrade.Visible = false;
@@ -618,7 +618,7 @@ namespace TradingTools
                         // Independent data
                         txtTradeNum.Text = Trade.Id.ToString();
                         txtTicker.Text = Trade.Ticker;
-                        txtStrategy.Text = CalculatorState.Strategy;
+                        txtStrategy.Text = CalculatorState.ReasonForEntry;
                         txtNote.Text = CalculatorState.Note;
 
                         //
@@ -681,7 +681,7 @@ namespace TradingTools
                     // Independent data
                     txtTradeNum.Text = Trade.Id.ToString();
                     txtTicker.Text = Trade.Ticker;
-                    txtStrategy.Text = CalculatorState.Strategy;
+                    txtStrategy.Text = CalculatorState.ReasonForEntry;
                     txtNote.Text = CalculatorState.Note;
 
 

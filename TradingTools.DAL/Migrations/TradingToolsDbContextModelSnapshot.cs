@@ -29,6 +29,15 @@ namespace TradingTools.DAL.Migrations
                     b.Property<decimal>("Capital")
                         .HasColumnType("decimal(18,6)");
 
+                    b.Property<decimal?>("ClosingTradingCost")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<decimal?>("ClosingTradingFee")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<string>("CounterBias")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("DailyInterestRate")
                         .HasColumnType("decimal(18,6)");
 
@@ -36,6 +45,12 @@ namespace TradingTools.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("EntryPriceAvg")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<decimal>("ExchangeFee")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<decimal>("InterestCost")
                         .HasColumnType("decimal(18,6)");
 
                     b.Property<decimal>("LEP_ExitPrice")
@@ -47,8 +62,17 @@ namespace TradingTools.DAL.Migrations
                     b.Property<decimal>("Leverage")
                         .HasColumnType("decimal(18,6)");
 
+                    b.Property<decimal>("LotSize")
+                        .HasColumnType("decimal(18,6)");
+
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("OpeningTradingCost")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<decimal>("OpeningTradingFee")
+                        .HasColumnType("decimal(18,6)");
 
                     b.Property<decimal>("PEP_ExitPrice")
                         .HasColumnType("decimal(18,6)");
@@ -62,7 +86,13 @@ namespace TradingTools.DAL.Migrations
                     b.Property<decimal>("PriceIncreaseTarget")
                         .HasColumnType("decimal(18,6)");
 
-                    b.Property<string>("Strategy")
+                    b.Property<string>("ProBias")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReasonForExit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReasonForEntry")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Ticker")
@@ -71,6 +101,11 @@ namespace TradingTools.DAL.Migrations
 
                     b.Property<int?>("TradeId")
                         .HasColumnType("int");
+
+                    b.Property<string>("TradingStyle")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -118,6 +153,9 @@ namespace TradingTools.DAL.Migrations
                     b.Property<decimal?>("ExitPriceAvg")
                         .HasColumnType("decimal(18,6)");
 
+                    b.Property<decimal?>("FinalCapital")
+                        .HasColumnType("decimal(18,6)");
+
                     b.Property<decimal>("InterestCost")
                         .HasColumnType("decimal(18,6)");
 
@@ -139,6 +177,9 @@ namespace TradingTools.DAL.Migrations
                     b.Property<decimal?>("PnL")
                         .HasColumnType("decimal(18,6)");
 
+                    b.Property<decimal?>("PnL_percentage")
+                        .HasColumnType("decimal(18,6)");
+
                     b.Property<string>("PositionSide")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -150,6 +191,11 @@ namespace TradingTools.DAL.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Ticker")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("TradingStyle")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");

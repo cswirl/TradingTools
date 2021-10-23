@@ -1166,7 +1166,7 @@ namespace TradingTools
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(50, 15);
             this.label32.TabIndex = 5;
-            this.label32.Text = "Strategy";
+            this.label32.Text = "ReasonForEntry";
             // 
             // txtTicker
             // 

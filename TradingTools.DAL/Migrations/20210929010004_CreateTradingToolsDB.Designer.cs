@@ -63,7 +63,7 @@ namespace TradingTools.DAL.Migrations
                     b.Property<decimal>("PriceIncreaseTarget")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Strategy")
+                    b.Property<string>("ReasonForEntry")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Ticker")
