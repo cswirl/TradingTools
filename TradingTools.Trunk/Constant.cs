@@ -9,7 +9,9 @@ namespace TradingTools.Trunk
 
         public const string MAX_DECIMAL_PLACE_FORMAT = "0.########";
         public const string MONEY_FORMAT = "C";
-        public const string PERCENTAGE_FORMAT = "F";
+        public const string PERCENTAGE_FORMAT_NONE = @"0\%";        
+        public const string PERCENTAGE_FORMAT_SINGLE = @"0.0\%";
+        public const string PERCENTAGE_FORMAT_DOUBLE = @"0.00\%";
     }
 
     public class Position

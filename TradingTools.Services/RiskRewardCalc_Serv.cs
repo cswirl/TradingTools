@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using TradingTools.Trunk;
-using TradingTools.DAL;
 using TradingTools.Trunk.Entity;
 
 namespace TradingTools.Services
@@ -84,7 +83,7 @@ namespace TradingTools.Services
                     decimal pnl = (EntPA * lotSize * dec_pcp) - tradingCost;
                     var rec = new PriceChangeRecord
                     {
-                        PriceChangePercentage = pcp,
+                        PCP = pcp,
                         ExitPrice = ExitPrice,
                         PnL = pnl,
                         PnL_Percentage = pnl / capital * 100,
@@ -113,7 +112,7 @@ namespace TradingTools.Services
                 decimal pnl = (EntryPrice * lotSize * pip / 100) - tradingCost;
                 return new PriceChangeRecord
                 {
-                    PriceChangePercentage = pip,
+                    PCP = pip,
                     ExitPrice = ExitPrice,
                     PnL = pnl,
                     PnL_Percentage = pnl / capital * 100,
@@ -139,7 +138,7 @@ namespace TradingTools.Services
     // C#9 book page 177 - more about record
     public record PriceChangeRecord
     {
-        public decimal PriceChangePercentage { get; init; }
+        public decimal PCP { get; init; }   // Price Change Percentage
         public decimal ExitPrice { get; init; }
         public decimal PnL { get; init; }
         public decimal PnL_Percentage { get; set; }

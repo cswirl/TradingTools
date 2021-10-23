@@ -204,7 +204,7 @@ namespace TradingTools
             txtCapital.Text = t.Capital.ToString(Constant.MONEY_FORMAT);
             txtLotSize.Text = t.LotSize.ToString();
             txtEntryPrice.Text = t.EntryPriceAvg.ToString();
-            txtLeverage.Text = t.Leverage.ToString(Constant.PERCENTAGE_FORMAT);
+            txtLeverage.Text = t.Leverage.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
       
             
             if (t.Status.Equals("closed"))
@@ -212,8 +212,8 @@ namespace TradingTools
                 panelTradeClosed.Visible = true;
                 dtpDateExit.Value = t.DateExit ?? t.DateEnter;
                 // PCP, PnL etc
-                txtPCP.Text = RiskRewardCalc_Serv.PCP(t.EntryPriceAvg, t.ExitPriceAvg).ToString(Constant.PERCENTAGE_FORMAT);
-                txtPnL_percentage.Text = RiskRewardCalc_Serv.PnL_percentage(t.Capital, t.PnL).ToString(Constant.PERCENTAGE_FORMAT);
+                txtPCP.Text = RiskRewardCalc_Serv.PCP(t.EntryPriceAvg, t.ExitPriceAvg).ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
+                txtPnL_percentage.Text = RiskRewardCalc_Serv.PnL_percentage(t.Capital, t.PnL).ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
                 txtPnL.Text = t.PnL == default ? "0" : t.PnL?.ToString(Constant.MONEY_FORMAT);
                 decimal finalPositionValue = RiskRewardCalc_Serv.FinalPositionValue(t.LotSize, t.ExitPriceAvg);
                 txtFinalPositionValue.Text = finalPositionValue.ToString(Constant.MONEY_FORMAT);

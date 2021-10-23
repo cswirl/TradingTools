@@ -1164,7 +1164,7 @@ namespace TradingTools
             this.label32.AutoSize = true;
             this.label32.Location = new System.Drawing.Point(19, 59);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(50, 15);
+            this.label32.Size = new System.Drawing.Size(89, 15);
             this.label32.TabIndex = 5;
             this.label32.Text = "ReasonForEntry";
             // 
@@ -1527,6 +1527,7 @@ namespace TradingTools
             this.dgvPriceIncreaseTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvPriceIncreaseTable.Size = new System.Drawing.Size(564, 267);
             this.dgvPriceIncreaseTable.TabIndex = 0;
+            this.dgvPriceIncreaseTable.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.PCP_Table_CellClick);
             // 
             // btnSetLEP
             // 
@@ -1681,6 +1682,7 @@ namespace TradingTools
             this.dgvPriceDecreaseTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvPriceDecreaseTable.Size = new System.Drawing.Size(564, 265);
             this.dgvPriceDecreaseTable.TabIndex = 1;
+            this.dgvPriceDecreaseTable.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.PCP_Table_CellClick);
             // 
             // panel3
             // 

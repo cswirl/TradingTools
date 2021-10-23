@@ -35,6 +35,8 @@ namespace TradingTools
 
             panelBandTop.Height = 3;
             panelBandBottom.Height = 3;
+            PCP_Table_Formatting(dgvPriceIncreaseTable);
+            PCP_Table_Formatting(dgvPriceDecreaseTable);
             // timer
             timer1.Interval = Presentation.INTERNAL_TIMER_REFRESH_VALUE;
             // events
@@ -71,7 +73,7 @@ namespace TradingTools
                 _calculationDetails.Position.LotSize,
                 _calculationDetails.Borrow.InterestCost,
                 _calculationDetails.Position.Capital
-                ).OrderByDescending(o => o.PriceChangePercentage).ToList();
+                ).OrderByDescending(o => o.PCP).ToList();
 
             if (pit != null) dgvPriceIncreaseTable.DataSource = pit;
 
@@ -81,7 +83,7 @@ namespace TradingTools
                 _calculationDetails.Position.LotSize,
                 _calculationDetails.Borrow.InterestCost,
                 _calculationDetails.Position.Capital
-                ).OrderByDescending(o => o.PriceChangePercentage).ToList();
+                ).OrderByDescending(o => o.PCP).ToList();
 
             if (pdt != null) dgvPriceDecreaseTable.DataSource = pdt;
 
@@ -115,9 +117,9 @@ namespace TradingTools
 
             // 4
             if (rec == null) return;
-            txtPriceIncreasePercentage.Text = rec.PriceChangePercentage.ToString(Constant.PERCENTAGE_FORMAT);
+            txtPriceIncreasePercentage.Text = rec.PCP.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
             txtPriceIncrease_profit.Text = rec.PnL.ToString(Constant.MONEY_FORMAT);
-            txtProfitPercentage.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT);
+            txtProfitPercentage.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
         }
 
         private void btnPriceDecrease_custom_Click(object sender, EventArgs e)
@@ -136,9 +138,9 @@ namespace TradingTools
 
             // 4
             if (rec == null) return;
-            txtPriceDecreasePercentage.Text = rec.PriceChangePercentage.ToString(Constant.PERCENTAGE_FORMAT);
+            txtPriceDecreasePercentage.Text = rec.PCP.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
             txtPriceDecrease_loss.Text = rec.PnL.ToString(Constant.MONEY_FORMAT);
-            txtLossPercentage.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT);
+            txtLossPercentage.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
         }
 
         private void updateRRR()
@@ -173,8 +175,8 @@ namespace TradingTools
             txtPEP_sPV.Text = _calculationDetails.GetSpeculativePositionValue(priceTarget).ToString(Constant.MONEY_FORMAT);
             txtPEP_AccountEquity.Text = _calculationDetails.GetSpeculativeAccountEquity(priceTarget).ToString(Constant.MONEY_FORMAT);
 
-            txtPEP_PCP.Text = rec.PriceChangePercentage.ToString(Constant.PERCENTAGE_FORMAT);
-            txtPEP_RealProfit_percent.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT);
+            txtPEP_PCP.Text = rec.PCP.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
+            txtPEP_RealProfit_percent.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
             txtPEP_Profit.Text = rec.PnL.ToString(Constant.MONEY_FORMAT);
             txtPEP_TradingCost.Text = rec.TradingCost.ToString(Constant.MONEY_FORMAT);
 
@@ -201,8 +203,8 @@ namespace TradingTools
             txtLEP_sPV.Text = _calculationDetails.GetSpeculativePositionValue(priceTarget).ToString(Constant.MONEY_FORMAT);
             txtLEP_AccountEquity.Text = _calculationDetails.GetSpeculativeAccountEquity(priceTarget).ToString(Constant.MONEY_FORMAT);
 
-            txtLEP_PCP.Text = rec.PriceChangePercentage.ToString(Constant.PERCENTAGE_FORMAT);
-            txtLEP_RealLoss_percent.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT);
+            txtLEP_PCP.Text = rec.PCP.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
+            txtLEP_RealLoss_percent.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
             txtLEP_Loss.Text = rec.PnL.ToString(Constant.MONEY_FORMAT);
             txtLEP_TradingCost.Text = rec.TradingCost.ToString(Constant.MONEY_FORMAT);
 
@@ -899,5 +901,114 @@ namespace TradingTools
             }
         }
         #endregion
+
+        #region DataGridView Formatting
+        private void PCP_Table_Formatting(DataGridView d)
+        {
+
+            //d.AlternatingRowsDefaultCellStyle.BackColor = Color.LightYellow;
+            //d.DefaultCellStyle.SelectionBackColor = Color.LightBlue;
+            //d.DefaultCellStyle.SelectionForeColor = Color.White;
+            d.AutoGenerateColumns = false;
+            d.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            d.AllowUserToOrderColumns = true;
+            d.AllowUserToDeleteRows = false;
+            d.AllowUserToAddRows = false;
+            d.AllowUserToResizeColumns = false;
+            d.AllowUserToResizeRows = false;
+            d.ReadOnly = true;
+            d.MultiSelect = false;
+            d.Font = new Font(new FontFamily("tahoma"), 8.5f, FontStyle.Regular);
+            d.Columns.Clear();
+
+            // PCP
+            var pcp = new DataGridViewTextBoxColumn();
+            pcp.DataPropertyName = "PCP";
+            pcp.Name = "PCP";
+            pcp.HeaderText = "PCP";
+            pcp.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            pcp.DefaultCellStyle.Format = Constant.PERCENTAGE_FORMAT_NONE;
+            pcp.Width = 75;
+            pcp.ReadOnly = true;
+            pcp.SortMode = DataGridViewColumnSortMode.NotSortable;
+            pcp.Visible = true;
+            d.Columns.Add(pcp);
+            // PnL %
+            var PnL_percentage = new DataGridViewTextBoxColumn();
+            PnL_percentage.DataPropertyName = "PnL_Percentage";
+            PnL_percentage.Name = "PnL_Percentage";
+            PnL_percentage.HeaderText = "PnL %";
+            PnL_percentage.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            PnL_percentage.DefaultCellStyle.Format = Constant.PERCENTAGE_FORMAT_SINGLE;
+            PnL_percentage.Width = 75;
+            PnL_percentage.ReadOnly = true;
+            PnL_percentage.SortMode = DataGridViewColumnSortMode.NotSortable;
+            PnL_percentage.Visible = true;
+            d.Columns.Add(PnL_percentage);
+            // PnL
+            var PnL = new DataGridViewTextBoxColumn();
+            PnL.DataPropertyName = "PnL";
+            PnL.Name = "PnL";
+            PnL.HeaderText = "PnL";
+            PnL.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            PnL.DefaultCellStyle.Format = Constant.MONEY_FORMAT;
+            PnL.Width = 90;
+            PnL.ReadOnly = true;
+            PnL.SortMode = DataGridViewColumnSortMode.NotSortable;
+            PnL.Visible = true;
+            d.Columns.Add(PnL);
+            // ExitPrice
+            var exitPrice = new DataGridViewTextBoxColumn();
+            exitPrice.DataPropertyName = "ExitPrice";
+            exitPrice.Name = "ExitPrice";
+            exitPrice.HeaderText = "Exit Price";
+            exitPrice.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            exitPrice.DefaultCellStyle.Format = Constant.MAX_DECIMAL_PLACE_FORMAT;
+            exitPrice.DefaultCellStyle.ForeColor = Color.White;
+            //exitPrice.DefaultCellStyle.Font = new Font(new FontFamily("tahoma"), 8.5f, FontStyle.Bold);
+            exitPrice.DefaultCellStyle.BackColor = Color.SteelBlue;
+            //exitPrice.DefaultCellStyle.SelectionBackColor = Color.Transparent;
+            //exitPrice.DefaultCellStyle.SelectionForeColor = Color.White;
+            exitPrice.Width = 90;
+            exitPrice.ReadOnly = true;
+            exitPrice.SortMode = DataGridViewColumnSortMode.NotSortable;
+            exitPrice.Visible = true;
+            d.Columns.Add(exitPrice);
+
+            //var button = new DataGridViewButtonColumn
+            //{
+            //    //Text = "ExitPrice",
+            //    DataPropertyName = "ExitPrice",
+            //    Name = "ExitPrice",
+            //    HeaderText = "Exit Price",
+            //    Width = 100,
+            //    //UseColumnTextForButtonValue = true,
+
+            //    SortMode = DataGridViewColumnSortMode.NotSortable,
+            //    Visible = true,
+            //};
+            //d.Columns.Add(button);
+        }
+        #endregion
+
+        private void PCP_Table_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var s = (DataGridView)sender;
+            if (e.ColumnIndex == s.Columns["ExitPrice"].Index)
+            {
+                if ((s.CurrentCell.Value == default)) return;
+                decimal x = (decimal)(s.CurrentCell.Value ?? 0m);
+                if (s == dgvPriceIncreaseTable)
+                {
+                    txtPriceIncrease_target.Text = x.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                    btnPriceIncrease_custom.PerformClick();
+                }
+                else if (s == dgvPriceDecreaseTable)
+                {
+                    txtPriceDecrease_target.Text = x.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                    btnPriceDecrease_custom.PerformClick();
+                }
+            }
+        }
     }
 }
