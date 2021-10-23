@@ -46,13 +46,17 @@ namespace TradingTools.Trunk.Validation
         {
             // This regular expression looks for any number of digits.
             // And if dot character is added it will look for decimal places upto 2 decimals.
-            string pattern = @"^((\d+)((\.\d{1,2})?))$";
+            //string pattern = @"^((\d+)((\.\d{1,2})?))$";
+
+            //source: https://stackoverflow.com/questions/16242449/regex-currency-validation
+            // Decimal and commas optional
+            string pattern = @"^(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$";
             Regex rg = new Regex(pattern);
 
             errorMsg = "";
             if (!rg.IsMatch(value))
             {
-                errorMsg = message("Must be numeric with upto 2 decimal place", "123.12");
+                errorMsg = message("Must be numeric with upto 2 decimal place", "123.12 or $123.12");
                 return false;
             }
 
