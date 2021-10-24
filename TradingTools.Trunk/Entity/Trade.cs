@@ -17,7 +17,7 @@ namespace TradingTools.Trunk.Entity
         [Required, MaxLength(20)]
         public string PositionSide { get; set; }      //long or short
         [Required, MaxLength(20)]
-        public string? TradingStyle { get; set; }
+        public string TradingStyle { get; set; }
         [Required]
         public DateTime DateEnter { get; set; }
         // Position

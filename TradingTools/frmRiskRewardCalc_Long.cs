@@ -311,21 +311,38 @@ namespace TradingTools
         }
         private void captureCalculatorState()
         {
+            var c = CalculatorState;
+            c.Capital = InputConverter.Decimal(txtCapital.Text);
+            c.Leverage = InputConverter.Decimal(txtLeverage.Text);
+            c.EntryPriceAvg = InputConverter.Decimal(txtEntryPrice.Text);
+            c.DayCount = (int)nudDayCount.Value;
+            c.DailyInterestRate = nudDailyInterestRate.Value;
+            c.PriceIncreaseTarget = InputConverter.Decimal(txtPriceIncrease_target.Text);
+            c.PriceDecreaseTarget = InputConverter.Decimal(txtPriceDecrease_target.Text);
+            c.PEP_ExitPrice = InputConverter.Decimal(txtPEP_ExitPrice.Text);
+            c.PEP_Note = txtPEP_Note.Text;
+            c.LEP_ExitPrice = InputConverter.Decimal(txtLEP_ExitPrice.Text);
+            c.LEP_Note = txtLEP_Note.Text;
+            c.Ticker = txtTicker.Text;
+            c.ReasonForEntry = txtReasonForEntry.Text;
+            c.Note = txtNote.Text;
+            //
+            c.CounterBias = txtCounterBias.Text;
+            c.InterestCost = InputConverter.Decimal(txtInterestCost.Text);
+            c.LotSize = InputConverter.Decimal(txtLotSize.Text);
+            c.ExchangeFee = InputConverter.Decimal(txtOpeningTradingFee_percent.Text);
+            c.OpeningTradingFee = InputConverter.Decimal(txtOpeningTradingFee_dollar.Text);
+            c.OpeningTradingCost = InputConverter.Decimal(txtOpeningTradingCost.Text);
+            
+            c.TradingStyle = cbxTradingStyle.SelectedValue.ToString();
+            //
+            c.TradeExit_ExitPrice = InputConverter.Decimal(txtTradeExit_ExitPrice.Text);
+            c.ReasonForExit = txtReasonForExit.Text;
+            c.PerfectEntry_EntryPrice = InputConverter.Decimal(txtPerfectEntry_EntryPrice.Text);
+            c.PerfectEntry_ExitPrice = InputConverter.Decimal(txtPerfectEntry_ExitPrice.Text);
+            c.PerfectEntry_Note = txtPerfectEntry_Note.Text;
+            //
 
-            CalculatorState.Capital = InputConverter.Decimal(txtCapital.Text);
-            CalculatorState.Leverage = InputConverter.Decimal(txtLeverage.Text);
-            CalculatorState.EntryPriceAvg = InputConverter.Decimal(txtEntryPrice.Text);
-            CalculatorState.DayCount = (int)nudDayCount.Value;
-            CalculatorState.DailyInterestRate = nudDailyInterestRate.Value;
-            CalculatorState.PriceIncreaseTarget = InputConverter.Decimal(txtPriceIncrease_target.Text);
-            CalculatorState.PriceDecreaseTarget = InputConverter.Decimal(txtPriceDecrease_target.Text);
-            CalculatorState.PEP_ExitPrice = InputConverter.Decimal(txtPEP_ExitPrice.Text);
-            CalculatorState.PEP_Note = txtPEP_Note.Text;
-            CalculatorState.LEP_ExitPrice = InputConverter.Decimal(txtLEP_ExitPrice.Text);
-            CalculatorState.LEP_Note = txtLEP_Note.Text;
-            CalculatorState.Ticker = txtTicker.Text;
-            CalculatorState.ReasonForEntry = txtReasonForEntry.Text;
-            CalculatorState.Note = txtNote.Text;
         }
 
         private void captureTrade_TextBoxes()

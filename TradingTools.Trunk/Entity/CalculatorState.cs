@@ -22,7 +22,6 @@ namespace TradingTools.Trunk.Entity
         [Required]
         public decimal EntryPriceAvg { get; set; }
         public decimal LotSize { get; set; }
-        public string ProBias { get; set; }
         public string CounterBias { get; set; }
         public string ReasonForEntry { get; set; }    // Will be renamed to ReasonForEntry - old name ReasonForEntry
         [Required, MaxLength(20)]
@@ -43,7 +42,7 @@ namespace TradingTools.Trunk.Entity
         public decimal InterestCost { get; set; }
 
         // Closing
-        public string? ReasonForExit { get; set; }
+        public string ReasonForExit { get; set; }
         public decimal? ClosingTradingFee { get; set; }
         public decimal? ClosingTradingCost { get; set; }
         //
@@ -54,6 +53,12 @@ namespace TradingTools.Trunk.Entity
         public decimal LEP_ExitPrice { get; set; }
         public string LEP_Note { get; set; }
         public string Note { get; set; }
+        //
+        public decimal? PerfectEntry_EntryPrice { get; set; }
+        public decimal? PerfectEntry_ExitPrice { get; set; }
+        public string PerfectEntry_Note { get; set; }
+        public decimal? TradeExit_ExitPrice { get; set; }
+
 
         // Trade
         public int? TradeId { get; set; }
