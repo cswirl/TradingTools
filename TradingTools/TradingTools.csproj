@@ -18,4 +18,10 @@
     <ProjectReference Include="..\TradingTools.Trunk\TradingTools.Trunk.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="TradeClosing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>

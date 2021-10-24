@@ -34,7 +34,7 @@ namespace TradingTools
             this.cbCorrection = new System.Windows.Forms.CheckBox();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnViewCalculator = new System.Windows.Forms.Button();
-            this.cmbFilterStatus = new System.Windows.Forms.ComboBox();
+            this.cbxFilterStatus = new System.Windows.Forms.ComboBox();
             this.FILTER = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -88,7 +88,7 @@ namespace TradingTools
             this.panel1.Controls.Add(this.cbCorrection);
             this.panel1.Controls.Add(this.btnDelete);
             this.panel1.Controls.Add(this.btnViewCalculator);
-            this.panel1.Controls.Add(this.cmbFilterStatus);
+            this.panel1.Controls.Add(this.cbxFilterStatus);
             this.panel1.Controls.Add(this.FILTER);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(242, 24);
@@ -133,18 +133,18 @@ namespace TradingTools
             this.btnViewCalculator.UseVisualStyleBackColor = true;
             this.btnViewCalculator.Click += new System.EventHandler(this.btnViewCalculator_Click);
             // 
-            // cmbFilterStatus
+            // cbxFilterStatus
             // 
-            this.cmbFilterStatus.BackColor = System.Drawing.Color.White;
-            this.cmbFilterStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbFilterStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmbFilterStatus.FormattingEnabled = true;
-            this.cmbFilterStatus.Location = new System.Drawing.Point(53, 10);
-            this.cmbFilterStatus.Name = "cmbFilterStatus";
-            this.cmbFilterStatus.Size = new System.Drawing.Size(94, 23);
-            this.cmbFilterStatus.TabIndex = 1;
-            this.cmbFilterStatus.TabStop = false;
-            this.cmbFilterStatus.SelectedIndexChanged += new System.EventHandler(this.cmbFilterStatus_SelectedIndexChanged);
+            this.cbxFilterStatus.BackColor = System.Drawing.Color.White;
+            this.cbxFilterStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxFilterStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbxFilterStatus.FormattingEnabled = true;
+            this.cbxFilterStatus.Location = new System.Drawing.Point(53, 10);
+            this.cbxFilterStatus.Name = "cbxFilterStatus";
+            this.cbxFilterStatus.Size = new System.Drawing.Size(94, 23);
+            this.cbxFilterStatus.TabIndex = 1;
+            this.cbxFilterStatus.TabStop = false;
+            this.cbxFilterStatus.SelectedIndexChanged += new System.EventHandler(this.cmbFilterStatus_SelectedIndexChanged);
             // 
             // FILTER
             // 
@@ -627,7 +627,7 @@ namespace TradingTools
         private System.Windows.Forms.TextBox txtFinalPositionValue;
         private System.Windows.Forms.TextBox txtAccountEquity;
         private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.ComboBox cmbFilterStatus;
+        private System.Windows.Forms.ComboBox cbxFilterStatus;
         private System.Windows.Forms.Label FILTER;
         private System.Windows.Forms.DataGridView dgvTrades;
         private System.Windows.Forms.Button btnViewCalculator;

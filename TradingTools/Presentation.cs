@@ -24,6 +24,14 @@ namespace TradingTools
         Deleted
     }
 
+    enum TradingStyle
+    {
+        day,
+        swing,
+        position,
+        investment
+    }
+
     public static class BandColor
     {
         public static readonly Color Default = Color.MediumSeaGreen;

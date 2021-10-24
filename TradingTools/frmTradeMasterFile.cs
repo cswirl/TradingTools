@@ -34,12 +34,12 @@ namespace TradingTools
             dtpDateEnter.MaxDate = DateTime.Today.AddDays(1).AddTicks(-1);
             dtpDateExit.MaxDate = DateTime.Today.AddDays(1).AddTicks(-1);
 
-            cmbFilterStatus.DataSource = Enum.GetValues(typeof(StatusFilter));
+            cbxFilterStatus.DataSource = Enum.GetValues(typeof(StatusFilter));
         }
 
         private void frmTradeMasterFile_Load(object sender, EventArgs e)
         {
-            cmbFilterStatus.SelectedIndex = 1;  // status = closed
+            cbxFilterStatus.SelectedIndex = 1;  // status = closed
             // timer
             timer1.Interval = Presentation.INTERNAL_TIMER_REFRESH_VALUE;
         }
@@ -57,7 +57,7 @@ namespace TradingTools
 
         private void cmbFilterStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Enum.TryParse<StatusFilter>(cmbFilterStatus.SelectedValue.ToString(), out _statusFilter);
+            Enum.TryParse<StatusFilter>(cbxFilterStatus.SelectedValue.ToString(), out _statusFilter);
 
             // 
             if (_master == default) return; // _master was changed to nullable so this check may be remove 

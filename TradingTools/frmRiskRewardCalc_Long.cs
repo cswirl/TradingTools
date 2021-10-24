@@ -22,6 +22,7 @@ namespace TradingTools
         private RiskRewardCalc_Serv _rrc_serv = new();
         private CalculationDetails _calculationDetails = new();
         public EventHandler<RiskRewardCalcState> OnStateChanged;
+        private TradingStyle _tradingStyle;
 
         public RiskRewardCalcState State { get; set; } = RiskRewardCalcState.Empty;
 
@@ -35,6 +36,9 @@ namespace TradingTools
 
             panelBandTop.Height = 3;
             panelBandBottom.Height = 3;
+            cbxTradingStyle.DataSource = Enum.GetValues(typeof(TradingStyle));
+            cbxTradingStyle.SelectedIndex = 1;  // swing
+
             PCP_Table_Formatting(dgvPriceIncreaseTable);
             PCP_Table_Formatting(dgvPriceDecreaseTable);
             // timer
@@ -59,7 +63,6 @@ namespace TradingTools
             // the function captureCalculationDetails is able to handle the appropriate value for Lot Size from the textbox - given it is initialized properly
             txtLotSize.Text = _calculationDetails.Position.LotSize.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
             txtLeveragedCapital.Text = _calculationDetails.Position.LeveragedCapital.ToString(Constant.MONEY_FORMAT);
-            txtInitalPositionValue.Text = _calculationDetails.Position.InitialPositionValue.ToString(Constant.MONEY_FORMAT);
             txtOpeningTradingFee_dollar.Text = _calculationDetails.OpeningCost.TradingFee.ToString(Constant.MONEY_FORMAT);
             txtOpeningTradingCost.Text = _calculationDetails.OpeningCost.TradingFee.ToString(Constant.MONEY_FORMAT);
 
@@ -88,10 +91,10 @@ namespace TradingTools
             if (pdt != null) dgvPriceDecreaseTable.DataSource = pdt;
 
             // compute buttons
-            btnPriceIncrease_custom.PerformClick();
-            btnPriceDecrease_custom.PerformClick();
-            btnPEP_compute.PerformClick();
-            btnLEP_compute.PerformClick();
+            CustomPriceIncrease_Compute(null, null);
+            CustomPriceDecrease_Compute(null, null);
+            PEP_Compute(null, null);
+            LEP_Compute(null, null);
         }
 
         private void frmRRC_Long_Load(object sender, EventArgs e)
@@ -101,7 +104,7 @@ namespace TradingTools
         }
 
 
-        private void btnPriceIncrease_custom_Click(object sender, EventArgs e)
+        private void CustomPriceIncrease_Compute(object sender, EventArgs e)
         {
             // 2
             decimal priceTarget = InputConverter.Decimal(txtPriceIncrease_target.Text);
@@ -122,7 +125,7 @@ namespace TradingTools
             txtProfitPercentage.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
         }
 
-        private void btnPriceDecrease_custom_Click(object sender, EventArgs e)
+        private void CustomPriceDecrease_Compute(object sender, EventArgs e)
         {
             // 2
             decimal priceTarget = InputConverter.Decimal(txtPriceDecrease_target.Text);
@@ -156,7 +159,7 @@ namespace TradingTools
             txtRRR.Text = "1 / " + (rrr == null ? "NA" : rrr?.ToString("0.0"));
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void PEP_Compute(object sender, EventArgs e)
         {
             // 2
             decimal priceTarget = InputConverter.Decimal(txtPEP_ExitPrice.Text);
@@ -184,7 +187,7 @@ namespace TradingTools
         }
 
 
-        private void button2_Click(object sender, EventArgs e)
+        private void LEP_Compute(object sender, EventArgs e)
         {
             // 2
             decimal priceTarget = InputConverter.Decimal(txtLEP_ExitPrice.Text);
@@ -211,16 +214,64 @@ namespace TradingTools
             updateRRR();
         }
 
+        private void TradeExit_Compute(object sender, EventArgs e)
+        {
+            // 2
+            decimal priceTarget = InputConverter.Decimal(txtTradeExit_ExitPrice.Text);
+            if (priceTarget <= 0) return;
+
+            // 3
+            var rec = _rrc_serv.PriceIncreaseTable.GeneratePriceIncreaseRecord(
+                priceTarget,
+                _calculationDetails.Position.EntryPriceAvg,
+                _calculationDetails.Position.LotSize,
+                _calculationDetails.Borrow.InterestCost,
+                _calculationDetails.Position.Capital);
+
+            // 4
+            if (rec == null) return;
+            txtTradeExit_PV.Text = _calculationDetails.GetSpeculativePositionValue(priceTarget).ToString(Constant.MONEY_FORMAT);
+            txtFinalCapital.Text = _calculationDetails.GetSpeculativeAccountEquity(priceTarget).ToString(Constant.MONEY_FORMAT);
+
+            txtTradeExit_PCP.Text = rec.PCP.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
+            txtTradeExit_PnL_percentage.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
+            txtTradeExit_PnL.Text = rec.PnL.ToString(Constant.MONEY_FORMAT);
+            txtTradeExit_TC.Text = rec.TradingCost.ToString(Constant.MONEY_FORMAT);
+        }
+
+        private void PerfectEntry_Compute(object sender, EventArgs e)
+        {
+            // 2
+            decimal exitPrice = InputConverter.Decimal(txtPerfectEntry_ExitPrice.Text);
+            decimal entryPrice = InputConverter.Decimal(txtPerfectEntry_EntryPrice.Text);
+            if (entryPrice <= 0 || exitPrice <= 0) return;
+
+            // 3
+            var rec = _rrc_serv.PriceIncreaseTable.GeneratePriceIncreaseRecord(
+                exitPrice,
+                entryPrice,
+                _calculationDetails.Position.LotSize,
+                _calculationDetails.Borrow.InterestCost,
+                _calculationDetails.Position.Capital);
+
+            // 4
+            if (rec == null) return;
+            txtPerfectEntry_PCP.Text = rec.PCP.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
+            txtPerfectEntry_PnL_percentage.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
+            txtPerfectEntry_PnL.Text = rec.PnL.ToString(Constant.MONEY_FORMAT);
+            txtPerfectEntry_TC.Text = rec.TradingCost.ToString(Constant.MONEY_FORMAT);
+        }
+
         private void btnSetLEP_Click(object sender, EventArgs e)
         {
             txtLEP_ExitPrice.Text = txtPriceDecrease_target.Text;
-            btnLEP_compute.PerformClick();
+            LEP_Compute(null, null);
         }
 
         private void btnSetPEP_Click(object sender, EventArgs e)
         {
             txtPEP_ExitPrice.Text = txtPriceIncrease_target.Text;
-            btnPEP_compute.PerformClick();
+            PEP_Compute(null, null);
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -273,7 +324,7 @@ namespace TradingTools
             CalculatorState.LEP_ExitPrice = InputConverter.Decimal(txtLEP_ExitPrice.Text);
             CalculatorState.LEP_Note = txtLEP_Note.Text;
             CalculatorState.Ticker = txtTicker.Text;
-            CalculatorState.ReasonForEntry = txtStrategy.Text;
+            CalculatorState.ReasonForEntry = txtReasonForEntry.Text;
             CalculatorState.Note = txtNote.Text;
         }
 
@@ -511,6 +562,7 @@ namespace TradingTools
 
                     CalculatorState = new();
                     // Initalize UI controls
+                    txtLeverage.Text = "3";
                     txtBorrowAmount.Text = "0";
                     nudDayCount.Value = 1;
                     nudDailyInterestRate.Value = Constant.DAILY_INTEREST_RATE;
@@ -540,28 +592,28 @@ namespace TradingTools
                         txtEntryPrice.Text = CalculatorState.EntryPriceAvg.ToString();
                         nudDayCount.Value = CalculatorState.DayCount < nudDayCount.Minimum ? nudDayCount.Minimum : CalculatorState.DayCount;
                         nudDailyInterestRate.Value = CalculatorState.DailyInterestRate < nudDailyInterestRate.Minimum ? nudDailyInterestRate.Minimum : CalculatorState.DailyInterestRate;
-                        btnReCalculate.PerformClick();
+                        btnReCalculate_Click(null, null);
 
                         // sys flow 2
                         txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
-                        btnPriceIncrease_custom.PerformClick();
+                        CustomPriceIncrease_Compute(null,null);
                         txtPriceDecrease_target.Text = CalculatorState.PriceDecreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
-                        btnPriceDecrease_custom.PerformClick();
+                        CustomPriceDecrease_Compute(null, null);
 
                         // sys flow 3
                         txtPEP_ExitPrice.Text = CalculatorState.PEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                         txtPEP_Note.Text = CalculatorState.PEP_Note;
-                        btnPEP_compute.PerformClick();
+                        PEP_Compute(null, null);
 
                         // sys flow
                         txtLEP_ExitPrice.Text = CalculatorState.LEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                         txtLEP_Note.Text = CalculatorState.LEP_Note;
-                        btnLEP_compute.PerformClick();
+                        LEP_Compute(null, null);
 
                         // Independent data
                         this.Text = CalculatorState.Ticker;
                         txtTicker.Text = CalculatorState.Ticker;
-                        txtStrategy.Text = CalculatorState.ReasonForEntry;
+                        txtReasonForEntry.Text = CalculatorState.ReasonForEntry;
                         txtNote.Text = CalculatorState.Note;
 
                         btnCloseTheTrade.Visible = false;
@@ -603,24 +655,24 @@ namespace TradingTools
 
                         // sys flow 2
                         txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
-                        btnPriceIncrease_custom.PerformClick();
+                        CustomPriceIncrease_Compute(null, null);
                         txtPriceDecrease_target.Text = CalculatorState.PriceDecreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
-                        btnPriceDecrease_custom.PerformClick();
+                        CustomPriceDecrease_Compute(null, null);
 
                         // sys flow 3
                         txtPEP_ExitPrice.Text = CalculatorState.PEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                         txtPEP_Note.Text = CalculatorState.PEP_Note;
-                        btnPEP_compute.PerformClick();
+                        PEP_Compute(null, null);
 
                         // sys flow
                         txtLEP_ExitPrice.Text = CalculatorState.LEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                         txtLEP_Note.Text = CalculatorState.LEP_Note;
-                        btnLEP_compute.PerformClick();
+                        LEP_Compute(null, null);
 
                         // Independent data
                         txtTradeNum.Text = Trade.Id.ToString();
                         txtTicker.Text = Trade.Ticker;
-                        txtStrategy.Text = CalculatorState.ReasonForEntry;
+                        txtReasonForEntry.Text = CalculatorState.ReasonForEntry;
                         txtNote.Text = CalculatorState.Note;
 
                         //
@@ -666,24 +718,24 @@ namespace TradingTools
 
                     // sys flow 2
                     txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
-                    btnPriceIncrease_custom.PerformClick();
+                    CustomPriceIncrease_Compute(null, null);
                     txtPriceDecrease_target.Text = CalculatorState.PriceDecreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
-                    btnPriceDecrease_custom.PerformClick();
+                    CustomPriceDecrease_Compute(null, null);
 
                     // sys flow 3
                     txtPEP_ExitPrice.Text = CalculatorState.PEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                     txtPEP_Note.Text = CalculatorState.PEP_Note;
-                    btnPEP_compute.PerformClick();
+                    PEP_Compute(null, null);
 
                     // sys flow
                     txtLEP_ExitPrice.Text = CalculatorState.LEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                     txtLEP_Note.Text = CalculatorState.LEP_Note;
-                    btnLEP_compute.PerformClick();
+                    LEP_Compute(null, null);
 
                     // Independent data
                     txtTradeNum.Text = Trade.Id.ToString();
                     txtTicker.Text = Trade.Ticker;
-                    txtStrategy.Text = CalculatorState.ReasonForEntry;
+                    txtReasonForEntry.Text = CalculatorState.ReasonForEntry;
                     txtNote.Text = CalculatorState.Note;
 
 
@@ -732,6 +784,15 @@ namespace TradingTools
         private void btnCloseTheTrade_Click(object sender, EventArgs e)
         {
             if (State != RiskRewardCalcState.TradeOpen) return;
+
+            // Prepare Trade object for Closing
+            Trade.FinalCapital = StringToNumeric.MoneyToDecimal(txtFinalCapital.Text);
+            Trade.ExitPriceAvg = InputConverter.Decimal(txtTradeExit_ExitPrice.Text);
+            Trade.CalculatorState.ReasonForExit = txtReasonForExit.Text;
+
+            var tradeClosing = new TradeClosing(Trade);
+            //tradeClosing.Trade_Close += this.closeTheTrade;
+            if (tradeClosing.ShowDialog() == DialogResult.Cancel) return;
 
             var result = MyMessageBox.Question_YesNo("Confirm to close this Trade?", "Trade Closing");
             if (result == DialogResult.Yes)
@@ -928,7 +989,7 @@ namespace TradingTools
             pcp.HeaderText = "PCP";
             pcp.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             pcp.DefaultCellStyle.Format = Constant.PERCENTAGE_FORMAT_NONE;
-            pcp.Width = 75;
+            pcp.Width = 80;
             pcp.ReadOnly = true;
             pcp.SortMode = DataGridViewColumnSortMode.NotSortable;
             pcp.Visible = true;
@@ -940,7 +1001,7 @@ namespace TradingTools
             PnL_percentage.HeaderText = "PnL %";
             PnL_percentage.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             PnL_percentage.DefaultCellStyle.Format = Constant.PERCENTAGE_FORMAT_SINGLE;
-            PnL_percentage.Width = 75;
+            PnL_percentage.Width = 80;
             PnL_percentage.ReadOnly = true;
             PnL_percentage.SortMode = DataGridViewColumnSortMode.NotSortable;
             PnL_percentage.Visible = true;
@@ -952,7 +1013,7 @@ namespace TradingTools
             PnL.HeaderText = "PnL";
             PnL.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             PnL.DefaultCellStyle.Format = Constant.MONEY_FORMAT;
-            PnL.Width = 90;
+            PnL.Width = 100;
             PnL.ReadOnly = true;
             PnL.SortMode = DataGridViewColumnSortMode.NotSortable;
             PnL.Visible = true;
@@ -969,7 +1030,7 @@ namespace TradingTools
             exitPrice.DefaultCellStyle.BackColor = Color.SteelBlue;
             //exitPrice.DefaultCellStyle.SelectionBackColor = Color.Transparent;
             //exitPrice.DefaultCellStyle.SelectionForeColor = Color.White;
-            exitPrice.Width = 90;
+            exitPrice.Width = 100;
             exitPrice.ReadOnly = true;
             exitPrice.SortMode = DataGridViewColumnSortMode.NotSortable;
             exitPrice.Visible = true;
@@ -1001,14 +1062,21 @@ namespace TradingTools
                 if (s == dgvPriceIncreaseTable)
                 {
                     txtPriceIncrease_target.Text = x.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
-                    btnPriceIncrease_custom.PerformClick();
+                    CustomPriceIncrease_Compute(null, null);
                 }
                 else if (s == dgvPriceDecreaseTable)
                 {
                     txtPriceDecrease_target.Text = x.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
-                    btnPriceDecrease_custom.PerformClick();
+                    CustomPriceDecrease_Compute(null, null);
                 }
             }
         }
+
+        private void cbxTradingStyle_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Enum.TryParse<TradingStyle>(cbxTradingStyle.SelectedValue.ToString(), out _tradingStyle);
+        }
     }
+
+    
 }
