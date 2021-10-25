@@ -158,6 +158,7 @@ namespace TradingTools
                 t.DailyInterestRate = b.DailyInterestRate;
                 
                 // validate
+                // for status = open
                 if (!Trade_Serv.TradeOpening_Validate(t, out msg))
                 {
                     statusMessage.Text = msg;

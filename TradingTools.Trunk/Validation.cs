@@ -105,6 +105,15 @@ namespace TradingTools.Trunk.Validation
             return decimal.TryParse(value, out def_out) ? def_out : 0;
         }
 
+        public static decimal MoneyToDecimal(string value)
+        {
+            NumberStyles style = NumberStyles.Currency;
+            CultureInfo culture = null;
+            decimal def_out;
+
+            return decimal.TryParse(value, style, culture, out def_out) ? def_out : 0;
+        }
+
     }
 
     public class StringToNumeric

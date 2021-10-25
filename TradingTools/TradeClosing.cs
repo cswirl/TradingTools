@@ -17,12 +17,6 @@ namespace TradingTools
 {
     public partial class TradeClosing : Form
     {
-        public delegate bool Trade_OnClosing(Trade t);
-        public Trade_OnClosing Trade_Close;
-        //public event EventHandler Trade_Officialize;
-
-        public dynamic MyProperty { get; set; }
-
         public Trade? Trade { get; set; }
 
         public TradeClosing()
@@ -42,17 +36,11 @@ namespace TradingTools
 
         private void btnCloseTrade_Click(object sender, EventArgs e)
         {
-            //dynamic d = new ExpandoObject();
-            //d.DateEnter = dtpDateExit.Value;
-            //d.Capital = StringToNumeric.MoneyToDecimal(txtFinalCapital.Text);
-            //d.EntryPrice = InputConverter.Decimal(txtExitPrice.Text);
-
-            Trade.DateEnter = dtpDateExit.Value;
-            Trade.Capital = StringToNumeric.MoneyToDecimal(txtFinalCapital.Text);
-            Trade.EntryPriceAvg = InputConverter.Decimal(txtExitPrice.Text);
+            Trade.DateExit = dtpDateExit.Value;
+            Trade.ExitPriceAvg = InputConverter.Decimal(txtExitPrice.Text);
+            Trade.FinalCapital = StringToNumeric.MoneyToDecimal(txtFinalCapital.Text);
             Trade.CalculatorState.ReasonForExit = txtReasonForExit.Text;
 
-            //Trade_Close?.Invoke(this.Trade);
             this.DialogResult = DialogResult.Yes;
             this.Close();
         }
@@ -117,17 +105,11 @@ namespace TradingTools
 
         private void TradeClosing_Load(object sender, EventArgs e)
         {
-            
-            //if (MyProperty == null) return;
-            //dtpDateExit.Value = DateTime.Now;
-            //txtFinalCapital.Text = MyProperty.Capital;
-            //txtExitPrice.Text = MyProperty.EntryPrice;
-
             if (Trade == null) return;
             dtpDateExit.Value = DateTime.Now;
-            txtFinalCapital.Text = Trade.FinalCapital?.ToString(Constant.MONEY_FORMAT);
-            txtExitPrice.Text = Trade.ExitPriceAvg?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
-            txtReasonForExit.Text = Trade.CalculatorState.ReasonForExit;
+            txtExitPrice.Text = Trade?.ExitPriceAvg?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+            txtFinalCapital.Text = Trade?.FinalCapital?.ToString(Constant.MONEY_FORMAT);
+            txtReasonForExit.Text = Trade?.CalculatorState.ReasonForExit;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TradingTools.Trunk;
 using TradingTools.Trunk.Entity;
 using TradingTools.Trunk.Validation;
 
@@ -10,11 +11,17 @@ namespace TradingTools.Services
 {
     public class Trade_Serv
     {
+        public static decimal GetTrading_ElaspsedTime_Days(DateTime dateEnter, DateTime? dateExit)
+        {
+            var days = ((dateExit ?? dateEnter) - dateEnter).TotalDays;
+            return SafeConvert.ToDecimalSafe(days);
+        }
         public static bool TradeOpening_Validate(Trade t, out string msg)
         {
             if (!validateTicker(t.Ticker, out msg)) return false;
             if (!validateStatus(t.Status, out msg)) return false;
             if (!validatePositionSide(t.PositionSide, out msg)) return false;
+            if (!validateTradeStyle(t.TradingStyle, out msg)) return false;
             if (t.DateEnter == default) { msg = "Invalid data. Date is not set."; return false; }
             if (t.DateEnter > DateTime.Now)
             {
@@ -36,7 +43,7 @@ namespace TradingTools.Services
         {
             msg = string.Empty;
             string pref = "Trade Closing Validation failed: ";
-            if (t.ExitPriceAvg <= 0 | t.DayCount < 0 | t.DailyInterestRate < 0 | t.InterestCost < 0 ) 
+            if (t.ExitPriceAvg <= 0 | t.FinalCapital <= 0) 
             {
                 msg =  pref + " invalid data found.";
                 return false; 
@@ -49,11 +56,6 @@ namespace TradingTools.Services
             if (t.DateExit > DateTime.Now)
             {
                 msg = pref + " 'Date Exit'cannot exceed the Date and Time right now.";
-                return false;
-            }
-            if (t.ClosingTradingFee < 0 | t.ClosingTradingCost < 0 | t.ClosingTradingFee > t.ClosingTradingCost)
-            {
-                msg = pref + " invalid data found.";
                 return false;
             }
             if (!t.Status.Equals("closed")) { msg = pref + "invalid Status value"; return false; }
@@ -93,6 +95,18 @@ namespace TradingTools.Services
         {
             msg = string.Empty;
             if (status.Length < 1 || !(status.Equals("open") | status.Equals("closed")))
+            {
+                msg = "Invalid Status value. Valid values are: 'open' or 'closed'";
+                return false;
+            }
+
+            return true;
+        }
+
+        private static bool validateTradeStyle(string tradeStyle, out string msg)
+        {
+            msg = string.Empty;
+            if (tradeStyle.Length < 1 || !Enum.IsDefined(typeof(TradingStyle), tradeStyle))
             {
                 msg = "Invalid Status value. Valid values are: 'open' or 'closed'";
                 return false;

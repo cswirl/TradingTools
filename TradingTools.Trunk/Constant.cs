@@ -12,6 +12,7 @@ namespace TradingTools.Trunk
         public const string PERCENTAGE_FORMAT_NONE = @"0\%";        
         public const string PERCENTAGE_FORMAT_SINGLE = @"0.0\%";
         public const string PERCENTAGE_FORMAT_DOUBLE = @"0.00\%";
+        public const string LEVERAGE_DECIMAL_PLACE = "0.##";
     }
 
     public class Position
@@ -55,5 +56,22 @@ namespace TradingTools.Trunk
         {
             return GetTradingFee_in_dollar(amount);
         }
+    }
+
+    public enum RiskRewardCalcState
+    {
+        Empty,
+        Loaded,
+        TradeOpen,
+        TradeClosed,
+        Deleted
+    }
+
+    public enum TradingStyle
+    {
+        day,
+        swing,
+        position,
+        investment
     }
 }

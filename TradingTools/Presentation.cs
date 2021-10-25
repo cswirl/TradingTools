@@ -15,30 +15,13 @@ namespace TradingTools
 
     }
 
-    public enum RiskRewardCalcState
-    {
-        Empty,
-        Loaded,
-        TradeOpen,
-        TradeClosed,
-        Deleted
-    }
-
-    enum TradingStyle
-    {
-        day,
-        swing,
-        position,
-        investment
-    }
-
     public static class BandColor
     {
         public static readonly Color Default = Color.MediumSeaGreen;
         public static readonly Color Empty = Color.Orange;
         public static readonly Color Loaded = Color.Blue;
         public static readonly Color TradeOpen = Default;
-        public static readonly Color ClosedPosition = Default;
+        public static readonly Color TradeClosed = Default;
     }
 
     public static class MyMessageBox

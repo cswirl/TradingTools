@@ -70,13 +70,10 @@ namespace TradingTools
             this.label57 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.cbxTradingStyle = new System.Windows.Forms.ComboBox();
-            this.panelExitPrice = new System.Windows.Forms.Panel();
-            this.radLEP_ExitPrice = new System.Windows.Forms.RadioButton();
-            this.radPEP_ExitPrice = new System.Windows.Forms.RadioButton();
             this.btnCloseTheTrade = new System.Windows.Forms.Button();
             this.btnOfficializedTrade = new System.Windows.Forms.Button();
             this.txtTicker = new System.Windows.Forms.TextBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.gbxNotes = new System.Windows.Forms.GroupBox();
             this.splitContainerNotes = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
             this.txtCounterBias = new System.Windows.Forms.TextBox();
@@ -147,7 +144,7 @@ namespace TradingTools
             this.txtTradeNum = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.txtOpeningTradingFee_percent = new System.Windows.Forms.TextBox();
+            this.txtExchangeFee = new System.Windows.Forms.TextBox();
             this.txtOpeningTradingFee_dollar = new System.Windows.Forms.TextBox();
             this.txtOpeningTradingCost = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -209,8 +206,7 @@ namespace TradingTools
             this.tableLayoutPanel13.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.tableLayoutPanel12.SuspendLayout();
-            this.panelExitPrice.SuspendLayout();
-            this.groupBox6.SuspendLayout();
+            this.gbxNotes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerNotes)).BeginInit();
             this.splitContainerNotes.Panel1.SuspendLayout();
             this.splitContainerNotes.Panel2.SuspendLayout();
@@ -316,11 +312,10 @@ namespace TradingTools
             this.splitContainer1.Panel1.Controls.Add(this.groupBox7);
             this.splitContainer1.Panel1.Controls.Add(this.label2);
             this.splitContainer1.Panel1.Controls.Add(this.cbxTradingStyle);
-            this.splitContainer1.Panel1.Controls.Add(this.panelExitPrice);
             this.splitContainer1.Panel1.Controls.Add(this.btnCloseTheTrade);
             this.splitContainer1.Panel1.Controls.Add(this.btnOfficializedTrade);
             this.splitContainer1.Panel1.Controls.Add(this.txtTicker);
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox6);
+            this.splitContainer1.Panel1.Controls.Add(this.gbxNotes);
             this.splitContainer1.Panel1.Controls.Add(this.label30);
             this.splitContainer1.Panel1.Controls.Add(this.label53);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox5);
@@ -359,9 +354,9 @@ namespace TradingTools
             this.groupBox8.Controls.Add(this.txtPerfectEntry_ExitPrice);
             this.groupBox8.Controls.Add(this.label62);
             this.groupBox8.Controls.Add(this.label63);
-            this.groupBox8.Location = new System.Drawing.Point(13, 255);
+            this.groupBox8.Location = new System.Drawing.Point(13, 274);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(606, 143);
+            this.groupBox8.Size = new System.Drawing.Size(606, 133);
             this.groupBox8.TabIndex = 24;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "PERFECT ENTRY";
@@ -547,9 +542,9 @@ namespace TradingTools
             this.groupBox7.Controls.Add(this.label56);
             this.groupBox7.Controls.Add(this.txtFinalCapital);
             this.groupBox7.Controls.Add(this.label57);
-            this.groupBox7.Location = new System.Drawing.Point(13, 404);
+            this.groupBox7.Location = new System.Drawing.Point(13, 413);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(606, 143);
+            this.groupBox7.Size = new System.Drawing.Size(606, 134);
             this.groupBox7.TabIndex = 23;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "TRADE EXIT";
@@ -726,7 +721,6 @@ namespace TradingTools
             // 
             this.txtFinalCapital.Location = new System.Drawing.Point(245, 44);
             this.txtFinalCapital.Name = "txtFinalCapital";
-            this.txtFinalCapital.ReadOnly = true;
             this.txtFinalCapital.Size = new System.Drawing.Size(92, 23);
             this.txtFinalCapital.TabIndex = 7;
             this.txtFinalCapital.TabStop = false;
@@ -763,49 +757,12 @@ namespace TradingTools
             this.cbxTradingStyle.TabIndex = 21;
             this.cbxTradingStyle.SelectedIndexChanged += new System.EventHandler(this.cbxTradingStyle_SelectedIndexChanged);
             // 
-            // panelExitPrice
-            // 
-            this.panelExitPrice.BackColor = System.Drawing.Color.Transparent;
-            this.panelExitPrice.Controls.Add(this.radLEP_ExitPrice);
-            this.panelExitPrice.Controls.Add(this.radPEP_ExitPrice);
-            this.panelExitPrice.Location = new System.Drawing.Point(631, 630);
-            this.panelExitPrice.Name = "panelExitPrice";
-            this.panelExitPrice.Size = new System.Drawing.Size(142, 226);
-            this.panelExitPrice.TabIndex = 20;
-            this.panelExitPrice.Visible = false;
-            // 
-            // radLEP_ExitPrice
-            // 
-            this.radLEP_ExitPrice.AutoSize = true;
-            this.radLEP_ExitPrice.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.radLEP_ExitPrice.ForeColor = System.Drawing.Color.DarkRed;
-            this.radLEP_ExitPrice.Location = new System.Drawing.Point(3, 155);
-            this.radLEP_ExitPrice.Name = "radLEP_ExitPrice";
-            this.radLEP_ExitPrice.Size = new System.Drawing.Size(126, 24);
-            this.radLEP_ExitPrice.TabIndex = 1;
-            this.radLEP_ExitPrice.Text = "Loss Exit Price";
-            this.radLEP_ExitPrice.UseVisualStyleBackColor = true;
-            // 
-            // radPEP_ExitPrice
-            // 
-            this.radPEP_ExitPrice.AutoSize = true;
-            this.radPEP_ExitPrice.Checked = true;
-            this.radPEP_ExitPrice.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.radPEP_ExitPrice.ForeColor = System.Drawing.Color.DarkBlue;
-            this.radPEP_ExitPrice.Location = new System.Drawing.Point(3, 7);
-            this.radPEP_ExitPrice.Name = "radPEP_ExitPrice";
-            this.radPEP_ExitPrice.Size = new System.Drawing.Size(135, 24);
-            this.radPEP_ExitPrice.TabIndex = 0;
-            this.radPEP_ExitPrice.TabStop = true;
-            this.radPEP_ExitPrice.Text = "Profit Exit Price";
-            this.radPEP_ExitPrice.UseVisualStyleBackColor = true;
-            // 
             // btnCloseTheTrade
             // 
             this.btnCloseTheTrade.BackColor = System.Drawing.Color.DarkRed;
             this.btnCloseTheTrade.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnCloseTheTrade.ForeColor = System.Drawing.Color.White;
-            this.btnCloseTheTrade.Location = new System.Drawing.Point(628, 419);
+            this.btnCloseTheTrade.Location = new System.Drawing.Point(625, 447);
             this.btnCloseTheTrade.Name = "btnCloseTheTrade";
             this.btnCloseTheTrade.Size = new System.Drawing.Size(591, 32);
             this.btnCloseTheTrade.TabIndex = 19;
@@ -818,7 +775,7 @@ namespace TradingTools
             this.btnOfficializedTrade.BackColor = System.Drawing.Color.SteelBlue;
             this.btnOfficializedTrade.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnOfficializedTrade.ForeColor = System.Drawing.Color.White;
-            this.btnOfficializedTrade.Location = new System.Drawing.Point(628, 385);
+            this.btnOfficializedTrade.Location = new System.Drawing.Point(625, 413);
             this.btnOfficializedTrade.Name = "btnOfficializedTrade";
             this.btnOfficializedTrade.Size = new System.Drawing.Size(591, 32);
             this.btnOfficializedTrade.TabIndex = 18;
@@ -835,15 +792,15 @@ namespace TradingTools
             this.txtTicker.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtTicker.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Ticker_Validating);
             // 
-            // groupBox6
+            // gbxNotes
             // 
-            this.groupBox6.Controls.Add(this.splitContainerNotes);
-            this.groupBox6.Location = new System.Drawing.Point(625, 3);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(597, 375);
-            this.groupBox6.TabIndex = 17;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "NOTES";
+            this.gbxNotes.Controls.Add(this.splitContainerNotes);
+            this.gbxNotes.Location = new System.Drawing.Point(625, 3);
+            this.gbxNotes.Name = "gbxNotes";
+            this.gbxNotes.Size = new System.Drawing.Size(597, 404);
+            this.gbxNotes.TabIndex = 17;
+            this.gbxNotes.TabStop = false;
+            this.gbxNotes.Text = "NOTES";
             // 
             // splitContainerNotes
             // 
@@ -860,8 +817,8 @@ namespace TradingTools
             // splitContainerNotes.Panel2
             // 
             this.splitContainerNotes.Panel2.Controls.Add(this.txtNote);
-            this.splitContainerNotes.Size = new System.Drawing.Size(591, 353);
-            this.splitContainerNotes.SplitterDistance = 198;
+            this.splitContainerNotes.Size = new System.Drawing.Size(591, 382);
+            this.splitContainerNotes.SplitterDistance = 214;
             this.splitContainerNotes.TabIndex = 0;
             // 
             // tableLayoutPanel11
@@ -879,7 +836,7 @@ namespace TradingTools
             this.tableLayoutPanel11.RowCount = 2;
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel11.Size = new System.Drawing.Size(591, 198);
+            this.tableLayoutPanel11.Size = new System.Drawing.Size(591, 214);
             this.tableLayoutPanel11.TabIndex = 0;
             // 
             // txtCounterBias
@@ -889,7 +846,7 @@ namespace TradingTools
             this.txtCounterBias.Multiline = true;
             this.txtCounterBias.Name = "txtCounterBias";
             this.txtCounterBias.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtCounterBias.Size = new System.Drawing.Size(290, 172);
+            this.txtCounterBias.Size = new System.Drawing.Size(290, 188);
             this.txtCounterBias.TabIndex = 5;
             // 
             // label32
@@ -909,7 +866,7 @@ namespace TradingTools
             this.txtReasonForEntry.Multiline = true;
             this.txtReasonForEntry.Name = "txtReasonForEntry";
             this.txtReasonForEntry.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtReasonForEntry.Size = new System.Drawing.Size(289, 172);
+            this.txtReasonForEntry.Size = new System.Drawing.Size(289, 188);
             this.txtReasonForEntry.TabIndex = 6;
             // 
             // label6
@@ -929,7 +886,7 @@ namespace TradingTools
             this.txtNote.Multiline = true;
             this.txtNote.Name = "txtNote";
             this.txtNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtNote.Size = new System.Drawing.Size(591, 151);
+            this.txtNote.Size = new System.Drawing.Size(591, 164);
             this.txtNote.TabIndex = 5;
             // 
             // label30
@@ -1687,7 +1644,7 @@ namespace TradingTools
             this.tableLayoutPanel5.ColumnCount = 2;
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.94059F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.05941F));
-            this.tableLayoutPanel5.Controls.Add(this.txtOpeningTradingFee_percent, 1, 7);
+            this.tableLayoutPanel5.Controls.Add(this.txtExchangeFee, 1, 7);
             this.tableLayoutPanel5.Controls.Add(this.txtOpeningTradingFee_dollar, 1, 8);
             this.tableLayoutPanel5.Controls.Add(this.txtOpeningTradingCost, 1, 10);
             this.tableLayoutPanel5.Controls.Add(this.label12, 0, 7);
@@ -1711,15 +1668,15 @@ namespace TradingTools
             this.tableLayoutPanel5.Size = new System.Drawing.Size(155, 135);
             this.tableLayoutPanel5.TabIndex = 1;
             // 
-            // txtOpeningTradingFee_percent
+            // txtExchangeFee
             // 
-            this.txtOpeningTradingFee_percent.Location = new System.Drawing.Point(89, 23);
-            this.txtOpeningTradingFee_percent.Name = "txtOpeningTradingFee_percent";
-            this.txtOpeningTradingFee_percent.ReadOnly = true;
-            this.txtOpeningTradingFee_percent.Size = new System.Drawing.Size(63, 23);
-            this.txtOpeningTradingFee_percent.TabIndex = 4;
-            this.txtOpeningTradingFee_percent.TabStop = false;
-            this.txtOpeningTradingFee_percent.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtExchangeFee.Location = new System.Drawing.Point(89, 23);
+            this.txtExchangeFee.Name = "txtExchangeFee";
+            this.txtExchangeFee.ReadOnly = true;
+            this.txtExchangeFee.Size = new System.Drawing.Size(63, 23);
+            this.txtExchangeFee.TabIndex = 4;
+            this.txtExchangeFee.TabStop = false;
+            this.txtExchangeFee.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // txtOpeningTradingFee_dollar
             // 
@@ -1743,20 +1700,22 @@ namespace TradingTools
             // 
             // label12
             // 
+            this.label12.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label12.ForeColor = System.Drawing.Color.Black;
-            this.label12.Location = new System.Drawing.Point(3, 20);
+            this.label12.Location = new System.Drawing.Point(4, 27);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(80, 15);
+            this.label12.Size = new System.Drawing.Size(79, 15);
             this.label12.TabIndex = 6;
-            this.label12.Text = "Trading Fee %";
+            this.label12.Text = "Exchange Fee";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label13
             // 
+            this.label13.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(3, 49);
+            this.label13.Location = new System.Drawing.Point(7, 56);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(76, 15);
             this.label13.TabIndex = 7;
@@ -1765,10 +1724,11 @@ namespace TradingTools
             // 
             // label14
             // 
+            this.label14.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.label14.Location = new System.Drawing.Point(3, 98);
+            this.label14.Location = new System.Drawing.Point(8, 109);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(75, 15);
             this.label14.TabIndex = 8;
@@ -2338,9 +2298,7 @@ namespace TradingTools
             this.groupBox7.PerformLayout();
             this.tableLayoutPanel12.ResumeLayout(false);
             this.tableLayoutPanel12.PerformLayout();
-            this.panelExitPrice.ResumeLayout(false);
-            this.panelExitPrice.PerformLayout();
-            this.groupBox6.ResumeLayout(false);
+            this.gbxNotes.ResumeLayout(false);
             this.splitContainerNotes.Panel1.ResumeLayout(false);
             this.splitContainerNotes.Panel2.ResumeLayout(false);
             this.splitContainerNotes.Panel2.PerformLayout();
@@ -2454,7 +2412,7 @@ namespace TradingTools
         private System.Windows.Forms.TextBox txtPEP_sPV;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
-        private System.Windows.Forms.TextBox txtOpeningTradingFee_percent;
+        private System.Windows.Forms.TextBox txtExchangeFee;
         private System.Windows.Forms.TextBox txtOpeningTradingFee_dollar;
         private System.Windows.Forms.TextBox txtOpeningTradingCost;
         private System.Windows.Forms.Label label12;
@@ -2518,15 +2476,12 @@ namespace TradingTools
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.GroupBox gbxNotes;
         private System.Windows.Forms.Panel panelBandBottom;
         private System.Windows.Forms.Panel panelBandTop;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button btnOfficializedTrade;
         private System.Windows.Forms.Button btnCloseTheTrade;
-        private System.Windows.Forms.Panel panelExitPrice;
-        private System.Windows.Forms.RadioButton radLEP_ExitPrice;
-        private System.Windows.Forms.RadioButton radPEP_ExitPrice;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cbxTradingStyle;
         private System.Windows.Forms.SplitContainer splitContainerNotes;

@@ -29,6 +29,7 @@ namespace TradingTools
         public CalculatorState? CalculatorState { get; set; }
         public Trade? Trade { get; set; }
         public string Side { get; set; }
+        public string PositionSide { get; private set; }
 
         public frmRiskRewardCalc_Long()
         {
@@ -315,7 +316,7 @@ namespace TradingTools
         private void captureCalculatorState()
         {
             var c = CalculatorState;
-            c.Capital = InputConverter.Decimal(txtCapital.Text);
+            c.Capital = InputConverter.MoneyToDecimal(txtCapital.Text);
             c.Leverage = InputConverter.Decimal(txtLeverage.Text);
             c.EntryPriceAvg = InputConverter.Decimal(txtEntryPrice.Text);
             c.LotSize = InputConverter.Decimal(txtLotSize.Text);
@@ -333,7 +334,7 @@ namespace TradingTools
             //
             c.CounterBias = txtCounterBias.Text;
             c.InterestCost = InputConverter.Decimal(txtInterestCost.Text);
-            c.ExchangeFee = InputConverter.Decimal(txtOpeningTradingFee_percent.Text);
+            c.ExchangeFee = InputConverter.Decimal(txtExchangeFee.Text);
             c.OpeningTradingFee = InputConverter.Decimal(txtOpeningTradingFee_dollar.Text);
             c.OpeningTradingCost = InputConverter.Decimal(txtOpeningTradingCost.Text);
 
@@ -346,15 +347,6 @@ namespace TradingTools
             c.PerfectEntry_Note = txtPerfectEntry_Note.Text;
             //
 
-        }
-
-        private void captureTrade_TextBoxes()
-        {
-            Trade.Ticker = txtTicker.Text;
-            Trade.Capital = InputConverter.Decimal(txtCapital.Text);
-            Trade.Leverage = InputConverter.Decimal(txtLeverage.Text);
-            Trade.LotSize = InputConverter.Decimal(txtLotSize.Text);
-            Trade.EntryPriceAvg = InputConverter.Decimal(txtEntryPrice.Text);
         }
 
         private bool Save()
@@ -434,9 +426,6 @@ namespace TradingTools
             // Just ignore if the reason for closing was cause by deletion
             if (State == RiskRewardCalcState.Deleted) return;
 
-            // Saving not allowed when Trade is Closed
-            if (State == RiskRewardCalcState.TradeClosed) return;
-
             // show the form in case was minimized and closing was came from external such as from a parent form
             this.WindowState = FormWindowState.Normal;
             this.Focus();
@@ -515,13 +504,16 @@ namespace TradingTools
             this.Trade = new Trade
             {
                 Ticker = c.Ticker,
-                PositionSide = "long",
-                Status = "open",
-                DateEnter = dateEnter,
                 Capital = c.Capital,
                 Leverage = c.Leverage,
                 EntryPriceAvg = c.EntryPriceAvg,
-                LotSize = p.LotSize,
+                LotSize = c.LotSize,
+                TradingStyle = cbxTradingStyle.SelectedValue.ToString(),
+                //
+                PositionSide = "long",
+                Status = "open",
+                DateEnter = dateEnter,
+                //
                 LeveragedCapital = p.LeveragedCapital,
                 OpeningTradingFee = oc.TradingFee,
                 OpeningTradingCost = oc.TradingFee,
@@ -529,6 +521,7 @@ namespace TradingTools
                 DayCount = b.DayCount,
                 DailyInterestRate = b.DailyInterestRate,
                 InterestCost = b.InterestCost,
+                //
                 CalculatorState = this.CalculatorState
             };
 
@@ -567,7 +560,7 @@ namespace TradingTools
         private void callOnLoad()
         {
             // State independent controls
-            txtOpeningTradingFee_percent.Text = Constant.TRADING_FEE.ToString();
+            txtExchangeFee.Text = Constant.TRADING_FEE.ToString();
 
             ChangeState(this.State);
         }
@@ -618,7 +611,7 @@ namespace TradingTools
                         nudDayCount.Value = c.DayCount < nudDayCount.Minimum ? nudDayCount.Minimum : CalculatorState.DayCount;
                         nudDailyInterestRate.Value = c.DailyInterestRate < nudDailyInterestRate.Minimum ? nudDailyInterestRate.Minimum : CalculatorState.DailyInterestRate;
                         // caveat: the CalculationDetails object will always use the Constance Exchange Fee 0.001 - it is not aware of any external source such as CalculatorState.ExchangeFee
-                        txtOpeningTradingFee_percent.Text = c.ExchangeFee.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                        txtExchangeFee.Text = c.ExchangeFee.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                         btnReCalculate_Click(null, null);
 
                         // sys flow 2
@@ -672,30 +665,35 @@ namespace TradingTools
                     {
                         panelBandTop.BackColor = BandColor.TradeOpen;
                         panelBandBottom.BackColor = BandColor.TradeOpen;
-                        panelExitPrice.Visible = true;
 
                         // load Trade detail
+                        // Independent data
+                        txtTradeNum.Text = Trade.Id.ToString();
+                        txtTicker.Text = Trade.Ticker;
+                        Enum.TryParse<TradingStyle>(Trade.TradingStyle, out tradeStyle);
+                        cbxTradingStyle.SelectedItem = tradeStyle;
+
                         // sys flow 1
-                        txtCapital.Text = Trade.Capital.ToString("0.00");     // dont change format
-                        txtLeverage.Text = Trade.Leverage.ToString("0");      // dont change format
+                        txtCapital.Text = Trade.Capital.ToString(Constant.MONEY_FORMAT);     // Money Format Regex implemented
+                        txtLeverage.Text = Trade.Leverage.ToString(Constant.LEVERAGE_DECIMAL_PLACE);
                         txtEntryPrice.Text = Trade.EntryPriceAvg.ToString();
                         txtLotSize.Text = Trade.LotSize.ToString();
-                        
+
                         //Numeric Up Down control throws exception when assigned value less then their Minimum value
-                        decimal d = SafeConvert.ToDecimalSafe((DateTime.Now - Trade.DateEnter).TotalDays);
+                        decimal d = Trade_Serv.GetTrading_ElaspsedTime_Days(Trade.DateEnter, DateTime.Now);
                         nudDayCount.Value = d < nudDayCount.Minimum ? nudDayCount.Minimum : d;
                         nudDailyInterestRate.Value = Trade.DailyInterestRate < nudDailyInterestRate.Value ? nudDailyInterestRate.Minimum : Trade.DailyInterestRate;
                         
-                        txtOpeningTradingFee_percent.Text = CalculatorState.ExchangeFee.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                        txtExchangeFee.Text = CalculatorState.ExchangeFee.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
 
                         btnReCalculate_Click(null, null);
 
-                        
-                        // sys flow 2
+                        #region Purely CalculatorState
+                        // sys flow
                         txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                         txtPriceDecrease_target.Text = CalculatorState.PriceDecreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
 
-                        // sys flow 3
+                        // sys flow
                         txtPEP_ExitPrice.Text = CalculatorState.PEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                         txtPEP_Note.Text = CalculatorState.PEP_Note;
 
@@ -706,20 +704,15 @@ namespace TradingTools
                         // sys flow
                         txtTradeExit_ExitPrice.Text = CalculatorState.TradeExit_ExitPrice?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                         txtReasonForExit.Text = CalculatorState.ReasonForExit;
+
                         txtPerfectEntry_EntryPrice.Text = CalculatorState.PerfectEntry_EntryPrice?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                         txtPerfectEntry_ExitPrice.Text = CalculatorState.PerfectEntry_ExitPrice?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                         txtPerfectEntry_Note.Text = CalculatorState.PerfectEntry_Note;
-
-                        // Independent data
-                        txtTradeNum.Text = Trade.Id.ToString();
-                        txtTicker.Text = Trade.Ticker;
-                        Enum.TryParse<TradingStyle>(Trade.TradingStyle, out tradeStyle);
-                        cbxTradingStyle.SelectedItem = tradeStyle;
-
+                        //
                         txtReasonForEntry.Text = CalculatorState.ReasonForEntry;
                         txtCounterBias.Text = CalculatorState.CounterBias;
                         txtNote.Text = CalculatorState.Note;
-
+                        #endregion
                         //
                         lblHeader.Text = Trade.Ticker + " - OPEN";
                         this.Text = Trade.Ticker + " - OPEN";
@@ -729,6 +722,7 @@ namespace TradingTools
                         txtLeverage.ReadOnly = true;
                         txtEntryPrice.ReadOnly = true;
                         txtLotSize.ReadOnly = true;
+                        cbxTradingStyle.Enabled = false;
                         nudDayCount.ReadOnly = true;
                         nudDailyInterestRate.ReadOnly = true;
 
@@ -741,29 +735,40 @@ namespace TradingTools
                     break;
 
                 case RiskRewardCalcState.TradeClosed:
-                    panelBandTop.BackColor = BandColor.ClosedPosition;
-                    panelBandBottom.BackColor = BandColor.ClosedPosition;
+                    panelBandTop.BackColor = BandColor.TradeClosed;
+                    panelBandBottom.BackColor = BandColor.TradeClosed;
+
 
                     //Numeric Up Down control throws exception when assigned value less then their Minimum value
-                    nudDayCount.Value = Trade.DayCount < nudDayCount.Minimum ? nudDayCount.Minimum : Trade.DayCount;
+                    decimal e = Trade_Serv.GetTrading_ElaspsedTime_Days(Trade.DateEnter, Trade.DateExit);
+                    nudDayCount.Value = e < nudDayCount.Minimum ? nudDayCount.Minimum : e;
 
                     #region Trade Common
                     // load trade details
+                    // Independent data
+                    txtTradeNum.Text = Trade.Id.ToString();
+                    txtTicker.Text = Trade.Ticker;
+                    Enum.TryParse<TradingStyle>(Trade.TradingStyle, out tradeStyle);
+                    cbxTradingStyle.SelectedItem = tradeStyle;
+
                     // sys flow 1
-                    txtCapital.Text = Trade.Capital.ToString(Constant.MONEY_FORMAT);     // dont change format
-                    txtLeverage.Text = Trade.Leverage.ToString("0");      // dont change format
+                    txtCapital.Text = Trade.Capital.ToString(Constant.MONEY_FORMAT);
+                    txtLeverage.Text = Trade.Leverage.ToString(Constant.LEVERAGE_DECIMAL_PLACE);      
                     txtEntryPrice.Text = Trade.EntryPriceAvg.ToString();
                     txtLotSize.Text = Trade.LotSize.ToString();
-                    
+
                     nudDailyInterestRate.Value = Trade.DailyInterestRate < nudDailyInterestRate.Value ? nudDailyInterestRate.Minimum : Trade.DailyInterestRate;
-                    txtOpeningTradingFee_percent.Text = CalculatorState.ExchangeFee.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+
+                    txtExchangeFee.Text = CalculatorState.ExchangeFee.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+
                     btnReCalculate_Click(null, null);
 
-                    // sys flow 2
+                    #region Almost All CalculatorState
+                    // sys flow
                     txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                     txtPriceDecrease_target.Text = CalculatorState.PriceDecreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
 
-                    // sys flow 3
+                    // sys flow
                     txtPEP_ExitPrice.Text = CalculatorState.PEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                     txtPEP_Note.Text = CalculatorState.PEP_Note;
 
@@ -772,22 +777,18 @@ namespace TradingTools
                     txtLEP_Note.Text = CalculatorState.LEP_Note;
 
                     // sys flow
-                    txtTradeExit_ExitPrice.Text = CalculatorState.TradeExit_ExitPrice?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                    txtTradeExit_ExitPrice.Text = Trade.ExitPriceAvg?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);  // Trade
                     txtReasonForExit.Text = CalculatorState.ReasonForExit;
 
                     txtPerfectEntry_EntryPrice.Text = CalculatorState.PerfectEntry_EntryPrice?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                     txtPerfectEntry_ExitPrice.Text = CalculatorState.PerfectEntry_ExitPrice?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                     txtPerfectEntry_Note.Text = CalculatorState.PerfectEntry_Note;
-
-                    // Independent data
-                    txtTradeNum.Text = Trade.Id.ToString();
-                    txtTicker.Text = Trade.Ticker;
-                    Enum.TryParse<TradingStyle>(Trade.TradingStyle, out tradeStyle);
-                    cbxTradingStyle.SelectedItem = tradeStyle;
-
+                    //
                     txtReasonForEntry.Text = CalculatorState.ReasonForEntry;
                     txtCounterBias.Text = CalculatorState.CounterBias;
                     txtNote.Text = CalculatorState.Note;
+                    #endregion
+
                     #endregion
 
                     //
@@ -801,6 +802,7 @@ namespace TradingTools
                     txtLeverage.ReadOnly = true;
                     txtEntryPrice.ReadOnly = true;
                     txtLotSize.ReadOnly = true;
+                    cbxTradingStyle.Enabled = false;
                     nudDayCount.ReadOnly = true;
                     nudDailyInterestRate.ReadOnly = true;
 
@@ -811,12 +813,18 @@ namespace TradingTools
                     // trade close
                     txtPEP_ExitPrice.ReadOnly = true;
                     txtLEP_ExitPrice.ReadOnly = true;
+                    txtPerfectEntry_EntryPrice.ReadOnly = true;
+                    txtPerfectEntry_ExitPrice.ReadOnly = true;
+                    txtTradeExit_ExitPrice.ReadOnly = true;
+                    txtFinalCapital.ReadOnly = true;
+
                     btnSetPEP.Visible = false;
                     btnSetLEP.Visible = false;
-                    panelExitPrice.Enabled = false;
                     btnReCalculate.Visible = false;
-                    btnSave.Visible = false;
+                    //btnSave.Visible = false;
                     btnCloseTheTrade.Visible = false;
+
+                    gbxNotes.Height *= 2;
                     break;
 
                 case RiskRewardCalcState.Deleted:
@@ -837,21 +845,24 @@ namespace TradingTools
             if (State != RiskRewardCalcState.TradeOpen) return;
 
             // Prepare Trade object for Closing
-            Trade.FinalCapital = StringToNumeric.MoneyToDecimal(txtFinalCapital.Text);
             Trade.ExitPriceAvg = InputConverter.Decimal(txtTradeExit_ExitPrice.Text);
+            Trade.FinalCapital = StringToNumeric.MoneyToDecimal(txtFinalCapital.Text);
             Trade.CalculatorState.ReasonForExit = txtReasonForExit.Text;
 
-            var tradeClosing = new TradeClosing(Trade);
+            //var tradeClosing = new TradeClosing(Trade);
             //tradeClosing.Trade_Close += this.closeTheTrade;
-            if (tradeClosing.ShowDialog() == DialogResult.Cancel) return;
 
-            var result = MyMessageBox.Question_YesNo("Confirm to close this Trade?", "Trade Closing");
+            var result = new TradeClosing(Trade).ShowDialog();
             if (result == DialogResult.Yes)
             {
-                // 1 - Input and Sanitize
+                // 1 - Input and Sanitize - done on the TradeClosing Dialog
+                // Update this form if any changes made from TradeClosing Dialog prior to captureCalculatorState()
+                txtTradeExit_ExitPrice.Text = Trade.ExitPriceAvg?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                txtFinalCapital.Text = Trade.FinalCapital?.ToString(Constant.MONEY_FORMAT);
+                txtReasonForExit.Text = Trade.CalculatorState.ReasonForExit;
                 // Need to capture calculatorstate to be updated automatically by dbcontext
                 captureCalculatorState();
-                decimal exitPrice = radPEP_ExitPrice.Checked ? StringToNumeric.MoneyToDecimal(txtPEP_ExitPrice.Text) : StringToNumeric.MoneyToDecimal(txtLEP_ExitPrice.Text);
+                //decimal exitPrice = radPEP_ExitPrice.Checked ? StringToNumeric.MoneyToDecimal(txtPEP_ExitPrice.Text) : StringToNumeric.MoneyToDecimal(txtLEP_ExitPrice.Text);
 
                 // 2 - Process
                 string msg;
@@ -864,25 +875,28 @@ namespace TradingTools
 
 
                 var rec = PriceChangeTable.GeneratePriceChangeRecord(
-               exitPrice,
+               Trade.ExitPriceAvg ?? 0,
                _calculationDetails.Position.EntryPriceAvg,
                _calculationDetails.Position.LotSize,
                _calculationDetails.Borrow.InterestCost,
                _calculationDetails.Position.Capital);
 
                 // Collect -
-                
-                // Trade Closing Data
-                //update borrow cost
+                // Trade Closing Data are captured in TradeClosing Dialog
+                //Trade.DateExit
+                //Trade.ExitPriceAvg
+                //Trade.FinalCapital
+
+                // auto-compute
                 Trade.DayCount = _calculationDetails.Borrow.DayCount;
                 Trade.DailyInterestRate = _calculationDetails.Borrow.DailyInterestRate;
                 Trade.InterestCost = _calculationDetails.Borrow.InterestCost;
-
-                Trade.DateExit = DateTime.Now;
-                Trade.ExitPriceAvg = exitPrice;
-                Trade.ClosingTradingFee = PriceChangeTable.SpeculativeTradingFee(exitPrice, Trade.LotSize);
+                Trade.ClosingTradingFee = PriceChangeTable.SpeculativeTradingFee(Trade.ExitPriceAvg ?? 0, Trade.LotSize);
                 Trade.ClosingTradingCost = rec.TradingCost;
-                Trade.PnL = rec.PnL;
+
+                Trade.PnL = Trade.FinalCapital - Trade.Capital;
+                Trade.PnL_percentage = Trade.PnL / Trade.Capital * 100;
+                //
                 Trade.Status = "closed";
 
                 
