@@ -768,7 +768,7 @@ namespace TradingTools
             this.panelExitPrice.BackColor = System.Drawing.Color.Transparent;
             this.panelExitPrice.Controls.Add(this.radLEP_ExitPrice);
             this.panelExitPrice.Controls.Add(this.radPEP_ExitPrice);
-            this.panelExitPrice.Location = new System.Drawing.Point(634, 599);
+            this.panelExitPrice.Location = new System.Drawing.Point(631, 630);
             this.panelExitPrice.Name = "panelExitPrice";
             this.panelExitPrice.Size = new System.Drawing.Size(142, 226);
             this.panelExitPrice.TabIndex = 20;
@@ -1638,9 +1638,9 @@ namespace TradingTools
             // 
             // btnReCalculate
             // 
-            this.btnReCalculate.Location = new System.Drawing.Point(6, 13);
+            this.btnReCalculate.Location = new System.Drawing.Point(6, 16);
             this.btnReCalculate.Name = "btnReCalculate";
-            this.btnReCalculate.Size = new System.Drawing.Size(95, 39);
+            this.btnReCalculate.Size = new System.Drawing.Size(95, 33);
             this.btnReCalculate.TabIndex = 8;
             this.btnReCalculate.Text = "&CALCULATE";
             this.btnReCalculate.UseVisualStyleBackColor = true;
@@ -1821,7 +1821,7 @@ namespace TradingTools
             // 
             // btnSetPEP
             // 
-            this.btnSetPEP.Location = new System.Drawing.Point(301, 117);
+            this.btnSetPEP.Location = new System.Drawing.Point(299, 111);
             this.btnSetPEP.Name = "btnSetPEP";
             this.btnSetPEP.Size = new System.Drawing.Size(99, 23);
             this.btnSetPEP.TabIndex = 10;
@@ -1962,7 +1962,7 @@ namespace TradingTools
             // 
             // btnSetLEP
             // 
-            this.btnSetLEP.Location = new System.Drawing.Point(301, 342);
+            this.btnSetLEP.Location = new System.Drawing.Point(299, 333);
             this.btnSetLEP.Name = "btnSetLEP";
             this.btnSetLEP.Size = new System.Drawing.Size(102, 23);
             this.btnSetLEP.TabIndex = 11;
