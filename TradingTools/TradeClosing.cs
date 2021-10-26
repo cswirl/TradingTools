@@ -36,7 +36,7 @@ namespace TradingTools
 
         private void btnCloseTrade_Click(object sender, EventArgs e)
         {
-            Trade.DateExit = dtpDateExit.Value;
+            Trade.DateExit = Validation.DateExit_PreDate_Fixer(dtpDateExit.Value);
             Trade.ExitPriceAvg = InputConverter.Decimal(txtExitPrice.Text);
             Trade.FinalCapital = StringToNumeric.MoneyToDecimal(txtFinalCapital.Text);
             Trade.CalculatorState.ReasonForExit = txtReasonForExit.Text;

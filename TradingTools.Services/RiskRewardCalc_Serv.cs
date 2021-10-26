@@ -38,16 +38,18 @@ namespace TradingTools.Services
             return (exitPrice - EntryPrice) / EntryPrice * 100;
         }
 
-        public static decimal PnL_percentage(decimal capital, decimal? pnl)
+        public static decimal PnL_percentage(decimal initialCapital, decimal? finalCapital)
         {
-            if (capital == 0) return 0;
-            decimal _pnl = pnl ?? 0;
-            return _pnl / capital * 100;
+            // for some reason i cannot use the finalCapital ?? initialCapital directly in the return statement
+            decimal f = finalCapital ?? initialCapital;
+            return (f - initialCapital) / initialCapital * 100;
         }
 
-        public static decimal PnL(decimal EntryPrice, decimal lotSize, decimal pip, decimal tradingCost)
+        public static decimal PnL(decimal initialCapital, decimal? finalCapital)
         {
-            return (EntryPrice * lotSize * pip / 100) - tradingCost;
+            // for some reason i cannot use the finalCapital ?? initialCapital directly in the return statement
+            decimal f = finalCapital ?? initialCapital;
+            return f - initialCapital;
         }
 
         public static decimal PositionValue(decimal lotSize, decimal price)

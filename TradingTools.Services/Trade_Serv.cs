@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +13,8 @@ namespace TradingTools.Services
     {
         public static decimal GetTrading_ElaspsedTime_Days(DateTime dateEnter, DateTime? dateExit)
         {
-            var days = ((dateExit ?? dateEnter) - dateEnter).TotalDays;
+            DateTime exit = dateExit ?? dateEnter;
+            var days = (exit - dateEnter).TotalDays;
             return SafeConvert.ToDecimalSafe(days);
         }
         public static bool TradeOpening_Validate(Trade t, out string msg)
@@ -48,7 +49,7 @@ namespace TradingTools.Services
                 msg =  pref + " invalid data found.";
                 return false; 
             }
-            if (t.DateEnter >= t.DateExit) 
+            if (t.DateEnter > t.DateExit) 
             { 
                 msg = pref + " 'Date Exit' must come later in time from 'Date Enter'"; 
                 return false; 

@@ -23,6 +23,16 @@ namespace TradingTools.Trunk.Validation
 
             return objType.GetProperty(name) != null;
         }
+
+        public static DateTime DateExit_PreDate_Fixer(DateTime dateExit)
+        {
+            if (dateExit < DateTime.Today)
+            {
+                dateExit = dateExit.Date.AddDays(1).AddTicks(-1);
+            }
+
+            return dateExit;
+        }
     }
 
     public class Format

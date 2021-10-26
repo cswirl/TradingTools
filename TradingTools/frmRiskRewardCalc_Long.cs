@@ -31,6 +31,8 @@ namespace TradingTools
         public string Side { get; set; }
         public string PositionSide { get; private set; }
 
+
+
         public frmRiskRewardCalc_Long()
         {
             InitializeComponent();
@@ -714,8 +716,8 @@ namespace TradingTools
                         txtNote.Text = CalculatorState.Note;
                         #endregion
                         //
-                        lblHeader.Text = Trade.Ticker + " - OPEN";
-                        this.Text = Trade.Ticker + " - OPEN";
+                        lblHeader.Text = Trade.Ticker + $" - OPEN";
+                        this.Text = Trade.Ticker + $" - Trade No. { Trade?.Id}";
 
                         txtTicker.ReadOnly = true;
                         txtCapital.ReadOnly = true;
@@ -794,7 +796,7 @@ namespace TradingTools
                     //
                     lblHeader.Text = Trade.Ticker + " - CLOSED"; ;
                     lblHeader.ForeColor = Color.LightSteelBlue;
-                    this.Text = Trade.Ticker + " - CLOSED"; ;
+                    this.Text = Trade.Ticker + $" - Trade No. { Trade?.Id}";
 
                     // same as trade open
                     txtTicker.ReadOnly = true;
@@ -824,7 +826,7 @@ namespace TradingTools
                     //btnSave.Visible = false;
                     btnCloseTheTrade.Visible = false;
 
-                    gbxNotes.Height *= 2;
+                    gbxNotes.Height = 800;
                     break;
 
                 case RiskRewardCalcState.Deleted:

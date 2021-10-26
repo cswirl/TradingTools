@@ -105,7 +105,7 @@ namespace TradingTools
 
         private bool FormRRCLong_Trade_Spawn(Trade t)
         {
-            // TODO: the EF core list is being renew whenever a Trade is Officialized or CalculatorState is Updated
+            // TODO: the EF core list is being renew whenever a Trade or CalculatorState is Updated fron the 
             // - maybe use id or something, maybe hash
             //var rrc = _listOf_frmRRC_Long.Find(x => x.CalculatorState.GetHashCode().Equals(c.GetHashCode()));
             var rrc = _listOf_frmRRC_Long.Find(x => x.Trade?.Equals(t) ?? false);       // THOUGH THIS IS WORKING FINE

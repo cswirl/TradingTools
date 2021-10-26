@@ -44,10 +44,16 @@ namespace TradingTools
             this.txtTicker = new System.Windows.Forms.TextBox();
             this.label30 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cbxTradingStyle = new System.Windows.Forms.ComboBox();
             this.txtLeverage = new System.Windows.Forms.TextBox();
             this.panelTradeClosed = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtFinalCapital = new System.Windows.Forms.TextBox();
+            this.label57 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.dtpDateExit = new System.Windows.Forms.DateTimePicker();
+            this.txtExitPrice = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label39 = new System.Windows.Forms.Label();
             this.txtPnL = new System.Windows.Forms.TextBox();
@@ -56,15 +62,13 @@ namespace TradingTools
             this.label51 = new System.Windows.Forms.Label();
             this.txtPCP = new System.Windows.Forms.TextBox();
             this.txtFinalPositionValue = new System.Windows.Forms.TextBox();
-            this.txtAccountEquity = new System.Windows.Forms.TextBox();
             this.label27 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
             this.txtEntryPrice = new System.Windows.Forms.TextBox();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.txtLotSize = new System.Windows.Forms.TextBox();
             this.dtpDateEnter = new System.Windows.Forms.DateTimePicker();
-            this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.txtCapital = new System.Windows.Forms.TextBox();
             this.label26 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -228,15 +232,17 @@ namespace TradingTools
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel3.Controls.Add(this.label1);
+            this.panel3.Controls.Add(this.cbxTradingStyle);
             this.panel3.Controls.Add(this.txtLeverage);
             this.panel3.Controls.Add(this.panelTradeClosed);
             this.panel3.Controls.Add(this.txtEntryPrice);
             this.panel3.Controls.Add(this.btnUpdate);
             this.panel3.Controls.Add(this.txtLotSize);
             this.panel3.Controls.Add(this.dtpDateEnter);
+            this.panel3.Controls.Add(this.label7);
             this.panel3.Controls.Add(this.label5);
             this.panel3.Controls.Add(this.txtTicker);
-            this.panel3.Controls.Add(this.label7);
             this.panel3.Controls.Add(this.label30);
             this.panel3.Controls.Add(this.txtCapital);
             this.panel3.Controls.Add(this.label26);
@@ -249,6 +255,27 @@ namespace TradingTools
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(242, 794);
             this.panel3.TabIndex = 26;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(31, 325);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(74, 15);
+            this.label1.TabIndex = 42;
+            this.label1.Text = "Trading Style";
+            // 
+            // cbxTradingStyle
+            // 
+            this.cbxTradingStyle.BackColor = System.Drawing.Color.White;
+            this.cbxTradingStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxTradingStyle.Enabled = false;
+            this.cbxTradingStyle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbxTradingStyle.FormattingEnabled = true;
+            this.cbxTradingStyle.Location = new System.Drawing.Point(111, 322);
+            this.cbxTradingStyle.Name = "cbxTradingStyle";
+            this.cbxTradingStyle.Size = new System.Drawing.Size(111, 23);
+            this.cbxTradingStyle.TabIndex = 7;
             // 
             // txtLeverage
             // 
@@ -268,22 +295,54 @@ namespace TradingTools
             // panelTradeClosed
             // 
             this.panelTradeClosed.BackColor = System.Drawing.SystemColors.Control;
+            this.panelTradeClosed.Controls.Add(this.label4);
+            this.panelTradeClosed.Controls.Add(this.txtFinalCapital);
+            this.panelTradeClosed.Controls.Add(this.label57);
             this.panelTradeClosed.Controls.Add(this.label3);
             this.panelTradeClosed.Controls.Add(this.dtpDateExit);
+            this.panelTradeClosed.Controls.Add(this.txtExitPrice);
             this.panelTradeClosed.Controls.Add(this.tableLayoutPanel1);
             this.panelTradeClosed.Controls.Add(this.txtFinalPositionValue);
-            this.panelTradeClosed.Controls.Add(this.txtAccountEquity);
             this.panelTradeClosed.Controls.Add(this.label27);
-            this.panelTradeClosed.Controls.Add(this.label28);
-            this.panelTradeClosed.Location = new System.Drawing.Point(3, 338);
+            this.panelTradeClosed.Location = new System.Drawing.Point(3, 365);
             this.panelTradeClosed.Name = "panelTradeClosed";
-            this.panelTradeClosed.Size = new System.Drawing.Size(233, 282);
+            this.panelTradeClosed.Size = new System.Drawing.Size(233, 312);
             this.panelTradeClosed.TabIndex = 40;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(19, 64);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(87, 15);
+            this.label4.TabIndex = 41;
+            this.label4.Text = "Exit Price (Avg)";
+            // 
+            // txtFinalCapital
+            // 
+            this.txtFinalCapital.Location = new System.Drawing.Point(108, 90);
+            this.txtFinalCapital.Name = "txtFinalCapital";
+            this.txtFinalCapital.ReadOnly = true;
+            this.txtFinalCapital.Size = new System.Drawing.Size(111, 23);
+            this.txtFinalCapital.TabIndex = 10;
+            this.txtFinalCapital.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtFinalCapital.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
+            this.txtFinalCapital.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Money_Validating);
+            // 
+            // label57
+            // 
+            this.label57.AutoSize = true;
+            this.label57.Location = new System.Drawing.Point(30, 93);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(72, 15);
+            this.label57.TabIndex = 40;
+            this.label57.Text = "Final Capital";
+            this.label57.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 9);
+            this.label3.Location = new System.Drawing.Point(19, 9);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 15);
             this.label3.TabIndex = 29;
@@ -292,10 +351,21 @@ namespace TradingTools
             // dtpDateExit
             // 
             this.dtpDateExit.Enabled = false;
-            this.dtpDateExit.Location = new System.Drawing.Point(6, 27);
+            this.dtpDateExit.Location = new System.Drawing.Point(19, 27);
             this.dtpDateExit.Name = "dtpDateExit";
             this.dtpDateExit.Size = new System.Drawing.Size(200, 23);
-            this.dtpDateExit.TabIndex = 7;
+            this.dtpDateExit.TabIndex = 8;
+            // 
+            // txtExitPrice
+            // 
+            this.txtExitPrice.Location = new System.Drawing.Point(108, 61);
+            this.txtExitPrice.Name = "txtExitPrice";
+            this.txtExitPrice.ReadOnly = true;
+            this.txtExitPrice.Size = new System.Drawing.Size(111, 23);
+            this.txtExitPrice.TabIndex = 9;
+            this.txtExitPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtExitPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
+            this.txtExitPrice.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Decimal_Validating);
             // 
             // tableLayoutPanel1
             // 
@@ -309,7 +379,7 @@ namespace TradingTools
             this.tableLayoutPanel1.Controls.Add(this.txtPnL_percentage, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.label51, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.txtPCP, 0, 1);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(9, 131);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 186);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -391,7 +461,7 @@ namespace TradingTools
             // 
             // txtFinalPositionValue
             // 
-            this.txtFinalPositionValue.Location = new System.Drawing.Point(127, 197);
+            this.txtFinalPositionValue.Location = new System.Drawing.Point(125, 252);
             this.txtFinalPositionValue.Name = "txtFinalPositionValue";
             this.txtFinalPositionValue.ReadOnly = true;
             this.txtFinalPositionValue.Size = new System.Drawing.Size(92, 23);
@@ -399,34 +469,14 @@ namespace TradingTools
             this.txtFinalPositionValue.TabStop = false;
             this.txtFinalPositionValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // txtAccountEquity
-            // 
-            this.txtAccountEquity.Location = new System.Drawing.Point(127, 226);
-            this.txtAccountEquity.Name = "txtAccountEquity";
-            this.txtAccountEquity.ReadOnly = true;
-            this.txtAccountEquity.Size = new System.Drawing.Size(92, 23);
-            this.txtAccountEquity.TabIndex = 34;
-            this.txtAccountEquity.TabStop = false;
-            this.txtAccountEquity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(12, 200);
+            this.label27.Location = new System.Drawing.Point(10, 255);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(109, 15);
             this.label27.TabIndex = 37;
             this.label27.Text = "Final Position Value";
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(33, 229);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(88, 15);
-            this.label28.TabIndex = 36;
-            this.label28.Text = "Account Equity";
-            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtEntryPrice
             // 
@@ -472,16 +522,6 @@ namespace TradingTools
             this.dtpDateEnter.Size = new System.Drawing.Size(200, 23);
             this.dtpDateEnter.TabIndex = 2;
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(58, 242);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(47, 15);
-            this.label5.TabIndex = 31;
-            this.label5.Text = "Lot Size";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -491,6 +531,16 @@ namespace TradingTools
             this.label7.TabIndex = 33;
             this.label7.Text = "Entry Price (Avg)";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(58, 242);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(47, 15);
+            this.label5.TabIndex = 31;
+            this.label5.Text = "Lot Size";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtCapital
             // 
@@ -625,8 +675,6 @@ namespace TradingTools
         private System.Windows.Forms.TextBox txtPCP;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.TextBox txtFinalPositionValue;
-        private System.Windows.Forms.TextBox txtAccountEquity;
-        private System.Windows.Forms.Label label28;
         private System.Windows.Forms.ComboBox cbxFilterStatus;
         private System.Windows.Forms.Label FILTER;
         private System.Windows.Forms.DataGridView dgvTrades;
@@ -646,5 +694,11 @@ namespace TradingTools
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.CheckBox cbCorrection;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cbxTradingStyle;
+        private System.Windows.Forms.TextBox txtFinalCapital;
+        private System.Windows.Forms.Label label57;
+        private System.Windows.Forms.TextBox txtExitPrice;
+        private System.Windows.Forms.Label label4;
     }
 }
