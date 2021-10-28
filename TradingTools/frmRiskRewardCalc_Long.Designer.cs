@@ -36,6 +36,7 @@ namespace TradingTools
             this.panelBandTop = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.checkLeverage = new System.Windows.Forms.CheckBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
             this.label58 = new System.Windows.Forms.Label();
@@ -308,6 +309,7 @@ namespace TradingTools
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainer1.Panel1.Controls.Add(this.checkLeverage);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox8);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox7);
             this.splitContainer1.Panel1.Controls.Add(this.label2);
@@ -345,6 +347,21 @@ namespace TradingTools
             this.splitContainer1.SplitterDistance = 1225;
             this.splitContainer1.TabIndex = 0;
             // 
+            // checkLeverage
+            // 
+            this.checkLeverage.AutoSize = true;
+            this.checkLeverage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.checkLeverage.Location = new System.Drawing.Point(7, 97);
+            this.checkLeverage.Name = "checkLeverage";
+            this.checkLeverage.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.checkLeverage.Size = new System.Drawing.Size(47, 19);
+            this.checkLeverage.TabIndex = 25;
+            this.checkLeverage.TabStop = false;
+            this.checkLeverage.Text = "auto";
+            this.checkLeverage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkLeverage.UseVisualStyleBackColor = true;
+            this.checkLeverage.CheckedChanged += new System.EventHandler(this.checkLeverage_CheckedChanged);
+            // 
             // groupBox8
             // 
             this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -354,7 +371,7 @@ namespace TradingTools
             this.groupBox8.Controls.Add(this.txtPerfectEntry_ExitPrice);
             this.groupBox8.Controls.Add(this.label62);
             this.groupBox8.Controls.Add(this.label63);
-            this.groupBox8.Location = new System.Drawing.Point(13, 274);
+            this.groupBox8.Location = new System.Drawing.Point(13, 413);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(606, 133);
             this.groupBox8.TabIndex = 24;
@@ -542,7 +559,7 @@ namespace TradingTools
             this.groupBox7.Controls.Add(this.label56);
             this.groupBox7.Controls.Add(this.txtFinalCapital);
             this.groupBox7.Controls.Add(this.label57);
-            this.groupBox7.Location = new System.Drawing.Point(13, 413);
+            this.groupBox7.Location = new System.Drawing.Point(13, 270);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(606, 134);
             this.groupBox7.TabIndex = 23;
@@ -675,7 +692,7 @@ namespace TradingTools
             this.txtReasonForExit.Name = "txtReasonForExit";
             this.txtReasonForExit.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtReasonForExit.Size = new System.Drawing.Size(241, 106);
-            this.txtReasonForExit.TabIndex = 8;
+            this.txtReasonForExit.TabIndex = 9;
             // 
             // label55
             // 
@@ -722,8 +739,7 @@ namespace TradingTools
             this.txtFinalCapital.Location = new System.Drawing.Point(245, 44);
             this.txtFinalCapital.Name = "txtFinalCapital";
             this.txtFinalCapital.Size = new System.Drawing.Size(92, 23);
-            this.txtFinalCapital.TabIndex = 7;
-            this.txtFinalCapital.TabStop = false;
+            this.txtFinalCapital.TabIndex = 8;
             this.txtFinalCapital.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label57
@@ -754,7 +770,7 @@ namespace TradingTools
             this.cbxTradingStyle.Location = new System.Drawing.Point(125, 212);
             this.cbxTradingStyle.Name = "cbxTradingStyle";
             this.cbxTradingStyle.Size = new System.Drawing.Size(95, 23);
-            this.cbxTradingStyle.TabIndex = 21;
+            this.cbxTradingStyle.TabIndex = 5;
             this.cbxTradingStyle.SelectedIndexChanged += new System.EventHandler(this.cbxTradingStyle_SelectedIndexChanged);
             // 
             // btnCloseTheTrade
@@ -847,7 +863,7 @@ namespace TradingTools
             this.txtCounterBias.Name = "txtCounterBias";
             this.txtCounterBias.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtCounterBias.Size = new System.Drawing.Size(290, 188);
-            this.txtCounterBias.TabIndex = 5;
+            this.txtCounterBias.TabIndex = 7;
             // 
             // label32
             // 
@@ -887,7 +903,7 @@ namespace TradingTools
             this.txtNote.Name = "txtNote";
             this.txtNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtNote.Size = new System.Drawing.Size(591, 164);
-            this.txtNote.TabIndex = 5;
+            this.txtNote.TabIndex = 8;
             // 
             // label30
             // 
@@ -1054,7 +1070,7 @@ namespace TradingTools
             this.txtLEP_Note.Name = "txtLEP_Note";
             this.txtLEP_Note.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtLEP_Note.Size = new System.Drawing.Size(244, 106);
-            this.txtLEP_Note.TabIndex = 5;
+            this.txtLEP_Note.TabIndex = 8;
             // 
             // label45
             // 
@@ -1159,7 +1175,6 @@ namespace TradingTools
             this.txtLotSize.Name = "txtLotSize";
             this.txtLotSize.Size = new System.Drawing.Size(95, 23);
             this.txtLotSize.TabIndex = 4;
-            this.txtLotSize.TabStop = false;
             this.txtLotSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtLotSize.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
             this.txtLotSize.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Decimal_Validating);
@@ -1338,7 +1353,7 @@ namespace TradingTools
             this.txtPEP_Note.Name = "txtPEP_Note";
             this.txtPEP_Note.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtPEP_Note.Size = new System.Drawing.Size(241, 106);
-            this.txtPEP_Note.TabIndex = 5;
+            this.txtPEP_Note.TabIndex = 8;
             // 
             // label27
             // 
@@ -2519,6 +2534,7 @@ namespace TradingTools
         private System.Windows.Forms.Label label57;
         private System.Windows.Forms.TextBox txtPerfectEntry_EntryPrice;
         private System.Windows.Forms.Label label62;
+        private System.Windows.Forms.CheckBox checkLeverage;
     }
 }
 

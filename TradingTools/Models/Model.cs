@@ -106,6 +106,13 @@ namespace TradingTools.Model
                 msg = "Capital and Entry Price needed.";
                 return false;
             }
+            // if leverage is 0 lotsize must be greater than 0
+            if (leverage == 0 & lotSize == 0)
+            {
+                msg = "Lot Size value is needed.";
+                return false;
+            }
+
             msg = string.Empty;
             // step 2: Collect data
             // Receptors

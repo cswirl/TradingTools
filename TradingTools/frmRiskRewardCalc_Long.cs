@@ -64,6 +64,7 @@ namespace TradingTools
 
             // step 4: Represent data back to UI
             // the function captureCalculationDetails is able to handle the appropriate value for Lot Size from the textbox - given it is initialized properly
+            txtLeverage.Text = _calculationDetails.Position.Leverage.ToString(Constant.LEVERAGE_DECIMAL_PLACE);
             txtLotSize.Text = _calculationDetails.Position.LotSize.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
             txtLeveragedCapital.Text = _calculationDetails.Position.LeveragedCapital.ToString(Constant.MONEY_FORMAT);
             txtOpeningTradingFee_dollar.Text = _calculationDetails.OpeningCost.TradingFee.ToString(Constant.MONEY_FORMAT);
@@ -292,28 +293,36 @@ namespace TradingTools
             // step 2: Collect data -Receptors
             // step 2-B: Validation 
             // step 3: Process Data collected including others supporting data
-            bool r = false;
-            if (txtLotSize.Text.Length < 1 | txtLotSize.Text.Equals(string.Empty))
-            {
-                r = _calculationDetails.Trade_Unofficial_Calculate(
+
+            bool r = _calculationDetails.Calculate(
             StringToNumeric.MoneyToDecimal(txtCapital.Text),
-            InputConverter.Decimal(txtLeverage.Text),
-            InputConverter.Decimal(txtEntryPrice.Text),
-            (int)nudDayCount.Value,
-            nudDailyInterestRate.Value, out msg);
-            }
-            else
-            {
-                r = _calculationDetails.Trade_Official_Calculate(
-            StringToNumeric.MoneyToDecimal(txtCapital.Text),
-            InputConverter.Decimal(txtLeverage.Text),
+            InputConverter.Decimal(checkLeverage.Checked ? "0" : txtLeverage.Text),
             InputConverter.Decimal(txtLotSize.Text),
             InputConverter.Decimal(txtEntryPrice.Text),
             (int)nudDayCount.Value,
             nudDailyInterestRate.Value, out msg);
-            }
 
-            return true;
+            //if (txtLotSize.Text.Length < 1 | txtLotSize.Text.Equals(string.Empty))
+            //{
+            //    r = _calculationDetails.Trade_Unofficial_Calculate(
+            //StringToNumeric.MoneyToDecimal(txtCapital.Text),
+            //InputConverter.Decimal(txtLeverage.Text),
+            //InputConverter.Decimal(txtEntryPrice.Text),
+            //(int)nudDayCount.Value,
+            //nudDailyInterestRate.Value, out msg);
+            //}
+            //else
+            //{
+            //    r = _calculationDetails.Trade_Official_Calculate(
+            //StringToNumeric.MoneyToDecimal(txtCapital.Text),
+            //InputConverter.Decimal(txtLeverage.Text),
+            //InputConverter.Decimal(txtLotSize.Text),
+            //InputConverter.Decimal(txtEntryPrice.Text),
+            //(int)nudDayCount.Value,
+            //nudDailyInterestRate.Value, out msg);
+            //}
+
+            return r;
         }
         private void captureCalculatorState()
         {
@@ -725,6 +734,7 @@ namespace TradingTools
                         cbxTradingStyle.Enabled = false;
                         nudDayCount.ReadOnly = true;
                         nudDailyInterestRate.ReadOnly = true;
+                        checkLeverage.Enabled = false;
 
                         btnReCalculate.Visible = false;
                         btnDelete.Visible = false;
@@ -805,6 +815,7 @@ namespace TradingTools
                     cbxTradingStyle.Enabled = false;
                     nudDayCount.ReadOnly = true;
                     nudDailyInterestRate.ReadOnly = true;
+                    checkLeverage.Enabled = false;
 
                     btnDelete.Visible = false;
                     btnOfficializedTrade.Enabled = false;
@@ -1125,6 +1136,21 @@ namespace TradingTools
         private void cbxTradingStyle_SelectedIndexChanged(object sender, EventArgs e)
         {
             Enum.TryParse<TradingStyle>(cbxTradingStyle.SelectedValue.ToString(), out _tradingStyle);
+        }
+
+        private void checkLeverage_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkLeverage.Checked)
+            {
+                txtLeverage.ReadOnly = true;
+            }
+            else
+            {
+                //txtLeverage.Clear();
+                txtLeverage.ReadOnly = false;
+            }
+            
+
         }
     }
 

@@ -63,7 +63,7 @@ namespace TradingTools
             Enum.TryParse<StatusFilter>(cbxFilterStatus.SelectedValue.ToString(), out _statusFilter);
 
             // 
-            if (_master == default) return; // _master was changed to nullable so this check may be remove 
+            if (_master == default) return; // _master was changed to nullable type so this check may be remove 
             // filter status
             switch (_statusFilter)
             {
@@ -127,7 +127,7 @@ namespace TradingTools
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (!cbCorrection.Checked) return;
+            if (!checkCorrection.Checked) return;
 
             var t = (Trade)dgvTrades.CurrentRow.DataBoundItem;
             DialogResult objDialog = MyMessageBox.Question_YesNo($"Confirmation: UPDATE Trade No. {t.Id}?", "Update");
@@ -353,7 +353,7 @@ namespace TradingTools
 
         private void cbEditMode_CheckedChanged(object sender, EventArgs e)
         {
-            if (cbCorrection.Checked)
+            if (checkCorrection.Checked)
             {
                 btnDelete.Visible = true;
 

@@ -31,7 +31,7 @@ namespace TradingTools
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.cbCorrection = new System.Windows.Forms.CheckBox();
+            this.checkCorrection = new System.Windows.Forms.CheckBox();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnViewCalculator = new System.Windows.Forms.Button();
             this.cbxFilterStatus = new System.Windows.Forms.ComboBox();
@@ -89,7 +89,7 @@ namespace TradingTools
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.panel1.Controls.Add(this.cbCorrection);
+            this.panel1.Controls.Add(this.checkCorrection);
             this.panel1.Controls.Add(this.btnDelete);
             this.panel1.Controls.Add(this.btnViewCalculator);
             this.panel1.Controls.Add(this.cbxFilterStatus);
@@ -100,16 +100,16 @@ namespace TradingTools
             this.panel1.Size = new System.Drawing.Size(1242, 76);
             this.panel1.TabIndex = 0;
             // 
-            // cbCorrection
+            // checkCorrection
             // 
-            this.cbCorrection.AutoSize = true;
-            this.cbCorrection.Location = new System.Drawing.Point(7, 50);
-            this.cbCorrection.Name = "cbCorrection";
-            this.cbCorrection.Size = new System.Drawing.Size(82, 19);
-            this.cbCorrection.TabIndex = 5;
-            this.cbCorrection.Text = "Correction";
-            this.cbCorrection.UseVisualStyleBackColor = true;
-            this.cbCorrection.CheckedChanged += new System.EventHandler(this.cbEditMode_CheckedChanged);
+            this.checkCorrection.AutoSize = true;
+            this.checkCorrection.Location = new System.Drawing.Point(7, 50);
+            this.checkCorrection.Name = "checkCorrection";
+            this.checkCorrection.Size = new System.Drawing.Size(82, 19);
+            this.checkCorrection.TabIndex = 5;
+            this.checkCorrection.Text = "Correction";
+            this.checkCorrection.UseVisualStyleBackColor = true;
+            this.checkCorrection.CheckedChanged += new System.EventHandler(this.cbEditMode_CheckedChanged);
             // 
             // btnDelete
             // 
@@ -693,7 +693,7 @@ namespace TradingTools
         private System.Windows.Forms.TextBox txtCapital;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.CheckBox cbCorrection;
+        private System.Windows.Forms.CheckBox checkCorrection;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cbxTradingStyle;
         private System.Windows.Forms.TextBox txtFinalCapital;
