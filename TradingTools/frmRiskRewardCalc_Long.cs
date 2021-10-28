@@ -497,18 +497,7 @@ namespace TradingTools
             captureCalculatorState();
             string msg;
             // 2 - Process
-            bool r = captureCalculationDetails(out msg);
-            if (r == false)
-            {
-                statusMessage.Text = msg;
-                MyMessageBox.Error(statusMessage.Text, "");
-                return false;
-            }
-
             var c = CalculatorState;
-            var p = _calculationDetails.Position;
-            var oc = _calculationDetails.OpeningCost;
-            var b = _calculationDetails.Borrow;
 
             this.Trade = new Trade
             {
@@ -522,14 +511,6 @@ namespace TradingTools
                 PositionSide = "long",
                 Status = "open",
                 DateEnter = dateEnter,
-                //
-                LeveragedCapital = p.LeveragedCapital,
-                OpeningTradingFee = oc.TradingFee,
-                OpeningTradingCost = oc.TradingFee,
-                BorrowAmount = b.Amount,
-                DayCount = b.DayCount,
-                DailyInterestRate = b.DailyInterestRate,
-                InterestCost = b.InterestCost,
                 //
                 CalculatorState = this.CalculatorState
             };
@@ -689,9 +670,8 @@ namespace TradingTools
                         txtLotSize.Text = Trade.LotSize.ToString();
 
                         //Numeric Up Down control throws exception when assigned value less then their Minimum value
-                        decimal d = Trade_Serv.GetTrading_ElaspsedTime_Days(Trade.DateEnter, DateTime.Now);
-                        nudDayCount.Value = d < nudDayCount.Minimum ? nudDayCount.Minimum : d;
-                        nudDailyInterestRate.Value = Trade.DailyInterestRate < nudDailyInterestRate.Value ? nudDailyInterestRate.Minimum : Trade.DailyInterestRate;
+                        nudDayCount.Value = Trade.DayCount ?? 1;
+                        nudDailyInterestRate.Value = CalculatorState.DailyInterestRate < nudDailyInterestRate.Value ? nudDailyInterestRate.Minimum : CalculatorState.DailyInterestRate;
                         
                         txtExchangeFee.Text = CalculatorState.ExchangeFee.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
 
@@ -748,11 +728,6 @@ namespace TradingTools
                     panelBandTop.BackColor = BandColor.TradeClosed;
                     panelBandBottom.BackColor = BandColor.TradeClosed;
 
-
-                    //Numeric Up Down control throws exception when assigned value less then their Minimum value
-                    decimal e = Trade_Serv.GetTrading_ElaspsedTime_Days(Trade.DateEnter, Trade.DateExit);
-                    nudDayCount.Value = e < nudDayCount.Minimum ? nudDayCount.Minimum : e;
-
                     #region Trade Common
                     // load trade details
                     // Independent data
@@ -767,7 +742,9 @@ namespace TradingTools
                     txtEntryPrice.Text = Trade.EntryPriceAvg.ToString();
                     txtLotSize.Text = Trade.LotSize.ToString();
 
-                    nudDailyInterestRate.Value = Trade.DailyInterestRate < nudDailyInterestRate.Value ? nudDailyInterestRate.Minimum : Trade.DailyInterestRate;
+                    //Numeric Up Down control throws exception when assigned value less then their Minimum value
+                    nudDayCount.Value = Trade.DayCount ?? 1;
+                    nudDailyInterestRate.Value = CalculatorState.DailyInterestRate < nudDailyInterestRate.Value ? nudDailyInterestRate.Minimum : CalculatorState.DailyInterestRate;
 
                     txtExchangeFee.Text = CalculatorState.ExchangeFee.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
 
@@ -836,6 +813,13 @@ namespace TradingTools
                     btnCloseTheTrade.Visible = false;
 
                     gbxNotes.Height = 800;
+
+
+                    // Override Values
+                    txtFinalCapital.Text = Trade.FinalCapital?.ToString(Constant.MONEY_FORMAT);
+                    txtTradeExit_PnL_percentage.Text = Trade.PnL_percentage?.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
+                    txtTradeExit_PnL.Text = Trade.PnL?.ToString(Constant.MONEY_FORMAT);
+
                     break;
 
                 case RiskRewardCalcState.Deleted:
@@ -876,41 +860,15 @@ namespace TradingTools
                 //decimal exitPrice = radPEP_ExitPrice.Checked ? StringToNumeric.MoneyToDecimal(txtPEP_ExitPrice.Text) : StringToNumeric.MoneyToDecimal(txtLEP_ExitPrice.Text);
 
                 // 2 - Process
-                string msg;
-                if (!captureCalculationDetails(out msg))
-                {
-                    statusMessage.Text = msg;
-                    MyMessageBox.Error(statusMessage.Text, "");
-                    return;
-                }
-
-
-                var rec = PriceChangeTable.GeneratePriceChangeRecord(
-               Trade.ExitPriceAvg ?? 0,
-               _calculationDetails.Position.EntryPriceAvg,
-               _calculationDetails.Position.LotSize,
-               _calculationDetails.Borrow.InterestCost,
-               _calculationDetails.Position.Capital);
-
                 // Collect -
                 // Trade Closing Data are captured in TradeClosing Dialog
                 //Trade.DateExit
                 //Trade.ExitPriceAvg
                 //Trade.FinalCapital
 
-                // auto-compute
-                Trade.DayCount = _calculationDetails.Borrow.DayCount;
-                Trade.DailyInterestRate = _calculationDetails.Borrow.DailyInterestRate;
-                Trade.InterestCost = _calculationDetails.Borrow.InterestCost;
-                Trade.ClosingTradingFee = PriceChangeTable.SpeculativeTradingFee(Trade.ExitPriceAvg ?? 0, Trade.LotSize);
-                Trade.ClosingTradingCost = rec.TradingCost;
-
-                Trade.PnL = Trade.FinalCapital - Trade.Capital;
-                Trade.PnL_percentage = Trade.PnL / Trade.Capital * 100;
-                //
                 Trade.Status = "closed";
 
-                
+                string msg;
                 // 3 - Validation
                 if (!Trade_Serv.TradeClosing_Validate(Trade, out msg))
                 {

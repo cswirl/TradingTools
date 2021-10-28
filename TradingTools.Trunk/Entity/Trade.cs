@@ -20,47 +20,80 @@ namespace TradingTools.Trunk.Entity
         public string TradingStyle { get; set; }
         [Required]
         public DateTime DateEnter { get; set; }
+
         // Position
         [Required]
         [Column(TypeName = "money")]
         public decimal Capital { get; set; }
         [Required]
-        public decimal Leverage { get; set; }
-        [Required]
-        [Column(TypeName = "money")]
-        public decimal LeveragedCapital { get; set; }
-        [Required]
         public decimal EntryPriceAvg { get; set; }
         [Required]
         public decimal LotSize { get; set; }
+        [Required]
+        public decimal Leverage { get; set; }
+
+        // Leveraged Capital
+        [Column(TypeName = "money")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public decimal? LeveragedCapital 
+        { 
+            get 
+            {
+                return Capital * Leverage;
+            }
+            private set { } 
+        }
+
         // Borrow
-        [Required]
-        public decimal BorrowAmount { get; set; }
-        [Required]
-        public int DayCount { get; set; }
-        
+        public decimal? BorrowAmount
+        {
+            get
+            {
+                var l = LeveragedCapital ?? Capital;
+                return l - Capital;
+            }
+            private set { }
+        }
+
+        // Day Count
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public int? DayCount
+        {
+            get
+            {
+                int d = Convert.ToInt32(Trade_Utility.GetTrading_ElaspsedTime_Days(DateEnter, DateExit ?? DateTime.Now));
+                return d == 0 ? 1 : d;
+            }
+            private set { }
+        }
+
         // Closing
         public DateTime? DateExit { get; set; }
         public decimal? ExitPriceAvg { get; set; }
         public decimal? FinalCapital { get; set; }
 
-        public decimal? PnL { get; set; }
-        public decimal? PnL_percentage { get; set; }
+        // PnL
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public decimal? PnL
+        {
+            get
+            {
+                return FinalCapital - Capital;
+            }
+            private set { }
+        }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public decimal? PnL_percentage
+        {
+            get
+            {
+                return (FinalCapital - Capital) / Capital * 100;
+            }
+            private set { }
+        }
 
         [Required, MaxLength(20), DefaultValue("open")]
         public string Status { get; set; }
-
-        // To be removed
-        [Required]
-        public decimal OpeningTradingFee { get; set; }
-        [Required]
-        public decimal OpeningTradingCost { get; set; }
-        [Column(TypeName = "decimal(18, 5)")]
-        public decimal DailyInterestRate { get; set; }
-        [Required]
-        public decimal InterestCost { get; set; }
-        public decimal? ClosingTradingFee { get; set; }
-        public decimal? ClosingTradingCost { get; set; }
 
         // CalculatorState
         public virtual CalculatorState CalculatorState { get; set; }

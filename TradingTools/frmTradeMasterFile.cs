@@ -142,32 +142,7 @@ namespace TradingTools
                 t.Leverage = InputConverter.Decimal(txtLeverage.Text);
                 t.TradingStyle = cbxTradingStyle.SelectedValue.ToString();
 
-                #region auto-compute columns
-                // process
                 string msg;
-                decimal d = SafeConvert.ToDecimalSafe((DateTime.Now - t.DateEnter).TotalDays);
-                int dayCount = Convert.ToInt32(d);
-                t.DayCount = dayCount == 0 ? 1 : dayCount;
-
-                var calcDetail = CalculationDetails.GetCalculationDetails(t.Capital, t.Leverage, t.Leverage, t.LotSize, dayCount, t.DailyInterestRate, out msg);
-                if (calcDetail == default)
-                {
-                    statusMessage.Text = msg;
-                    MyMessageBox.Error(statusMessage.Text, "");
-                    return;
-                }
-                // assign processed data
-                var p = calcDetail.Position;
-                var oc = calcDetail.OpeningCost;
-                var b = calcDetail.Borrow;
-                t.LeveragedCapital = p.LeveragedCapital;
-                t.OpeningTradingFee = oc.TradingFee;
-                t.OpeningTradingCost = oc.TradingFee;
-                t.BorrowAmount = b.Amount;
-                t.InterestCost = b.InterestCost;
-                t.DailyInterestRate = b.DailyInterestRate;
-                #endregion
-
                 // validate
                 // for status = open
                 if (!Trade_Serv.TradeOpening_Validate(t, out msg))
@@ -183,10 +158,7 @@ namespace TradingTools
                     t.DateExit = Validation.DateExit_PreDate_Fixer(dtpDateExit.Value);
                     t.ExitPriceAvg = InputConverter.Decimal(txtExitPrice.Text);
                     t.FinalCapital = InputConverter.MoneyToDecimal(txtFinalCapital.Text);
-                    t.PnL = RiskRewardCalc_Serv.PnL(t.Capital, t.FinalCapital);
-                    t.PnL_percentage = RiskRewardCalc_Serv.PnL_percentage(t.Capital, t.FinalCapital);
                     // auto-compute
-                    t.DayCount = Convert.ToInt32(Trade_Serv.GetTrading_ElaspsedTime_Days(t.DateEnter, t.DateExit));
 
                     // validate
                     if (!Trade_Serv.TradeClosing_Validate(t, out msg))
@@ -235,8 +207,8 @@ namespace TradingTools
                 txtFinalCapital.Text = t.FinalCapital?.ToString(Constant.MONEY_FORMAT);
                 // PCP, PnL etc
                 txtPCP.Text = RiskRewardCalc_Serv.PCP(t.EntryPriceAvg, t.ExitPriceAvg).ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
-                txtPnL.Text = RiskRewardCalc_Serv.PnL(t.Capital, t.FinalCapital).ToString(Constant.MONEY_FORMAT);
-                txtPnL_percentage.Text = RiskRewardCalc_Serv.PnL_percentage(t.Capital, t.FinalCapital).ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
+                txtPnL.Text = t.PnL?.ToString(Constant.MONEY_FORMAT);
+                txtPnL_percentage.Text = t.PnL_percentage?.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
                 txtFinalPositionValue.Text = RiskRewardCalc_Serv.FinalPositionValue(t.LotSize, t.ExitPriceAvg).ToString(Constant.MONEY_FORMAT);
             }
             else

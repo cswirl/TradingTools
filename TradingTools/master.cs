@@ -226,10 +226,6 @@ namespace TradingTools
 
         public BindingList<Trade> GetTrades_Open()
         {
-            //_trades_open_bindingList ??= new BindingList<Trade>(DbContext.Trades
-            //    .Where(x => x.Status.Equals("open"))
-            //    .Include(x => x.CalculatorState).ToList());
-
             return new BindingList<Trade>(DbContext.Trades
                 .Where(x => x.Status.Equals("open"))
                 .Include(x => x.CalculatorState).ToList());
@@ -271,35 +267,6 @@ namespace TradingTools
             return true;
         }
 
-
-        // DONE AND SUCCESSFUL
-        public bool MigrationWave_1()
-        {
-            return true;    // will seal this function
-
-            var list = DbContext.Trades.Include(x => x.CalculatorState).ToList();
-            CalculatorState c;
-            foreach (var t in list)
-            {
-                c = t.CalculatorState;
-
-                c.LotSize = t.LotSize;
-                c.ExchangeFee = Constant.TRADING_FEE;
-                c.OpeningTradingFee = t.OpeningTradingFee;
-                c.OpeningTradingCost = t.OpeningTradingCost;
-                c.DailyInterestRate = t.DailyInterestRate;
-                c.InterestCost = t.InterestCost;
-                if (t.Status.Equals("closed"))
-                {
-                    c.ClosingTradingFee = t.ClosingTradingFee;
-                    c.ClosingTradingCost = t.ClosingTradingCost;
-                }
-            }
-
-            DbContext.SaveChanges();
-
-            return true;
-        }
 
         #region UNUSED
         private BindingSource _calculatorStates_unsaved;

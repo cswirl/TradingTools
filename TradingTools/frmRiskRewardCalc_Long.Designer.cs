@@ -1563,6 +1563,7 @@ namespace TradingTools
             0,
             0});
             this.nudDayCount.Name = "nudDayCount";
+            this.nudDayCount.ReadOnly = true;
             this.nudDayCount.Size = new System.Drawing.Size(68, 23);
             this.nudDayCount.TabIndex = 11;
             this.nudDayCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;

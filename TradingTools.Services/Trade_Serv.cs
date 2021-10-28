@@ -29,8 +29,7 @@ namespace TradingTools.Services
                 msg = "'Date Enter'cannot exceed the Date and Time right now.";
                 return false;
             }
-            if (t.Capital <= 10 | t.Leverage < 1 | t.EntryPriceAvg <= 0 | t.LotSize <= 0 | t.OpeningTradingFee <= 0 |
-                t.OpeningTradingCost <= 0)
+            if (t.Capital <= 10 | t.Leverage < 1 | t.EntryPriceAvg <= 0 | t.LotSize <= 0)
             {
                 msg = "Invalid input data";
                 return false;
