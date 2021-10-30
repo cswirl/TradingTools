@@ -187,4 +187,6 @@ namespace TradingTools.Model
         public decimal TradingFee { get; set; }
     }
 
+
+
 }

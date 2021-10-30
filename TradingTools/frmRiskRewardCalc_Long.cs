@@ -327,6 +327,7 @@ namespace TradingTools
         private void captureCalculatorState()
         {
             var c = CalculatorState;
+            // Collect Receptors
             c.Capital = InputConverter.MoneyToDecimal(txtCapital.Text);
             c.Leverage = InputConverter.Decimal(txtLeverage.Text);
             c.EntryPriceAvg = InputConverter.Decimal(txtEntryPrice.Text);
@@ -342,12 +343,9 @@ namespace TradingTools
             c.Ticker = txtTicker.Text;
             c.ReasonForEntry = txtReasonForEntry.Text;
             c.Note = txtNote.Text;
-            //
+            // Processed
             c.CounterBias = txtCounterBias.Text;
-            c.InterestCost = InputConverter.Decimal(txtInterestCost.Text);
             c.ExchangeFee = InputConverter.Decimal(txtExchangeFee.Text);
-            c.OpeningTradingFee = InputConverter.Decimal(txtOpeningTradingFee_dollar.Text);
-            c.OpeningTradingCost = InputConverter.Decimal(txtOpeningTradingCost.Text);
 
             c.TradingStyle = cbxTradingStyle.SelectedValue.ToString();
             //
@@ -598,22 +596,21 @@ namespace TradingTools
                         txtLeverage.Text = c.Leverage.ToString("0");      // dont change format
                         txtEntryPrice.Text = c.EntryPriceAvg.ToString();
                         txtLotSize.Text = c.LotSize.ToString();
-                        nudDayCount.Value = c.DayCount < nudDayCount.Minimum ? nudDayCount.Minimum : CalculatorState.DayCount;
                         nudDailyInterestRate.Value = c.DailyInterestRate < nudDailyInterestRate.Minimum ? nudDailyInterestRate.Minimum : CalculatorState.DailyInterestRate;
                         // caveat: the CalculationDetails object will always use the Constance Exchange Fee 0.001 - it is not aware of any external source such as CalculatorState.ExchangeFee
                         txtExchangeFee.Text = c.ExchangeFee.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                         btnReCalculate_Click(null, null);
 
                         // sys flow 2
-                        txtPriceIncrease_target.Text = c.PriceIncreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
-                        txtPriceDecrease_target.Text = c.PriceDecreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                        txtPriceIncrease_target.Text = c.PriceIncreaseTarget?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                        txtPriceDecrease_target.Text = c.PriceDecreaseTarget?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
 
                         // sys flow 3
-                        txtPEP_ExitPrice.Text = c.PEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                        txtPEP_ExitPrice.Text = c.PEP_ExitPrice?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                         txtPEP_Note.Text = c.PEP_Note;
 
                         // sys flow
-                        txtLEP_ExitPrice.Text = c.LEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                        txtLEP_ExitPrice.Text = c.LEP_ExitPrice?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                         txtLEP_Note.Text = c.LEP_Note;
                         
                         //
@@ -679,15 +676,15 @@ namespace TradingTools
 
                         #region Purely CalculatorState
                         // sys flow
-                        txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
-                        txtPriceDecrease_target.Text = CalculatorState.PriceDecreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                        txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                        txtPriceDecrease_target.Text = CalculatorState.PriceDecreaseTarget?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
 
                         // sys flow
-                        txtPEP_ExitPrice.Text = CalculatorState.PEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                        txtPEP_ExitPrice.Text = CalculatorState.PEP_ExitPrice?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                         txtPEP_Note.Text = CalculatorState.PEP_Note;
 
                         // sys flow
-                        txtLEP_ExitPrice.Text = CalculatorState.LEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                        txtLEP_ExitPrice.Text = CalculatorState.LEP_ExitPrice?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                         txtLEP_Note.Text = CalculatorState.LEP_Note;
 
                         // sys flow
@@ -752,15 +749,15 @@ namespace TradingTools
 
                     #region Almost All CalculatorState
                     // sys flow
-                    txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
-                    txtPriceDecrease_target.Text = CalculatorState.PriceDecreaseTarget.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                    txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                    txtPriceDecrease_target.Text = CalculatorState.PriceDecreaseTarget?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
 
                     // sys flow
-                    txtPEP_ExitPrice.Text = CalculatorState.PEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                    txtPEP_ExitPrice.Text = CalculatorState.PEP_ExitPrice?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                     txtPEP_Note.Text = CalculatorState.PEP_Note;
 
                     // sys flow
-                    txtLEP_ExitPrice.Text = CalculatorState.LEP_ExitPrice.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                    txtLEP_ExitPrice.Text = CalculatorState.LEP_ExitPrice?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                     txtLEP_Note.Text = CalculatorState.LEP_Note;
 
                     // sys flow

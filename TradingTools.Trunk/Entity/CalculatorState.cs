@@ -26,31 +26,81 @@ namespace TradingTools.Trunk.Entity
         public string ReasonForEntry { get; set; }    // Will be renamed to ReasonForEntry - old name ReasonForEntry
         [Required, MaxLength(20)]
         public string TradingStyle { get; set; }
-        // Opening Cost
         [Column(TypeName = "decimal(18, 5)")]
         public decimal ExchangeFee { get; set; }
-        [Required]
-        public decimal OpeningTradingFee { get; set; }
-        [Required]
-        public decimal OpeningTradingCost { get; set; }
 
-        public int DayCount { get; set; }
+        // Leveraged Capital
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public decimal? LeveragedCapital
+        {
+            get
+            {
+                return Capital * Leverage;
+            }
+            private set { }
+        }
+
+        // Opening Cost
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public decimal OpeningTradingFee
+        {
+            get
+            {
+                var l = LeveragedCapital ?? 0;
+                return ExchangeFee * l;
+            }
+            private set { }
+        }
+        // 
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public decimal OpeningTradingCost
+        {
+            get
+            {
+                return OpeningTradingFee;
+            }
+            private set { }
+        }
+
+        // Borrow
+        public decimal BorrowAmount
+        {
+            get
+            {
+                var l = LeveragedCapital ?? Capital;
+                return l - Capital;
+            }
+            private set { }
+        }
+        
+
+        public int? DayCount { get; set; }
 
         [Column(TypeName = "decimal(18, 5)")]
         public decimal DailyInterestRate { get; set; }
-        [Required]
-        public decimal InterestCost { get; set; }
+
+        // 
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public decimal InterestCost
+        {
+            get
+            {
+                var d = DayCount ?? 1;
+                return BorrowAmount * DailyInterestRate * d;
+            }
+            private set { }
+        }
 
         // Closing
         public string ReasonForExit { get; set; }
         public decimal? ClosingTradingFee { get; set; }
         public decimal? ClosingTradingCost { get; set; }
         //
-        public decimal PriceIncreaseTarget { get; set; }
-        public decimal PriceDecreaseTarget { get; set; }
-        public decimal PEP_ExitPrice { get; set; }
+        public decimal? PriceIncreaseTarget { get; set; }
+        public decimal? PriceDecreaseTarget { get; set; }
+        public decimal? PEP_ExitPrice { get; set; }
         public string PEP_Note { get; set; }
-        public decimal LEP_ExitPrice { get; set; }
+        public decimal? LEP_ExitPrice { get; set; }
         public string LEP_Note { get; set; }
         public string Note { get; set; }
         //
