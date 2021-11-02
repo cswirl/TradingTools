@@ -106,7 +106,7 @@ namespace TradingTools
         private void TradeClosing_Load(object sender, EventArgs e)
         {
             if (Trade == null) return;
-            dtpDateExit.Value = DateTime.Now;
+            Presentation.DateTimePicker_MaxDate_SafeAssign(dtpDateExit, DateTime.Now);
             txtExitPrice.Text = Trade?.ExitPriceAvg?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
             txtFinalCapital.Text = Trade?.FinalCapital?.ToString(Constant.MONEY_FORMAT);
             txtReasonForExit.Text = Trade?.CalculatorState.ReasonForExit;

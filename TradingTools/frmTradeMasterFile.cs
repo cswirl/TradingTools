@@ -32,6 +32,7 @@ namespace TradingTools
 
             _statusFilter = StatusFilter.Closed;
             // initialize controls
+            btnUpdate.Visible = false;
             btnDelete.Visible = false;
             dtpDateEnter.MaxDate = DateTime.Today.AddDays(1).AddTicks(-1);
             dtpDateExit.MaxDate = DateTime.Today.AddDays(1).AddTicks(-1);
@@ -202,7 +203,7 @@ namespace TradingTools
             if (t.Status.Equals("closed"))
             {
                 panelTradeClosed.Visible = true;
-                dtpDateExit.Value = t.DateExit ?? dtpDateExit.Value;
+                Presentation.DateTimePicker_MaxDate_SafeAssign(dtpDateExit, t.DateExit ?? dtpDateExit.Value);
                 txtExitPrice.Text = t.ExitPriceAvg?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                 txtFinalCapital.Text = t.FinalCapital?.ToString(Constant.MONEY_FORMAT);
                 // PCP, PnL etc
@@ -214,7 +215,7 @@ namespace TradingTools
             else
             {
                 panelTradeClosed.Visible = false;
-                dtpDateExit.Value = DateTime.Today;
+                Presentation.DateTimePicker_MaxDate_SafeAssign(dtpDateExit, DateTime.Now);
                 txtExitPrice.Text = "0";
                 txtFinalCapital.Text = "0";
                 // PCP, PnL etc
@@ -327,6 +328,7 @@ namespace TradingTools
         {
             if (checkCorrection.Checked)
             {
+                btnUpdate.Visible = true;
                 btnDelete.Visible = true;
 
                 txtTicker.ReadOnly = false;
@@ -343,6 +345,7 @@ namespace TradingTools
             }
             else
             {
+                btnUpdate.Visible = false;
                 btnDelete.Visible = false;
 
                 txtTicker.ReadOnly = true;
