@@ -39,19 +39,15 @@ namespace TradingTools
             this.checkLeverage = new System.Windows.Forms.CheckBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
-            this.label58 = new System.Windows.Forms.Label();
-            this.txtPerfectEntry_TC = new System.Windows.Forms.TextBox();
-            this.label59 = new System.Windows.Forms.Label();
-            this.txtPerfectEntry_PnL = new System.Windows.Forms.TextBox();
-            this.label60 = new System.Windows.Forms.Label();
-            this.txtPerfectEntry_PnL_percentage = new System.Windows.Forms.TextBox();
-            this.label61 = new System.Windows.Forms.Label();
-            this.txtPerfectEntry_PCP = new System.Windows.Forms.TextBox();
-            this.txtPerfectEntry_Note = new System.Windows.Forms.TextBox();
-            this.txtPerfectEntry_EntryPrice = new System.Windows.Forms.TextBox();
-            this.txtPerfectEntry_ExitPrice = new System.Windows.Forms.TextBox();
-            this.label62 = new System.Windows.Forms.Label();
+            this.label64 = new System.Windows.Forms.Label();
             this.label63 = new System.Windows.Forms.Label();
+            this.label61 = new System.Windows.Forms.Label();
+            this.txtPerfectEntry_ExitPrice = new System.Windows.Forms.TextBox();
+            this.txtMultiple = new System.Windows.Forms.TextBox();
+            this.txtPerfectEntry_EntryPrice = new System.Windows.Forms.TextBox();
+            this.txtPerfectEntry_PCP = new System.Windows.Forms.TextBox();
+            this.label62 = new System.Windows.Forms.Label();
+            this.txtPerfectEntry_Note = new System.Windows.Forms.TextBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
             this.label31 = new System.Windows.Forms.Label();
@@ -367,13 +363,9 @@ namespace TradingTools
             this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox8.Controls.Add(this.tableLayoutPanel13);
             this.groupBox8.Controls.Add(this.txtPerfectEntry_Note);
-            this.groupBox8.Controls.Add(this.txtPerfectEntry_EntryPrice);
-            this.groupBox8.Controls.Add(this.txtPerfectEntry_ExitPrice);
-            this.groupBox8.Controls.Add(this.label62);
-            this.groupBox8.Controls.Add(this.label63);
-            this.groupBox8.Location = new System.Drawing.Point(13, 413);
+            this.groupBox8.Location = new System.Drawing.Point(16, 423);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(606, 133);
+            this.groupBox8.Size = new System.Drawing.Size(606, 127);
             this.groupBox8.TabIndex = 24;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "PERFECT ENTRY";
@@ -381,19 +373,19 @@ namespace TradingTools
             // tableLayoutPanel13
             // 
             this.tableLayoutPanel13.ColumnCount = 4;
-            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 26.25F));
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.4375F));
-            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.18349F));
-            this.tableLayoutPanel13.Controls.Add(this.label58, 3, 0);
-            this.tableLayoutPanel13.Controls.Add(this.txtPerfectEntry_TC, 3, 1);
-            this.tableLayoutPanel13.Controls.Add(this.label59, 2, 0);
-            this.tableLayoutPanel13.Controls.Add(this.txtPerfectEntry_PnL, 2, 1);
-            this.tableLayoutPanel13.Controls.Add(this.label60, 1, 0);
-            this.tableLayoutPanel13.Controls.Add(this.txtPerfectEntry_PnL_percentage, 1, 1);
-            this.tableLayoutPanel13.Controls.Add(this.label61, 0, 0);
-            this.tableLayoutPanel13.Controls.Add(this.txtPerfectEntry_PCP, 0, 1);
-            this.tableLayoutPanel13.Location = new System.Drawing.Point(17, 73);
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.375F));
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.5F));
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.6875F));
+            this.tableLayoutPanel13.Controls.Add(this.label64, 3, 0);
+            this.tableLayoutPanel13.Controls.Add(this.label63, 1, 0);
+            this.tableLayoutPanel13.Controls.Add(this.label61, 2, 0);
+            this.tableLayoutPanel13.Controls.Add(this.txtPerfectEntry_ExitPrice, 1, 1);
+            this.tableLayoutPanel13.Controls.Add(this.txtMultiple, 3, 1);
+            this.tableLayoutPanel13.Controls.Add(this.txtPerfectEntry_EntryPrice, 0, 1);
+            this.tableLayoutPanel13.Controls.Add(this.txtPerfectEntry_PCP, 2, 1);
+            this.tableLayoutPanel13.Controls.Add(this.label62, 0, 0);
+            this.tableLayoutPanel13.Location = new System.Drawing.Point(14, 22);
             this.tableLayoutPanel13.Name = "tableLayoutPanel13";
             this.tableLayoutPanel13.RowCount = 2;
             this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -401,152 +393,105 @@ namespace TradingTools
             this.tableLayoutPanel13.Size = new System.Drawing.Size(320, 55);
             this.tableLayoutPanel13.TabIndex = 10;
             // 
-            // label58
+            // label64
             // 
-            this.label58.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label58.AutoSize = true;
-            this.label58.Location = new System.Drawing.Point(258, 12);
-            this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(43, 15);
-            this.label58.TabIndex = 0;
-            this.label58.Text = "T. Cost";
-            this.label58.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label64.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label64.AutoSize = true;
+            this.label64.Location = new System.Drawing.Point(260, 12);
+            this.label64.Name = "label64";
+            this.label64.Size = new System.Drawing.Size(51, 15);
+            this.label64.TabIndex = 11;
+            this.label64.Text = "Multiple";
             // 
-            // txtPerfectEntry_TC
+            // label63
             // 
-            this.txtPerfectEntry_TC.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPerfectEntry_TC.Location = new System.Drawing.Point(258, 30);
-            this.txtPerfectEntry_TC.Name = "txtPerfectEntry_TC";
-            this.txtPerfectEntry_TC.ReadOnly = true;
-            this.txtPerfectEntry_TC.Size = new System.Drawing.Size(59, 23);
-            this.txtPerfectEntry_TC.TabIndex = 3;
-            this.txtPerfectEntry_TC.TabStop = false;
-            this.txtPerfectEntry_TC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label59
-            // 
-            this.label59.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label59.AutoSize = true;
-            this.label59.Location = new System.Drawing.Point(167, 12);
-            this.label59.Name = "label59";
-            this.label59.Size = new System.Drawing.Size(36, 15);
-            this.label59.TabIndex = 0;
-            this.label59.Text = "Profit";
-            this.label59.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // txtPerfectEntry_PnL
-            // 
-            this.txtPerfectEntry_PnL.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPerfectEntry_PnL.Location = new System.Drawing.Point(167, 30);
-            this.txtPerfectEntry_PnL.Name = "txtPerfectEntry_PnL";
-            this.txtPerfectEntry_PnL.ReadOnly = true;
-            this.txtPerfectEntry_PnL.Size = new System.Drawing.Size(85, 23);
-            this.txtPerfectEntry_PnL.TabIndex = 2;
-            this.txtPerfectEntry_PnL.TabStop = false;
-            this.txtPerfectEntry_PnL.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label60
-            // 
-            this.label60.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label60.AutoSize = true;
-            this.label60.Location = new System.Drawing.Point(83, 12);
-            this.label60.Name = "label60";
-            this.label60.Size = new System.Drawing.Size(49, 15);
-            this.label60.TabIndex = 0;
-            this.label60.Text = "Profit %";
-            this.label60.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // txtPerfectEntry_PnL_percentage
-            // 
-            this.txtPerfectEntry_PnL_percentage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPerfectEntry_PnL_percentage.Location = new System.Drawing.Point(83, 30);
-            this.txtPerfectEntry_PnL_percentage.Name = "txtPerfectEntry_PnL_percentage";
-            this.txtPerfectEntry_PnL_percentage.ReadOnly = true;
-            this.txtPerfectEntry_PnL_percentage.Size = new System.Drawing.Size(78, 23);
-            this.txtPerfectEntry_PnL_percentage.TabIndex = 1;
-            this.txtPerfectEntry_PnL_percentage.TabStop = false;
-            this.txtPerfectEntry_PnL_percentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.label63.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label63.AutoSize = true;
+            this.label63.Location = new System.Drawing.Point(94, 12);
+            this.label63.Name = "label63";
+            this.label63.Size = new System.Drawing.Size(76, 15);
+            this.label63.TabIndex = 8;
+            this.label63.Text = "Current Price";
+            this.label63.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label61
             // 
             this.label61.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label61.AutoSize = true;
-            this.label61.Location = new System.Drawing.Point(3, 12);
+            this.label61.Location = new System.Drawing.Point(188, 12);
             this.label61.Name = "label61";
             this.label61.Size = new System.Drawing.Size(29, 15);
             this.label61.TabIndex = 0;
             this.label61.Text = "PCP";
             this.label61.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // txtPerfectEntry_PCP
-            // 
-            this.txtPerfectEntry_PCP.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPerfectEntry_PCP.Location = new System.Drawing.Point(3, 30);
-            this.txtPerfectEntry_PCP.Name = "txtPerfectEntry_PCP";
-            this.txtPerfectEntry_PCP.ReadOnly = true;
-            this.txtPerfectEntry_PCP.Size = new System.Drawing.Size(74, 23);
-            this.txtPerfectEntry_PCP.TabIndex = 1;
-            this.txtPerfectEntry_PCP.TabStop = false;
-            this.txtPerfectEntry_PCP.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // txtPerfectEntry_Note
-            // 
-            this.txtPerfectEntry_Note.Location = new System.Drawing.Point(356, 26);
-            this.txtPerfectEntry_Note.Multiline = true;
-            this.txtPerfectEntry_Note.Name = "txtPerfectEntry_Note";
-            this.txtPerfectEntry_Note.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtPerfectEntry_Note.Size = new System.Drawing.Size(241, 102);
-            this.txtPerfectEntry_Note.TabIndex = 9;
-            // 
-            // txtPerfectEntry_EntryPrice
-            // 
-            this.txtPerfectEntry_EntryPrice.Location = new System.Drawing.Point(17, 44);
-            this.txtPerfectEntry_EntryPrice.Name = "txtPerfectEntry_EntryPrice";
-            this.txtPerfectEntry_EntryPrice.Size = new System.Drawing.Size(92, 23);
-            this.txtPerfectEntry_EntryPrice.TabIndex = 7;
-            this.txtPerfectEntry_EntryPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.txtPerfectEntry_EntryPrice.TextChanged += new System.EventHandler(this.PerfectEntry_Compute);
-            this.txtPerfectEntry_EntryPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
-            this.txtPerfectEntry_EntryPrice.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Decimal_Validating);
-            // 
             // txtPerfectEntry_ExitPrice
             // 
-            this.txtPerfectEntry_ExitPrice.Location = new System.Drawing.Point(130, 44);
+            this.txtPerfectEntry_ExitPrice.Location = new System.Drawing.Point(94, 30);
             this.txtPerfectEntry_ExitPrice.Name = "txtPerfectEntry_ExitPrice";
-            this.txtPerfectEntry_ExitPrice.Size = new System.Drawing.Size(92, 23);
+            this.txtPerfectEntry_ExitPrice.Size = new System.Drawing.Size(85, 23);
             this.txtPerfectEntry_ExitPrice.TabIndex = 8;
             this.txtPerfectEntry_ExitPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtPerfectEntry_ExitPrice.TextChanged += new System.EventHandler(this.PerfectEntry_Compute);
             this.txtPerfectEntry_ExitPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
             this.txtPerfectEntry_ExitPrice.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Decimal_Validating);
             // 
+            // txtMultiple
+            // 
+            this.txtMultiple.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtMultiple.Location = new System.Drawing.Point(260, 30);
+            this.txtMultiple.Name = "txtMultiple";
+            this.txtMultiple.ReadOnly = true;
+            this.txtMultiple.Size = new System.Drawing.Size(57, 23);
+            this.txtMultiple.TabIndex = 1;
+            this.txtMultiple.TabStop = false;
+            this.txtMultiple.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // txtPerfectEntry_EntryPrice
+            // 
+            this.txtPerfectEntry_EntryPrice.Location = new System.Drawing.Point(3, 30);
+            this.txtPerfectEntry_EntryPrice.Name = "txtPerfectEntry_EntryPrice";
+            this.txtPerfectEntry_EntryPrice.Size = new System.Drawing.Size(85, 23);
+            this.txtPerfectEntry_EntryPrice.TabIndex = 7;
+            this.txtPerfectEntry_EntryPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtPerfectEntry_EntryPrice.TextChanged += new System.EventHandler(this.PerfectEntry_Compute);
+            this.txtPerfectEntry_EntryPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
+            this.txtPerfectEntry_EntryPrice.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Decimal_Validating);
+            // 
+            // txtPerfectEntry_PCP
+            // 
+            this.txtPerfectEntry_PCP.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPerfectEntry_PCP.Location = new System.Drawing.Point(188, 30);
+            this.txtPerfectEntry_PCP.Name = "txtPerfectEntry_PCP";
+            this.txtPerfectEntry_PCP.ReadOnly = true;
+            this.txtPerfectEntry_PCP.Size = new System.Drawing.Size(66, 23);
+            this.txtPerfectEntry_PCP.TabIndex = 1;
+            this.txtPerfectEntry_PCP.TabStop = false;
+            this.txtPerfectEntry_PCP.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
             // label62
             // 
+            this.label62.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label62.AutoSize = true;
-            this.label62.Location = new System.Drawing.Point(17, 26);
+            this.label62.Location = new System.Drawing.Point(3, 12);
             this.label62.Name = "label62";
             this.label62.Size = new System.Drawing.Size(63, 15);
             this.label62.TabIndex = 8;
             this.label62.Text = "Entry Price";
             this.label62.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label63
+            // txtPerfectEntry_Note
             // 
-            this.label63.AutoSize = true;
-            this.label63.Location = new System.Drawing.Point(130, 26);
-            this.label63.Name = "label63";
-            this.label63.Size = new System.Drawing.Size(55, 15);
-            this.label63.TabIndex = 8;
-            this.label63.Text = "Exit Price";
-            this.label63.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.txtPerfectEntry_Note.Location = new System.Drawing.Point(356, 22);
+            this.txtPerfectEntry_Note.Multiline = true;
+            this.txtPerfectEntry_Note.Name = "txtPerfectEntry_Note";
+            this.txtPerfectEntry_Note.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtPerfectEntry_Note.Size = new System.Drawing.Size(241, 95);
+            this.txtPerfectEntry_Note.TabIndex = 9;
             // 
             // groupBox7
             // 
@@ -778,7 +723,7 @@ namespace TradingTools
             this.btnCloseTheTrade.BackColor = System.Drawing.Color.DarkRed;
             this.btnCloseTheTrade.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnCloseTheTrade.ForeColor = System.Drawing.Color.White;
-            this.btnCloseTheTrade.Location = new System.Drawing.Point(625, 447);
+            this.btnCloseTheTrade.Location = new System.Drawing.Point(625, 508);
             this.btnCloseTheTrade.Name = "btnCloseTheTrade";
             this.btnCloseTheTrade.Size = new System.Drawing.Size(591, 32);
             this.btnCloseTheTrade.TabIndex = 19;
@@ -791,7 +736,7 @@ namespace TradingTools
             this.btnOfficializedTrade.BackColor = System.Drawing.Color.SteelBlue;
             this.btnOfficializedTrade.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnOfficializedTrade.ForeColor = System.Drawing.Color.White;
-            this.btnOfficializedTrade.Location = new System.Drawing.Point(625, 413);
+            this.btnOfficializedTrade.Location = new System.Drawing.Point(625, 474);
             this.btnOfficializedTrade.Name = "btnOfficializedTrade";
             this.btnOfficializedTrade.Size = new System.Drawing.Size(591, 32);
             this.btnOfficializedTrade.TabIndex = 18;
@@ -813,7 +758,7 @@ namespace TradingTools
             this.gbxNotes.Controls.Add(this.splitContainerNotes);
             this.gbxNotes.Location = new System.Drawing.Point(625, 3);
             this.gbxNotes.Name = "gbxNotes";
-            this.gbxNotes.Size = new System.Drawing.Size(597, 404);
+            this.gbxNotes.Size = new System.Drawing.Size(597, 465);
             this.gbxNotes.TabIndex = 17;
             this.gbxNotes.TabStop = false;
             this.gbxNotes.Text = "NOTES";
@@ -833,15 +778,15 @@ namespace TradingTools
             // splitContainerNotes.Panel2
             // 
             this.splitContainerNotes.Panel2.Controls.Add(this.txtNote);
-            this.splitContainerNotes.Size = new System.Drawing.Size(591, 382);
-            this.splitContainerNotes.SplitterDistance = 214;
+            this.splitContainerNotes.Size = new System.Drawing.Size(591, 443);
+            this.splitContainerNotes.SplitterDistance = 187;
             this.splitContainerNotes.TabIndex = 0;
             // 
             // tableLayoutPanel11
             // 
             this.tableLayoutPanel11.ColumnCount = 2;
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.3604F));
+            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.6396F));
             this.tableLayoutPanel11.Controls.Add(this.txtCounterBias, 1, 1);
             this.tableLayoutPanel11.Controls.Add(this.label32, 0, 0);
             this.tableLayoutPanel11.Controls.Add(this.txtReasonForEntry, 0, 1);
@@ -852,17 +797,17 @@ namespace TradingTools
             this.tableLayoutPanel11.RowCount = 2;
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel11.Size = new System.Drawing.Size(591, 214);
+            this.tableLayoutPanel11.Size = new System.Drawing.Size(591, 187);
             this.tableLayoutPanel11.TabIndex = 0;
             // 
             // txtCounterBias
             // 
             this.txtCounterBias.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtCounterBias.Location = new System.Drawing.Point(298, 23);
+            this.txtCounterBias.Location = new System.Drawing.Point(342, 23);
             this.txtCounterBias.Multiline = true;
             this.txtCounterBias.Name = "txtCounterBias";
             this.txtCounterBias.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtCounterBias.Size = new System.Drawing.Size(290, 188);
+            this.txtCounterBias.Size = new System.Drawing.Size(246, 161);
             this.txtCounterBias.TabIndex = 7;
             // 
             // label32
@@ -882,14 +827,14 @@ namespace TradingTools
             this.txtReasonForEntry.Multiline = true;
             this.txtReasonForEntry.Name = "txtReasonForEntry";
             this.txtReasonForEntry.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtReasonForEntry.Size = new System.Drawing.Size(289, 188);
+            this.txtReasonForEntry.Size = new System.Drawing.Size(333, 161);
             this.txtReasonForEntry.TabIndex = 6;
             // 
             // label6
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(298, 5);
+            this.label6.Location = new System.Drawing.Point(342, 5);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(74, 15);
             this.label6.TabIndex = 5;
@@ -902,7 +847,7 @@ namespace TradingTools
             this.txtNote.Multiline = true;
             this.txtNote.Name = "txtNote";
             this.txtNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtNote.Size = new System.Drawing.Size(591, 164);
+            this.txtNote.Size = new System.Drawing.Size(591, 252);
             this.txtNote.TabIndex = 8;
             // 
             // label30
@@ -2504,13 +2449,6 @@ namespace TradingTools
         private System.Windows.Forms.TextBox txtCounterBias;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox groupBox8;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel13;
-        private System.Windows.Forms.Label label58;
-        private System.Windows.Forms.TextBox txtPerfectEntry_TC;
-        private System.Windows.Forms.Label label59;
-        private System.Windows.Forms.TextBox txtPerfectEntry_PnL;
-        private System.Windows.Forms.Label label60;
-        private System.Windows.Forms.TextBox txtPerfectEntry_PnL_percentage;
         private System.Windows.Forms.Label label61;
         private System.Windows.Forms.TextBox txtPerfectEntry_PCP;
         private System.Windows.Forms.TextBox txtPerfectEntry_Note;
@@ -2536,6 +2474,9 @@ namespace TradingTools
         private System.Windows.Forms.TextBox txtPerfectEntry_EntryPrice;
         private System.Windows.Forms.Label label62;
         private System.Windows.Forms.CheckBox checkLeverage;
+        private System.Windows.Forms.Label label64;
+        private System.Windows.Forms.TextBox txtMultiple;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel13;
     }
 }
 

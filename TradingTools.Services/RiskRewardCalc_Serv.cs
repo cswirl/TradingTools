@@ -32,8 +32,7 @@ namespace TradingTools.Services
 
         public static decimal PCP(decimal EntryPrice, decimal? ExitPrice)
         {
-            if (ExitPrice == default) return 0;
-            if (EntryPrice == 0) return 0;
+            if (EntryPrice == 0) return 0;      // divide by zero
             decimal exitPrice = ExitPrice ?? EntryPrice;
             return (exitPrice - EntryPrice) / EntryPrice * 100;
         }

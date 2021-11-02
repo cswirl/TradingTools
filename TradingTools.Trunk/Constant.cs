@@ -13,6 +13,8 @@ namespace TradingTools.Trunk
         public const string PERCENTAGE_FORMAT_SINGLE = @"0.0\%";
         public const string PERCENTAGE_FORMAT_DOUBLE = @"0.00\%";
         public const string LEVERAGE_DECIMAL_PLACE = "0.##";
+        public const string TWO_DECIMAL_UPTO = "0.##";
+        public const string ONE_DECIMAL_UPTO = "0.#";
     }
 
     public class Position

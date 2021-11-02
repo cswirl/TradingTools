@@ -249,24 +249,14 @@ namespace TradingTools
         private void PerfectEntry_Compute(object sender, EventArgs e)
         {
             // 2
-            decimal exitPrice = InputConverter.Decimal(txtPerfectEntry_ExitPrice.Text);
-            decimal entryPrice = InputConverter.Decimal(txtPerfectEntry_EntryPrice.Text);
-            if (entryPrice <= 0 || exitPrice <= 0) return;
+            decimal entryPrice = InputConverter.MoneyToDecimal(txtPerfectEntry_EntryPrice.Text);
+            decimal exitPrice = InputConverter.MoneyToDecimal(txtPerfectEntry_ExitPrice.Text);
+            //if (entryPrice <= 0 || exitPrice <= 0) return;
 
-            // 3
-            var rec = _rrc_serv.PriceIncreaseTable.GeneratePriceIncreaseRecord(
-                exitPrice,
-                entryPrice,
-                _calculationDetails.Position.LotSize,
-                _calculationDetails.Borrow.InterestCost,
-                _calculationDetails.Position.Capital);
-
-            // 4
-            if (rec == null) return;
-            txtPerfectEntry_PCP.Text = rec.PCP.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
-            txtPerfectEntry_PnL_percentage.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
-            txtPerfectEntry_PnL.Text = rec.PnL.ToString(Constant.MONEY_FORMAT);
-            txtPerfectEntry_TC.Text = rec.TradingCost.ToString(Constant.MONEY_FORMAT);
+            //
+            decimal pcp = RiskRewardCalc_Serv.PCP(entryPrice, exitPrice);
+            txtPerfectEntry_PCP.Text = pcp.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
+            txtMultiple.Text = (pcp / 100).ToString(Constant.ONE_DECIMAL_UPTO) + "x";
         }
 
         private void btnSetLEP_Click(object sender, EventArgs e)
@@ -813,10 +803,16 @@ namespace TradingTools
 
 
                     // Override Values
+                    // Trade Exit
+                    decimal pv = RiskRewardCalc_Serv.PositionValue(Trade.LotSize, Trade.ExitPriceAvg ?? 0);
+                    txtTradeExit_PV.Text = pv.ToString(Constant.MONEY_FORMAT);
                     txtFinalCapital.Text = Trade.FinalCapital?.ToString(Constant.MONEY_FORMAT);
+
+                    txtTradeExit_PCP.Text = RiskRewardCalc_Serv.PCP(Trade.EntryPriceAvg, Trade.ExitPriceAvg).ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
                     txtTradeExit_PnL_percentage.Text = Trade.PnL_percentage?.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
                     txtTradeExit_PnL.Text = Trade.PnL?.ToString(Constant.MONEY_FORMAT);
-
+                    decimal fc = Trade.FinalCapital ?? pv;  // to result zero if FinalCapital is null
+                    txtTradeExit_TC.Text = (pv - fc).ToString(Constant.MONEY_FORMAT);
                     break;
 
                 case RiskRewardCalcState.Deleted:
