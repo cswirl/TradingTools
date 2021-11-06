@@ -20,8 +20,9 @@ namespace TradingTools.DAL
 
         public static string GetConnectionString()
         {
-            return connectionString;
             //return ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            return connectionString;
+            //return @"Data Source=(localdb)\\MSSQLLocalDB; Initial Catalog=TradingToolsDB;";
         }
     }
 }

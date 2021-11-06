@@ -17,12 +17,6 @@ namespace TradingTools.DAL
             _dbContext = new();
         }
 
-        //public List<CalculatorState> RetrieveList()
-        //{
-
-        //    return _dbContext.CalculatorStates.ToList();
-        //}
-
         public BindingList<CalculatorState> RetrieveBindingList()
         {
             Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.Load(_dbContext.CalculatorStates);
