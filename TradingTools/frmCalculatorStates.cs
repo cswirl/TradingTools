@@ -15,8 +15,6 @@ namespace TradingTools
     public partial class frmCalculatorStates : Form
     {
         //delegates
-        //public event EventHandler<CalculatorState> FormRRCLong_Loaded_Open;
-        //public event EventHandler FormRRCLong_Empty_Open;
         public delegate bool CalculatorState_OnRequest(CalculatorState c);
         public CalculatorState_OnRequest CalculatorState_Loaded_OnRequest;
 
@@ -27,7 +25,7 @@ namespace TradingTools
         public event EventHandler FormTradeMasterFile;
 
         // fields
-        private BindingList<CalculatorState> _calculatorStates_unofficial_bindingList;      // -in-use
+        private BindingList<CalculatorState> _calculatorStates_unofficial_bindingList;
         private BindingList<Trade> _trades_open_bindingList;
 
         private master _master { get { return (master)this.Owner; } }

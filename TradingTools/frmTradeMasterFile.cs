@@ -192,7 +192,8 @@ namespace TradingTools
             if (t == default) return;
             txtTradeNum.Text = t.Id.ToString();
             txtTicker.Text = t.Ticker;
-            dtpDateEnter.Value = t.DateEnter;
+            Presentation.DateTimePicker_MaxDate_SafeAssign(dtpDateEnter, t.DateEnter);
+
             txtCapital.Text = t.Capital.ToString(Constant.MONEY_FORMAT);
             txtLotSize.Text = t.LotSize.ToString();
             txtEntryPrice.Text = t.EntryPriceAvg.ToString();

@@ -17,7 +17,6 @@ namespace TradingTools
     {
         public delegate bool Trade_OnOfficializing(dynamic d);
         public Trade_OnOfficializing Trade_Officialize;
-        //public event EventHandler Trade_Officialize;
 
         public dynamic MyProperty { get; set; }
 
@@ -152,7 +151,7 @@ namespace TradingTools
         private void TradeOfficialize_Load(object sender, EventArgs e)
         {
             if (MyProperty == null) return;
-            dtpDateEnter.Value = DateTime.Now;
+            Presentation.DateTimePicker_MaxDate_SafeAssign(dtpDateEnter, DateTime.Now);
             txtTicker.Text = MyProperty.Ticker;
             txtCapital.Text = MyProperty.Capital;
             txtLeverage.Text = MyProperty.Leverage;

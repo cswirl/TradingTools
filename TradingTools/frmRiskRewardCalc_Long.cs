@@ -106,7 +106,7 @@ namespace TradingTools
 
         private void frmRRC_Long_Load(object sender, EventArgs e)
         {
-            // Todo: rename to InitStateDependentComponents then change to public. Place in the constructor.
+            // Proposal: rename to InitStateDependentComponents then change to public. Place in the constructor.
             callOnLoad();
         }
 
@@ -291,26 +291,6 @@ namespace TradingTools
             InputConverter.Decimal(txtEntryPrice.Text),
             (int)nudDayCount.Value,
             nudDailyInterestRate.Value, out msg);
-
-            //if (txtLotSize.Text.Length < 1 | txtLotSize.Text.Equals(string.Empty))
-            //{
-            //    r = _calculationDetails.Trade_Unofficial_Calculate(
-            //StringToNumeric.MoneyToDecimal(txtCapital.Text),
-            //InputConverter.Decimal(txtLeverage.Text),
-            //InputConverter.Decimal(txtEntryPrice.Text),
-            //(int)nudDayCount.Value,
-            //nudDailyInterestRate.Value, out msg);
-            //}
-            //else
-            //{
-            //    r = _calculationDetails.Trade_Official_Calculate(
-            //StringToNumeric.MoneyToDecimal(txtCapital.Text),
-            //InputConverter.Decimal(txtLeverage.Text),
-            //InputConverter.Decimal(txtLotSize.Text),
-            //InputConverter.Decimal(txtEntryPrice.Text),
-            //(int)nudDayCount.Value,
-            //nudDailyInterestRate.Value, out msg);
-            //}
 
             return r;
         }
@@ -837,24 +817,21 @@ namespace TradingTools
             Trade.FinalCapital = StringToNumeric.MoneyToDecimal(txtFinalCapital.Text);
             Trade.CalculatorState.ReasonForExit = txtReasonForExit.Text;
 
-            //var tradeClosing = new TradeClosing(Trade);
-            //tradeClosing.Trade_Close += this.closeTheTrade;
-
             var result = new TradeClosing(Trade).ShowDialog();
             if (result == DialogResult.Yes)
             {
                 // 1 - Input and Sanitize - done on the TradeClosing Dialog
-                // Update this form if any changes made from TradeClosing Dialog prior to captureCalculatorState()
+                // Update this form if any changes made from TradeClosing Dialog before calling captureCalculatorState()
                 txtTradeExit_ExitPrice.Text = Trade.ExitPriceAvg?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
                 txtFinalCapital.Text = Trade.FinalCapital?.ToString(Constant.MONEY_FORMAT);
                 txtReasonForExit.Text = Trade.CalculatorState.ReasonForExit;
+
                 // Need to capture calculatorstate to be updated automatically by dbcontext
                 captureCalculatorState();
-                //decimal exitPrice = radPEP_ExitPrice.Checked ? StringToNumeric.MoneyToDecimal(txtPEP_ExitPrice.Text) : StringToNumeric.MoneyToDecimal(txtLEP_ExitPrice.Text);
 
                 // 2 - Process
                 // Collect -
-                // Trade Closing Data are captured in TradeClosing Dialog
+                // The ff. data below are laready captured in TradeClosing Dialog
                 //Trade.DateExit
                 //Trade.ExitPriceAvg
                 //Trade.FinalCapital
@@ -1097,13 +1074,11 @@ namespace TradingTools
             }
             else
             {
-                //txtLeverage.Clear();
                 txtLeverage.ReadOnly = false;
             }
-            
-
         }
+
     }
 
-    
+ 
 }

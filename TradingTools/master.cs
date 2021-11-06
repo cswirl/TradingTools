@@ -15,19 +15,14 @@ namespace TradingTools
 {
     public class master : Form
     {
-        //public delegate void tradeOfficialized(Trade t);
-        //public tradeOfficialized Trade_Officialized;
         Action<Trade> tradeOfficialized;
         Action<Trade> tradeClosed;
         Action<Trade> tradeDeleted;
         Action<Trade> tradeUpdated;
 
         private List<frmRiskRewardCalc_Long> _listOf_frmRRC_Long;
-        private BindingList<CalculatorState> _calculatorStates_unofficial_bindingList;      // -in-use
-        private BindingList<Trade> _trades_open_bindingList;
+        private BindingList<CalculatorState> _calculatorStates_unofficial_bindingList;
         
-        //private List<CalculatorState> _calcStates_unofficial_List;             // not-in-use
-
         public TradingToolsDbContext DbContext { get; set; }
         public frmCalculatorStates _frmCalcStates { get; set; }
         public frmTradeMasterFile _frmTradeMasterFile { get; set; }
@@ -45,9 +40,6 @@ namespace TradingTools
             // Initialize Components
             InitializeDbContext();
             _listOf_frmRRC_Long = new();
-            //_calc_serv = new();
-            //_calculatorStates_unofficial_bindingList = _calc_serv.GetBindingList();
-            //_calculatorStates_unsaved = new();
 
 
             // gateway form
