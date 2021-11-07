@@ -39,14 +39,13 @@ namespace TradingTools.Services
 
         public static decimal PnL_percentage(decimal initialCapital, decimal? finalCapital)
         {
-            // for some reason i cannot use the finalCapital ?? initialCapital directly in the return statement
+            // for some reason i cannot use the statement: finalCapital ?? initialCapital directly in the return statement
             decimal f = finalCapital ?? initialCapital;
             return (f - initialCapital) / initialCapital * 100;
         }
 
         public static decimal PnL(decimal initialCapital, decimal? finalCapital)
         {
-            // for some reason i cannot use the finalCapital ?? initialCapital directly in the return statement
             decimal f = finalCapital ?? initialCapital;
             return f - initialCapital;
         }
@@ -145,9 +144,6 @@ namespace TradingTools.Services
         public decimal PnL_Percentage { get; set; }
         public decimal TradingCost { get; set; }
 
-        
-
-
     }
 
 
@@ -206,19 +202,4 @@ namespace TradingTools.Services
     }
 
 
-    //public record PriceIncreaseRecord
-    //{
-    //    public decimal PriceIncreasePercentage { get; init; }
-    //    public decimal PriceTarget { get; init; }
-    //    public decimal Profit { get; init; }
-    //    public decimal TradingCost { get; set; }
-    //}
-
-    //public record PriceDecreaseRecord
-    //{
-    //    public decimal PriceDecreasePercentage { get; init; }
-    //    public decimal PriceTarget { get; init; }
-    //    public decimal Loss { get; init; }
-    //    public decimal TradingCost { get; set; }
-    //}
 }
