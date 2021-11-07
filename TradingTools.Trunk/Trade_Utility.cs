@@ -11,7 +11,7 @@ namespace TradingTools.Trunk
     {
         public static decimal GetTrading_ElaspsedTime_Days(DateTime dateEnter, DateTime? dateExit)
         {
-            DateTime exit = dateExit ?? dateEnter;  // intentional to result to zero
+            DateTime exit = dateExit ?? dateEnter;  // Deliberately result to zero
             var days = (exit - dateEnter).TotalDays;
             return SafeConvert.ToDecimalSafe(days);
         }

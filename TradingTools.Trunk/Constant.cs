@@ -26,10 +26,7 @@ namespace TradingTools.Trunk
         public decimal LeveragedCapital { get; set; }
         public decimal LotSize { get; set; }
         public decimal AccountEquity { get; set; }
-        public decimal StopLoss_limit { get; set; }
-        public bool Side { get; set; }             // 1 or True for Long, 0 or False Short - MAYBE USE STRING TO SIMPLIFY
 
-        
     }
 
     public class Borrow
