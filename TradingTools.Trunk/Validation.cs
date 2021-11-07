@@ -12,6 +12,7 @@ namespace TradingTools.Trunk.Validation
 {
     public class Validation
     {
+        // For Dynamic type
         public static bool HasProperty(dynamic obj, string name)
         {
             Type objType = obj.GetType();
@@ -58,6 +59,7 @@ namespace TradingTools.Trunk.Validation
             // And if dot character is added it will look for decimal places upto 2 decimals.
             //string pattern = @"^((\d+)((\.\d{1,2})?))$";
 
+
             //source: https://stackoverflow.com/questions/16242449/regex-currency-validation
             // Decimal and commas optional
             string pattern = @"^(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$";
@@ -88,7 +90,7 @@ namespace TradingTools.Trunk.Validation
 
         public static bool isTicker(string value, out string errorMsg)
         {
-            //TODO - needs to validate
+            // Pattern example: AAAAA/ZZZZZ 
             string pattern = @"^[a-zA-Z]{1,5}[\/][a-zA-Z]{1,5}$";
             Regex rg = new Regex(pattern);
 

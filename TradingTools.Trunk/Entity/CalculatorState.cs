@@ -23,7 +23,7 @@ namespace TradingTools.Trunk.Entity
         public decimal EntryPriceAvg { get; set; }
         public decimal LotSize { get; set; }
         public string CounterBias { get; set; }
-        public string ReasonForEntry { get; set; }    // Will be renamed to ReasonForEntry - old name ReasonForEntry
+        public string ReasonForEntry { get; set; }
         [Required, MaxLength(20)]
         public string TradingStyle { get; set; }
         [Column(TypeName = "decimal(18, 5)")]
