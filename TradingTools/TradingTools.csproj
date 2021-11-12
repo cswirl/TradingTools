@@ -4,6 +4,12 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
+    <Company>Divergent Trading Group</Company>
+    <Product>Trading Tools Suite (TTS)</Product>
+    <Description>This application will equip traders with calculation tools for trading and record keeping.</Description>
+    <Copyright>Copyright © TTS 2021</Copyright>
+    <PackageReleaseNotes>MVP release. This release only supports Long position.</PackageReleaseNotes>
+    <Authors>Jay Angeles</Authors>
   </PropertyGroup>
 
   <ItemGroup>
