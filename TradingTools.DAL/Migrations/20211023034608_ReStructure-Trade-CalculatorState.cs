@@ -7,7 +7,7 @@ namespace TradingTools.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "ReasonForEntry",
+                name: "Strategy",
                 table: "CalculatorStates",
                 newName: "ReasonForEntry");
 
@@ -166,7 +166,7 @@ namespace TradingTools.DAL.Migrations
             migrationBuilder.RenameColumn(
                 name: "ReasonForEntry",
                 table: "CalculatorStates",
-                newName: "ReasonForEntry");
+                newName: "Strategy");
         }
     }
 }

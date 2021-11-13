@@ -11,7 +11,7 @@ namespace TradingTools.DAL
     {
         private const string connectionStringName = "TradingToolsConnectionString";
 
-        private  const string connectionString = @"Server=X470\SQLEXPRESS;Database=TradingToolsDB;Trusted_Connection=True;";
+        private  const string connectionString = @"Server=localhost\SQLEXPRESS;Database=TradingToolsDB;Trusted_Connection=True;";
 
         public static void SetConnectionString(string connectionString)
         {
