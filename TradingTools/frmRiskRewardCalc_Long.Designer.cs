@@ -1,4 +1,4 @@
-﻿
+
 namespace TradingTools
 {
     partial class frmRiskRewardCalc_Long

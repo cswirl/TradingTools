@@ -792,7 +792,7 @@ namespace TradingTools
                     txtTradeExit_PnL_percentage.Text = Trade.PnL_percentage?.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
                     txtTradeExit_PnL.Text = Trade.PnL?.ToString(Constant.MONEY_FORMAT);
                     decimal fc = Trade.FinalCapital ?? pv;  // to result zero if FinalCapital is null
-                    txtTradeExit_TC.Text = (pv - fc).ToString(Constant.MONEY_FORMAT);
+                    txtTradeExit_TC.Text = "--"; // (pv - fc).ToString(Constant.MONEY_FORMAT);
                     break;
 
                 case RiskRewardCalcState.Deleted:
@@ -812,29 +812,30 @@ namespace TradingTools
         {
             if (State != RiskRewardCalcState.TradeOpen) return;
 
-            // Prepare Trade object for Closing
-            Trade.ExitPriceAvg = InputConverter.Decimal(txtTradeExit_ExitPrice.Text);
-            Trade.FinalCapital = StringToNumeric.MoneyToDecimal(txtFinalCapital.Text);
-            Trade.CalculatorState.ReasonForExit = txtReasonForExit.Text;
+            // Prepare a trade object for Closing
+            var t = new Trade();
+            t.CalculatorState = new();
+            t.ExitPriceAvg = InputConverter.Decimal(txtTradeExit_ExitPrice.Text);
+            t.FinalCapital = StringToNumeric.MoneyToDecimal(txtFinalCapital.Text);
+            t.CalculatorState.ReasonForExit = txtReasonForExit.Text;
 
-            var result = new TradeClosing(Trade).ShowDialog();
+            var result = new TradeClosing(t).ShowDialog();
             if (result == DialogResult.Yes)
             {
                 // 1 - Input and Sanitize - done on the TradeClosing Dialog
                 // Update this form if any changes made from TradeClosing Dialog before calling captureCalculatorState()
-                txtTradeExit_ExitPrice.Text = Trade.ExitPriceAvg?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
-                txtFinalCapital.Text = Trade.FinalCapital?.ToString(Constant.MONEY_FORMAT);
-                txtReasonForExit.Text = Trade.CalculatorState.ReasonForExit;
+                txtTradeExit_ExitPrice.Text = t.ExitPriceAvg?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                txtFinalCapital.Text = t.FinalCapital?.ToString(Constant.MONEY_FORMAT);
+                txtReasonForExit.Text = t.CalculatorState.ReasonForExit;
 
                 // Need to capture calculatorstate to be updated automatically by dbcontext
                 captureCalculatorState();
 
                 // 2 - Process
                 // Collect -
-                // The ff. data below are laready captured in TradeClosing Dialog
-                //Trade.DateExit
-                //Trade.ExitPriceAvg
-                //Trade.FinalCapital
+                Trade.DateExit = t.DateExit;
+                Trade.ExitPriceAvg = t.ExitPriceAvg;
+                Trade.FinalCapital = t.FinalCapital;
 
                 Trade.Status = "closed";
 

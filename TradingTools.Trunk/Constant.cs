@@ -19,6 +19,7 @@ namespace TradingTools.Trunk
 
     public class Position
     {
+        public string Ticker { get; set; }
         public decimal Capital { get; set; }
         public decimal Leverage { get; set; }
         public decimal EntryPriceAvg { get; set; }
