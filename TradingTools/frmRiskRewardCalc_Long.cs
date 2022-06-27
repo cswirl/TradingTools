@@ -41,6 +41,7 @@ namespace TradingTools
             panelBandBottom.Height = 3;
             cbxTradingStyle.DataSource = Enum.GetValues(typeof(TradingStyle));
             cbxTradingStyle.SelectedIndex = 1;  // swing
+            nudDayCount.Maximum = decimal.MaxValue;
 
             PCP_Table_Formatting(dgvPriceIncreaseTable);
             PCP_Table_Formatting(dgvPriceDecreaseTable);
