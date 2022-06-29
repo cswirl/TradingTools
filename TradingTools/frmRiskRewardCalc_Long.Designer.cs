@@ -803,11 +803,11 @@ namespace TradingTools
             // txtCounterBias
             // 
             this.txtCounterBias.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtCounterBias.Location = new System.Drawing.Point(342, 23);
+            this.txtCounterBias.Location = new System.Drawing.Point(341, 23);
             this.txtCounterBias.Multiline = true;
             this.txtCounterBias.Name = "txtCounterBias";
             this.txtCounterBias.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtCounterBias.Size = new System.Drawing.Size(246, 161);
+            this.txtCounterBias.Size = new System.Drawing.Size(247, 161);
             this.txtCounterBias.TabIndex = 7;
             // 
             // label32
@@ -827,14 +827,14 @@ namespace TradingTools
             this.txtReasonForEntry.Multiline = true;
             this.txtReasonForEntry.Name = "txtReasonForEntry";
             this.txtReasonForEntry.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtReasonForEntry.Size = new System.Drawing.Size(333, 161);
+            this.txtReasonForEntry.Size = new System.Drawing.Size(332, 161);
             this.txtReasonForEntry.TabIndex = 6;
             // 
             // label6
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(342, 5);
+            this.label6.Location = new System.Drawing.Point(341, 5);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(74, 15);
             this.label6.TabIndex = 5;
@@ -1717,7 +1717,6 @@ namespace TradingTools
             // 
             // splitContainer2
             // 
-            this.splitContainer2.Cursor = System.Windows.Forms.Cursors.Default;
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer2.IsSplitterFixed = true;
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);

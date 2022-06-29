@@ -34,6 +34,8 @@ namespace TradingTools.Trunk.Validation
 
             return dateExit;
         }
+
+        
     }
 
     public class Format
