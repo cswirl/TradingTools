@@ -36,6 +36,8 @@ namespace TradingTools
             this.panelBandTop = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.radioLotSize = new System.Windows.Forms.RadioButton();
+            this.radioLeverage = new System.Windows.Forms.RadioButton();
             this.checkLeverage = new System.Windows.Forms.CheckBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
@@ -305,6 +307,8 @@ namespace TradingTools
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainer1.Panel1.Controls.Add(this.radioLotSize);
+            this.splitContainer1.Panel1.Controls.Add(this.radioLeverage);
             this.splitContainer1.Panel1.Controls.Add(this.checkLeverage);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox8);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox7);
@@ -343,11 +347,38 @@ namespace TradingTools
             this.splitContainer1.SplitterDistance = 1225;
             this.splitContainer1.TabIndex = 0;
             // 
+            // radioLotSize
+            // 
+            this.radioLotSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioLotSize.AutoSize = true;
+            this.radioLotSize.Checked = true;
+            this.radioLotSize.Location = new System.Drawing.Point(19, 159);
+            this.radioLotSize.Name = "radioLotSize";
+            this.radioLotSize.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.radioLotSize.Size = new System.Drawing.Size(49, 19);
+            this.radioLotSize.TabIndex = 27;
+            this.radioLotSize.TabStop = true;
+            this.radioLotSize.Text = "auto";
+            this.radioLotSize.UseVisualStyleBackColor = true;
+            this.radioLotSize.CheckedChanged += new System.EventHandler(this.radioLotSize_CheckedChanged);
+            // 
+            // radioLeverage
+            // 
+            this.radioLeverage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioLeverage.AutoSize = true;
+            this.radioLeverage.Location = new System.Drawing.Point(46, 129);
+            this.radioLeverage.Name = "radioLeverage";
+            this.radioLeverage.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.radioLeverage.Size = new System.Drawing.Size(14, 13);
+            this.radioLeverage.TabIndex = 26;
+            this.radioLeverage.UseVisualStyleBackColor = true;
+            this.radioLeverage.CheckedChanged += new System.EventHandler(this.radioLeverage_CheckedChanged);
+            // 
             // checkLeverage
             // 
             this.checkLeverage.AutoSize = true;
             this.checkLeverage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkLeverage.Location = new System.Drawing.Point(7, 97);
+            this.checkLeverage.Location = new System.Drawing.Point(13, 66);
             this.checkLeverage.Name = "checkLeverage";
             this.checkLeverage.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.checkLeverage.Size = new System.Drawing.Size(47, 19);
@@ -356,6 +387,7 @@ namespace TradingTools
             this.checkLeverage.Text = "auto";
             this.checkLeverage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkLeverage.UseVisualStyleBackColor = true;
+            this.checkLeverage.Visible = false;
             this.checkLeverage.CheckedChanged += new System.EventHandler(this.checkLeverage_CheckedChanged);
             // 
             // groupBox8
@@ -1080,7 +1112,7 @@ namespace TradingTools
             // 
             this.txtLeverage.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.txtLeverage.ForeColor = System.Drawing.Color.Red;
-            this.txtLeverage.Location = new System.Drawing.Point(125, 96);
+            this.txtLeverage.Location = new System.Drawing.Point(125, 125);
             this.txtLeverage.Name = "txtLeverage";
             this.txtLeverage.Size = new System.Drawing.Size(95, 23);
             this.txtLeverage.TabIndex = 2;
@@ -1106,7 +1138,7 @@ namespace TradingTools
             // 
             // txtEntryPrice
             // 
-            this.txtEntryPrice.Location = new System.Drawing.Point(125, 125);
+            this.txtEntryPrice.Location = new System.Drawing.Point(125, 96);
             this.txtEntryPrice.Name = "txtEntryPrice";
             this.txtEntryPrice.Size = new System.Drawing.Size(95, 23);
             this.txtEntryPrice.TabIndex = 3;
@@ -1118,6 +1150,7 @@ namespace TradingTools
             // 
             this.txtLotSize.Location = new System.Drawing.Point(125, 154);
             this.txtLotSize.Name = "txtLotSize";
+            this.txtLotSize.ReadOnly = true;
             this.txtLotSize.Size = new System.Drawing.Size(95, 23);
             this.txtLotSize.TabIndex = 4;
             this.txtLotSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -1127,9 +1160,11 @@ namespace TradingTools
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(72, 161);
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.label5.Location = new System.Drawing.Point(68, 161);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(47, 15);
+            this.label5.Size = new System.Drawing.Size(51, 15);
             this.label5.TabIndex = 2;
             this.label5.Text = "Lot Size";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1362,7 +1397,7 @@ namespace TradingTools
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(24, 128);
+            this.label7.Location = new System.Drawing.Point(24, 99);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(95, 15);
             this.label7.TabIndex = 3;
@@ -1568,8 +1603,8 @@ namespace TradingTools
             // 
             this.label26.AutoSize = true;
             this.label26.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label26.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.label26.Location = new System.Drawing.Point(60, 99);
+            this.label26.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.label26.Location = new System.Drawing.Point(60, 128);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(59, 15);
             this.label26.TabIndex = 6;
@@ -2472,10 +2507,12 @@ namespace TradingTools
         private System.Windows.Forms.Label label57;
         private System.Windows.Forms.TextBox txtPerfectEntry_EntryPrice;
         private System.Windows.Forms.Label label62;
-        private System.Windows.Forms.CheckBox checkLeverage;
         private System.Windows.Forms.Label label64;
         private System.Windows.Forms.TextBox txtMultiple;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel13;
+        private System.Windows.Forms.RadioButton radioLotSize;
+        private System.Windows.Forms.RadioButton radioLeverage;
+        private System.Windows.Forms.CheckBox checkLeverage;
     }
 }
 

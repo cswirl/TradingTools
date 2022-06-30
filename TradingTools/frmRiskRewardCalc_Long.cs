@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -537,7 +537,7 @@ namespace TradingTools
 
                     CalculatorState = new();
                     // Initalize UI controls
-                    txtLeverage.Text = "3";
+                    txtLeverage.Text = "1";
                     txtBorrowAmount.Text = "0";
                     nudDayCount.Value = 1;
                     nudDailyInterestRate.Value = Constant.DAILY_INTEREST_RATE;
@@ -1080,6 +1080,41 @@ namespace TradingTools
             }
         }
 
+        private void radioLotSize_CheckedChanged(object sender, EventArgs e)
+        {
+            var radio = (RadioButton)sender;
+
+            txtLotSize.ReadOnly = radio.Checked;
+
+            if (radio.Checked)
+            {
+                txtLotSize.Text = "auto";
+                radio.Text = "auto";
+            }
+            else
+            {
+                txtLotSize.Clear();
+                radio.Text = "";
+            }
+        }
+
+        private void radioLeverage_CheckedChanged(object sender, EventArgs e)
+        {
+            var radio = (RadioButton)sender;
+
+            txtLeverage.ReadOnly = radio.Checked;
+
+            if (radio.Checked)
+            {
+                txtLeverage.Text = "auto";
+                radio.Text = "auto";
+            }
+            else
+            {
+                txtLeverage.Text = "1";
+                radio.Text = "";
+            }
+        }
     }
 
  
