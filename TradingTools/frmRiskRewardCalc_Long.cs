@@ -11,15 +11,18 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TradingTools.Model;
 using TradingTools.Services;
+using TradingTools.Services.Interface;
 using TradingTools.Trunk;
 using TradingTools.Trunk.Entity;
+using TradingTools.Trunk.Extensions;
 using TradingTools.Trunk.Validation;
 
 namespace TradingTools
 {
     public partial class frmRiskRewardCalc_Long : Form
     {
-        private RiskRewardCalc_Serv _rrc_serv = new();
+        private IRiskRewardCalc _rrc;
+        private RiskRewardCalc_Serv _rrc_serv = new();  // Obsolete
         private CalculationDetails _calculationDetails = new();
         public EventHandler<RiskRewardCalcState> OnStateChanged;
         private TradingStyle _tradingStyle;
@@ -30,12 +33,17 @@ namespace TradingTools
         public Trade? Trade { get; set; }
         public string Side { get; set; }
         public string PositionSide { get; private set; }
+        public Position Position { get; set; }
 
 
 
         public frmRiskRewardCalc_Long()
         {
             InitializeComponent();
+
+            // Dependency Injection of RiskRewardCalc
+            Position = new Position();
+            _rrc = TradeService.RiskRewardCalcGetInstance(Side, Position);
 
             panelBandTop.Height = 3;
             panelBandBottom.Height = 3;
@@ -56,43 +64,59 @@ namespace TradingTools
             if (State == RiskRewardCalcState.Deleted) return;
 
             string msg;
-            if (!captureCalculationDetails(out msg))
+
+            // This may be replaced by CollectPosition
+            //if (!captureCalculationDetails(out msg))
+            //{
+            //    statusMessage.Text = msg;
+            //    MyMessageBox.Error(statusMessage.Text, "");
+            //    return;
+            //}
+
+            // Position
+            if (!CollectPosition(out msg))
             {
                 statusMessage.Text = msg;
                 MyMessageBox.Error(statusMessage.Text, "");
                 return;
             }
 
+            
             // step 4: Represent data back to UI
             // the function captureCalculationDetails is able to handle the appropriate value for Lot Size from the textbox - given it is initialized properly
-            txtLeverage.Text = _calculationDetails.Position.Leverage.ToString(Constant.LEVERAGE_DECIMAL_PLACE);
-            txtLotSize.Text = _calculationDetails.Position.LotSize.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
-            txtLeveragedCapital.Text = _calculationDetails.Position.LeveragedCapital.ToString(Constant.MONEY_FORMAT);
-            txtOpeningTradingFee_dollar.Text = _calculationDetails.OpeningCost.TradingFee.ToString(Constant.MONEY_FORMAT);
-            txtOpeningTradingCost.Text = _calculationDetails.OpeningCost.TradingFee.ToString(Constant.MONEY_FORMAT);
+            txtLeverage.Text = Position.Leverage.ToLeverageDecimalPlace();
+            txtLotSize.Text = Position.LotSize.ToMaxDecimalPlace();
+            txtLeveragedCapital.Text = Position.LeveragedCapital.ToMoney();
+            
+            ////    These may not be needed
+            txtOpeningTradingFee_dollar.Text = _calculationDetails.OpeningCost.TradingFee.ToMoney();
+            txtOpeningTradingCost.Text = _calculationDetails.OpeningCost.TradingFee.ToMoney();
 
-
-            txtBorrowAmount.Text = _calculationDetails.Borrow.Amount.ToString(Constant.MONEY_FORMAT);
-            txtInterestCost.Text = _calculationDetails.Borrow.InterestCost.ToString(Constant.MONEY_FORMAT);
-
+            txtBorrowAmount.Text = _calculationDetails.Borrow.Amount.ToMoney();
+            txtInterestCost.Text = _calculationDetails.Borrow.InterestCost.ToMoney();
+            ////
 
             //Closing Position - information
-            var pit = _rrc_serv.PriceIncreaseTable.GenerateTable(
-                _calculationDetails.Position.EntryPriceAvg,
-                _calculationDetails.Position.LotSize,
-                _calculationDetails.Borrow.InterestCost,
-                _calculationDetails.Position.Capital
-                ).OrderByDescending(o => o.PCP).ToList();
+            //var pit = _rrc_serv.PriceIncreaseTable.GenerateTable(
+            //    _calculationDetails.Position.EntryPriceAvg,
+            //    _calculationDetails.Position.LotSize,
+            //    _calculationDetails.Borrow.InterestCost,
+            //    _calculationDetails.Position.Capital
+            //    ).OrderByDescending(o => o.PCP).ToList();
+
+            var pit = _rrc.GenerateProfitsTable(Position).OrderByDescending(o => o.PCP).ToList();
 
             if (pit != null) dgvPriceIncreaseTable.DataSource = pit;
 
 
-            var pdt = _rrc_serv.PriceDecreaseTable.GenerateTable(
-                _calculationDetails.Position.EntryPriceAvg,
-                _calculationDetails.Position.LotSize,
-                _calculationDetails.Borrow.InterestCost,
-                _calculationDetails.Position.Capital
-                ).OrderByDescending(o => o.PCP).ToList();
+            //var pdt = _rrc_serv.PriceDecreaseTable.GenerateTable(
+            //    _calculationDetails.Position.EntryPriceAvg,
+            //    _calculationDetails.Position.LotSize,
+            //    _calculationDetails.Borrow.InterestCost,
+            //    _calculationDetails.Position.Capital
+            //    ).OrderByDescending(o => o.PCP).ToList();
+
+            var pdt = _rrc.GenerateLossesTable(Position).OrderByDescending(o => o.PCP).ToList();
 
             if (pdt != null) dgvPriceDecreaseTable.DataSource = pdt;
 
@@ -103,6 +127,56 @@ namespace TradingTools
             LEP_Compute(null, null);
             TradeExit_Compute(null, null);
             PerfectEntry_Compute(null, null);
+        }
+
+        private bool CollectPosition(out string msg)
+        {
+            msg = string.Empty;
+
+            // Collect Data
+            Position.Capital = txtCapital.Text.ToDecimal();
+            Position.EntryPriceAvg = txtEntryPrice.Text.ToDecimal();
+            Position.Leverage = txtLeverage.Text.ToDecimal();
+            Position.LotSize = txtLotSize.Text.ToDecimal();
+
+            // Validation - The collection process will assign default values - no null object is expected
+            // divide by zero screener
+            if (Position.Capital == 0 || Position.EntryPriceAvg == 0)
+            {
+                msg = "Capital and Entry Price needed.";
+                return false;
+            }
+
+            if (radioLeverage.Checked && Position.LotSize == 0) {
+                msg = "Lot Size value is needed.";
+                return false;
+            }
+
+            if (radioLotSize.Checked && Position.Leverage <= 0) {
+                msg = "Leverage value is needed.";
+                return false;
+            }
+
+            // Process
+            Position.Leverage = radioLeverage.Checked
+                ? Formula.Leverage(Position.EntryPriceAvg, Position.LotSize, Position.Capital)
+                : Position.Leverage;
+            Position.LotSize = radioLotSize.Checked
+                ? Formula.LotSize(Position.Capital, Position.Leverage, Position.EntryPriceAvg)
+                : Position.LotSize;
+
+
+            // Final Validation - Strict
+            // Hence, Minimum value 
+            if (Position.Capital <= 10 | Position.LotSize <= 0 | Position.EntryPriceAvg <= 0)
+            {
+                msg = "Invalid input data";
+                return false;
+            }
+
+            
+
+            return true;
         }
 
         private void frmRRC_Long_Load(object sender, EventArgs e)
@@ -295,6 +369,8 @@ namespace TradingTools
 
             return r;
         }
+
+
         private void captureCalculatorState()
         {
             var c = CalculatorState;
@@ -485,7 +561,7 @@ namespace TradingTools
             };
 
             // 3 - Validation - the implementation may be incomplete but suffice for now - InputConverter.MoneyToDecimal
-            if (!RiskRewardCalc_Serv.CalculatorState_Validate(this.CalculatorState, out msg) || !Trade_Serv.TradeOpening_Validate(this.Trade, out msg))
+            if (!RiskRewardCalc_Serv.CalculatorState_Validate(this.CalculatorState, out msg) || !TradeService.TradeOpening_Validate(this.Trade, out msg))
             {
                 statusMessage.Text = msg;
                 MyMessageBox.Error(statusMessage.Text, "");
@@ -842,7 +918,7 @@ namespace TradingTools
 
                 string msg;
                 // 3 - Validation
-                if (!Trade_Serv.TradeClosing_Validate(Trade, out msg))
+                if (!TradeService.TradeClosing_Validate(Trade, out msg))
                 {
                     statusMessage.Text = msg;
                     MyMessageBox.Error(msg);

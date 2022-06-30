@@ -3,14 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TradingTools.Services.Interface;
 using TradingTools.Trunk;
 using TradingTools.Trunk.Entity;
 using TradingTools.Trunk.Validation;
 
 namespace TradingTools.Services
 {
-    public class Trade_Serv
+    public class TradeService
     {
+        public static IRiskRewardCalc RiskRewardCalcGetInstance(string side, Position position)
+        {
+            if (side == "short")
+                return new RiskRewardCalcShort(position);
+            else
+                return new RiskRewardCalcLong(position);
+        }
+
         public static decimal GetTrading_ElaspsedTime_Days(DateTime dateEnter, DateTime? dateExit)
         {
             DateTime exit = dateExit ?? dateEnter;

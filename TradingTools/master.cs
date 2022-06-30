@@ -26,7 +26,7 @@ namespace TradingTools
         public TradingToolsDbContext DbContext { get; set; }
         public frmCalculatorStates _frmCalcStates { get; set; }
         public frmTradeMasterFile _frmTradeMasterFile { get; set; }
-        public Trade_Serv TradeService { get; private set; }
+        public TradeService TradeService { get; private set; }
 
         public master()
         {

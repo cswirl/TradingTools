@@ -146,7 +146,7 @@ namespace TradingTools
                 string msg;
                 // validate
                 // for status = open
-                if (!Trade_Serv.TradeOpening_Validate(t, out msg))
+                if (!TradeService.TradeOpening_Validate(t, out msg))
                 {
                     statusMessage.Text = msg;
                     MyMessageBox.Error(msg);
@@ -162,7 +162,7 @@ namespace TradingTools
                     // auto-compute
 
                     // validate
-                    if (!Trade_Serv.TradeClosing_Validate(t, out msg))
+                    if (!TradeService.TradeClosing_Validate(t, out msg))
                     {
                         statusMessage.Text = msg;
                         MyMessageBox.Error(msg);

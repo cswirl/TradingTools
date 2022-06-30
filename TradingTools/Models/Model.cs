@@ -58,7 +58,6 @@ namespace TradingTools.Model
             if (!PreCalculate_Validate(out msg)) return false;
 
             // step 3: ORDER IS IMPORTANT - Process Data collected including others supporting data
-            Position.LeveragedCapital = Position.Capital * Position.Leverage;
             OpeningCost.TradingFee = TradingCost.GetTradingFee_in_dollar(Position.LeveragedCapital);
             Position.InitialPositionValue = Position.LeveragedCapital - OpeningCost.TradingFee;
             Position.LotSize = Position.InitialPositionValue / Position.EntryPriceAvg;
@@ -89,7 +88,6 @@ namespace TradingTools.Model
             }
 
             // step 3: ORDER IS IMPORTANT - Process Data collected including others supporting data
-            Position.LeveragedCapital = Position.Capital * Position.Leverage;
             OpeningCost.TradingFee = TradingCost.GetTradingFee_in_dollar(Position.LeveragedCapital);
             Position.InitialPositionValue = Position.LeveragedCapital - OpeningCost.TradingFee;
             Borrow.Amount = Position.LeveragedCapital - Position.Capital;
@@ -132,7 +130,6 @@ namespace TradingTools.Model
             }
 
             // step 3: ORDER IS IMPORTANT - Process Data collected including others supporting data
-            Position.LeveragedCapital = Position.Capital * Position.Leverage;
             OpeningCost.TradingFee = TradingCost.GetTradingFee_in_dollar(Position.LeveragedCapital);
             Position.InitialPositionValue = Position.LeveragedCapital - OpeningCost.TradingFee;
             Borrow.Amount = Position.LeveragedCapital - Position.Capital;
