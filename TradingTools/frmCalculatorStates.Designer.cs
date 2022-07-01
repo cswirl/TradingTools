@@ -31,7 +31,7 @@ namespace TradingTools
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.btnOpenCalc_Empty = new System.Windows.Forms.Button();
+            this.btnOpenCalcLong_Empty = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuTradeMasterFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,6 +46,8 @@ namespace TradingTools
             this.btnViewOfficial = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusMessage = new System.Windows.Forms.ToolStripStatusLabel();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.btnOpenCalcShort_Empty = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -55,11 +57,13 @@ namespace TradingTools
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel1.Controls.Add(this.panel5);
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel1.Location = new System.Drawing.Point(1176, 24);
@@ -70,27 +74,27 @@ namespace TradingTools
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.White;
-            this.panel4.Controls.Add(this.btnOpenCalc_Empty);
+            this.panel4.Controls.Add(this.btnOpenCalcLong_Empty);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
             this.panel4.Padding = new System.Windows.Forms.Padding(3);
-            this.panel4.Size = new System.Drawing.Size(112, 60);
+            this.panel4.Size = new System.Drawing.Size(112, 57);
             this.panel4.TabIndex = 0;
             // 
-            // btnOpenCalc_Empty
+            // btnOpenCalcLong_Empty
             // 
-            this.btnOpenCalc_Empty.BackColor = System.Drawing.Color.MediumSeaGreen;
-            this.btnOpenCalc_Empty.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnOpenCalc_Empty.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnOpenCalc_Empty.ForeColor = System.Drawing.Color.White;
-            this.btnOpenCalc_Empty.Location = new System.Drawing.Point(3, 3);
-            this.btnOpenCalc_Empty.Name = "btnOpenCalc_Empty";
-            this.btnOpenCalc_Empty.Size = new System.Drawing.Size(106, 54);
-            this.btnOpenCalc_Empty.TabIndex = 5;
-            this.btnOpenCalc_Empty.Text = "CREATE NEW";
-            this.btnOpenCalc_Empty.UseVisualStyleBackColor = false;
-            this.btnOpenCalc_Empty.Click += new System.EventHandler(this.btnOpenCalc_Empty_Click);
+            this.btnOpenCalcLong_Empty.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.btnOpenCalcLong_Empty.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnOpenCalcLong_Empty.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnOpenCalcLong_Empty.ForeColor = System.Drawing.Color.White;
+            this.btnOpenCalcLong_Empty.Location = new System.Drawing.Point(3, 3);
+            this.btnOpenCalcLong_Empty.Name = "btnOpenCalcLong_Empty";
+            this.btnOpenCalcLong_Empty.Size = new System.Drawing.Size(106, 51);
+            this.btnOpenCalcLong_Empty.TabIndex = 5;
+            this.btnOpenCalcLong_Empty.Text = "NEW LONG";
+            this.btnOpenCalcLong_Empty.UseVisualStyleBackColor = false;
+            this.btnOpenCalcLong_Empty.Click += new System.EventHandler(this.btnOpenCalc_Empty_Click);
             // 
             // menuStrip1
             // 
@@ -263,6 +267,31 @@ namespace TradingTools
             this.statusMessage.Size = new System.Drawing.Size(106, 17);
             this.statusMessage.Text = "Status message . . .";
             // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.Color.White;
+            this.panel5.Controls.Add(this.btnOpenCalcShort_Empty);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel5.Location = new System.Drawing.Point(0, 57);
+            this.panel5.Name = "panel5";
+            this.panel5.Padding = new System.Windows.Forms.Padding(3);
+            this.panel5.Size = new System.Drawing.Size(112, 57);
+            this.panel5.TabIndex = 1;
+            // 
+            // btnOpenCalcShort_Empty
+            // 
+            this.btnOpenCalcShort_Empty.BackColor = System.Drawing.Color.Red;
+            this.btnOpenCalcShort_Empty.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnOpenCalcShort_Empty.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnOpenCalcShort_Empty.ForeColor = System.Drawing.Color.White;
+            this.btnOpenCalcShort_Empty.Location = new System.Drawing.Point(3, 3);
+            this.btnOpenCalcShort_Empty.Name = "btnOpenCalcShort_Empty";
+            this.btnOpenCalcShort_Empty.Size = new System.Drawing.Size(106, 51);
+            this.btnOpenCalcShort_Empty.TabIndex = 5;
+            this.btnOpenCalcShort_Empty.Text = "NEW SHORT";
+            this.btnOpenCalcShort_Empty.UseVisualStyleBackColor = false;
+            this.btnOpenCalcShort_Empty.Click += new System.EventHandler(this.btnOpenCalcShort_Empty_Click);
+            // 
             // frmCalculatorStates
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -290,6 +319,7 @@ namespace TradingTools
             this.panel3.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.panel5.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -302,7 +332,7 @@ namespace TradingTools
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.DataGridView dgvUnofficial;
         private System.Windows.Forms.Button btnViewUnofficial_Loaded;
-        private System.Windows.Forms.Button btnOpenCalc_Empty;
+        private System.Windows.Forms.Button btnOpenCalcLong_Empty;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dgvTrades_Open;
@@ -314,5 +344,7 @@ namespace TradingTools
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button btnViewOfficial;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Button btnOpenCalcShort_Empty;
     }
 }

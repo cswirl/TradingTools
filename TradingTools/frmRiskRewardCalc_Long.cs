@@ -36,15 +36,30 @@ namespace TradingTools
         public Position Position { get; set; }
 
 
+        public frmRiskRewardCalc_Long(string side)
+        {
+            InitializeComponent();
 
+            // Priority
+            // Dependency Injection of RiskRewardCalc
+            Side = side;
+            Position = new Position();
+            _rrc = TradeService.RiskRewardCalcGetInstance(side, Position);
+            //
+
+            myInitializeComponent();
+        }
+
+        // May be obsoleted
         public frmRiskRewardCalc_Long()
         {
             InitializeComponent();
 
-            // Dependency Injection of RiskRewardCalc
-            Position = new Position();
-            _rrc = TradeService.RiskRewardCalcGetInstance(Side, Position);
+            myInitializeComponent();
+        }
 
+        private void myInitializeComponent()
+        {
             panelBandTop.Height = 3;
             panelBandBottom.Height = 3;
             cbxTradingStyle.DataSource = Enum.GetValues(typeof(TradingStyle));
@@ -89,13 +104,11 @@ namespace TradingTools
             txtInterestCost.Text = _calculationDetails.Borrow.InterestCost.ToMoney();
             ////
 
-
-            var pit = _rrc.GenerateProfitsTable(Position).OrderByDescending(o => o.PCP).ToList();
-
+            // PnL Tables
+            var pit = _rrc.GenerateProfitsTable(Position);
             if (pit != null) dgvPriceIncreaseTable.DataSource = pit;
 
-            var pdt = _rrc.GenerateLossesTable(Position).OrderByDescending(o => o.PCP).ToList();
-
+            var pdt = _rrc.GenerateLossesTable(Position);
             if (pdt != null) dgvPriceDecreaseTable.DataSource = pdt;
 
             // compute buttons

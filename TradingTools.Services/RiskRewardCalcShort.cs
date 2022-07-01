@@ -1,0 +1,71 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TradingTools.Services.Dto;
+using TradingTools.Services.Extensions;
+using TradingTools.Services.Interface;
+using TradingTools.Services.Models;
+using TradingTools.Trunk;
+
+namespace TradingTools.Services
+{
+    public class RiskRewardCalcShort : IRiskRewardCalc
+    {
+        private readonly Position _position;
+
+        public RiskRewardCalcShort(Position position)
+        {
+            this._position = position;
+        }
+
+        public IList<PnLRecord> GenerateProfitsTable(Position position)
+        {
+            decimal[] pcp = { 1m, 2m, 3m, 4m, 5m, 6, 7m, 8, 10m };
+
+            var table = PnLTable.GenerateTable(position.EntryPriceAvg, position.LotSize,
+                position.LeveragedCapital, pcp).OrderByDescending(o => o.PCP).ToList();
+
+            // Invert the signs of PnL for visual convenience
+            foreach(var x in table)
+                x.Short();
+
+            return table;
+        }
+
+        IList<PnLRecord> IRiskRewardCalc.GenerateLossesTable(Position position)
+        {
+            decimal[] pcp = { -5m, -7m, -8m, -10m, -12m, -15m, -20m, -25m, -30m };
+            
+
+            var table = PnLTable.GenerateTable(position.EntryPriceAvg, position.LotSize,
+                position.LeveragedCapital, pcp).OrderByDescending(o => o.PCP).ToList();
+
+            // Invert the signs of PnL for visual convenience
+            foreach (var x in table)
+                x.Short();
+
+            return table;
+        }
+
+        public TradeExitDto ComputeTradeExit(decimal exitPrice, Position position)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IRiskRewardCalc.ComputeLoss(decimal exitPrice)
+        {
+            throw new NotImplementedException();
+        }
+
+        PnLRecord IRiskRewardCalc.ComputeProfit(decimal exitPrice)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+
+        
+    }
+}

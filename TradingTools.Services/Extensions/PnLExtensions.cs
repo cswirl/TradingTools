@@ -12,7 +12,7 @@ namespace TradingTools.Services.Extensions
         public static PnLRecord Short(this PnLRecord pnl)
         {
             // Invert the signs
-            pnl.PCP = -pnl.PCP;
+            //pnl.PCP = -pnl.PCP;
             pnl.PnL_Percentage = -pnl.PnL_Percentage;
             pnl.PnL = -pnl.PnL;
 

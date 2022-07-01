@@ -6,6 +6,8 @@ namespace TradingTools.Trunk
     {
         public static decimal LeveragedCapital(decimal capital, decimal leverage)
         {
+            capital.MustBeEqualOrAbove(0, nameof(capital));
+            leverage.MustBeEqualOrAbove(0, nameof(leverage));
             return capital * leverage;
         }
 

@@ -50,6 +50,7 @@ namespace TradingTools
             // delegates
             _frmCalcStates.CalculatorState_Loaded_OnRequest += this.FormRRCLong_Loaded_Spawn;
             _frmCalcStates.FormRRCLong_Empty_Open += this.FormRRCLong_Empty_Spawn;
+            _frmCalcStates.FormRRC_Short_Empty_Open += this.FormRRC_Short_Empty_Spawn;
             _frmCalcStates.Trade_TradeOpen_OnRequest += this.FormRRCLong_Trade_Spawn;
             _frmCalcStates.FormTradeMasterFile += this.FormTradeMasterFile;
             this.tradeOfficialized += _frmCalcStates.Trade_Officialized;
@@ -154,7 +155,17 @@ namespace TradingTools
 
         private void FormRRCLong_Empty_Spawn(object sender, EventArgs e)
         {
-            var form = new frmRiskRewardCalc_Long();
+            FormRRC_Empty_Spawn("long");
+        }
+
+        private void FormRRC_Short_Empty_Spawn(object sender, EventArgs e)
+        {
+            FormRRC_Empty_Spawn("short");
+        }
+
+        private void FormRRC_Empty_Spawn(string side)
+        {
+            var form = new frmRiskRewardCalc_Long(side);
             form.Owner = this;
             form.Show();
             //Delegates assignment here

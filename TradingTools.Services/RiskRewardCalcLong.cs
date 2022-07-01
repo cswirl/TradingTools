@@ -26,7 +26,7 @@ namespace TradingTools.Services
             decimal[] pcp = { 5m, 7m, 8m, 10m, 12m, 15m, 20m, 25m, 30m };
 
             return PnLTable.GenerateTable(position.EntryPriceAvg, position.LotSize,
-                position.LeveragedCapital, pcp);
+                position.LeveragedCapital, pcp).OrderByDescending(o => o.PCP).ToList();
         }
 
         public IList<PnLRecord> GenerateLossesTable(Position position)
@@ -34,7 +34,7 @@ namespace TradingTools.Services
             decimal[] pcp = { -1m, -2m, -3m, -4m, -5m, -6, -7m, -8, -10m };
 
             return PnLTable.GenerateTable(position.EntryPriceAvg, position.LotSize,
-                position.LeveragedCapital, pcp);
+                position.LeveragedCapital, pcp).OrderByDescending(o => o.PCP).ToList();
         }
 
         public PnLRecord ComputeProfit(decimal exitPrice)
@@ -58,40 +58,7 @@ namespace TradingTools.Services
 
     }
 
-    public class RiskRewardCalcShort : IRiskRewardCalc
-    {
-        private readonly Position _position;
-
-        public RiskRewardCalcShort(Position position)
-        {
-            this._position = position;
-        }
-        public TradeExitDto ComputeTradeExit(decimal exitPrice, Position position)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IRiskRewardCalc.ComputeLoss(decimal exitPrice)
-        {
-            throw new NotImplementedException();
-        }
-
-        PnLRecord IRiskRewardCalc.ComputeProfit(decimal exitPrice)
-        {
-            throw new NotImplementedException();
-        }
-
-        IList<PnLRecord> IRiskRewardCalc.GenerateLossesTable(Position position)
-        {
-            throw new NotImplementedException();
-        }
-
-        IList<PnLRecord> IRiskRewardCalc.GenerateProfitsTable(Position position)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
+    
     public class PnLTable
     {
         private static decimal[] _princeChangeIncrements = { 1m, 2m, 3m, 4m, 5m };
