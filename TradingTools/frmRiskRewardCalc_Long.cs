@@ -65,16 +65,9 @@ namespace TradingTools
 
             string msg;
 
-            // This may be replaced by CollectPosition
-            //if (!captureCalculationDetails(out msg))
-            //{
-            //    statusMessage.Text = msg;
-            //    MyMessageBox.Error(statusMessage.Text, "");
-            //    return;
-            //}
-
             // Position
-            if (!CollectPosition(out msg))
+            Position = GetPositionData(out msg);
+            if (Position  == default)
             {
                 statusMessage.Text = msg;
                 MyMessageBox.Error(statusMessage.Text, "");
@@ -96,25 +89,10 @@ namespace TradingTools
             txtInterestCost.Text = _calculationDetails.Borrow.InterestCost.ToMoney();
             ////
 
-            //Closing Position - information
-            //var pit = _rrc_serv.PriceIncreaseTable.GenerateTable(
-            //    _calculationDetails.Position.EntryPriceAvg,
-            //    _calculationDetails.Position.LotSize,
-            //    _calculationDetails.Borrow.InterestCost,
-            //    _calculationDetails.Position.Capital
-            //    ).OrderByDescending(o => o.PCP).ToList();
 
             var pit = _rrc.GenerateProfitsTable(Position).OrderByDescending(o => o.PCP).ToList();
 
             if (pit != null) dgvPriceIncreaseTable.DataSource = pit;
-
-
-            //var pdt = _rrc_serv.PriceDecreaseTable.GenerateTable(
-            //    _calculationDetails.Position.EntryPriceAvg,
-            //    _calculationDetails.Position.LotSize,
-            //    _calculationDetails.Borrow.InterestCost,
-            //    _calculationDetails.Position.Capital
-            //    ).OrderByDescending(o => o.PCP).ToList();
 
             var pdt = _rrc.GenerateLossesTable(Position).OrderByDescending(o => o.PCP).ToList();
 
@@ -129,54 +107,53 @@ namespace TradingTools
             PerfectEntry_Compute(null, null);
         }
 
-        private bool CollectPosition(out string msg)
+        private Position GetPositionData(out string msg)
         {
+            var p = new Position();
             msg = string.Empty;
 
             // Collect Data
-            Position.Capital = txtCapital.Text.ToDecimal();
-            Position.EntryPriceAvg = txtEntryPrice.Text.ToDecimal();
-            Position.Leverage = txtLeverage.Text.ToDecimal();
-            Position.LotSize = txtLotSize.Text.ToDecimal();
+            p.Capital = txtCapital.Text.ToDecimal();
+            p.EntryPriceAvg = txtEntryPrice.Text.ToDecimal();
+            p.Leverage = txtLeverage.Text.ToDecimal();
+            p.LotSize = txtLotSize.Text.ToDecimal();
 
             // Validation - The collection process will assign default values - no null object is expected
             // divide by zero screener
-            if (Position.Capital == 0 || Position.EntryPriceAvg == 0)
+            if (p.Capital == 0 || p.EntryPriceAvg == 0)
             {
                 msg = "Capital and Entry Price needed.";
-                return false;
+                return default;
             }
 
-            if (radioLeverage.Checked && Position.LotSize == 0) {
+            if (radioLeverage.Checked && p.LotSize == 0) {
                 msg = "Lot Size value is needed.";
-                return false;
+                return default;
             }
 
-            if (radioLotSize.Checked && Position.Leverage <= 0) {
+            if (radioLotSize.Checked && p.Leverage <= 0) {
                 msg = "Leverage value is needed.";
-                return false;
+                return default;
             }
 
             // Process
-            Position.Leverage = radioLeverage.Checked
-                ? Formula.Leverage(Position.EntryPriceAvg, Position.LotSize, Position.Capital)
-                : Position.Leverage;
-            Position.LotSize = radioLotSize.Checked
-                ? Formula.LotSize(Position.Capital, Position.Leverage, Position.EntryPriceAvg)
-                : Position.LotSize;
+            p.Leverage = radioLeverage.Checked
+                ? Formula.Leverage(p.EntryPriceAvg, p.LotSize, p.Capital)
+                : p.Leverage;
+            p.LotSize = radioLotSize.Checked
+                ? Formula.LotSize(p.Capital, p.Leverage, p.EntryPriceAvg)
+                : p.LotSize;
 
 
             // Final Validation - Strict
             // Hence, Minimum value 
-            if (Position.Capital <= 10 | Position.LotSize <= 0 | Position.EntryPriceAvg <= 0)
+            if (p.Capital <= 10 | p.LotSize <= 0 | p.EntryPriceAvg <= 0)
             {
                 msg = "Invalid input data";
-                return false;
+                return default;
             }
 
-            
-
-            return true;
+            return p;
         }
 
         private void frmRRC_Long_Load(object sender, EventArgs e)
@@ -351,25 +328,6 @@ namespace TradingTools
             if (State == RiskRewardCalcState.Deleted) return;
             Save();
         }
-
-        private bool captureCalculationDetails(out string msg)
-        {
-            // The _calculationDetails will do the step 2 and 3 internally
-            // step 2: Collect data -Receptors
-            // step 2-B: Validation 
-            // step 3: Process Data collected including others supporting data
-
-            bool r = _calculationDetails.Calculate(
-            StringToNumeric.MoneyToDecimal(txtCapital.Text),
-            InputConverter.Decimal(checkLeverage.Checked ? "0" : txtLeverage.Text),
-            InputConverter.Decimal(txtLotSize.Text),
-            InputConverter.Decimal(txtEntryPrice.Text),
-            (int)nudDayCount.Value,
-            nudDailyInterestRate.Value, out msg);
-
-            return r;
-        }
-
 
         private void captureCalculatorState()
         {
@@ -758,7 +716,8 @@ namespace TradingTools
                         cbxTradingStyle.Enabled = false;
                         nudDayCount.ReadOnly = true;
                         nudDailyInterestRate.ReadOnly = true;
-                        checkLeverage.Enabled = false;
+                        radioLeverage.Enabled = false;
+                        radioLotSize.Enabled = false;
 
                         btnReCalculate.Visible = false;
                         btnDelete.Visible = false;
@@ -836,7 +795,8 @@ namespace TradingTools
                     cbxTradingStyle.Enabled = false;
                     nudDayCount.ReadOnly = true;
                     nudDailyInterestRate.ReadOnly = true;
-                    checkLeverage.Enabled = false;
+                    radioLeverage.Enabled = false;
+                    radioLotSize.Enabled = false;
 
                     btnDelete.Visible = false;
                     btnOfficializedTrade.Enabled = false;
@@ -1144,17 +1104,6 @@ namespace TradingTools
             Enum.TryParse<TradingStyle>(cbxTradingStyle.SelectedValue.ToString(), out _tradingStyle);
         }
 
-        private void checkLeverage_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkLeverage.Checked)
-            {
-                txtLeverage.ReadOnly = true;
-            }
-            else
-            {
-                txtLeverage.ReadOnly = false;
-            }
-        }
 
         private void radioLotSize_CheckedChanged(object sender, EventArgs e)
         {

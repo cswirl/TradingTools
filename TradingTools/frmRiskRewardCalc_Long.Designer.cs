@@ -38,7 +38,6 @@ namespace TradingTools
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.radioLotSize = new System.Windows.Forms.RadioButton();
             this.radioLeverage = new System.Windows.Forms.RadioButton();
-            this.checkLeverage = new System.Windows.Forms.CheckBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
             this.label64 = new System.Windows.Forms.Label();
@@ -309,7 +308,6 @@ namespace TradingTools
             this.splitContainer1.Panel1.BackColor = System.Drawing.SystemColors.Control;
             this.splitContainer1.Panel1.Controls.Add(this.radioLotSize);
             this.splitContainer1.Panel1.Controls.Add(this.radioLeverage);
-            this.splitContainer1.Panel1.Controls.Add(this.checkLeverage);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox8);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox7);
             this.splitContainer1.Panel1.Controls.Add(this.label2);
@@ -373,22 +371,6 @@ namespace TradingTools
             this.radioLeverage.TabIndex = 26;
             this.radioLeverage.UseVisualStyleBackColor = true;
             this.radioLeverage.CheckedChanged += new System.EventHandler(this.radioLeverage_CheckedChanged);
-            // 
-            // checkLeverage
-            // 
-            this.checkLeverage.AutoSize = true;
-            this.checkLeverage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkLeverage.Location = new System.Drawing.Point(13, 66);
-            this.checkLeverage.Name = "checkLeverage";
-            this.checkLeverage.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.checkLeverage.Size = new System.Drawing.Size(47, 19);
-            this.checkLeverage.TabIndex = 25;
-            this.checkLeverage.TabStop = false;
-            this.checkLeverage.Text = "auto";
-            this.checkLeverage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkLeverage.UseVisualStyleBackColor = true;
-            this.checkLeverage.Visible = false;
-            this.checkLeverage.CheckedChanged += new System.EventHandler(this.checkLeverage_CheckedChanged);
             // 
             // groupBox8
             // 
@@ -2512,7 +2494,6 @@ namespace TradingTools
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel13;
         private System.Windows.Forms.RadioButton radioLotSize;
         private System.Windows.Forms.RadioButton radioLeverage;
-        private System.Windows.Forms.CheckBox checkLeverage;
     }
 }
 
