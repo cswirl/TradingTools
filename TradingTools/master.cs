@@ -49,11 +49,14 @@ namespace TradingTools
             _frmCalcStates.StartPosition = FormStartPosition.CenterScreen;
             _frmCalcStates.Show();
             // delegates
-            _frmCalcStates.CalculatorState_Loaded_OnRequest += this.FormRRCLong_Loaded_Spawn;
             _frmCalcStates.FormRRCLong_Empty_Open += this.FormRRCLong_Empty_Spawn;
-            _frmCalcStates.FormRRC_Short_Empty_Open += this.FormRRC_Short_Empty_Spawn;
+            _frmCalcStates.CalculatorState_Loaded_OnRequest += this.FormRRCLong_Loaded_Spawn;
             _frmCalcStates.Trade_TradeOpen_OnRequest += this.FormRRCLong_Trade_Spawn;
+            //
+            _frmCalcStates.FormRRC_Short_Empty_Open += this.FormRRC_Short_Empty_Spawn;
+            //
             _frmCalcStates.FormTradeMasterFile += this.FormTradeMasterFile;
+            //
             this.tradeOfficialized += _frmCalcStates.Trade_Officialized;
             this.tradeClosed += _frmCalcStates.Trade_Closed;
             this.tradeDeleted += _frmCalcStates.Trade_Deleted;
