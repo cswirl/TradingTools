@@ -1097,7 +1097,7 @@ namespace TradingTools
             this.txtLeverage.Location = new System.Drawing.Point(125, 125);
             this.txtLeverage.Name = "txtLeverage";
             this.txtLeverage.Size = new System.Drawing.Size(95, 23);
-            this.txtLeverage.TabIndex = 2;
+            this.txtLeverage.TabIndex = 3;
             this.txtLeverage.Tag = "";
             this.txtLeverage.Text = "1";
             this.txtLeverage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -1123,7 +1123,7 @@ namespace TradingTools
             this.txtEntryPrice.Location = new System.Drawing.Point(125, 96);
             this.txtEntryPrice.Name = "txtEntryPrice";
             this.txtEntryPrice.Size = new System.Drawing.Size(95, 23);
-            this.txtEntryPrice.TabIndex = 3;
+            this.txtEntryPrice.TabIndex = 2;
             this.txtEntryPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtEntryPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
             this.txtEntryPrice.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Decimal_Validating);

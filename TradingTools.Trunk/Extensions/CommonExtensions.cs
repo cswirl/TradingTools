@@ -38,6 +38,10 @@ namespace TradingTools.Trunk.Extensions
 
         public static string ToPercentageSingle(this decimal d) => d.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
 
+        public static string ToDecimalUptoOne(this decimal d) => d.ToString(Constant.DECIMAL_UPTO_ONE);
+
+        public static string ToDecimalUptoTwo(this decimal d) => d.ToString(Constant.DECIMAL_UPTO_TWO);
+
     }
 
 

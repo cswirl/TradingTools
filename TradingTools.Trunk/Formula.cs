@@ -36,11 +36,11 @@ namespace TradingTools.Trunk
             return entryPrice * lotSize / capital;
         }
 
-        public static decimal PCP(decimal EntryPrice, decimal? ExitPrice)
+        public static decimal PCP(decimal entryPrice, decimal? ExitPrice)
         {
-            if (EntryPrice == 0) return 0;      // divide by zero
-            decimal exitPrice = ExitPrice ?? EntryPrice;
-            return (exitPrice - EntryPrice) / EntryPrice * 100;
+            if (entryPrice == 0) return 0;      // divide by zero
+            decimal exitPrice = ExitPrice ?? entryPrice;    // if ExitPrice is null, will result to zero
+            return (exitPrice - entryPrice) / entryPrice * 100;
         }
 
         public static decimal PnL_percentage(decimal initialCapital, decimal? finalCapital)
@@ -85,9 +85,5 @@ namespace TradingTools.Trunk
             return leveragedCapital * exchangeFeeRate;
         }
 
-        public static decimal SpeculativePositionValue(decimal lotSize, decimal ExitPrice)
-        {
-            return lotSize * ExitPrice;
-        }
     }
 }

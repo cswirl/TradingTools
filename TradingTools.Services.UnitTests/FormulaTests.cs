@@ -55,5 +55,17 @@ namespace TradingTools.Services.UnitTests
 
             Assert.That(() => Formula.Leverage(10, 10, 0), Throws.InstanceOf<ArgumentException>());
         }
+
+        [Test]
+        public void PCP_EntryPriceIsZero_ReturnZero()
+        {
+            Assert.That(Formula.PCP(0, 1), Is.EqualTo(0));
+        }
+
+        [Test]
+        public void PCP_ExitPriceIsNull_ReturnZero()
+        {
+            Assert.That(Formula.PCP(1, default), Is.EqualTo(0));
+        }
     }
 }

@@ -231,14 +231,14 @@ namespace TradingTools
             if (priceTarget <= 0) return;
 
             // 3
-            var exitPlan = _rrc.PnlExitPlan(priceTarget, Position);
-            var rec = exitPlan.Item1;
-            var sPV = exitPlan.Item2;
-            var equity = exitPlan.Item3;
+            var exitPnl = _rrc.PnlExitPlan(priceTarget, Position);
+            var rec = exitPnl.Item1;
+            var pv = exitPnl.Item2;
+            var equity = exitPnl.Item3;
 
             // 4
             if (rec == null) return;
-            txtPEP_sPV.Text = sPV.ToMoney();
+            txtPEP_sPV.Text = pv.ToMoney();
             txtPEP_AccountEquity.Text = equity.ToMoney();
 
             txtPEP_PCP.Text = rec.PCP.ToPercentageSingle();
@@ -278,39 +278,37 @@ namespace TradingTools
         private void TradeExit_Compute(object sender, EventArgs e)
         {
             // 2
-            decimal priceTarget = InputConverter.Decimal(txtTradeExit_ExitPrice.Text);
+            decimal priceTarget = txtTradeExit_ExitPrice.Text.ToDecimal();
             if (priceTarget <= 0) return;
 
             // 3
-            var rec = _rrc_serv.PriceIncreaseTable.GeneratePriceIncreaseRecord(
-                priceTarget,
-                _calculationDetails.Position.EntryPriceAvg,
-                _calculationDetails.Position.LotSize,
-                _calculationDetails.Borrow.InterestCost,
-                _calculationDetails.Position.Capital);
+            var exitPnl = _rrc.PnlExitPlan(priceTarget, Position);
+            var rec = exitPnl.Item1;
+            var pv = exitPnl.Item2;
+            var equity = exitPnl.Item3;
 
             // 4
             if (rec == null) return;
-            txtTradeExit_PV.Text = _calculationDetails.GetSpeculativePositionValue(priceTarget).ToString(Constant.MONEY_FORMAT);
-            txtFinalCapital.Text = _calculationDetails.GetSpeculativeAccountEquity(priceTarget).ToString(Constant.MONEY_FORMAT);
+            txtTradeExit_PV.Text = pv.ToMoney();
+            txtFinalCapital.Text = equity.ToMoney();
 
-            txtTradeExit_PCP.Text = rec.PCP.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
-            txtTradeExit_PnL_percentage.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
-            txtTradeExit_PnL.Text = rec.PnL.ToString(Constant.MONEY_FORMAT);
-            txtTradeExit_TC.Text = rec.TradingCost.ToString(Constant.MONEY_FORMAT);
+            txtTradeExit_PCP.Text = rec.PCP.ToPercentageSingle();
+            txtTradeExit_PnL_percentage.Text = rec.PnL_Percentage.ToPercentageSingle();
+            txtTradeExit_PnL.Text = rec.PnL.ToMoney();
+            txtTradeExit_TC.Text = "--";
         }
 
         private void PerfectEntry_Compute(object sender, EventArgs e)
         {
             // 2
-            decimal entryPrice = InputConverter.MoneyToDecimal(txtPerfectEntry_EntryPrice.Text);
-            decimal exitPrice = InputConverter.MoneyToDecimal(txtPerfectEntry_ExitPrice.Text);
-            //if (entryPrice <= 0 || exitPrice <= 0) return;
+            decimal entryPrice = txtPerfectEntry_EntryPrice.Text.ToDecimal();
+            decimal exitPrice = txtPerfectEntry_ExitPrice.Text.ToDecimal();
+            if (entryPrice <= 0 || exitPrice <= 0) return;
 
             //
-            decimal pcp = RiskRewardCalc_Serv.PCP(entryPrice, exitPrice);
-            txtPerfectEntry_PCP.Text = pcp.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
-            txtMultiple.Text = (pcp / 100).ToString(Constant.ONE_DECIMAL_UPTO) + "x";
+            decimal pcp = Formula.PCP(entryPrice, exitPrice);
+            txtPerfectEntry_PCP.Text = pcp.ToPercentageSingle();
+            txtMultiple.Text = (1 + (pcp / 100)).ToDecimalUptoTwo() + "x";
         }
 
         private void btnSetLEP_Click(object sender, EventArgs e)

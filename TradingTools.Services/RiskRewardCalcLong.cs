@@ -43,10 +43,11 @@ namespace TradingTools.Services
             return PnLRecord.Create(exitPrice, pos.EntryPriceAvg, pos.LotSize, pos.Capital);
         }
 
+        // Rename to TradeExitPnl ?
         public Tuple<PnLRecord, decimal, decimal> PnlExitPlan(decimal exitPrice, Position position)
         {
             var rec = ComputePnL(exitPrice, position);
-            var sPV = Formula.SpeculativePositionValue(position.LotSize, exitPrice);
+            var sPV = Formula.PositionValue(position.LotSize, exitPrice);
             var equity = Formula.AccountEquity(position.LotSize,
                 exitPrice, Formula.BorrowedAmount(position.Leverage, position.Capital));
 
