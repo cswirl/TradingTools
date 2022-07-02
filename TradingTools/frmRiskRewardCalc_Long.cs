@@ -36,15 +36,14 @@ namespace TradingTools
         public Position Position { get; set; }
 
 
-        public frmRiskRewardCalc_Long(string side)
+        public frmRiskRewardCalc_Long(IRiskRewardCalc riskRewardCalc)
         {
             InitializeComponent();
 
             // Priority
             // Dependency Injection of RiskRewardCalc
-            Side = side;
-            Position = new Position();
-            _rrc = TradeService.RiskRewardCalcGetInstance(side, Position);
+            _rrc = riskRewardCalc;
+            Side = riskRewardCalc.Side;
             //
 
             myInitializeComponent();

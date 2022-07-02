@@ -14,13 +14,14 @@ namespace TradingTools.Services
     public class RiskRewardCalcShort : IRiskRewardCalc
     {
         private readonly Position _position;
+        public string Side { get; } = "short";
 
-        public RiskRewardCalcShort(Position position)
+        public RiskRewardCalcShort()
         {
-            this._position = position;
+
         }
 
-        public IList<PnLRecord> GenerateProfitsTable(Position position)
+        IList<PnLRecord> IRiskRewardCalc.GenerateProfitsTable(Position position)
         {
             decimal[] pcp = { 1m, 2m, 3m, 4m, 5m, 6, 7m, 8, 10m };
 
@@ -28,7 +29,7 @@ namespace TradingTools.Services
                 position.LeveragedCapital, pcp).OrderByDescending(o => o.PCP).ToList();
 
             // Invert the signs of PnL for visual convenience
-            foreach(var x in table)
+            foreach (var x in table)
                 x.Short();
 
             return table;
@@ -49,25 +50,12 @@ namespace TradingTools.Services
             return table;
         }
 
-        public TradeExitDto ComputeTradeExit(decimal exitPrice, Position position)
-        {
-            throw new NotImplementedException();
-        }
-
         PnLRecord IRiskRewardCalc.ComputePnL(decimal exitPrice, Position position)
         {
             throw new NotImplementedException();
         }
 
-        TradeExitDto IRiskRewardCalc.ComputeTradeExit(decimal exitPrice, Position position)
-        {
-            throw new NotImplementedException();
-        }
-
-        IList<PnLRecord> IRiskRewardCalc.GenerateProfitsTable(Position position)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         Tuple<PnLRecord, decimal, decimal> IRiskRewardCalc.PnlExitPlan(decimal exitPrice, Position position)
         {

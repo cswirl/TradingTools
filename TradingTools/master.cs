@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TradingTools.DAL;
 using TradingTools.Services;
+using TradingTools.Services.Interface;
 using TradingTools.Trunk;
 using TradingTools.Trunk.Entity;
 
@@ -155,17 +156,19 @@ namespace TradingTools
 
         private void FormRRCLong_Empty_Spawn(object sender, EventArgs e)
         {
-            FormRRC_Empty_Spawn("long");
+            var rrc = TradeService.RiskRewardCalcGetInstance("long");
+            FormRRC_Empty_Spawn(rrc);
         }
 
         private void FormRRC_Short_Empty_Spawn(object sender, EventArgs e)
         {
-            FormRRC_Empty_Spawn("short");
+            var rrc = TradeService.RiskRewardCalcGetInstance("short");
+            FormRRC_Empty_Spawn(rrc);
         }
 
-        private void FormRRC_Empty_Spawn(string side)
+        private void FormRRC_Empty_Spawn(IRiskRewardCalc riskRewardCalc)
         {
-            var form = new frmRiskRewardCalc_Long(side);
+            var form = new frmRiskRewardCalc_Long(riskRewardCalc);
             form.Owner = this;
             form.Show();
             //Delegates assignment here

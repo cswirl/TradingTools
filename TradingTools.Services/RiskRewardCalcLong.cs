@@ -15,9 +15,11 @@ namespace TradingTools.Services
     {
         private Position _position;
 
-        public RiskRewardCalcLong(Position position)
+        public string Side { get; } = "long";
+
+        public RiskRewardCalcLong()
         {
-            _position = position;
+            
         }
 
 

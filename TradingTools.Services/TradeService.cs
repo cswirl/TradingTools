@@ -12,12 +12,12 @@ namespace TradingTools.Services
 {
     public class TradeService
     {
-        public static IRiskRewardCalc RiskRewardCalcGetInstance(string side, Position position)
+        public static IRiskRewardCalc RiskRewardCalcGetInstance(string side)
         {
             if (side == "short")
-                return new RiskRewardCalcShort(position);
+                return new RiskRewardCalcShort();
             else
-                return new RiskRewardCalcLong(position);
+                return new RiskRewardCalcLong();
         }
 
         public static decimal GetTrading_ElaspsedTime_Days(DateTime dateEnter, DateTime? dateExit)
