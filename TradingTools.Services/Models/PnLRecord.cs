@@ -13,7 +13,7 @@ namespace TradingTools.Services.Models
         public decimal PnL_Percentage { get; set; }
         public decimal ExitPrice { get; init; }
 
-        public static PnLRecord Create(decimal exitPrice, decimal entryPrice, decimal lotSize, decimal leveragedCapital)
+        public static PnLRecord Create(decimal exitPrice, decimal entryPrice, decimal lotSize, decimal capital)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace TradingTools.Services.Models
                 {
                     PCP = pip,
                     PnL = pnl,
-                    PnL_Percentage = pnl / leveragedCapital * 100
+                    PnL_Percentage = pnl / capital * 100
                 };
             }
             catch (DivideByZeroException dex)

@@ -1,4 +1,5 @@
-﻿using TradingTools.Trunk.Validations;
+﻿using System;
+using TradingTools.Trunk.Validations;
 
 namespace TradingTools.Trunk
 {
@@ -55,7 +56,10 @@ namespace TradingTools.Trunk
             return f - initialCapital;
         }
 
-        
+        public static decimal BorrowedAmount(decimal leverage, decimal capital)
+        {
+            return LeveragedCapital(capital, leverage) - capital;
+        }
 
         public static decimal PositionValue(decimal lotSize, decimal price)
         {
@@ -67,6 +71,23 @@ namespace TradingTools.Trunk
             decimal _exitPrice = exitPrice ?? 0;
             return _exitPrice * lotSize;
         }
-        public static decimal AccountEquity(decimal positionValue, decimal borrowedAmount) => positionValue - borrowedAmount;
+
+        public static decimal AccountEquity(decimal positionValue, decimal borrowedAmount) 
+            => positionValue - borrowedAmount;
+
+        public static decimal AccountEquity(decimal lotSize, decimal price, decimal borrowedAmount)
+        {
+            return PositionValue(lotSize, price) - borrowedAmount;
+        }
+
+        public static decimal TradingFee(decimal leveragedCapital, decimal exchangeFeeRate)
+        {
+            return leveragedCapital * exchangeFeeRate;
+        }
+
+        public static decimal SpeculativePositionValue(decimal lotSize, decimal ExitPrice)
+        {
+            return lotSize * ExitPrice;
+        }
     }
 }

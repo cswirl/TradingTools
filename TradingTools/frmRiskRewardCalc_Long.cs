@@ -95,12 +95,15 @@ namespace TradingTools
             txtLeverage.Text = Position.Leverage.ToLeverageDecimalPlace();
             txtLotSize.Text = Position.LotSize.ToMaxDecimalPlace();
             txtLeveragedCapital.Text = Position.LeveragedCapital.ToMoney();
-            
-            ////    These may not be needed
-            txtOpeningTradingFee_dollar.Text = _calculationDetails.OpeningCost.TradingFee.ToMoney();
-            txtOpeningTradingCost.Text = _calculationDetails.OpeningCost.TradingFee.ToMoney();
 
-            txtBorrowAmount.Text = _calculationDetails.Borrow.Amount.ToMoney();
+            txtBorrowAmount.Text = Formula.BorrowedAmount(Position.Leverage, Position.Capital).ToMoney();
+            var fee = Formula.TradingFee(Position.LeveragedCapital, Constant.TRADING_FEE);
+            txtOpeningTradingFee_dollar.Text = fee.ToMoney();
+            txtOpeningTradingCost.Text = fee.ToMoney();
+
+            ////    These may not be needed
+            ///
+
             txtInterestCost.Text = _calculationDetails.Borrow.InterestCost.ToMoney();
             ////
 
@@ -179,49 +182,39 @@ namespace TradingTools
         private void CustomPriceIncrease_Compute(object sender, EventArgs e)
         {
             // 2
-            decimal priceTarget = InputConverter.Decimal(txtPriceIncrease_target.Text);
+            decimal priceTarget = txtPriceIncrease_target.Text.ToDecimal();
             if (priceTarget <= 0) return;
 
             // 3
-            var rec = _rrc_serv.PriceIncreaseTable.GeneratePriceIncreaseRecord(
-                priceTarget,
-                _calculationDetails.Position.EntryPriceAvg,
-                _calculationDetails.Position.LotSize,
-                _calculationDetails.Borrow.InterestCost,
-                _calculationDetails.Position.Capital);
+            var rec = _rrc.ComputePnL(priceTarget, Position);
 
             // 4
             if (rec == null) return;
-            txtPriceIncreasePercentage.Text = rec.PCP.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
-            txtPriceIncrease_profit.Text = rec.PnL.ToString(Constant.MONEY_FORMAT);
-            txtProfitPercentage.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
+            txtPriceIncreasePercentage.Text = rec.PCP.ToPercentageSingle();
+            txtPriceIncrease_profit.Text = rec.PnL.ToMoney();
+            txtProfitPercentage.Text = rec.PnL_Percentage.ToPercentageSingle();
         }
 
         private void CustomPriceDecrease_Compute(object sender, EventArgs e)
         {
             // 2
-            decimal priceTarget = InputConverter.Decimal(txtPriceDecrease_target.Text);
+            decimal priceTarget = txtPriceDecrease_target.Text.ToDecimal();
             if (priceTarget <= 0) return;
 
             // 3
-            var rec = _rrc_serv.PriceDecreaseTable.GeneratePriceDecreaseRecord(
-                priceTarget,
-                _calculationDetails.Position.EntryPriceAvg,
-                _calculationDetails.Position.LotSize,
-                _calculationDetails.Borrow.InterestCost,
-                _calculationDetails.Position.Capital);
+            var rec = _rrc.ComputePnL(priceTarget, Position);
 
             // 4
             if (rec == null) return;
-            txtPriceDecreasePercentage.Text = rec.PCP.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
-            txtPriceDecrease_loss.Text = rec.PnL.ToString(Constant.MONEY_FORMAT);
-            txtLossPercentage.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
+            txtPriceDecreasePercentage.Text = rec.PCP.ToPercentageSingle();
+            txtPriceDecrease_loss.Text = rec.PnL.ToMoney();
+            txtLossPercentage.Text = rec.PnL_Percentage.ToPercentageSingle();
         }
 
         private void updateRRR()
         {
-            decimal profit = StringToNumeric.MoneyToDecimal(txtPEP_Profit.Text);
-            decimal loss = StringToNumeric.MoneyToDecimal(txtLEP_Loss.Text);
+            decimal profit = txtPEP_Profit.Text.ToDecimal();
+            decimal loss = txtLEP_Loss.Text.ToDecimal();
             decimal? rrr = null;
 
             if (loss != 0) rrr = profit / Math.Abs(loss);
@@ -234,26 +227,24 @@ namespace TradingTools
         private void PEP_Compute(object sender, EventArgs e)
         {
             // 2
-            decimal priceTarget = InputConverter.Decimal(txtPEP_ExitPrice.Text);
+            decimal priceTarget = txtPEP_ExitPrice.Text.ToDecimal();
             if (priceTarget <= 0) return;
 
             // 3
-            var rec = _rrc_serv.PriceIncreaseTable.GeneratePriceIncreaseRecord(
-                priceTarget,
-                _calculationDetails.Position.EntryPriceAvg,
-                _calculationDetails.Position.LotSize,
-                _calculationDetails.Borrow.InterestCost,
-                _calculationDetails.Position.Capital);
+            var exitPlan = _rrc.PnlExitPlan(priceTarget, Position);
+            var rec = exitPlan.Item1;
+            var sPV = exitPlan.Item2;
+            var equity = exitPlan.Item3;
 
             // 4
             if (rec == null) return;
-            txtPEP_sPV.Text = _calculationDetails.GetSpeculativePositionValue(priceTarget).ToString(Constant.MONEY_FORMAT);
-            txtPEP_AccountEquity.Text = _calculationDetails.GetSpeculativeAccountEquity(priceTarget).ToString(Constant.MONEY_FORMAT);
+            txtPEP_sPV.Text = sPV.ToMoney();
+            txtPEP_AccountEquity.Text = equity.ToMoney();
 
-            txtPEP_PCP.Text = rec.PCP.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
-            txtPEP_RealProfit_percent.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
-            txtPEP_Profit.Text = rec.PnL.ToString(Constant.MONEY_FORMAT);
-            txtPEP_TradingCost.Text = rec.TradingCost.ToString(Constant.MONEY_FORMAT);
+            txtPEP_PCP.Text = rec.PCP.ToPercentageSingle();
+            txtPEP_RealProfit_percent.Text = rec.PnL_Percentage.ToPercentageSingle();
+            txtPEP_Profit.Text = rec.PnL.ToMoney();
+            txtPEP_TradingCost.Text = "--";
 
             updateRRR();
         }
@@ -262,26 +253,24 @@ namespace TradingTools
         private void LEP_Compute(object sender, EventArgs e)
         {
             // 2
-            decimal priceTarget = InputConverter.Decimal(txtLEP_ExitPrice.Text);
+            decimal priceTarget = txtLEP_ExitPrice.Text.ToDecimal();
             if (priceTarget <= 0) return;
 
             // 3
-            var rec = _rrc_serv.PriceDecreaseTable.GeneratePriceDecreaseRecord(
-                priceTarget,
-                _calculationDetails.Position.EntryPriceAvg,
-                _calculationDetails.Position.LotSize,
-                _calculationDetails.Borrow.InterestCost,
-                _calculationDetails.Position.Capital);
+            var exitPlan = _rrc.PnlExitPlan(priceTarget, Position);
+            var rec = exitPlan.Item1;
+            var sPV = exitPlan.Item2;
+            var equity = exitPlan.Item3;
 
             // 4
-            if (rec == null) return;
-            txtLEP_sPV.Text = _calculationDetails.GetSpeculativePositionValue(priceTarget).ToString(Constant.MONEY_FORMAT);
-            txtLEP_AccountEquity.Text = _calculationDetails.GetSpeculativeAccountEquity(priceTarget).ToString(Constant.MONEY_FORMAT);
+            if (exitPlan == null) return;
+            txtLEP_sPV.Text = sPV.ToMoney();
+            txtLEP_AccountEquity.Text = equity.ToMoney();
 
-            txtLEP_PCP.Text = rec.PCP.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
-            txtLEP_RealLoss_percent.Text = rec.PnL_Percentage.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
-            txtLEP_Loss.Text = rec.PnL.ToString(Constant.MONEY_FORMAT);
-            txtLEP_TradingCost.Text = rec.TradingCost.ToString(Constant.MONEY_FORMAT);
+            txtLEP_PCP.Text = rec.PCP.ToPercentageSingle();
+            txtLEP_RealLoss_percent.Text = rec.PnL_Percentage.ToPercentageSingle();
+            txtLEP_Loss.Text = rec.PnL.ToMoney();
+            txtLEP_TradingCost.Text = "--";
 
             updateRRR();
         }

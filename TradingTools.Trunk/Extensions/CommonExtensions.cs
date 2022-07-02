@@ -36,6 +36,8 @@ namespace TradingTools.Trunk.Extensions
 
         public static string ToMaxDecimalPlace(this decimal d) => d.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
 
+        public static string ToPercentageSingle(this decimal d) => d.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
+
     }
 
 

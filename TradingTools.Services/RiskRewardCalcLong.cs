@@ -26,7 +26,7 @@ namespace TradingTools.Services
             decimal[] pcp = { 5m, 7m, 8m, 10m, 12m, 15m, 20m, 25m, 30m };
 
             return PnLTable.GenerateTable(position.EntryPriceAvg, position.LotSize,
-                position.LeveragedCapital, pcp).OrderByDescending(o => o.PCP).ToList();
+                position.Capital, pcp).OrderByDescending(o => o.PCP).ToList();
         }
 
         public IList<PnLRecord> GenerateLossesTable(Position position)
@@ -34,19 +34,23 @@ namespace TradingTools.Services
             decimal[] pcp = { -1m, -2m, -3m, -4m, -5m, -6, -7m, -8, -10m };
 
             return PnLTable.GenerateTable(position.EntryPriceAvg, position.LotSize,
-                position.LeveragedCapital, pcp).OrderByDescending(o => o.PCP).ToList();
+                position.Capital, pcp).OrderByDescending(o => o.PCP).ToList();
         }
 
-        public PnLRecord ComputeProfit(decimal exitPrice)
+        public PnLRecord ComputePnL(decimal exitPrice, Position pos)
         {
-            if (_position == null) throw new NullReferenceException("Position object not set");
-            var p = _position;
-            return PnLRecord.Create(exitPrice, p.EntryPriceAvg, p.LotSize, p.LeveragedCapital);
+            if (pos == null) throw new NullReferenceException("Position object not set");
+            return PnLRecord.Create(exitPrice, pos.EntryPriceAvg, pos.LotSize, pos.Capital);
         }
 
-        public void ComputeLoss(decimal exitPrice)
+        public Tuple<PnLRecord, decimal, decimal> PnlExitPlan(decimal exitPrice, Position position)
         {
+            var rec = ComputePnL(exitPrice, position);
+            var sPV = Formula.SpeculativePositionValue(position.LotSize, exitPrice);
+            var equity = Formula.AccountEquity(position.LotSize,
+                exitPrice, Formula.BorrowedAmount(position.Leverage, position.Capital));
 
+            return new (rec, sPV, equity);
         }
 
         public TradeExitDto ComputeTradeExit(decimal exitPrice, Position position)

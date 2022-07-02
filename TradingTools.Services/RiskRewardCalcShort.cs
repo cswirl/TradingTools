@@ -54,18 +54,24 @@ namespace TradingTools.Services
             throw new NotImplementedException();
         }
 
-        void IRiskRewardCalc.ComputeLoss(decimal exitPrice)
+        PnLRecord IRiskRewardCalc.ComputePnL(decimal exitPrice, Position position)
         {
             throw new NotImplementedException();
         }
 
-        PnLRecord IRiskRewardCalc.ComputeProfit(decimal exitPrice)
+        TradeExitDto IRiskRewardCalc.ComputeTradeExit(decimal exitPrice, Position position)
         {
             throw new NotImplementedException();
         }
 
-        
+        IList<PnLRecord> IRiskRewardCalc.GenerateProfitsTable(Position position)
+        {
+            throw new NotImplementedException();
+        }
 
-        
+        Tuple<PnLRecord, decimal, decimal> IRiskRewardCalc.PnlExitPlan(decimal exitPrice, Position position)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
