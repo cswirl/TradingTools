@@ -39,30 +39,29 @@ namespace TradingTools.Trunk.Entity
         { 
             get 
             {
-                return Capital * Leverage;
+                return Formula.LeveragedCapital(Capital, Leverage);
             }
             private set { } 
         }
 
         // Borrow
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public decimal? BorrowAmount
         {
             get
             {
-                var l = LeveragedCapital ?? Capital;
-                return l - Capital;
+                return Formula.BorrowedAmount(Leverage, Capital);
             }
             private set { }
         }
 
         // Day Count
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public int? DayCount
+        public decimal? DayCount
         {
             get
             {
-                int d = Convert.ToInt32(Trade_Utility.GetTrading_ElaspsedTime_Days(DateEnter, DateExit ?? DateTime.Now));
-                return d == 0 ? 1 : d;
+                return Formula.DayCount(DateEnter, DateExit ?? DateTime.Now);
             }
             private set { }
         }

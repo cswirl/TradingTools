@@ -12,15 +12,15 @@ namespace TradingTools.Services.UnitTests
     [TestFixture]
     public class RiskRewardCalcLongTests
     {
-        [Test]
-        [TestCase(0)]
-        [TestCase(-0.99)]
-        public void ComputeTradeExit_ExitPriceIsZeroOrBelow_ThrowArgumentException(decimal exitPrice)
-        {
-            var pos = new Position();
-            var rrc = new RiskRewardCalcLong(pos);
+        //[Test]
+        //[TestCase(0)]
+        //[TestCase(-0.99)]
+        //public void ComputeTradeExit_ExitPriceIsZeroOrBelow_ThrowArgumentException(decimal exitPrice)
+        //{
+        //    var pos = new Position();
+        //    var rrc = new RiskRewardCalcLong(pos);
 
-            Assert.That(() => rrc.ComputeTradeExit(exitPrice, pos), Throws.InstanceOf<ArgumentException>());
-        }
+        //    Assert.That(() => rrc.ComputeTradeExit(exitPrice, pos), Throws.InstanceOf<ArgumentException>());
+        //}
     }
 }

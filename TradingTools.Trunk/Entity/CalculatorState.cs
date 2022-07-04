@@ -35,10 +35,23 @@ namespace TradingTools.Trunk.Entity
         {
             get
             {
-                return Capital * Leverage;
+                return Formula.LeveragedCapital(Capital, Leverage);
             }
             private set { }
         }
+
+        // Borrow
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public decimal BorrowAmount
+        {
+            get
+            {
+                return Formula.BorrowedAmount(Leverage, Capital);
+            }
+            private set { }
+        }
+
+        public decimal? DayCount { get; set; }
 
         // Opening Cost
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
@@ -62,19 +75,6 @@ namespace TradingTools.Trunk.Entity
             private set { }
         }
 
-        // Borrow
-        public decimal BorrowAmount
-        {
-            get
-            {
-                var l = LeveragedCapital ?? Capital;
-                return l - Capital;
-            }
-            private set { }
-        }
-        
-
-        public int? DayCount { get; set; }
 
         [Column(TypeName = "decimal(18, 5)")]
         public decimal DailyInterestRate { get; set; }
@@ -85,7 +85,7 @@ namespace TradingTools.Trunk.Entity
         {
             get
             {
-                var d = DayCount ?? 1;
+                var d = DayCount ?? 1m;
                 return BorrowAmount * DailyInterestRate * d;
             }
             private set { }
