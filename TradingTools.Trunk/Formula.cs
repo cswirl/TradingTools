@@ -1,4 +1,5 @@
 ﻿using System;
+using TradingTools.Trunk.Extensions;
 using TradingTools.Trunk.Validations;
 
 namespace TradingTools.Trunk
@@ -7,20 +8,18 @@ namespace TradingTools.Trunk
     {
         public static decimal LeveragedCapital(decimal capital, decimal leverage)
         {
-            capital.MustBeEqualOrAbove(0, nameof(capital));
-            leverage.MustBeEqualOrAbove(0, nameof(leverage));
-            return capital * leverage;
+            return  capital * leverage;
         }
 
         public static decimal LotSize(decimal leveragedCapital, decimal entryPrice)
         {
-            entryPrice.MustBeAbove(0, nameof(entryPrice));
+            if (entryPrice == 0) return 0;
             return leveragedCapital / entryPrice;
         }
 
         public static decimal LotSize(decimal capital, decimal leverage, decimal entryPrice)
         {
-            entryPrice.MustBeAbove(0, nameof(entryPrice));
+            if (entryPrice == 0) return 0;
             return leverage * capital / entryPrice;
         }
 
@@ -66,10 +65,9 @@ namespace TradingTools.Trunk
             return price * lotSize;
         }
 
-        public static decimal FinalPositionValue(decimal lotSize, decimal? exitPrice)
+        public static decimal FinalPositionValue(decimal lotSize, decimal exitPrice)
         {
-            decimal _exitPrice = exitPrice ?? 0;
-            return _exitPrice * lotSize;
+            return exitPrice * lotSize;
         }
 
         public static decimal AccountEquity(decimal positionValue, decimal borrowedAmount) 
@@ -83,6 +81,11 @@ namespace TradingTools.Trunk
         public static decimal TradingFee(decimal leveragedCapital, decimal exchangeFeeRate)
         {
             return leveragedCapital * exchangeFeeRate;
+        }
+
+        public static decimal DayCount(DateTime dateEnter, DateTime dateExit)
+        {
+            return (dateExit - dateEnter).TotalDays.ToDecimalSafe();
         }
 
     }

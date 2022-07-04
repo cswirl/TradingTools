@@ -13,6 +13,12 @@ namespace TradingTools.Services.UnitTests
     {
         // LeveragedCapital
         [Test]
+        public void LeveragedCapital_WhenCalled_ReturnCorrectAnswer()
+        {
+            Assert.That(Formula.LeveragedCapital(2,3), Is.EqualTo(6));
+        }
+
+        [Test]
         [TestCase(9.9)]
         [TestCase(-0.01)]
         [Ignore("Minimum might be adjusted")]
@@ -31,6 +37,20 @@ namespace TradingTools.Services.UnitTests
         }
 
         // Lot Size
+        [Test]
+        public void LotSize_WhenCalled_ReturnCorrectAnswer()
+        {
+            Assert.That(Formula.LotSize(100, 2), Is.EqualTo(50));
+            Assert.That(Formula.LotSize(100, 2, 2), Is.EqualTo(100));
+        }
+
+        [Test]
+        public void LotSize_EntryPriceIsZero_ReturnZero()
+        {
+            Assert.That(Formula.LotSize(100, 0), Is.EqualTo(0));
+            Assert.That(Formula.LotSize(100, 1, 0), Is.EqualTo(0));
+        }
+
         [Test]
         [TestCase(0)]
         [TestCase(-0.01)]
