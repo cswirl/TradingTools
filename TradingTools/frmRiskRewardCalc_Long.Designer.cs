@@ -133,7 +133,6 @@ namespace TradingTools
             this.txtBorrowAmount = new System.Windows.Forms.TextBox();
             this.label37 = new System.Windows.Forms.Label();
             this.nudDailyInterestRate = new System.Windows.Forms.NumericUpDown();
-            this.nudDayCount = new System.Windows.Forms.NumericUpDown();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
@@ -194,6 +193,7 @@ namespace TradingTools
             this.label11 = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.txtDayCount = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -217,7 +217,6 @@ namespace TradingTools
             this.groupBox3.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudDailyInterestRate)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudDayCount)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
@@ -1418,7 +1417,7 @@ namespace TradingTools
             this.tableLayoutPanel7.Controls.Add(this.txtBorrowAmount, 1, 2);
             this.tableLayoutPanel7.Controls.Add(this.label37, 0, 2);
             this.tableLayoutPanel7.Controls.Add(this.nudDailyInterestRate, 1, 4);
-            this.tableLayoutPanel7.Controls.Add(this.nudDayCount, 1, 3);
+            this.tableLayoutPanel7.Controls.Add(this.txtDayCount, 1, 3);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel7.Location = new System.Drawing.Point(3, 19);
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
@@ -1513,27 +1512,6 @@ namespace TradingTools
             0,
             0,
             262144});
-            // 
-            // nudDayCount
-            // 
-            this.nudDayCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.nudDayCount.Location = new System.Drawing.Point(95, 33);
-            this.nudDayCount.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudDayCount.Name = "nudDayCount";
-            this.nudDayCount.ReadOnly = true;
-            this.nudDayCount.Size = new System.Drawing.Size(68, 23);
-            this.nudDayCount.TabIndex = 11;
-            this.nudDayCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nudDayCount.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             // 
             // groupBox2
             // 
@@ -2241,6 +2219,14 @@ namespace TradingTools
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // txtDayCount
+            // 
+            this.txtDayCount.Location = new System.Drawing.Point(88, 33);
+            this.txtDayCount.Name = "txtDayCount";
+            this.txtDayCount.ReadOnly = true;
+            this.txtDayCount.Size = new System.Drawing.Size(75, 23);
+            this.txtDayCount.TabIndex = 11;
+            // 
             // frmRiskRewardCalc_Long
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -2294,7 +2280,6 @@ namespace TradingTools
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudDailyInterestRate)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudDayCount)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
@@ -2403,7 +2388,6 @@ namespace TradingTools
         private System.Windows.Forms.TextBox txtBorrowAmount;
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.NumericUpDown nudDailyInterestRate;
-        private System.Windows.Forms.NumericUpDown nudDayCount;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
@@ -2494,6 +2478,7 @@ namespace TradingTools
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel13;
         private System.Windows.Forms.RadioButton radioLotSize;
         private System.Windows.Forms.RadioButton radioLeverage;
+        private System.Windows.Forms.TextBox txtDayCount;
     }
 }
 

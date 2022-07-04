@@ -63,7 +63,6 @@ namespace TradingTools
             panelBandBottom.Height = 3;
             cbxTradingStyle.DataSource = Enum.GetValues(typeof(TradingStyle));
             cbxTradingStyle.SelectedIndex = 1;  // swing
-            nudDayCount.Maximum = decimal.MaxValue;
 
             PCP_Table_Formatting(dgvPriceIncreaseTable);
             PCP_Table_Formatting(dgvPriceDecreaseTable);
@@ -336,7 +335,7 @@ namespace TradingTools
             c.Leverage = InputConverter.Decimal(txtLeverage.Text);
             c.EntryPriceAvg = InputConverter.Decimal(txtEntryPrice.Text);
             c.LotSize = InputConverter.Decimal(txtLotSize.Text);
-            c.DayCount = (int)nudDayCount.Value;
+            c.DayCount = txtDayCount.Text.ToDecimal();
             c.DailyInterestRate = nudDailyInterestRate.Value;
             c.PriceIncreaseTarget = InputConverter.Decimal(txtPriceIncrease_target.Text);
             c.PriceDecreaseTarget = InputConverter.Decimal(txtPriceDecrease_target.Text);
@@ -572,7 +571,8 @@ namespace TradingTools
                     // Initalize UI controls
                     txtLeverage.Text = "1";
                     txtBorrowAmount.Text = "0";
-                    nudDayCount.Value = 1;
+                    txtDayCount.Text = "0";
+
                     nudDailyInterestRate.Value = Constant.DAILY_INTEREST_RATE;
 
                     txtPEP_Note.Text = "take-profit: inactive";
@@ -669,9 +669,9 @@ namespace TradingTools
                         txtLeverage.Text = Trade.Leverage.ToString(Constant.LEVERAGE_DECIMAL_PLACE);
                         txtEntryPrice.Text = Trade.EntryPriceAvg.ToString();
                         txtLotSize.Text = Trade.LotSize.ToString();
+                        txtDayCount.Text = Trade.DayCount?.ToDecimalUptoTwo() ?? "0";
 
                         //Numeric Up Down control throws exception when assigned value less then their Minimum value
-                        nudDayCount.Value = Trade.DayCount ?? 1;
                         nudDailyInterestRate.Value = CalculatorState.DailyInterestRate < nudDailyInterestRate.Value ? nudDailyInterestRate.Minimum : CalculatorState.DailyInterestRate;
                         
                         txtExchangeFee.Text = CalculatorState.ExchangeFee.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
@@ -713,7 +713,6 @@ namespace TradingTools
                         txtEntryPrice.ReadOnly = true;
                         txtLotSize.ReadOnly = true;
                         cbxTradingStyle.Enabled = false;
-                        nudDayCount.ReadOnly = true;
                         nudDailyInterestRate.ReadOnly = true;
                         radioLeverage.Enabled = false;
                         radioLotSize.Enabled = false;
@@ -743,9 +742,9 @@ namespace TradingTools
                     txtLeverage.Text = Trade.Leverage.ToString(Constant.LEVERAGE_DECIMAL_PLACE);      
                     txtEntryPrice.Text = Trade.EntryPriceAvg.ToString();
                     txtLotSize.Text = Trade.LotSize.ToString();
+                    txtDayCount.Text = Trade.DayCount?.ToDecimalUptoTwo() ?? "0";
 
                     //Numeric Up Down control throws exception when assigned value less then their Minimum value
-                    nudDayCount.Value = Trade.DayCount ?? 1;
                     nudDailyInterestRate.Value = CalculatorState.DailyInterestRate < nudDailyInterestRate.Value ? nudDailyInterestRate.Minimum : CalculatorState.DailyInterestRate;
 
                     txtExchangeFee.Text = CalculatorState.ExchangeFee.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
@@ -792,7 +791,6 @@ namespace TradingTools
                     txtEntryPrice.ReadOnly = true;
                     txtLotSize.ReadOnly = true;
                     cbxTradingStyle.Enabled = false;
-                    nudDayCount.ReadOnly = true;
                     nudDailyInterestRate.ReadOnly = true;
                     radioLeverage.Enabled = false;
                     radioLotSize.Enabled = false;
