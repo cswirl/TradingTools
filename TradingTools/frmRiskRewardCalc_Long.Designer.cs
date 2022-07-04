@@ -133,6 +133,7 @@ namespace TradingTools
             this.txtBorrowAmount = new System.Windows.Forms.TextBox();
             this.label37 = new System.Windows.Forms.Label();
             this.nudDailyInterestRate = new System.Windows.Forms.NumericUpDown();
+            this.txtDayCount = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
@@ -193,7 +194,6 @@ namespace TradingTools
             this.label11 = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.txtDayCount = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -1513,6 +1513,14 @@ namespace TradingTools
             0,
             262144});
             // 
+            // txtDayCount
+            // 
+            this.txtDayCount.Location = new System.Drawing.Point(88, 33);
+            this.txtDayCount.Name = "txtDayCount";
+            this.txtDayCount.ReadOnly = true;
+            this.txtDayCount.Size = new System.Drawing.Size(75, 23);
+            this.txtDayCount.TabIndex = 11;
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.btnDelete);
@@ -2218,14 +2226,6 @@ namespace TradingTools
             // 
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // txtDayCount
-            // 
-            this.txtDayCount.Location = new System.Drawing.Point(88, 33);
-            this.txtDayCount.Name = "txtDayCount";
-            this.txtDayCount.ReadOnly = true;
-            this.txtDayCount.Size = new System.Drawing.Size(75, 23);
-            this.txtDayCount.TabIndex = 11;
             // 
             // frmRiskRewardCalc_Long
             // 

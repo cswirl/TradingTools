@@ -331,31 +331,31 @@ namespace TradingTools
         {
             var c = CalculatorState;
             // Collect Receptors
-            c.Capital = InputConverter.MoneyToDecimal(txtCapital.Text);
-            c.Leverage = InputConverter.Decimal(txtLeverage.Text);
-            c.EntryPriceAvg = InputConverter.Decimal(txtEntryPrice.Text);
-            c.LotSize = InputConverter.Decimal(txtLotSize.Text);
+            c.Capital = txtCapital.Text.ToDecimal();
+            c.Leverage = txtLeverage.Text.ToDecimal();
+            c.EntryPriceAvg = txtEntryPrice.Text.ToDecimal();
+            c.LotSize = txtLotSize.Text.ToDecimal();
             c.DayCount = txtDayCount.Text.ToDecimal();
             c.DailyInterestRate = nudDailyInterestRate.Value;
-            c.PriceIncreaseTarget = InputConverter.Decimal(txtPriceIncrease_target.Text);
-            c.PriceDecreaseTarget = InputConverter.Decimal(txtPriceDecrease_target.Text);
-            c.PEP_ExitPrice = InputConverter.Decimal(txtPEP_ExitPrice.Text);
+            c.PriceIncreaseTarget = txtPriceIncrease_target.Text.ToDecimal();
+            c.PriceDecreaseTarget = txtPriceDecrease_target.Text.ToDecimal();
+            c.PEP_ExitPrice = txtPEP_ExitPrice.Text.ToDecimal();
             c.PEP_Note = txtPEP_Note.Text;
-            c.LEP_ExitPrice = InputConverter.Decimal(txtLEP_ExitPrice.Text);
+            c.LEP_ExitPrice = txtLEP_ExitPrice.Text.ToDecimal();
             c.LEP_Note = txtLEP_Note.Text;
             c.Ticker = txtTicker.Text;
             c.ReasonForEntry = txtReasonForEntry.Text;
             c.Note = txtNote.Text;
             // Processed
             c.CounterBias = txtCounterBias.Text;
-            c.ExchangeFee = InputConverter.Decimal(txtExchangeFee.Text);
+            c.ExchangeFee = txtExchangeFee.Text.ToDecimal();
 
             c.TradingStyle = cbxTradingStyle.SelectedValue.ToString();
             //
-            c.TradeExit_ExitPrice = InputConverter.Decimal(txtTradeExit_ExitPrice.Text);
+            c.TradeExit_ExitPrice = txtTradeExit_ExitPrice.Text.ToDecimal();
             c.ReasonForExit = txtReasonForExit.Text;
-            c.PerfectEntry_EntryPrice = InputConverter.Decimal(txtPerfectEntry_EntryPrice.Text);
-            c.PerfectEntry_ExitPrice = InputConverter.Decimal(txtPerfectEntry_ExitPrice.Text);
+            c.PerfectEntry_EntryPrice = txtPerfectEntry_EntryPrice.Text.ToDecimal();
+            c.PerfectEntry_ExitPrice = txtPerfectEntry_ExitPrice.Text.ToDecimal();
             c.PerfectEntry_Note = txtPerfectEntry_Note.Text;
             //
 
