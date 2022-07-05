@@ -30,9 +30,6 @@ namespace TradingTools.Trunk
         {
             get
             {
-                if (Capital <= 0 | Leverage <= 0) 
-                    return 0;
-
                 return Formula.LeveragedCapital(Capital, Leverage);
             }
         }

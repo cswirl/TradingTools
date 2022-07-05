@@ -30,7 +30,7 @@ namespace TradingTools.Services
         {
             if (!validateTicker(t.Ticker, out msg)) return false;
             if (!validateStatus(t.Status, out msg)) return false;
-            if (!validatePositionSide(t.PositionSide, out msg)) return false;
+            if (!validatePositionSide(t.Side, out msg)) return false;
             if (!validateTradeStyle(t.TradingStyle, out msg)) return false;
             if (t.DateEnter == default) { msg = "Invalid data. Date is not set."; return false; }
             if (t.DateEnter > DateTime.Now)

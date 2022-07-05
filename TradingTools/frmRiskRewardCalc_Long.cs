@@ -361,6 +361,7 @@ namespace TradingTools
             c.PerfectEntry_ExitPrice = txtPerfectEntry_ExitPrice.Text.ToDecimal();
             c.PerfectEntry_Note = txtPerfectEntry_Note.Text;
             //
+            c.IsLotSizeChecked = radioLotSize.Checked;
 
         }
 
@@ -512,7 +513,7 @@ namespace TradingTools
                 LotSize = c.LotSize,
                 TradingStyle = cbxTradingStyle.SelectedValue.ToString(),
                 //
-                PositionSide = "long",
+                Side = "long",
                 Status = "open",
                 DateEnter = dateEnter,
                 //
@@ -576,6 +577,7 @@ namespace TradingTools
                     panelBandBottom.BackColor = BandColor.Empty;
 
                     CalculatorState = new();
+
                     // Initalize UI controls
                     txtLeverage.Text = "1";
                     txtBorrowAmount.Text = "0";

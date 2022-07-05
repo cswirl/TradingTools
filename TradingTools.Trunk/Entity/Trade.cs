@@ -15,7 +15,7 @@ namespace TradingTools.Trunk.Entity
         [Required, MaxLength(20)]
         public string Ticker { get; set; }
         [Required, MaxLength(20)]
-        public string PositionSide { get; set; }      //long or short
+        public string Side { get; set; }      //long or short
         [Required, MaxLength(20)]
         public string TradingStyle { get; set; }
         [Required]
@@ -32,6 +32,7 @@ namespace TradingTools.Trunk.Entity
         [Required]
         public decimal Leverage { get; set; }
 
+        #region "Computed Data"
         // Leveraged Capital
         [Column(TypeName = "money")]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
@@ -65,7 +66,9 @@ namespace TradingTools.Trunk.Entity
             }
             private set { }
         }
+        #endregion
 
+        #region "Closing"
         // Closing
         public DateTime? DateExit { get; set; }
         public decimal? ExitPriceAvg { get; set; }
@@ -93,6 +96,7 @@ namespace TradingTools.Trunk.Entity
 
         [Required, MaxLength(20), DefaultValue("open")]
         public string Status { get; set; }
+        #endregion
 
         // CalculatorState
         public virtual CalculatorState CalculatorState { get; set; }

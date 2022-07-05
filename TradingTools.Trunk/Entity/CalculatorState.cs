@@ -14,6 +14,8 @@ namespace TradingTools.Trunk.Entity
         public int Id { get; set; }
         [MaxLength(20)]
         public string Ticker { get; set; }
+        [Required, MaxLength(20)]
+        public string Side { get; set; }
         [Required]
         [Column(TypeName = "money")]
         public decimal Capital { get; set; }
@@ -28,7 +30,9 @@ namespace TradingTools.Trunk.Entity
         public string TradingStyle { get; set; }
         [Column(TypeName = "decimal(18, 5)")]
         public decimal ExchangeFee { get; set; }
+        public decimal? DayCount { get; set; }
 
+        #region "Computed Data"
         // Leveraged Capital
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public decimal? LeveragedCapital
@@ -51,8 +55,6 @@ namespace TradingTools.Trunk.Entity
             private set { }
         }
 
-        public decimal? DayCount { get; set; }
-
         // Opening Cost
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public decimal OpeningTradingFee
@@ -64,7 +66,7 @@ namespace TradingTools.Trunk.Entity
             }
             private set { }
         }
-        // 
+
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public decimal OpeningTradingCost
         {
@@ -90,6 +92,8 @@ namespace TradingTools.Trunk.Entity
             }
             private set { }
         }
+        #endregion
+
 
         // Closing
         public string ReasonForExit { get; set; }
@@ -113,5 +117,8 @@ namespace TradingTools.Trunk.Entity
         // Trade
         public int? TradeId { get; set; }
         public virtual Trade Trade { get; set; }
+
+        // Meta data
+        public bool IsLotSizeChecked { get; set; }
     }
 }
