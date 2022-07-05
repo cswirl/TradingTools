@@ -141,7 +141,8 @@ namespace TradingTools
             }
             else
             {
-                var form = new frmRiskRewardCalc_Long();
+                var riskRewardCalc = TradeService.RiskRewardCalcGetInstance("long");
+                var form = new frmRiskRewardCalc_Long(riskRewardCalc);
                 form.State = RiskRewardCalcState.Loaded;
                 form.Owner = this;
                 form.CalculatorState = c;

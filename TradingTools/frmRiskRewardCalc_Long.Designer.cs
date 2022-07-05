@@ -30,7 +30,7 @@ namespace TradingTools
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panelTitleBand = new System.Windows.Forms.Panel();
             this.lblHeader = new System.Windows.Forms.Label();
             this.panelBandBottom = new System.Windows.Forms.Panel();
             this.panelBandTop = new System.Windows.Forms.Panel();
@@ -175,7 +175,7 @@ namespace TradingTools
             this.label24 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.dgvPriceDecreaseTable = new System.Windows.Forms.DataGridView();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.panelFooterBand = new System.Windows.Forms.Panel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusMessage = new System.Windows.Forms.ToolStripStatusLabel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -194,7 +194,7 @@ namespace TradingTools
             this.label11 = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.panel1.SuspendLayout();
+            this.panelTitleBand.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -230,7 +230,7 @@ namespace TradingTools
             this.tableLayoutPanel4.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPriceDecreaseTable)).BeginInit();
-            this.panel3.SuspendLayout();
+            this.panelFooterBand.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -239,17 +239,17 @@ namespace TradingTools
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
-            // panel1
+            // panelTitleBand
             // 
-            this.panel1.BackColor = System.Drawing.Color.MediumSeaGreen;
-            this.panel1.Controls.Add(this.lblHeader);
-            this.panel1.Controls.Add(this.panelBandBottom);
-            this.panel1.Controls.Add(this.panelBandTop);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1692, 52);
-            this.panel1.TabIndex = 0;
+            this.panelTitleBand.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.panelTitleBand.Controls.Add(this.lblHeader);
+            this.panelTitleBand.Controls.Add(this.panelBandBottom);
+            this.panelTitleBand.Controls.Add(this.panelBandTop);
+            this.panelTitleBand.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelTitleBand.Location = new System.Drawing.Point(0, 0);
+            this.panelTitleBand.Name = "panelTitleBand";
+            this.panelTitleBand.Size = new System.Drawing.Size(1692, 52);
+            this.panelTitleBand.TabIndex = 0;
             // 
             // lblHeader
             // 
@@ -1520,6 +1520,7 @@ namespace TradingTools
             this.txtDayCount.ReadOnly = true;
             this.txtDayCount.Size = new System.Drawing.Size(75, 23);
             this.txtDayCount.TabIndex = 11;
+            this.txtDayCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // groupBox2
             // 
@@ -2022,16 +2023,16 @@ namespace TradingTools
             this.dgvPriceDecreaseTable.TabIndex = 1;
             this.dgvPriceDecreaseTable.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.PCP_Table_CellClick);
             // 
-            // panel3
+            // panelFooterBand
             // 
-            this.panel3.BackColor = System.Drawing.Color.MediumSeaGreen;
-            this.panel3.Controls.Add(this.statusStrip1);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.ForeColor = System.Drawing.Color.Black;
-            this.panel3.Location = new System.Drawing.Point(0, 937);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1692, 32);
-            this.panel3.TabIndex = 2;
+            this.panelFooterBand.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.panelFooterBand.Controls.Add(this.statusStrip1);
+            this.panelFooterBand.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelFooterBand.ForeColor = System.Drawing.Color.Black;
+            this.panelFooterBand.Location = new System.Drawing.Point(0, 937);
+            this.panelFooterBand.Name = "panelFooterBand";
+            this.panelFooterBand.Size = new System.Drawing.Size(1692, 32);
+            this.panelFooterBand.TabIndex = 2;
             // 
             // statusStrip1
             // 
@@ -2233,9 +2234,9 @@ namespace TradingTools
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1692, 969);
-            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.panelFooterBand);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panelTitleBand);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "frmRiskRewardCalc_Long";
@@ -2244,8 +2245,8 @@ namespace TradingTools
             this.Text = "Risk Reward Calculator";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmRiskRewardCalc_Long_FormClosing);
             this.Load += new System.EventHandler(this.frmRRC_Long_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.panelTitleBand.ResumeLayout(false);
+            this.panelTitleBand.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
@@ -2296,8 +2297,8 @@ namespace TradingTools
             this.tableLayoutPanel4.PerformLayout();
             this.panel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPriceDecreaseTable)).EndInit();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
+            this.panelFooterBand.ResumeLayout(false);
+            this.panelFooterBand.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -2315,10 +2316,10 @@ namespace TradingTools
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panelTitleBand;
         private System.Windows.Forms.Label lblHeader;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panelFooterBand;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label5;

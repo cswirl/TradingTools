@@ -13,9 +13,9 @@ namespace TradingTools.Services.Interface
 
         // Methods
         PnLRecord ComputePnL(decimal exitPrice, Position position);
-        IList<PnLRecord> GenerateLossesTable(Position position);
-        IList<PnLRecord> GenerateProfitsTable(Position position);
-        Tuple<PnLRecord, decimal, decimal> PnlExitPlan(decimal exitPrice, Position position);
+        IList<PnLRecord> GeneratePriceIncreaseTable(Position position);
+        IList<PnLRecord> GeneratePriceDecreaseTable(Position position);
         
+        Tuple<PnLRecord, decimal, decimal> PnlExitPlan(decimal exitPrice, Position position);
     }
 }

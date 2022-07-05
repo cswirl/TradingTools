@@ -34,7 +34,7 @@ namespace TradingTools
         public string Side { get; set; }
         public string PositionSide { get; private set; }
         public Position Position { get; set; }
-
+        public ISideTheme Theme { get; private set; }
 
         public frmRiskRewardCalc_Long(IRiskRewardCalc riskRewardCalc)
         {
@@ -44,12 +44,14 @@ namespace TradingTools
             // Dependency Injection of RiskRewardCalc
             _rrc = riskRewardCalc;
             Side = riskRewardCalc.Side;
+
+            this.Theme = TradingTools.Theme.SideTheme_GetInstance(riskRewardCalc.Side);
             //
 
             myInitializeComponent();
         }
 
-        // May be obsoleted
+        // May be obsoleted - but this cannot be deleted as empty constructor is needed by .NET
         public frmRiskRewardCalc_Long()
         {
             InitializeComponent();
@@ -64,8 +66,9 @@ namespace TradingTools
             cbxTradingStyle.DataSource = Enum.GetValues(typeof(TradingStyle));
             cbxTradingStyle.SelectedIndex = 1;  // swing
 
-            PCP_Table_Formatting(dgvPriceIncreaseTable);
-            PCP_Table_Formatting(dgvPriceDecreaseTable);
+            Theme.Format_PriceIncreaseTable(dgvPriceIncreaseTable);
+            Theme.Format_PriceDecreaseTable(dgvPriceDecreaseTable);
+
             // timer
             timer1.Interval = Presentation.INTERNAL_TIMER_REFRESH_VALUE;
             // events
@@ -106,10 +109,10 @@ namespace TradingTools
             ////
 
             // PnL Tables
-            var pit = _rrc.GenerateProfitsTable(Position);
+            var pit = _rrc.GeneratePriceIncreaseTable(Position);
             if (pit != null) dgvPriceIncreaseTable.DataSource = pit;
 
-            var pdt = _rrc.GenerateLossesTable(Position);
+            var pdt = _rrc.GeneratePriceDecreaseTable(Position);
             if (pdt != null) dgvPriceDecreaseTable.DataSource = pdt;
 
             // compute buttons
@@ -553,6 +556,10 @@ namespace TradingTools
             // State independent controls
             txtExchangeFee.Text = Constant.TRADING_FEE.ToString();
 
+            panelTitleBand.BackColor = Theme.BandColor;
+            panelFooterBand.BackColor = Theme.BandColor;
+            lblHeader.Text = Theme.Title;
+
             ChangeState(this.State);
         }
         private void ChangeState(RiskRewardCalcState s)
@@ -564,6 +571,7 @@ namespace TradingTools
             switch (State)
             {
                 case RiskRewardCalcState.Empty:
+                    lblHeader.Text += " - Unsaved";
                     panelBandTop.BackColor = BandColor.Empty;
                     panelBandBottom.BackColor = BandColor.Empty;
 
@@ -592,6 +600,7 @@ namespace TradingTools
                     }
                     else
                     {
+                        lblHeader.Text += " - Unofficial";
                         panelBandTop.BackColor = BandColor.Loaded;
                         panelBandBottom.BackColor = BandColor.Loaded;
 

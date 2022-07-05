@@ -21,7 +21,7 @@ namespace TradingTools.Services
 
         }
 
-        IList<PnLRecord> IRiskRewardCalc.GenerateProfitsTable(Position position)
+        IList<PnLRecord> IRiskRewardCalc.GeneratePriceIncreaseTable(Position position)
         {
             decimal[] pcp = { 1m, 2m, 3m, 4m, 5m, 6, 7m, 8, 10m };
 
@@ -35,7 +35,7 @@ namespace TradingTools.Services
             return table;
         }
 
-        IList<PnLRecord> IRiskRewardCalc.GenerateLossesTable(Position position)
+        IList<PnLRecord> IRiskRewardCalc.GeneratePriceDecreaseTable(Position position)
         {
             decimal[] pcp = { -5m, -7m, -8m, -10m, -12m, -15m, -20m, -25m, -30m };
             

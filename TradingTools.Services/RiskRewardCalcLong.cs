@@ -23,7 +23,7 @@ namespace TradingTools.Services
         }
 
 
-        public IList<PnLRecord> GenerateProfitsTable(Position position)
+        public IList<PnLRecord> GeneratePriceIncreaseTable(Position position)
         {
             decimal[] pcp = { 5m, 7m, 8m, 10m, 12m, 15m, 20m, 25m, 30m };
 
@@ -31,7 +31,7 @@ namespace TradingTools.Services
                 position.Capital, pcp).OrderByDescending(o => o.PCP).ToList();
         }
 
-        public IList<PnLRecord> GenerateLossesTable(Position position)
+        public IList<PnLRecord> GeneratePriceDecreaseTable(Position position)
         {
             decimal[] pcp = { -1m, -2m, -3m, -4m, -5m, -6, -7m, -8, -10m };
 
@@ -54,12 +54,6 @@ namespace TradingTools.Services
                 exitPrice, Formula.BorrowedAmount(position.Leverage, position.Capital));
 
             return new (rec, sPV, equity);
-        }
-
-        public TradeExitDto ComputeTradeExit(decimal exitPrice, Position position)
-        {
-
-            return new TradeExitDto();
         }
 
 
