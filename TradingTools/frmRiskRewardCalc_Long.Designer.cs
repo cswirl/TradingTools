@@ -296,9 +296,9 @@ namespace TradingTools
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Cursor = System.Windows.Forms.Cursors.VSplit;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(15, 15);
             this.splitContainer1.Name = "splitContainer1";
             // 
@@ -335,7 +335,6 @@ namespace TradingTools
             this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel1.Controls.Add(this.label22);
             this.splitContainer1.Panel1.Controls.Add(this.label15);
-            this.splitContainer1.Panel1.Cursor = System.Windows.Forms.Cursors.Default;
             // 
             // splitContainer1.Panel2
             // 
@@ -363,7 +362,7 @@ namespace TradingTools
             // 
             this.radioLeverage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.radioLeverage.AutoSize = true;
-            this.radioLeverage.Location = new System.Drawing.Point(46, 129);
+            this.radioLeverage.Location = new System.Drawing.Point(45, 129);
             this.radioLeverage.Name = "radioLeverage";
             this.radioLeverage.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.radioLeverage.Size = new System.Drawing.Size(14, 13);
@@ -764,6 +763,7 @@ namespace TradingTools
             this.txtTicker.Size = new System.Drawing.Size(95, 23);
             this.txtTicker.TabIndex = 0;
             this.txtTicker.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtTicker.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PositionTextboxes_KeyDown);
             this.txtTicker.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Ticker_Validating);
             // 
             // gbxNotes
@@ -1100,6 +1100,7 @@ namespace TradingTools
             this.txtLeverage.Tag = "";
             this.txtLeverage.Text = "1";
             this.txtLeverage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtLeverage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PositionTextboxes_KeyDown);
             this.txtLeverage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
             this.txtLeverage.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Decimal_Validating);
             // 
@@ -1124,6 +1125,7 @@ namespace TradingTools
             this.txtEntryPrice.Size = new System.Drawing.Size(95, 23);
             this.txtEntryPrice.TabIndex = 2;
             this.txtEntryPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtEntryPrice.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PositionTextboxes_KeyDown);
             this.txtEntryPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
             this.txtEntryPrice.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Decimal_Validating);
             // 
@@ -1135,6 +1137,7 @@ namespace TradingTools
             this.txtLotSize.Size = new System.Drawing.Size(95, 23);
             this.txtLotSize.TabIndex = 4;
             this.txtLotSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtLotSize.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PositionTextboxes_KeyDown);
             this.txtLotSize.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
             this.txtLotSize.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Decimal_Validating);
             // 
@@ -1392,6 +1395,7 @@ namespace TradingTools
             this.txtCapital.Size = new System.Drawing.Size(95, 23);
             this.txtCapital.TabIndex = 1;
             this.txtCapital.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtCapital.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PositionTextboxes_KeyDown);
             this.txtCapital.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
             this.txtCapital.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Money_Validating);
             // 
@@ -1553,7 +1557,7 @@ namespace TradingTools
             this.btnSave.Location = new System.Drawing.Point(227, 15);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(112, 34);
-            this.btnSave.TabIndex = 6;
+            this.btnSave.TabIndex = 8;
             this.btnSave.Text = "&SAVE";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -1563,7 +1567,7 @@ namespace TradingTools
             this.btnReCalculate.Location = new System.Drawing.Point(6, 16);
             this.btnReCalculate.Name = "btnReCalculate";
             this.btnReCalculate.Size = new System.Drawing.Size(95, 33);
-            this.btnReCalculate.TabIndex = 8;
+            this.btnReCalculate.TabIndex = 6;
             this.btnReCalculate.Text = "&CALCULATE";
             this.btnReCalculate.UseVisualStyleBackColor = true;
             this.btnReCalculate.Click += new System.EventHandler(this.btnReCalculate_Click);
@@ -1629,7 +1633,7 @@ namespace TradingTools
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 11F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(155, 112);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(155, 97);
             this.tableLayoutPanel5.TabIndex = 1;
             // 
             // txtOpeningTradingCost
@@ -1692,7 +1696,7 @@ namespace TradingTools
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.label14.Location = new System.Drawing.Point(8, 83);
+            this.label14.Location = new System.Drawing.Point(8, 76);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(75, 15);
             this.label14.TabIndex = 8;

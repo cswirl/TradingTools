@@ -996,6 +996,7 @@ namespace TradingTools
         }
         #endregion
 
+        // Obsolete - See Theme
         #region DataGridView Formatting
         private void PCP_Table_Formatting(DataGridView d)
         {
@@ -1144,6 +1145,14 @@ namespace TradingTools
             {
                 txtLeverage.Text = "1";
                 radio.Text = "";
+            }
+        }
+
+        private void PositionTextboxes_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnReCalculate_Click(null, null);
             }
         }
     }
