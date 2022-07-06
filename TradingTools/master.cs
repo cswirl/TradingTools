@@ -50,10 +50,9 @@ namespace TradingTools
             _frmCalcStates.Show();
             // delegates
             _frmCalcStates.FormRRCLong_Empty_Open += this.FormRRCLong_Empty_Spawn;
-            _frmCalcStates.CalculatorState_Loaded_OnRequest += this.FormRRC_Loaded_Spawn;
-            _frmCalcStates.Trade_TradeOpen_OnRequest += this.FormRRCLong_Trade_Spawn;
-            //
             _frmCalcStates.FormRRC_Short_Empty_Open += this.FormRRC_Short_Empty_Spawn;
+            _frmCalcStates.CalculatorState_Loaded_OnRequest += this.FormRRC_Loaded_Spawn;
+            _frmCalcStates.Trade_TradeOpen_OnRequest += this.FormRRC_Trade_Spawn;
             //
             _frmCalcStates.FormTradeMasterFile += this.FormTradeMasterFile;
             //
@@ -89,7 +88,7 @@ namespace TradingTools
                 _frmTradeMasterFile.Owner = this;
                 _frmTradeMasterFile.Show();
                 // delegates
-                _frmTradeMasterFile.Trade_TradeOpen_OnRequest += this.FormRRCLong_Trade_Spawn;
+                _frmTradeMasterFile.Trade_TradeOpen_OnRequest += this.FormRRC_Trade_Spawn;
                 this.tradeOfficialized += _frmTradeMasterFile.Trade_Officialized;
                 this.tradeClosed += _frmTradeMasterFile.Trade_Closed;
             }
@@ -100,7 +99,7 @@ namespace TradingTools
             }
         }
 
-        private bool FormRRCLong_Trade_Spawn(Trade t)
+        private bool FormRRC_Trade_Spawn(Trade t)
         {
             // TODO: the EF core list is being renew whenever a Trade or CalculatorState is Updated fron the 
             // - maybe use id or something, maybe hash
@@ -113,7 +112,13 @@ namespace TradingTools
             }
             else
             {
-                var form = new frmRiskRewardCalc_Long();
+                IRiskRewardCalc riskRewardCalc;
+                if (t.Side == "short")
+                    riskRewardCalc = TradeService.RiskRewardCalcGetInstance("short");
+                else
+                    riskRewardCalc = TradeService.RiskRewardCalcGetInstance("long");
+
+                var form = new frmRiskRewardCalc_Long(riskRewardCalc);
                 form.State = t.Status.Equals("open") ? RiskRewardCalcState.TradeOpen : RiskRewardCalcState.TradeClosed;
                 form.Owner = this;
                 form.Trade = t;

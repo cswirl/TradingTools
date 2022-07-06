@@ -598,9 +598,12 @@ namespace TradingTools
                         lblHeader.Text += " - Unofficial";
                         panelBandTop.BackColor = BandColor.Loaded;
                         panelBandBottom.BackColor = BandColor.Loaded;
-                        // Independent data
+
+                        
                         this.Text = c.Ticker;
                         txtTicker.Text = c.Ticker;
+                        // Common
+                        // Independent data
                         txtReasonForEntry.Text = c.ReasonForEntry;
                         txtCounterBias.Text = c.CounterBias;
                         txtNote.Text = c.Note;
@@ -660,176 +663,41 @@ namespace TradingTools
                     {
                         panelBandTop.BackColor = BandColor.TradeOpen;
                         panelBandBottom.BackColor = BandColor.TradeOpen;
-
-                        // load Trade detail
-                        // Independent data
-                        txtTradeNum.Text = Trade.Id.ToString();
-                        txtTicker.Text = Trade.Ticker;
-                        Enum.TryParse<TradingStyle>(Trade.TradingStyle, out tradeStyle);
-                        cbxTradingStyle.SelectedItem = tradeStyle;
-
-                        // sys flow 1
-                        txtCapital.Text = Trade.Capital.ToString(Constant.MONEY_FORMAT);     // Money Format Regex implemented
-                        txtLeverage.Text = Trade.Leverage.ToString(Constant.DECIMAL_UPTO_TWO);
-                        txtEntryPrice.Text = Trade.EntryPriceAvg.ToString();
-                        txtLotSize.Text = Trade.LotSize.ToString();
-                        txtDayCount.Text = Trade.DayCount?.ToDecimalUptoTwo() ?? "0";
-
-                        //Numeric Up Down control throws exception when assigned value less then their Minimum value
-                        nudDailyInterestRate.Value = CalculatorState.DailyInterestRate < nudDailyInterestRate.Value ? nudDailyInterestRate.Minimum : CalculatorState.DailyInterestRate;
-                        
-                        txtExchangeFee.Text = CalculatorState.ExchangeFee.ToString(Constant.DECIMAL_UPTO_MAX);
-
-                        btnReCalculate_Click(null, null);
-
-                        #region Purely CalculatorState
-                        // sys flow
-                        txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget?.ToString(Constant.DECIMAL_UPTO_MAX);
-                        txtPriceDecrease_target.Text = CalculatorState.PriceDecreaseTarget?.ToString(Constant.DECIMAL_UPTO_MAX);
-
-                        // sys flow
-                        txtPEP_ExitPrice.Text = CalculatorState.PEP_ExitPrice?.ToString(Constant.DECIMAL_UPTO_MAX);
-                        txtPEP_Note.Text = CalculatorState.PEP_Note;
-
-                        // sys flow
-                        txtLEP_ExitPrice.Text = CalculatorState.LEP_ExitPrice?.ToString(Constant.DECIMAL_UPTO_MAX);
-                        txtLEP_Note.Text = CalculatorState.LEP_Note;
-
-                        // sys flow
-                        txtTradeExit_ExitPrice.Text = CalculatorState.TradeExit_ExitPrice?.ToString(Constant.DECIMAL_UPTO_MAX);
-                        txtReasonForExit.Text = CalculatorState.ReasonForExit;
-
-                        txtPerfectEntry_EntryPrice.Text = CalculatorState.PerfectEntry_EntryPrice?.ToString(Constant.DECIMAL_UPTO_MAX);
-                        txtPerfectEntry_ExitPrice.Text = CalculatorState.PerfectEntry_ExitPrice?.ToString(Constant.DECIMAL_UPTO_MAX);
-                        txtPerfectEntry_Note.Text = CalculatorState.PerfectEntry_Note;
-                        //
-                        txtReasonForEntry.Text = CalculatorState.ReasonForEntry;
-                        txtCounterBias.Text = CalculatorState.CounterBias;
-                        txtNote.Text = CalculatorState.Note;
-                        #endregion
-                        //
                         lblHeader.Text = Trade.Ticker + $" - OPEN";
-                        this.Text = Trade.Ticker + $" - Trade No. { Trade?.Id}";
-
-                        txtTicker.ReadOnly = true;
-                        txtCapital.ReadOnly = true;
-                        txtLeverage.ReadOnly = true;
-                        txtEntryPrice.ReadOnly = true;
-                        txtLotSize.ReadOnly = true;
-                        cbxTradingStyle.Enabled = false;
-                        nudDailyInterestRate.ReadOnly = true;
-                        radioLeverage.Enabled = false;
-                        radioLotSize.Enabled = false;
-
-                        btnReCalculate.Visible = false;
-                        btnDelete.Visible = false;
-                        btnOfficializedTrade.Enabled = false;
-                        btnOfficializedTrade.Visible = false;
                         btnCloseTheTrade.Visible = true;
+
+                        TradeCommon_Load(Trade);
                     }
                     break;
 
                 case RiskRewardCalcState.TradeClosed:
                     panelBandTop.BackColor = BandColor.TradeClosed;
                     panelBandBottom.BackColor = BandColor.TradeClosed;
-
-                    #region Trade Common
-                    // load trade details
-                    // Independent data
-                    txtTradeNum.Text = Trade.Id.ToString();
-                    txtTicker.Text = Trade.Ticker;
-                    Enum.TryParse<TradingStyle>(Trade.TradingStyle, out tradeStyle);
-                    cbxTradingStyle.SelectedItem = tradeStyle;
-
-                    // sys flow 1
-                    txtCapital.Text = Trade.Capital.ToString(Constant.MONEY_FORMAT);
-                    txtLeverage.Text = Trade.Leverage.ToString(Constant.DECIMAL_UPTO_TWO);      
-                    txtEntryPrice.Text = Trade.EntryPriceAvg.ToString();
-                    txtLotSize.Text = Trade.LotSize.ToString();
-                    txtDayCount.Text = Trade.DayCount?.ToDecimalUptoTwo() ?? "0";
-
-                    //Numeric Up Down control throws exception when assigned value less then their Minimum value
-                    nudDailyInterestRate.Value = CalculatorState.DailyInterestRate < nudDailyInterestRate.Value ? nudDailyInterestRate.Minimum : CalculatorState.DailyInterestRate;
-
-                    txtExchangeFee.Text = CalculatorState.ExchangeFee.ToString(Constant.DECIMAL_UPTO_MAX);
-
-                    btnReCalculate_Click(null, null);
-
-                    #region Almost All CalculatorState
-                    // sys flow
-                    txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget?.ToString(Constant.DECIMAL_UPTO_MAX);
-                    txtPriceDecrease_target.Text = CalculatorState.PriceDecreaseTarget?.ToString(Constant.DECIMAL_UPTO_MAX);
-
-                    // sys flow
-                    txtPEP_ExitPrice.Text = CalculatorState.PEP_ExitPrice?.ToString(Constant.DECIMAL_UPTO_MAX);
-                    txtPEP_Note.Text = CalculatorState.PEP_Note;
-
-                    // sys flow
-                    txtLEP_ExitPrice.Text = CalculatorState.LEP_ExitPrice?.ToString(Constant.DECIMAL_UPTO_MAX);
-                    txtLEP_Note.Text = CalculatorState.LEP_Note;
-
-                    // sys flow
-                    txtTradeExit_ExitPrice.Text = Trade.ExitPriceAvg?.ToString(Constant.DECIMAL_UPTO_MAX);  // Trade
-                    txtReasonForExit.Text = CalculatorState.ReasonForExit;
-
-                    txtPerfectEntry_EntryPrice.Text = CalculatorState.PerfectEntry_EntryPrice?.ToString(Constant.DECIMAL_UPTO_MAX);
-                    txtPerfectEntry_ExitPrice.Text = CalculatorState.PerfectEntry_ExitPrice?.ToString(Constant.DECIMAL_UPTO_MAX);
-                    txtPerfectEntry_Note.Text = CalculatorState.PerfectEntry_Note;
-                    //
-                    txtReasonForEntry.Text = CalculatorState.ReasonForEntry;
-                    txtCounterBias.Text = CalculatorState.CounterBias;
-                    txtNote.Text = CalculatorState.Note;
-                    #endregion
-
-                    #endregion
-
-                    //
                     lblHeader.Text = Trade.Ticker + " - CLOSED"; ;
                     lblHeader.ForeColor = Color.LightSteelBlue;
-                    this.Text = Trade.Ticker + $" - Trade No. { Trade?.Id}";
-
-                    // same as trade open
-                    txtTicker.ReadOnly = true;
-                    txtCapital.ReadOnly = true;
-                    txtLeverage.ReadOnly = true;
-                    txtEntryPrice.ReadOnly = true;
-                    txtLotSize.ReadOnly = true;
-                    cbxTradingStyle.Enabled = false;
-                    nudDailyInterestRate.ReadOnly = true;
-                    radioLeverage.Enabled = false;
-                    radioLotSize.Enabled = false;
-
-                    btnDelete.Visible = false;
-                    btnOfficializedTrade.Enabled = false;
-                    btnOfficializedTrade.Visible = false;
-
-                    // trade close
+                    // Controls
                     txtPEP_ExitPrice.ReadOnly = true;
                     txtLEP_ExitPrice.ReadOnly = true;
                     txtPerfectEntry_EntryPrice.ReadOnly = true;
                     txtPerfectEntry_ExitPrice.ReadOnly = true;
                     txtTradeExit_ExitPrice.ReadOnly = true;
                     txtFinalCapital.ReadOnly = true;
-
+                    //
                     btnSetPEP.Visible = false;
                     btnSetLEP.Visible = false;
-                    btnReCalculate.Visible = false;
-                    //btnSave.Visible = false;
                     btnCloseTheTrade.Visible = false;
-
                     gbxNotes.Height = 800;
 
+                    TradeCommon_Load(Trade);
 
-                    // Override Values
-                    // Trade Exit
-                    decimal pv = RiskRewardCalc_Serv.PositionValue(Trade.LotSize, Trade.ExitPriceAvg ?? 0);
-                    txtTradeExit_PV.Text = pv.ToString(Constant.MONEY_FORMAT);
-                    txtFinalCapital.Text = Trade.FinalCapital?.ToString(Constant.MONEY_FORMAT);
+                    // Trade Exit - Override Values
+                    txtTradeExit_PV.Text = Formula.PositionValue(Trade.LotSize, Trade.ExitPriceAvg ?? 0).ToMoney();
+                    txtFinalCapital.Text = Trade.FinalCapital?.ToMoney();
 
-                    txtTradeExit_PCP.Text = RiskRewardCalc_Serv.PCP(Trade.EntryPriceAvg, Trade.ExitPriceAvg).ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
-                    txtTradeExit_PnL_percentage.Text = Trade.PnL_percentage?.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
-                    txtTradeExit_PnL.Text = Trade.PnL?.ToString(Constant.MONEY_FORMAT);
-                    decimal fc = Trade.FinalCapital ?? pv;  // to result zero if FinalCapital is null
+                    txtTradeExit_PCP.Text = Formula.PCP(Trade.EntryPriceAvg, Trade.ExitPriceAvg).ToPercentageSingle();
+                    txtTradeExit_PnL_percentage.Text = Trade.PnL_percentage?.ToPercentageSingle();
+                    txtTradeExit_PnL.Text = Trade.PnL?.ToMoney();
+                    // Transaction Cost
                     txtTradeExit_TC.Text = "--"; // (pv - fc).ToString(Constant.MONEY_FORMAT);
                     break;
 
@@ -844,6 +712,75 @@ namespace TradingTools
                     btnCloseTheTrade.Visible = false;
                     break;
             }
+        }
+
+        private void TradeCommon_Load(Trade t)
+        {
+            // trade
+            this.Text = Trade.Ticker + $" - Trade No. {Trade?.Id}";
+            txtTradeNum.Text = Trade.Id.ToString();
+            txtTicker.Text = Trade.Ticker;
+
+            // Independent data
+            txtReasonForEntry.Text = CalculatorState.ReasonForEntry;
+            txtCounterBias.Text = CalculatorState.CounterBias;
+            txtNote.Text = CalculatorState.Note;
+            TradingStyle tradeStyle;
+            Enum.TryParse<TradingStyle>(Trade.TradingStyle, out tradeStyle);    //
+            cbxTradingStyle.SelectedItem = tradeStyle;
+            radioLotSize.Checked = CalculatorState.IsLotSizeChecked;
+
+            // sys flow 1
+            txtCapital.Text = Trade.Capital.ToMoney();     // Money Format Regex implemented
+            txtLeverage.Text = Trade.Leverage.ToDecimalUptoTwo();
+            txtEntryPrice.Text = Trade.EntryPriceAvg.ToDecimalUptoMax();
+            txtLotSize.Text = Trade.LotSize.ToDecimalUptoMax();
+            txtDayCount.Text = Trade.DayCount?.ToDecimalUptoTwo() ?? "0";
+
+            //Numeric Up Down control throws exception when assigned value less then their Minimum value
+            nudDailyInterestRate.Value = Math.Max(CalculatorState.DailyInterestRate, nudDailyInterestRate.Minimum);
+
+            txtExchangeFee.Text = CalculatorState.ExchangeFee.ToDecimalUptoMax();
+
+            btnReCalculate_Click(null, null);
+
+            #region Purely CalculatorState
+            // sys flow
+            txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget?.ToDecimalUptoMax();
+            txtPriceDecrease_target.Text = CalculatorState.PriceDecreaseTarget?.ToDecimalUptoMax();
+
+            // sys flow
+            txtPEP_ExitPrice.Text = CalculatorState.PEP_ExitPrice?.ToDecimalUptoMax();
+            txtPEP_Note.Text = CalculatorState.PEP_Note;
+
+            // sys flow
+            txtLEP_ExitPrice.Text = CalculatorState.LEP_ExitPrice?.ToDecimalUptoMax();
+            txtLEP_Note.Text = CalculatorState.LEP_Note;
+
+            // sys flow
+            txtTradeExit_ExitPrice.Text = CalculatorState.TradeExit_ExitPrice?.ToDecimalUptoMax();
+            txtReasonForExit.Text = CalculatorState.ReasonForExit;
+
+            txtPerfectEntry_EntryPrice.Text = CalculatorState.PerfectEntry_EntryPrice?.ToDecimalUptoMax();
+            txtPerfectEntry_ExitPrice.Text = CalculatorState.PerfectEntry_ExitPrice?.ToDecimalUptoMax();
+            txtPerfectEntry_Note.Text = CalculatorState.PerfectEntry_Note;
+            //
+            #endregion
+
+            // Controls
+            txtTicker.ReadOnly = true;
+            txtCapital.ReadOnly = true;
+            txtLeverage.ReadOnly = true;
+            txtEntryPrice.ReadOnly = true;
+            txtLotSize.ReadOnly = true;
+            cbxTradingStyle.Enabled = false;
+            nudDailyInterestRate.Enabled = false;
+            radioLeverage.Visible = false;
+            radioLotSize.Visible = false;
+            btnDelete.Visible = false;
+            btnOfficializedTrade.Enabled = false;
+            btnOfficializedTrade.Visible = false;
+            btnReCalculate.Visible = false;
         }
 
         private void btnCloseTheTrade_Click(object sender, EventArgs e)
