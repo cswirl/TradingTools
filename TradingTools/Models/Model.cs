@@ -12,6 +12,7 @@ namespace TradingTools.Model
     {
     }
 
+
     public class CalculationDetails
     {
         public OpeningCost OpeningCost = new();

@@ -107,7 +107,7 @@ namespace TradingTools
         {
             if (Trade == null) return;
             Presentation.DateTimePicker_MaxDate_SafeAssign(dtpDateExit, DateTime.Now);
-            txtExitPrice.Text = Trade?.ExitPriceAvg?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+            txtExitPrice.Text = Trade?.ExitPriceAvg?.ToString(Constant.DECIMAL_UPTO_MAX);
             txtFinalCapital.Text = Trade?.FinalCapital?.ToString(Constant.MONEY_FORMAT);
             txtReasonForExit.Text = Trade?.CalculatorState.ReasonForExit;
         }

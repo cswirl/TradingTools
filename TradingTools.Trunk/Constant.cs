@@ -7,14 +7,19 @@ namespace TradingTools.Trunk
         public const decimal TRADING_FEE = 0.001M;      // Binance
         public const decimal DAILY_INTEREST_RATE = 0.0002M;
 
-        public const string MAX_DECIMAL_PLACE_FORMAT = "0.########";
+        public const string WHOLE_NUMBER = "0";
+        
         public const string MONEY_FORMAT = "C";
+
         public const string PERCENTAGE_FORMAT_NONE = @"0\%";        
         public const string PERCENTAGE_FORMAT_SINGLE = @"0.0\%";
         public const string PERCENTAGE_FORMAT_DOUBLE = @"0.00\%";
-        public const string LEVERAGE_DECIMAL_PLACE = "0.##";
-        public const string DECIMAL_UPTO_TWO = "0.##";
+
+        public const string DECIMAL_ONE = "0.0";
+        public const string DECIMAL_TWO = "0.00";
         public const string DECIMAL_UPTO_ONE = "0.#";
+        public const string DECIMAL_UPTO_TWO = "0.##";
+        public const string DECIMAL_UPTO_MAX = "0.########";
     }
 
     public class Position

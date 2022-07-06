@@ -50,7 +50,7 @@ namespace TradingTools
             _frmCalcStates.Show();
             // delegates
             _frmCalcStates.FormRRCLong_Empty_Open += this.FormRRCLong_Empty_Spawn;
-            _frmCalcStates.CalculatorState_Loaded_OnRequest += this.FormRRCLong_Loaded_Spawn;
+            _frmCalcStates.CalculatorState_Loaded_OnRequest += this.FormRRC_Loaded_Spawn;
             _frmCalcStates.Trade_TradeOpen_OnRequest += this.FormRRCLong_Trade_Spawn;
             //
             _frmCalcStates.FormRRC_Short_Empty_Open += this.FormRRC_Short_Empty_Spawn;
@@ -130,8 +130,7 @@ namespace TradingTools
             return true;
         }
 
-
-        private bool FormRRCLong_Loaded_Spawn(CalculatorState c)
+        private bool FormRRC_Loaded_Spawn(CalculatorState c)
         {
             var rrc = _listOf_frmRRC_Long.Find(x => x.CalculatorState?.Equals(c) ?? false);
             if (rrc != null)
@@ -141,7 +140,13 @@ namespace TradingTools
             }
             else
             {
-                var riskRewardCalc = TradeService.RiskRewardCalcGetInstance("long");
+                IRiskRewardCalc riskRewardCalc;
+
+                if (c.Side == "short")
+                    riskRewardCalc = TradeService.RiskRewardCalcGetInstance("short");
+                else
+                    riskRewardCalc = TradeService.RiskRewardCalcGetInstance("long");
+
                 var form = new frmRiskRewardCalc_Long(riskRewardCalc);
                 form.State = RiskRewardCalcState.Loaded;
                 form.Owner = this;

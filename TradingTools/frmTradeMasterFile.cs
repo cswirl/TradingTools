@@ -197,7 +197,7 @@ namespace TradingTools
             txtCapital.Text = t.Capital.ToString(Constant.MONEY_FORMAT);
             txtLotSize.Text = t.LotSize.ToString();
             txtEntryPrice.Text = t.EntryPriceAvg.ToString();
-            txtLeverage.Text = t.Leverage.ToString(Constant.LEVERAGE_DECIMAL_PLACE);
+            txtLeverage.Text = t.Leverage.ToString(Constant.DECIMAL_UPTO_TWO);
             Enum.TryParse<TradingStyle>(t.TradingStyle, out tradeStyle);
             cbxTradingStyle.SelectedItem = tradeStyle;
 
@@ -205,7 +205,7 @@ namespace TradingTools
             {
                 panelTradeClosed.Visible = true;
                 Presentation.DateTimePicker_MaxDate_SafeAssign(dtpDateExit, t.DateExit ?? dtpDateExit.Value);
-                txtExitPrice.Text = t.ExitPriceAvg?.ToString(Constant.MAX_DECIMAL_PLACE_FORMAT);
+                txtExitPrice.Text = t.ExitPriceAvg?.ToString(Constant.DECIMAL_UPTO_MAX);
                 txtFinalCapital.Text = t.FinalCapital?.ToString(Constant.MONEY_FORMAT);
                 // PCP, PnL etc
                 txtPCP.Text = RiskRewardCalc_Serv.PCP(t.EntryPriceAvg, t.ExitPriceAvg).ToString(Constant.PERCENTAGE_FORMAT_SINGLE);

@@ -88,7 +88,7 @@ namespace TradingTools
             exitPrice.Name = "ExitPrice";
             exitPrice.HeaderText = "Exit Price";
             exitPrice.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            exitPrice.DefaultCellStyle.Format = Constant.MAX_DECIMAL_PLACE_FORMAT;
+            exitPrice.DefaultCellStyle.Format = Constant.DECIMAL_UPTO_MAX;
             exitPrice.DefaultCellStyle.ForeColor = Color.White;
             //exitPrice.DefaultCellStyle.Font = new Font(new FontFamily("tahoma"), 8.5f, FontStyle.Bold);
             exitPrice.DefaultCellStyle.BackColor = Color.SteelBlue;

@@ -60,6 +60,11 @@ namespace TradingTools.Trunk
             return LeveragedCapital(capital, leverage) - capital;
         }
 
+        public static decimal InterestCost(decimal borrowedAmount, decimal dailyInterestRate, decimal dayCount)
+        {
+            return borrowedAmount * dailyInterestRate * dayCount;
+        }
+
         public static decimal PositionValue(decimal lotSize, decimal price)
         {
             return price * lotSize;
