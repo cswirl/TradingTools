@@ -21,6 +21,22 @@ namespace TradingTools.Services
 
         }
 
+        PnLRecord IRiskRewardCalc.ComputePnL(decimal exitPrice, Position position)
+        {
+            if (position == null) throw new NullReferenceException("Position object not set");
+            return PnLRecord.Create(exitPrice, position.EntryPriceAvg, position.LotSize, position.Capital).Short();
+        }
+
+        Tuple<PnLRecord, decimal, decimal> IRiskRewardCalc.PnlExitPlan(decimal exitPrice, Position position)
+        {
+            PnLRecord rec = ((IRiskRewardCalc)this).ComputePnL(exitPrice, position);
+            var sPV = Formula.SpeculativePositionValue(position.LeveragedCapital, rec.PnL);
+            var equity = Formula.SpeculativeAccountEquity(position.LeveragedCapital, rec.PnL, 
+                Formula.BorrowedAmount(position.Leverage, position.Capital));
+
+            return new(rec, sPV, equity);
+        }
+
         IList<PnLRecord> IRiskRewardCalc.GeneratePriceIncreaseTable(Position position)
         {
             decimal[] pcp = { 1m, 2m, 3m, 4m, 5m, 6, 7m, 8, 10m };
@@ -48,18 +64,6 @@ namespace TradingTools.Services
                 x.Short();
 
             return table;
-        }
-
-        PnLRecord IRiskRewardCalc.ComputePnL(decimal exitPrice, Position position)
-        {
-            throw new NotImplementedException();
-        }
-
-        
-
-        Tuple<PnLRecord, decimal, decimal> IRiskRewardCalc.PnlExitPlan(decimal exitPrice, Position position)
-        {
-            throw new NotImplementedException();
         }
     }
 }

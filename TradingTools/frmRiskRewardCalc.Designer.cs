@@ -2231,7 +2231,7 @@ namespace TradingTools
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // frmRiskRewardCalc_Long
+            // frmRiskRewardCalc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -2242,7 +2242,7 @@ namespace TradingTools
             this.Controls.Add(this.panelTitleBand);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.Name = "frmRiskRewardCalc_Long";
+            this.Name = "frmRiskRewardCalc";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Risk Reward Calculator";

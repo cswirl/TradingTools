@@ -93,5 +93,18 @@ namespace TradingTools.Trunk
             return (dateExit - dateEnter).TotalDays.ToDecimalSafe();
         }
 
+        #region "Speculative Computation"
+        public static decimal SpeculativePositionValue(decimal leveragedCapital, decimal profits)
+        {
+            return leveragedCapital + profits;
+        }
+
+        public static decimal SpeculativeAccountEquity(decimal leveragedCapital, decimal profits, decimal borrowAmount)
+        {
+            return SpeculativePositionValue(leveragedCapital, profits) - borrowAmount;
+        }
+
+        #endregion
+
     }
 }

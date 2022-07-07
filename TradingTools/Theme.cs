@@ -136,6 +136,10 @@ namespace TradingTools
             d.DefaultCellStyle.ForeColor = Color.White;
 
             Format_PCPTable(d);
+
+            // change color of pcp
+            var pcp = d.Columns["PCP"];
+            pcp.DefaultCellStyle.BackColor = Color.Green;
         }
 
         public void Format_PriceDecreaseTable(DataGridView d)
@@ -144,6 +148,10 @@ namespace TradingTools
             d.DefaultCellStyle.ForeColor = Color.White;
 
             Format_PCPTable(d);
+
+            // change color of pcp
+            var pcp = d.Columns["PCP"];
+            pcp.DefaultCellStyle.BackColor = Color.Red;
         }
     }
 }
