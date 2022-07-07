@@ -1100,8 +1100,7 @@ namespace TradingTools
             this.txtLeverage.Tag = "";
             this.txtLeverage.Text = "1";
             this.txtLeverage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtLeverage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PositionTextboxes_KeyDown);
-            this.txtLeverage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
+            this.txtLeverage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLeverage_KeyDown);
             this.txtLeverage.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Decimal_Validating);
             // 
             // txtRRR

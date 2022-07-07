@@ -866,11 +866,6 @@ namespace TradingTools
             }
         }
 
-        private void TextBox_Numeric_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-        }
-
         private void TextBox_Money_Validating(object sender, CancelEventArgs e)
         {
             var tb = (TextBox)sender;
@@ -886,11 +881,6 @@ namespace TradingTools
                 e.Cancel = false;
                 errorProvider1.SetError(tb, null);
             }
-        }
-
-        private void TextBox_Integer_Validating(object sender, CancelEventArgs e)
-        {
-
         }
 
         private void TextBox_Decimal_Validating(object sender, CancelEventArgs e)
@@ -1086,6 +1076,23 @@ namespace TradingTools
             {
                 btnReCalculate_Click(null, null);
             }
+        }
+
+        private void txtLeverage_KeyDown(object sender, KeyEventArgs e)
+        {
+            var tb = (TextBox)sender;
+            var val = tb.Text.ToDecimal();
+            if (e.KeyCode == Keys.Up)
+            {
+                tb.Text = (val + 1).ToDecimalUptoMax();
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                if ((val - 1) < 1) { tb.Text = "1"; return; }
+                else tb.Text = (val - 1).ToDecimalUptoTwo();
+            }
+                
+            PositionTextboxes_KeyDown(sender, e);
         }
     }
 
