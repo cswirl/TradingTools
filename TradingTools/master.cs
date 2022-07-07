@@ -21,7 +21,7 @@ namespace TradingTools
         Action<Trade> tradeDeleted;
         Action<Trade> tradeUpdated;
 
-        private List<frmRiskRewardCalc_Long> _listOf_frmRRC_Long;
+        private List<frmRiskRewardCalc> _listOf_frmRRC_Long;
         private BindingList<CalculatorState> _calculatorStates_unofficial_bindingList;
         
         public TradingToolsDbContext DbContext { get; set; }
@@ -112,20 +112,15 @@ namespace TradingTools
             }
             else
             {
-                IRiskRewardCalc riskRewardCalc;
-                if (t.Side == "short")
-                    riskRewardCalc = TradeService.RiskRewardCalcGetInstance("short");
-                else
-                    riskRewardCalc = TradeService.RiskRewardCalcGetInstance("long");
-
-                var form = new frmRiskRewardCalc_Long(riskRewardCalc);
+                var riskRewardCalc = TradeService.RiskRewardCalcGetInstance(t.Side);
+                var form = new frmRiskRewardCalc(riskRewardCalc);
                 form.State = t.Status.Equals("open") ? RiskRewardCalcState.TradeOpen : RiskRewardCalcState.TradeClosed;
                 form.Owner = this;
                 form.Trade = t;
                 form.CalculatorState = t.CalculatorState;
                 form.Show();
                 //Delegates assignment here
-                form.FormClosing += (object sender, FormClosingEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc_Long)sender);
+                form.FormClosing += (object sender, FormClosingEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc)sender);
                 this.tradeDeleted += form.MarkAsDeleted;
                 this.tradeUpdated += form.Trade_Updated;
 
@@ -145,20 +140,14 @@ namespace TradingTools
             }
             else
             {
-                IRiskRewardCalc riskRewardCalc;
-
-                if (c.Side == "short")
-                    riskRewardCalc = TradeService.RiskRewardCalcGetInstance("short");
-                else
-                    riskRewardCalc = TradeService.RiskRewardCalcGetInstance("long");
-
-                var form = new frmRiskRewardCalc_Long(riskRewardCalc);
+                var riskRewardCalc = TradeService.RiskRewardCalcGetInstance(c.Side);
+                var form = new frmRiskRewardCalc(riskRewardCalc);
                 form.State = RiskRewardCalcState.Loaded;
                 form.Owner = this;
                 form.CalculatorState = c;
                 form.Show();
                 //Delegates assignment here
-                form.FormClosing += (object sender, FormClosingEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc_Long)sender);
+                form.FormClosing += (object sender, FormClosingEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc)sender);
                 this.tradeDeleted += form.MarkAsDeleted;
                 this.tradeUpdated += form.Trade_Updated;
 
@@ -182,11 +171,11 @@ namespace TradingTools
 
         private void FormRRC_Empty_Spawn(IRiskRewardCalc riskRewardCalc)
         {
-            var form = new frmRiskRewardCalc_Long(riskRewardCalc);
+            var form = new frmRiskRewardCalc(riskRewardCalc);
             form.Owner = this;
             form.Show();
             //Delegates assignment here
-            form.FormClosing += (object sender, FormClosingEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc_Long)sender);
+            form.FormClosing += (object sender, FormClosingEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc)sender);
             this.tradeDeleted += form.MarkAsDeleted;
             this.tradeUpdated += form.Trade_Updated;
 

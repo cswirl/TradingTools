@@ -19,7 +19,7 @@ using TradingTools.Trunk.Validation;
 
 namespace TradingTools
 {
-    public partial class frmRiskRewardCalc_Long : Form
+    public partial class frmRiskRewardCalc : Form
     {
         private IRiskRewardCalc _rrc;
         private RiskRewardCalc_Serv _rrc_serv = new();  // Obsolete: in favor of IRiskRewardCalc
@@ -34,7 +34,7 @@ namespace TradingTools
         public Position Position { get; set; }
         public ISideTheme Theme { get; private set; }
 
-        public frmRiskRewardCalc_Long(IRiskRewardCalc riskRewardCalc)
+        public frmRiskRewardCalc(IRiskRewardCalc riskRewardCalc)
         {
             InitializeComponent();
 
@@ -50,7 +50,7 @@ namespace TradingTools
         }
 
         // May be obsoleted - but this cannot be deleted as empty constructor is needed by .NET
-        public frmRiskRewardCalc_Long()
+        public frmRiskRewardCalc()
         {
             InitializeComponent();
 

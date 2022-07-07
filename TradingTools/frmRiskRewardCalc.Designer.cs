@@ -1,7 +1,7 @@
 
 namespace TradingTools
 {
-    partial class frmRiskRewardCalc_Long
+    partial class frmRiskRewardCalc
     {
         /// <summary>
         ///  Required designer variable.
