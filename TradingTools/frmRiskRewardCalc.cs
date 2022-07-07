@@ -44,6 +44,18 @@ namespace TradingTools
             Side = riskRewardCalc.Side;
 
             this.Theme = TradingTools.Theme.SideTheme_GetInstance(riskRewardCalc.Side);
+
+            // delegates
+            if (riskRewardCalc.Side == "short")
+            {
+                btnSetPEP.Click += new EventHandler(delegate (Object o, EventArgs a) { txtLEP_ExitPrice.Text = txtPriceIncrease_target.Text; });
+                btnSetLEP.Click += new EventHandler(delegate (Object o, EventArgs a) { txtPEP_ExitPrice.Text = txtPriceDecrease_target.Text; });
+            }
+            else
+            {
+                btnSetPEP.Click += new EventHandler(delegate (Object o, EventArgs a) { txtPEP_ExitPrice.Text = txtPriceIncrease_target.Text; });
+                btnSetLEP.Click += new EventHandler(delegate (Object o, EventArgs a) { txtLEP_ExitPrice.Text = txtPriceDecrease_target.Text; });
+            }
             //
 
             myInitializeComponent();
@@ -69,7 +81,6 @@ namespace TradingTools
 
             // timer
             timer1.Interval = Presentation.INTERNAL_TIMER_REFRESH_VALUE;
-            // events
         }
 
         private void btnReCalculate_Click(object sender, EventArgs e)
@@ -304,17 +315,17 @@ namespace TradingTools
             txtMultiple.Text = (1 + (pcp / 100)).ToDecimalUptoTwo() + "x";
         }
 
-        private void btnSetLEP_Click(object sender, EventArgs e)
-        {
-            txtLEP_ExitPrice.Text = txtPriceDecrease_target.Text;
-            LEP_Compute(null, null);
-        }
+        //private void btnSetLEP_Click(object sender, EventArgs e)
+        //{
+        //    txtLEP_ExitPrice.Text = txtPriceDecrease_target.Text;
+        //    //LEP_Compute(null, null);
+        //}
 
-        private void btnSetPEP_Click(object sender, EventArgs e)
-        {
-            txtPEP_ExitPrice.Text = txtPriceIncrease_target.Text;
-            PEP_Compute(null, null);
-        }
+        //private void btnSetPEP_Click(object sender, EventArgs e)
+        //{
+        //    txtPEP_ExitPrice.Text = txtPriceIncrease_target.Text;
+        //    //PEP_Compute(null, null);
+        //}
 
         private void btnSave_Click(object sender, EventArgs e)
         {

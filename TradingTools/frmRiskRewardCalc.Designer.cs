@@ -1753,7 +1753,6 @@ namespace TradingTools
             this.btnSetPEP.TabIndex = 10;
             this.btnSetPEP.Text = "Set-To-Exit Plan >>";
             this.btnSetPEP.UseVisualStyleBackColor = true;
-            this.btnSetPEP.Click += new System.EventHandler(this.btnSetPEP_Click);
             // 
             // tableLayoutPanel6
             // 
@@ -1894,7 +1893,6 @@ namespace TradingTools
             this.btnSetLEP.TabIndex = 11;
             this.btnSetLEP.Text = "Set-To-Exit Plan >>";
             this.btnSetLEP.UseVisualStyleBackColor = true;
-            this.btnSetLEP.Click += new System.EventHandler(this.btnSetLEP_Click);
             // 
             // tableLayoutPanel4
             // 
