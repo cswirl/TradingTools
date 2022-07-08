@@ -11,6 +11,7 @@ using TradingTools.Model;
 using TradingTools.Services;
 using TradingTools.Trunk;
 using TradingTools.Trunk.Entity;
+using TradingTools.Trunk.Extensions;
 using TradingTools.Trunk.Validation;
 
 namespace TradingTools
@@ -137,10 +138,10 @@ namespace TradingTools
                 // collect
                 t.DateEnter = dtpDateEnter.Value;
                 t.Ticker = txtTicker.Text;
-                t.Capital = StringToNumeric.MoneyToDecimal(txtCapital.Text);
-                t.LotSize = InputConverter.Decimal(txtLotSize.Text);
-                t.EntryPriceAvg = InputConverter.Decimal(txtEntryPrice.Text);
-                t.Leverage = InputConverter.Decimal(txtLeverage.Text);
+                t.Capital = txtCapital.Text.ToDecimal();
+                t.LotSize = txtLotSize.Text.ToDecimal();
+                t.EntryPriceAvg = txtEntryPrice.Text.ToDecimal();
+                t.Leverage = txtLeverage.Text.ToDecimal();
                 t.TradingStyle = cbxTradingStyle.SelectedValue.ToString();
 
                 string msg;
@@ -157,8 +158,8 @@ namespace TradingTools
                 if (t.Status.Equals("closed"))
                 {
                     t.DateExit = Validation.DateExit_PreDate_Fixer(dtpDateExit.Value);
-                    t.ExitPriceAvg = InputConverter.Decimal(txtExitPrice.Text);
-                    t.FinalCapital = InputConverter.MoneyToDecimal(txtFinalCapital.Text);
+                    t.ExitPriceAvg = txtExitPrice.Text.ToDecimal();
+                    t.FinalCapital = txtFinalCapital.Text.ToDecimal();
                     // auto-compute
 
                     // validate
@@ -192,12 +193,13 @@ namespace TradingTools
             if (t == default) return;
             txtTradeNum.Text = t.Id.ToString();
             txtTicker.Text = t.Ticker;
-            Presentation.DateTimePicker_MaxDate_SafeAssign(dtpDateEnter, t.DateEnter);
+            // todo: refactor
+            Presentation.DateTimePicker_MaxDate_SafeAssign(dtpDateEnter, t.DateEnter); 
 
-            txtCapital.Text = t.Capital.ToString(Constant.MONEY_FORMAT);
+            txtCapital.Text = t.Capital.ToMoney();
             txtLotSize.Text = t.LotSize.ToString();
             txtEntryPrice.Text = t.EntryPriceAvg.ToString();
-            txtLeverage.Text = t.Leverage.ToString(Constant.DECIMAL_UPTO_TWO);
+            txtLeverage.Text = t.Leverage.ToDecimalUptoTwo();
             Enum.TryParse<TradingStyle>(t.TradingStyle, out tradeStyle);
             cbxTradingStyle.SelectedItem = tradeStyle;
 
@@ -205,13 +207,13 @@ namespace TradingTools
             {
                 panelTradeClosed.Visible = true;
                 Presentation.DateTimePicker_MaxDate_SafeAssign(dtpDateExit, t.DateExit ?? dtpDateExit.Value);
-                txtExitPrice.Text = t.ExitPriceAvg?.ToString(Constant.DECIMAL_UPTO_MAX);
-                txtFinalCapital.Text = t.FinalCapital?.ToString(Constant.MONEY_FORMAT);
+                txtExitPrice.Text = t.ExitPriceAvg?.ToDecimalUptoMax();
+                txtFinalCapital.Text = t.FinalCapital?.ToMoney();
                 // PCP, PnL etc
-                txtPCP.Text = RiskRewardCalc_Serv.PCP(t.EntryPriceAvg, t.ExitPriceAvg).ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
-                txtPnL.Text = t.PnL?.ToString(Constant.MONEY_FORMAT);
-                txtPnL_percentage.Text = t.PnL_percentage?.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
-                txtFinalPositionValue.Text = RiskRewardCalc_Serv.FinalPositionValue(t.LotSize, t.ExitPriceAvg).ToString(Constant.MONEY_FORMAT);
+                txtPCP.Text = Formula.PCP(t.EntryPriceAvg, t.ExitPriceAvg).ToPercentageSingle();
+                txtPnL.Text = t.PnL?.ToMoney();
+                txtPnL_percentage.Text = t.PnL_percentage?.ToPercentageSingle();
+                txtFinalPositionValue.Text = Formula.PositionValue(t.LotSize, t.ExitPriceAvg ?? 0).ToMoney();
             }
             else
             {

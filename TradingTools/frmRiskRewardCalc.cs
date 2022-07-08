@@ -510,6 +510,7 @@ namespace TradingTools
 
             this.Trade = new Trade
             {
+                Side = c.Side,
                 Ticker = c.Ticker,
                 Capital = c.Capital,
                 Leverage = c.Leverage,
@@ -517,7 +518,6 @@ namespace TradingTools
                 LotSize = c.LotSize,
                 TradingStyle = cbxTradingStyle.SelectedValue.ToString(),
                 //
-                Side = "long",
                 Status = "open",
                 DateEnter = dateEnter,
                 //
@@ -561,8 +561,8 @@ namespace TradingTools
             // State independent controls
             txtExchangeFee.Text = Constant.TRADING_FEE.ToString();
 
-            panelTitleBand.BackColor = Theme.BandColor;
-            panelFooterBand.BackColor = Theme.BandColor;
+            panelTitleBand.BackColor = Theme.Default;
+            panelFooterBand.BackColor = Theme.Default;
             lblHeader.Text = Theme.Title;
 
             ChangeState(this.State);
@@ -577,8 +577,8 @@ namespace TradingTools
             {
                 case RiskRewardCalcState.Empty:
                     lblHeader.Text += " - Unsaved";
-                    panelBandTop.BackColor = BandColor.Empty;
-                    panelBandBottom.BackColor = BandColor.Empty;
+                    panelBandTop.BackColor = Theme.Empty;
+                    panelBandBottom.BackColor = Theme.Empty;
 
                     CalculatorState = new();
 
@@ -607,8 +607,8 @@ namespace TradingTools
                     else
                     {
                         lblHeader.Text += " - Unofficial";
-                        panelBandTop.BackColor = BandColor.Loaded;
-                        panelBandBottom.BackColor = BandColor.Loaded;
+                        panelBandTop.BackColor = Theme.Loaded;
+                        panelBandBottom.BackColor = Theme.Loaded;
 
                         
                         this.Text = c.Ticker;
@@ -672,8 +672,8 @@ namespace TradingTools
                     }
                     else
                     {
-                        panelBandTop.BackColor = BandColor.TradeOpen;
-                        panelBandBottom.BackColor = BandColor.TradeOpen;
+                        panelBandTop.BackColor = Theme.TradeOpen;
+                        panelBandBottom.BackColor = Theme.TradeOpen;
                         lblHeader.Text = Trade.Ticker + $" - OPEN";
                         btnCloseTheTrade.Visible = true;
 
@@ -682,8 +682,8 @@ namespace TradingTools
                     break;
 
                 case RiskRewardCalcState.TradeClosed:
-                    panelBandTop.BackColor = BandColor.TradeClosed;
-                    panelBandBottom.BackColor = BandColor.TradeClosed;
+                    panelBandTop.BackColor = Theme.TradeClosed;
+                    panelBandBottom.BackColor = Theme.TradeClosed;
                     lblHeader.Text = Trade.Ticker + " - CLOSED"; ;
                     lblHeader.ForeColor = Color.LightSteelBlue;
                     // Controls
@@ -702,10 +702,10 @@ namespace TradingTools
                     TradeCommon_Load(Trade);
 
                     // Trade Exit - Override Values
-                    txtTradeExit_PV.Text = Formula.PositionValue(Trade.LotSize, Trade.ExitPriceAvg ?? 0).ToMoney();
+                    //txtTradeExit_PV.Text = Formula.PositionValue(Trade.LotSize, Trade.ExitPriceAvg ?? 0).ToMoney();
+                    //txtTradeExit_PCP.Text = Formula.PCP(Trade.EntryPriceAvg, Trade.ExitPriceAvg).ToPercentageSingle();
                     txtFinalCapital.Text = Trade.FinalCapital?.ToMoney();
 
-                    txtTradeExit_PCP.Text = Formula.PCP(Trade.EntryPriceAvg, Trade.ExitPriceAvg).ToPercentageSingle();
                     txtTradeExit_PnL_percentage.Text = Trade.PnL_percentage?.ToPercentageSingle();
                     txtTradeExit_PnL.Text = Trade.PnL?.ToMoney();
                     // Transaction Cost
@@ -801,8 +801,8 @@ namespace TradingTools
             // Prepare a trade object for Closing
             var t = new Trade();
             t.CalculatorState = new();
-            t.ExitPriceAvg = InputConverter.Decimal(txtTradeExit_ExitPrice.Text);
-            t.FinalCapital = StringToNumeric.MoneyToDecimal(txtFinalCapital.Text);
+            t.ExitPriceAvg = txtTradeExit_ExitPrice.Text.ToDecimal();
+            t.FinalCapital = txtFinalCapital.Text.ToDecimal();
             t.CalculatorState.ReasonForExit = txtReasonForExit.Text;
 
             var result = new TradeClosing(t).ShowDialog();
@@ -810,8 +810,8 @@ namespace TradingTools
             {
                 // 1 - Input and Sanitize - done on the TradeClosing Dialog
                 // Update this form if any changes made from TradeClosing Dialog before calling captureCalculatorState()
-                txtTradeExit_ExitPrice.Text = t.ExitPriceAvg?.ToString(Constant.DECIMAL_UPTO_MAX);
-                txtFinalCapital.Text = t.FinalCapital?.ToString(Constant.MONEY_FORMAT);
+                txtTradeExit_ExitPrice.Text = t.ExitPriceAvg?.ToDecimalUptoMax();
+                txtFinalCapital.Text = t.FinalCapital?.ToMoney();
                 txtReasonForExit.Text = t.CalculatorState.ReasonForExit;
 
                 // Need to capture calculatorstate to be updated automatically by dbcontext

@@ -30,8 +30,9 @@ namespace TradingTools.Services
         Tuple<PnLRecord, decimal, decimal> IRiskRewardCalc.PnlExitPlan(decimal exitPrice, Position position)
         {
             PnLRecord rec = ((IRiskRewardCalc)this).ComputePnL(exitPrice, position);
-            var sPV = Formula.SpeculativePositionValue(position.LeveragedCapital, rec.PnL);
-            var equity = Formula.SpeculativeAccountEquity(position.LeveragedCapital, rec.PnL, 
+            //var sPV = Formula.SpeculativePositionValue(position.LeveragedCapital, rec.PnL);
+            var sPV = Formula.PositionValue(position.LotSize, exitPrice);
+            var equity = Formula.SpeculativeAccountEquity(position.LeveragedCapital, rec.PnL,
                 Formula.BorrowedAmount(position.Leverage, position.Capital));
 
             return new(rec, sPV, equity);

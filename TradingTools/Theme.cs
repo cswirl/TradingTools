@@ -12,8 +12,13 @@ namespace TradingTools
     public interface ISideTheme
     {
         // Properties
-        Color BandColor { get; }
         string Title { get; }
+        Color Default { get; }
+        Color Empty { get; }
+        Color Loaded { get; }
+        Color TradeOpen { get; }
+        Color TradeClosed { get; }
+        
 
         // Methods
         void Format_PriceDecreaseTable(DataGridView d);
@@ -104,9 +109,14 @@ namespace TradingTools
 
     public class LongTheme : Theme, ISideTheme
     {
-        Color ISideTheme.BandColor => Color.MediumSeaGreen;
-
         string ISideTheme.Title => "Long";
+        Color ISideTheme.Default => Color.MediumSeaGreen;
+        Color ISideTheme.Empty => Color.Orange;
+        Color ISideTheme.Loaded => Color.Blue;
+        Color ISideTheme.TradeOpen => Color.MediumSeaGreen;
+        Color ISideTheme.TradeClosed => Color.MediumSeaGreen;
+
+        //Color ISideTheme.StateBandColor => throw new NotImplementedException();
 
         public void Format_PriceIncreaseTable(DataGridView d)
         {
@@ -126,7 +136,11 @@ namespace TradingTools
 
     public class ShortTheme : Theme, ISideTheme
     {
-        Color ISideTheme.BandColor => Color.Red;
+        Color ISideTheme.Default => Color.Red;
+        Color ISideTheme.Empty => Color.Yellow;
+        Color ISideTheme.Loaded => Color.Blue;
+        Color ISideTheme.TradeOpen => Color.Red;
+        Color ISideTheme.TradeClosed => Color.Red;
 
         string ISideTheme.Title => "Short";
 

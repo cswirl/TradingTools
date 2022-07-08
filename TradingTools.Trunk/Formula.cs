@@ -42,17 +42,15 @@ namespace TradingTools.Trunk
             return (exitPrice - entryPrice) / entryPrice * 100;
         }
 
-        public static decimal PnL_percentage(decimal initialCapital, decimal? finalCapital)
+        public static decimal PnL_percentage(decimal initialCapital, decimal finalCapital)
         {
-            // for some reason i cannot use the statement: finalCapital ?? initialCapital directly in the return statement
-            decimal f = finalCapital ?? initialCapital;
-            return (f - initialCapital) / initialCapital * 100;
+            if (initialCapital == 0) return 0;
+            return (finalCapital - initialCapital) / initialCapital * 100;
         }
 
-        public static decimal PnL(decimal initialCapital, decimal? finalCapital)
+        public static decimal PnL(decimal initialCapital, decimal finalCapital)
         {
-            decimal f = finalCapital ?? initialCapital;
-            return f - initialCapital;
+            return finalCapital - initialCapital;
         }
 
         public static decimal BorrowedAmount(decimal leverage, decimal capital)

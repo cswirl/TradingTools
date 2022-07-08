@@ -80,7 +80,7 @@ namespace TradingTools.Trunk.Entity
         {
             get
             {
-                return FinalCapital - Capital;
+                return Formula.PnL(Capital, FinalCapital ?? 0);
             }
             private set { }
         }
@@ -89,7 +89,7 @@ namespace TradingTools.Trunk.Entity
         {
             get
             {
-                return (FinalCapital - Capital) / Capital * 100;
+                return Formula.PnL_percentage(Capital, FinalCapital ?? 0);
             }
             private set { }
         }
