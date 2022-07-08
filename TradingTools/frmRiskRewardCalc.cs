@@ -165,15 +165,17 @@ namespace TradingTools
                 return default;
             }
 
-            // Process
-            p.Leverage = radioLeverage.Checked
+            // Process - Do not process Official Trades
+            if (State == RiskRewardCalcState.Empty || State == RiskRewardCalcState.Loaded)
+            {
+                p.Leverage = radioLeverage.Checked
                 ? Formula.Leverage(p.EntryPriceAvg, p.LotSize, p.Capital)
                 : p.Leverage;
-            p.LotSize = radioLotSize.Checked
-                ? Formula.LotSize(p.Capital, p.Leverage, p.EntryPriceAvg)
-                : p.LotSize;
-
-
+                p.LotSize = radioLotSize.Checked
+                    ? Formula.LotSize(p.Capital, p.Leverage, p.EntryPriceAvg)
+                    : p.LotSize;
+            }
+            
             // Final Validation - Strict
             // Hence, Minimum value 
             if (p.Capital <= 10 | p.LotSize <= 0 | p.EntryPriceAvg <= 0)
