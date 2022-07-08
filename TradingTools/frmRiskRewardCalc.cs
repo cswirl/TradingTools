@@ -25,6 +25,7 @@ namespace TradingTools
         private RiskRewardCalc_Serv _rrc_serv = new();  // Obsolete: in favor of IRiskRewardCalc
         public EventHandler<RiskRewardCalcState> OnStateChanged;
         private TradingStyle _tradingStyle;
+        private string _headerMetadata;
 
         public RiskRewardCalcState State { get; set; } = RiskRewardCalcState.Empty;
 
@@ -56,10 +57,18 @@ namespace TradingTools
                 btnSetPEP.Click += new EventHandler(delegate (Object o, EventArgs a) { txtPEP_ExitPrice.Text = txtPriceIncrease_target.Text; });
                 btnSetLEP.Click += new EventHandler(delegate (Object o, EventArgs a) { txtLEP_ExitPrice.Text = txtPriceDecrease_target.Text; });
             }
+            this.OnStateChanged += this.OnStateChanged_Invoked;
             //
 
             myInitializeComponent();
         }
+
+        private void OnStateChanged_Invoked(object sender, RiskRewardCalcState e)
+        {
+            lblHeader.Text = $"{Theme.Title} - {_headerMetadata}";
+        }
+
+
 
         // May be obsoleted - but this cannot be deleted as empty constructor is needed by .NET
         public frmRiskRewardCalc()
@@ -575,7 +584,7 @@ namespace TradingTools
             switch (State)
             {
                 case RiskRewardCalcState.Empty:
-                    lblHeader.Text += " - Unsaved";
+                    _headerMetadata = "unsaved";
                     panelBandTop.BackColor = Theme.Empty;
                     panelBandBottom.BackColor = Theme.Empty;
 
@@ -605,7 +614,7 @@ namespace TradingTools
                     }
                     else
                     {
-                        lblHeader.Text += " - Unofficial";
+                        _headerMetadata = "saved - unofficial";
                         panelBandTop.BackColor = Theme.Loaded;
                         panelBandBottom.BackColor = Theme.Loaded;
 
@@ -673,7 +682,8 @@ namespace TradingTools
                     {
                         panelBandTop.BackColor = Theme.TradeOpen;
                         panelBandBottom.BackColor = Theme.TradeOpen;
-                        lblHeader.Text = Trade.Ticker + $" - OPEN";
+                        lblHeader.Text = Trade.Ticker;
+                        _headerMetadata = "Trade OPEN";
                         btnCloseTheTrade.Visible = true;
 
                         TradeCommon_Load(Trade);
@@ -683,8 +693,9 @@ namespace TradingTools
                 case RiskRewardCalcState.TradeClosed:
                     panelBandTop.BackColor = Theme.TradeClosed;
                     panelBandBottom.BackColor = Theme.TradeClosed;
-                    lblHeader.Text = Trade.Ticker + " - CLOSED"; ;
+                    lblHeader.Text = Trade.Ticker;
                     lblHeader.ForeColor = Color.LightSteelBlue;
+                    _headerMetadata = "Trade CLOSED";
                     // Controls
                     txtPEP_ExitPrice.ReadOnly = true;
                     txtLEP_ExitPrice.ReadOnly = true;
@@ -712,9 +723,9 @@ namespace TradingTools
                     break;
 
                 case RiskRewardCalcState.Deleted:
-                    this.Text += " < < DELETED > >";
-                    lblHeader.Text += " < < DELETED > >";
-
+                    _headerMetadata = " < < DELETED > >";
+                    this.Text += _headerMetadata;
+                    
                     // disable the form from interacting to database
                     btnSave.Visible = false;
                     btnDelete.Visible = false;
@@ -722,6 +733,8 @@ namespace TradingTools
                     btnCloseTheTrade.Visible = false;
                     break;
             }
+
+            OnStateChanged?.Invoke(this, s);
         }
 
         private void TradeCommon_Load(Trade t)

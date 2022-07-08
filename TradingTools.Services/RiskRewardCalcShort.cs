@@ -43,7 +43,7 @@ namespace TradingTools.Services
             decimal[] pcp = { 1m, 2m, 3m, 4m, 5m, 6, 7m, 8, 10m };
 
             var table = PnLTable.GenerateTable(position.EntryPriceAvg, position.LotSize,
-                position.LeveragedCapital, pcp).OrderByDescending(o => o.PCP).ToList();
+                position.Capital, pcp).OrderByDescending(o => o.PCP).ToList();
 
             // Invert the signs of PnL for visual convenience
             foreach (var x in table)
@@ -58,7 +58,7 @@ namespace TradingTools.Services
             
 
             var table = PnLTable.GenerateTable(position.EntryPriceAvg, position.LotSize,
-                position.LeveragedCapital, pcp).OrderByDescending(o => o.PCP).ToList();
+                position.Capital, pcp).OrderByDescending(o => o.PCP).ToList();
 
             // Invert the signs of PnL for visual convenience
             foreach (var x in table)
