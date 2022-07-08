@@ -12,7 +12,7 @@ namespace TradingTools.Model
     {
     }
 
-
+    // Obsoleted by IRiskRewardCalc and Formula
     public class CalculationDetails
     {
         public OpeningCost OpeningCost = new();

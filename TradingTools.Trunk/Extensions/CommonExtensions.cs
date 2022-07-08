@@ -30,16 +30,15 @@ namespace TradingTools.Trunk.Extensions
 
     public static class DecimalExtensions 
     {
-        public static string ToWholeNumber(this decimal d) => d.ToString(Constant.WHOLE_NUMBER);
         public static string ToMoney(this decimal d) => d.ToString(Constant.MONEY_FORMAT);
-
         public static string ToPercentageSingle(this decimal d) => d.ToString(Constant.PERCENTAGE_FORMAT_SINGLE);
 
-        public static string ToDecimalOne(this decimal d) => d.ToString(Constant.DECIMAL_ONE);
-        public static string ToDecimal_Two(this decimal d) => d.ToString(Constant.DECIMAL_TWO);
-        public static string ToDecimalUptoOne(this decimal d) => d.ToString(Constant.DECIMAL_UPTO_ONE);
-        public static string ToDecimalUptoTwo(this decimal d) => d.ToString(Constant.DECIMAL_UPTO_TWO);
-        public static string ToDecimalUptoMax(this decimal d) => d.ToString(Constant.DECIMAL_UPTO_MAX);
+        public static string ToString_WholeNumber(this decimal d) => d.ToString(Constant.WHOLE_NUMBER);
+        public static string ToString_OneDecimal(this decimal d) => d.ToString(Constant.DECIMAL_ONE);
+        public static string ToString_TwoDecimal(this decimal d) => d.ToString(Constant.DECIMAL_TWO);
+        public static string ToString_UptoOneDecimal(this decimal d) => d.ToString(Constant.DECIMAL_UPTO_ONE);
+        public static string ToString_UptoTwoDecimal(this decimal d) => d.ToString(Constant.DECIMAL_UPTO_TWO);
+        public static string ToString_UptoMaxDecimal(this decimal d) => d.ToString(Constant.DECIMAL_UPTO_MAX);
 
     }
 

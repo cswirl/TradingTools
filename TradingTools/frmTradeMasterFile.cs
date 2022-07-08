@@ -199,7 +199,7 @@ namespace TradingTools
             txtCapital.Text = t.Capital.ToMoney();
             txtLotSize.Text = t.LotSize.ToString();
             txtEntryPrice.Text = t.EntryPriceAvg.ToString();
-            txtLeverage.Text = t.Leverage.ToDecimalUptoTwo();
+            txtLeverage.Text = t.Leverage.ToString_UptoTwoDecimal();
             Enum.TryParse<TradingStyle>(t.TradingStyle, out tradeStyle);
             cbxTradingStyle.SelectedItem = tradeStyle;
 
@@ -207,7 +207,7 @@ namespace TradingTools
             {
                 panelTradeClosed.Visible = true;
                 Presentation.DateTimePicker_MaxDate_SafeAssign(dtpDateExit, t.DateExit ?? dtpDateExit.Value);
-                txtExitPrice.Text = t.ExitPriceAvg?.ToDecimalUptoMax();
+                txtExitPrice.Text = t.ExitPriceAvg?.ToString_UptoMaxDecimal();
                 txtFinalCapital.Text = t.FinalCapital?.ToMoney();
                 // PCP, PnL etc
                 txtPCP.Text = Formula.PCP(t.EntryPriceAvg, t.ExitPriceAvg).ToPercentageSingle();

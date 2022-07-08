@@ -102,8 +102,8 @@ namespace TradingTools
             
             // step 4: Represent data back to UI
             // the function captureCalculationDetails is able to handle the appropriate value for Lot Size from the textbox - given it is initialized properly
-            txtLeverage.Text = Position.Leverage.ToDecimalUptoTwo();
-            txtLotSize.Text = Position.LotSize.ToDecimalUptoMax();
+            txtLeverage.Text = Position.Leverage.ToString_UptoTwoDecimal();
+            txtLotSize.Text = Position.LotSize.ToString_UptoMaxDecimal();
             txtLeveragedCapital.Text = Position.LeveragedCapital.ToMoney();
 
             txtBorrowAmount.Text = Formula.BorrowedAmount(Position.Leverage, Position.Capital).ToMoney();
@@ -295,7 +295,6 @@ namespace TradingTools
             if (rec == null) return;
             txtTradeExit_PV.Text = pv.ToMoney();
             txtFinalCapital.Text = equity.ToMoney();
-
             txtTradeExit_PCP.Text = rec.PCP.ToPercentageSingle();
             txtTradeExit_PnL_percentage.Text = rec.PnL_Percentage.ToPercentageSingle();
             txtTradeExit_PnL.Text = rec.PnL.ToMoney();
@@ -312,7 +311,7 @@ namespace TradingTools
             //
             decimal pcp = Formula.PCP(entryPrice, exitPrice);
             txtPerfectEntry_PCP.Text = pcp.ToPercentageSingle();
-            txtMultiple.Text = (1 + (pcp / 100)).ToDecimalUptoTwo() + "x";
+            txtMultiple.Text = (1 + (pcp / 100)).ToString_UptoTwoDecimal() + "x";
         }
 
         //private void btnSetLEP_Click(object sender, EventArgs e)
@@ -623,32 +622,32 @@ namespace TradingTools
                         radioLotSize.Checked = c.IsLotSizeChecked;
 
                         // sys flow 1
-                        txtCapital.Text = c.Capital.ToDecimal_Two();     // dont change format
-                        txtLeverage.Text = c.Leverage.ToDecimalUptoOne();      // dont change format
-                        txtEntryPrice.Text = c.EntryPriceAvg.ToDecimalUptoMax();
-                        txtLotSize.Text = c.LotSize.ToDecimalUptoMax();
+                        txtCapital.Text = c.Capital.ToString_TwoDecimal();     // dont change format
+                        txtLeverage.Text = c.Leverage.ToString_UptoOneDecimal();      // dont change format
+                        txtEntryPrice.Text = c.EntryPriceAvg.ToString_UptoMaxDecimal();
+                        txtLotSize.Text = c.LotSize.ToString_UptoMaxDecimal();
                         
                         nudDailyInterestRate.Value = Math.Max(c.DailyInterestRate, nudDailyInterestRate.Minimum);
-                        txtExchangeFee.Text = c.ExchangeFee.ToDecimalUptoMax();
+                        txtExchangeFee.Text = c.ExchangeFee.ToString_UptoMaxDecimal();
                         btnReCalculate_Click(null, null);
 
                         // sys flow 2
-                        txtPriceIncrease_target.Text = c.PriceIncreaseTarget?.ToDecimalUptoMax();
-                        txtPriceDecrease_target.Text = c.PriceDecreaseTarget?.ToDecimalUptoMax();
+                        txtPriceIncrease_target.Text = c.PriceIncreaseTarget?.ToString_UptoMaxDecimal();
+                        txtPriceDecrease_target.Text = c.PriceDecreaseTarget?.ToString_UptoMaxDecimal();
 
                         // sys flow 3
-                        txtPEP_ExitPrice.Text = c.PEP_ExitPrice?.ToDecimalUptoMax();
+                        txtPEP_ExitPrice.Text = c.PEP_ExitPrice?.ToString_UptoMaxDecimal();
                         txtPEP_Note.Text = c.PEP_Note;
 
                         // sys flow
-                        txtLEP_ExitPrice.Text = c.LEP_ExitPrice?.ToDecimalUptoMax();
+                        txtLEP_ExitPrice.Text = c.LEP_ExitPrice?.ToString_UptoMaxDecimal();
                         txtLEP_Note.Text = c.LEP_Note;
                         
                         //
-                        txtTradeExit_ExitPrice.Text = c.TradeExit_ExitPrice?.ToDecimalUptoMax();
+                        txtTradeExit_ExitPrice.Text = c.TradeExit_ExitPrice?.ToString_UptoMaxDecimal();
                         txtReasonForExit.Text = c.ReasonForExit;
-                        txtPerfectEntry_EntryPrice.Text = c.PerfectEntry_EntryPrice?.ToDecimalUptoMax();
-                        txtPerfectEntry_ExitPrice.Text = c.PerfectEntry_ExitPrice?.ToDecimalUptoMax();
+                        txtPerfectEntry_EntryPrice.Text = c.PerfectEntry_EntryPrice?.ToString_UptoMaxDecimal();
+                        txtPerfectEntry_ExitPrice.Text = c.PerfectEntry_ExitPrice?.ToString_UptoMaxDecimal();
                         txtPerfectEntry_Note.Text = c.PerfectEntry_Note;
 
                         btnCloseTheTrade.Visible = false;
@@ -743,37 +742,37 @@ namespace TradingTools
 
             // sys flow 1
             txtCapital.Text = Trade.Capital.ToMoney();     // Money Format Regex implemented
-            txtLeverage.Text = Trade.Leverage.ToDecimalUptoTwo();
-            txtEntryPrice.Text = Trade.EntryPriceAvg.ToDecimalUptoMax();
-            txtLotSize.Text = Trade.LotSize.ToDecimalUptoMax();
-            txtDayCount.Text = Trade.DayCount?.ToDecimalUptoTwo() ?? "0";
+            txtLeverage.Text = Trade.Leverage.ToString_UptoTwoDecimal();
+            txtEntryPrice.Text = Trade.EntryPriceAvg.ToString_UptoMaxDecimal();
+            txtLotSize.Text = Trade.LotSize.ToString_UptoMaxDecimal();
+            txtDayCount.Text = Trade.DayCount?.ToString_UptoTwoDecimal() ?? "0";
 
             //Numeric Up Down control throws exception when assigned value less then their Minimum value
             nudDailyInterestRate.Value = Math.Max(CalculatorState.DailyInterestRate, nudDailyInterestRate.Minimum);
 
-            txtExchangeFee.Text = CalculatorState.ExchangeFee.ToDecimalUptoMax();
+            txtExchangeFee.Text = CalculatorState.ExchangeFee.ToString_UptoMaxDecimal();
 
             btnReCalculate_Click(null, null);
 
             #region Purely CalculatorState
             // sys flow
-            txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget?.ToDecimalUptoMax();
-            txtPriceDecrease_target.Text = CalculatorState.PriceDecreaseTarget?.ToDecimalUptoMax();
+            txtPriceIncrease_target.Text = CalculatorState.PriceIncreaseTarget?.ToString_UptoMaxDecimal();
+            txtPriceDecrease_target.Text = CalculatorState.PriceDecreaseTarget?.ToString_UptoMaxDecimal();
 
             // sys flow
-            txtPEP_ExitPrice.Text = CalculatorState.PEP_ExitPrice?.ToDecimalUptoMax();
+            txtPEP_ExitPrice.Text = CalculatorState.PEP_ExitPrice?.ToString_UptoMaxDecimal();
             txtPEP_Note.Text = CalculatorState.PEP_Note;
 
             // sys flow
-            txtLEP_ExitPrice.Text = CalculatorState.LEP_ExitPrice?.ToDecimalUptoMax();
+            txtLEP_ExitPrice.Text = CalculatorState.LEP_ExitPrice?.ToString_UptoMaxDecimal();
             txtLEP_Note.Text = CalculatorState.LEP_Note;
 
             // sys flow
-            txtTradeExit_ExitPrice.Text = CalculatorState.TradeExit_ExitPrice?.ToDecimalUptoMax();
+            txtTradeExit_ExitPrice.Text = CalculatorState.TradeExit_ExitPrice?.ToString_UptoMaxDecimal();
             txtReasonForExit.Text = CalculatorState.ReasonForExit;
 
-            txtPerfectEntry_EntryPrice.Text = CalculatorState.PerfectEntry_EntryPrice?.ToDecimalUptoMax();
-            txtPerfectEntry_ExitPrice.Text = CalculatorState.PerfectEntry_ExitPrice?.ToDecimalUptoMax();
+            txtPerfectEntry_EntryPrice.Text = CalculatorState.PerfectEntry_EntryPrice?.ToString_UptoMaxDecimal();
+            txtPerfectEntry_ExitPrice.Text = CalculatorState.PerfectEntry_ExitPrice?.ToString_UptoMaxDecimal();
             txtPerfectEntry_Note.Text = CalculatorState.PerfectEntry_Note;
             //
             #endregion
@@ -810,7 +809,7 @@ namespace TradingTools
             {
                 // 1 - Input and Sanitize - done on the TradeClosing Dialog
                 // Update this form if any changes made from TradeClosing Dialog before calling captureCalculatorState()
-                txtTradeExit_ExitPrice.Text = t.ExitPriceAvg?.ToDecimalUptoMax();
+                txtTradeExit_ExitPrice.Text = t.ExitPriceAvg?.ToString_UptoMaxDecimal();
                 txtFinalCapital.Text = t.FinalCapital?.ToMoney();
                 txtReasonForExit.Text = t.CalculatorState.ReasonForExit;
 
@@ -1083,6 +1082,8 @@ namespace TradingTools
 
         private void PositionTextboxes_KeyDown(object sender, KeyEventArgs e)
         {
+            if (State == RiskRewardCalcState.TradeOpen || State == RiskRewardCalcState.TradeClosed) return;
+
             if (e.KeyCode == Keys.Enter)
             {
                 btnReCalculate_Click(null, null);
@@ -1091,18 +1092,25 @@ namespace TradingTools
 
         private void txtLeverage_KeyDown(object sender, KeyEventArgs e)
         {
-            var tb = (TextBox)sender;
-            var val = tb.Text.ToDecimal();
-            if (e.KeyCode == Keys.Up)
+            if (State == RiskRewardCalcState.TradeOpen || State == RiskRewardCalcState.TradeClosed) 
             {
-                tb.Text = (val + 1).ToDecimalUptoMax();
+                // Don't do anything
             }
-            else if (e.KeyCode == Keys.Down)
+            else
             {
-                if ((val - 1) < 1) { tb.Text = "1"; return; }
-                else tb.Text = (val - 1).ToDecimalUptoTwo();
+                var tb = (TextBox)sender;
+                var val = tb.Text.ToDecimal();
+                if (e.KeyCode == Keys.Up)
+                {
+                    tb.Text = (val + 1).ToString_UptoMaxDecimal();
+                }
+                else if (e.KeyCode == Keys.Down)
+                {
+                    if ((val - 1) < 1) { tb.Text = "1"; return; }
+                    else tb.Text = (val - 1).ToString_UptoTwoDecimal();
+                }
             }
-                
+              
             PositionTextboxes_KeyDown(sender, e);
         }
     }

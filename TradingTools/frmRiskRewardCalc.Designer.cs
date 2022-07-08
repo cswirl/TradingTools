@@ -733,11 +733,11 @@ namespace TradingTools
             // btnCloseTheTrade
             // 
             this.btnCloseTheTrade.BackColor = System.Drawing.Color.DarkRed;
-            this.btnCloseTheTrade.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnCloseTheTrade.Font = new System.Drawing.Font("Segoe UI", 11.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnCloseTheTrade.ForeColor = System.Drawing.Color.White;
-            this.btnCloseTheTrade.Location = new System.Drawing.Point(625, 508);
+            this.btnCloseTheTrade.Location = new System.Drawing.Point(750, 547);
             this.btnCloseTheTrade.Name = "btnCloseTheTrade";
-            this.btnCloseTheTrade.Size = new System.Drawing.Size(591, 32);
+            this.btnCloseTheTrade.Size = new System.Drawing.Size(330, 70);
             this.btnCloseTheTrade.TabIndex = 19;
             this.btnCloseTheTrade.Text = "Close the Trade";
             this.btnCloseTheTrade.UseVisualStyleBackColor = false;
@@ -746,11 +746,11 @@ namespace TradingTools
             // btnOfficializedTrade
             // 
             this.btnOfficializedTrade.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnOfficializedTrade.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnOfficializedTrade.Font = new System.Drawing.Font("Segoe UI", 11.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnOfficializedTrade.ForeColor = System.Drawing.Color.White;
-            this.btnOfficializedTrade.Location = new System.Drawing.Point(625, 474);
+            this.btnOfficializedTrade.Location = new System.Drawing.Point(750, 475);
             this.btnOfficializedTrade.Name = "btnOfficializedTrade";
-            this.btnOfficializedTrade.Size = new System.Drawing.Size(591, 32);
+            this.btnOfficializedTrade.Size = new System.Drawing.Size(330, 70);
             this.btnOfficializedTrade.TabIndex = 18;
             this.btnOfficializedTrade.Text = "Save-To-Official Trades";
             this.btnOfficializedTrade.UseVisualStyleBackColor = false;
