@@ -455,7 +455,7 @@ namespace TradingTools
 
         }
 
-        private void frmRiskRewardCalc_Long_FormClosing(object sender, FormClosingEventArgs e)
+        private void frmRiskRewardCalc_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Just ignore and close the form
             if (State == RiskRewardCalcState.Deleted) return;

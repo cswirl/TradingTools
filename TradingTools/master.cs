@@ -49,7 +49,7 @@ namespace TradingTools
             _frmCalcStates.StartPosition = FormStartPosition.CenterScreen;
             _frmCalcStates.Show();
             // delegates
-            _frmCalcStates.FormRRCLong_Empty_Open += this.FormRRCLong_Empty_Spawn;
+            _frmCalcStates.FormRRC_Long_Empty_Open += this.FormRRC_Long_Empty_Spawn;
             _frmCalcStates.FormRRC_Short_Empty_Open += this.FormRRC_Short_Empty_Spawn;
             _frmCalcStates.CalculatorState_Loaded_OnRequest += this.FormRRC_Loaded_Spawn;
             _frmCalcStates.Trade_TradeOpen_OnRequest += this.FormRRC_Trade_Spawn;
@@ -120,7 +120,7 @@ namespace TradingTools
                 form.CalculatorState = t.CalculatorState;
                 form.Show();
                 //Delegates assignment here
-                form.FormClosing += (object sender, FormClosingEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc)sender);
+                form.FormClosed += (object sender, FormClosedEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc)sender);
                 this.tradeDeleted += form.MarkAsDeleted;
                 this.tradeUpdated += form.Trade_Updated;
 
@@ -147,7 +147,7 @@ namespace TradingTools
                 form.CalculatorState = c;
                 form.Show();
                 //Delegates assignment here
-                form.FormClosing += (object sender, FormClosingEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc)sender);
+                form.FormClosed += (object sender, FormClosedEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc)sender);
                 this.tradeDeleted += form.MarkAsDeleted;
                 this.tradeUpdated += form.Trade_Updated;
 
@@ -157,7 +157,7 @@ namespace TradingTools
             return true;
         }
 
-        private void FormRRCLong_Empty_Spawn(object sender, EventArgs e)
+        private void FormRRC_Long_Empty_Spawn(object sender, EventArgs e)
         {
             var rrc = TradeService.RiskRewardCalcGetInstance("long");
             FormRRC_Empty_Spawn(rrc);
@@ -175,7 +175,7 @@ namespace TradingTools
             form.Owner = this;
             form.Show();
             //Delegates assignment here
-            form.FormClosing += (object sender, FormClosingEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc)sender);
+            form.FormClosed += (object sender, FormClosedEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc)sender);
             this.tradeDeleted += form.MarkAsDeleted;
             this.tradeUpdated += form.Trade_Updated;
 

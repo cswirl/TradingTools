@@ -21,7 +21,7 @@ namespace TradingTools
         public delegate bool Trade_OnRequest(Trade t);
         public Trade_OnRequest Trade_TradeOpen_OnRequest;
 
-        public event EventHandler FormRRCLong_Empty_Open;
+        public event EventHandler FormRRC_Long_Empty_Open;
         public event EventHandler FormRRC_Short_Empty_Open;
         public event EventHandler FormTradeMasterFile;
 
@@ -70,7 +70,7 @@ namespace TradingTools
 
         private void btnOpenCalc_Empty_Click(object sender, EventArgs e)
         {
-            FormRRCLong_Empty_Open?.Invoke(this, EventArgs.Empty);
+            FormRRC_Long_Empty_Open?.Invoke(this, EventArgs.Empty);
         }
 
         private void btnOpenCalcShort_Empty_Click(object sender, EventArgs e)
