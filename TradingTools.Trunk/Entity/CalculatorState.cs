@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace TradingTools.Trunk.Entity
 {
@@ -116,6 +117,7 @@ namespace TradingTools.Trunk.Entity
 
         // Trade
         public int? TradeId { get; set; }
+        [JsonIgnore]    // used to avoid circular loop since trade has a calculatorState object
         public virtual Trade Trade { get; set; }
 
         // Meta data

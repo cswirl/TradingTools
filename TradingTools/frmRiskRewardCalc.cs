@@ -26,10 +26,12 @@ namespace TradingTools
         public EventHandler<RiskRewardCalcState> OnStateChanged;
         private TradingStyle _tradingStyle;
         private string _headerMetadata;
+        private string _lastSavedStateHash;
 
         public RiskRewardCalcState State { get; set; } = RiskRewardCalcState.Empty;
 
         public CalculatorState? CalculatorState { get; set; }
+        private CalculatorState? LastSavedCalculatorState { get; set; }
         public Trade? Trade { get; set; }
         public string Side { get; set; }
         public Position Position { get; set; }
@@ -191,6 +193,8 @@ namespace TradingTools
         {
             // Proposal: rename to InitStateDependentComponents then change to public. Place in the constructor.
             callOnLoad();
+
+            SetLastSavedCalculatorHash();    // this must be called last on form load
         }
 
 
@@ -343,7 +347,7 @@ namespace TradingTools
             Save();
         }
 
-        private void captureCalculatorState()
+        private CalculatorState captureCalculatorState()
         {
             var c = CalculatorState;
             // Collect Receptors
@@ -351,7 +355,7 @@ namespace TradingTools
             c.Leverage = txtLeverage.Text.ToDecimal();
             c.EntryPriceAvg = txtEntryPrice.Text.ToDecimal();
             c.LotSize = txtLotSize.Text.ToDecimal();
-            c.DayCount = txtDayCount.Text.ToDecimal();
+            //c.DayCount = txtDayCount.Text.ToDecimal();
             c.DailyInterestRate = nudDailyInterestRate.Value;
             c.PriceIncreaseTarget = txtPriceIncrease_target.Text.ToDecimal();
             c.PriceDecreaseTarget = txtPriceDecrease_target.Text.ToDecimal();
@@ -377,6 +381,7 @@ namespace TradingTools
             c.IsLotSizeChecked = radioLotSize.Checked;
             c.Side = _rrc.Side;
 
+            return c;
         }
 
         private bool Save()
@@ -415,6 +420,7 @@ namespace TradingTools
                 else statusMessage.Text = "Updating state failed.";
             }
 
+            SetLastSavedCalculatorHash();
             return true;
         }
 
@@ -451,8 +457,9 @@ namespace TradingTools
 
         private void frmRiskRewardCalc_Long_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Just ignore if the reason for closing was cause by deletion
+            // Just ignore and close the form
             if (State == RiskRewardCalcState.Deleted) return;
+            if (DoNotAskSave()) return;
 
             // show the form in case was minimized and closing was came from external such as from a parent form
             this.WindowState = FormWindowState.Normal;
@@ -476,10 +483,11 @@ namespace TradingTools
             }
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            statusMessage.Text = "Status message . . .";
-        }
+        private bool DoNotAskSave() => _lastSavedStateHash == captureCalculatorState().CreateHash();
+
+        private void SetLastSavedCalculatorHash() => _lastSavedStateHash = captureCalculatorState().CreateHash();
+
+        private void timer1_Tick(object sender, EventArgs e) => statusMessage.Text = "Status message . . .";
 
         private void btnOfficializedTrade_Click(object sender, EventArgs e)
         {
@@ -591,7 +599,6 @@ namespace TradingTools
                     panelBandBottom.BackColor = Theme.Empty;
 
                     CalculatorState = new();
-
                     // Initalize UI controls
                     txtLeverage.Text = "1";
                     txtBorrowAmount.Text = "0";
