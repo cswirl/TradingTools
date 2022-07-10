@@ -30,6 +30,8 @@ namespace TradingTools
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.btnOpenCalcShort_Empty = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
             this.btnOpenCalcLong_Empty = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -46,9 +48,8 @@ namespace TradingTools
             this.btnViewOfficial = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusMessage = new System.Windows.Forms.ToolStripStatusLabel();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.btnOpenCalcShort_Empty = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUnofficial)).BeginInit();
@@ -57,7 +58,6 @@ namespace TradingTools
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -70,6 +70,31 @@ namespace TradingTools
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(112, 642);
             this.panel1.TabIndex = 0;
+            // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.Color.White;
+            this.panel5.Controls.Add(this.btnOpenCalcShort_Empty);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel5.Location = new System.Drawing.Point(0, 57);
+            this.panel5.Name = "panel5";
+            this.panel5.Padding = new System.Windows.Forms.Padding(3);
+            this.panel5.Size = new System.Drawing.Size(112, 57);
+            this.panel5.TabIndex = 1;
+            // 
+            // btnOpenCalcShort_Empty
+            // 
+            this.btnOpenCalcShort_Empty.BackColor = System.Drawing.Color.Red;
+            this.btnOpenCalcShort_Empty.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnOpenCalcShort_Empty.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnOpenCalcShort_Empty.ForeColor = System.Drawing.Color.White;
+            this.btnOpenCalcShort_Empty.Location = new System.Drawing.Point(3, 3);
+            this.btnOpenCalcShort_Empty.Name = "btnOpenCalcShort_Empty";
+            this.btnOpenCalcShort_Empty.Size = new System.Drawing.Size(106, 51);
+            this.btnOpenCalcShort_Empty.TabIndex = 5;
+            this.btnOpenCalcShort_Empty.Text = "NEW SHORT";
+            this.btnOpenCalcShort_Empty.UseVisualStyleBackColor = false;
+            this.btnOpenCalcShort_Empty.Click += new System.EventHandler(this.btnOpenCalcShort_Empty_Click);
             // 
             // panel4
             // 
@@ -267,31 +292,6 @@ namespace TradingTools
             this.statusMessage.Size = new System.Drawing.Size(106, 17);
             this.statusMessage.Text = "Status message . . .";
             // 
-            // panel5
-            // 
-            this.panel5.BackColor = System.Drawing.Color.White;
-            this.panel5.Controls.Add(this.btnOpenCalcShort_Empty);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel5.Location = new System.Drawing.Point(0, 57);
-            this.panel5.Name = "panel5";
-            this.panel5.Padding = new System.Windows.Forms.Padding(3);
-            this.panel5.Size = new System.Drawing.Size(112, 57);
-            this.panel5.TabIndex = 1;
-            // 
-            // btnOpenCalcShort_Empty
-            // 
-            this.btnOpenCalcShort_Empty.BackColor = System.Drawing.Color.Red;
-            this.btnOpenCalcShort_Empty.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnOpenCalcShort_Empty.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnOpenCalcShort_Empty.ForeColor = System.Drawing.Color.White;
-            this.btnOpenCalcShort_Empty.Location = new System.Drawing.Point(3, 3);
-            this.btnOpenCalcShort_Empty.Name = "btnOpenCalcShort_Empty";
-            this.btnOpenCalcShort_Empty.Size = new System.Drawing.Size(106, 51);
-            this.btnOpenCalcShort_Empty.TabIndex = 5;
-            this.btnOpenCalcShort_Empty.Text = "NEW SHORT";
-            this.btnOpenCalcShort_Empty.UseVisualStyleBackColor = false;
-            this.btnOpenCalcShort_Empty.Click += new System.EventHandler(this.btnOpenCalcShort_Empty_Click);
-            // 
             // frmCalculatorStates
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -304,9 +304,11 @@ namespace TradingTools
             this.Name = "frmCalculatorStates";
             this.Text = "Dashboard";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmCalculatorStates_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmCalculatorStates_FormClosed);
             this.Load += new System.EventHandler(this.frmCalculatorStates_Load);
             this.panel1.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -319,7 +321,6 @@ namespace TradingTools
             this.panel3.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.panel5.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -124,5 +124,19 @@ namespace TradingTools
         {
             CalculatorState_Loaded_OnRequest((CalculatorState)dgvUnofficial.CurrentRow.DataBoundItem);
         }
+
+        private void frmCalculatorStates_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // This will just close the form without asking again - when triggered by Application.Exit()
+            if (e.CloseReason == System.Windows.Forms.CloseReason.FormOwnerClosing) return;
+
+            DialogResult objDialog = MessageBox.Show("This will close the application\n\nDo you want to proceed ?"
+                , "Terminating the program",  MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (objDialog == DialogResult.Cancel)
+            {
+                // keep the form open
+                e.Cancel = true;
+            }
+        }
     }
 }
