@@ -21,7 +21,7 @@ namespace TradingTools
         Action<Trade> tradeDeleted;
         Action<Trade> tradeUpdated;
 
-        private List<frmRiskRewardCalc> _listOf_frmRRC_Long;
+        private List<frmRiskRewardCalc> _listOf_frmRiskRewardCalc;
         private BindingList<CalculatorState> _calculatorStates_unofficial_bindingList;
         
         public TradingToolsDbContext DbContext { get; set; }
@@ -40,7 +40,7 @@ namespace TradingTools
 
             // Initialize Components
             InitializeDbContext();
-            _listOf_frmRRC_Long = new();
+            _listOf_frmRiskRewardCalc = new();
 
 
             // gateway form
@@ -100,32 +100,50 @@ namespace TradingTools
         }
 
         #region Risk Reward Calculator Forms
+        private void registerNewRiskRewardCalcForm(frmRiskRewardCalc form)
+        {
+            //Delegates assignment here
+            form.Owner = this;
+            form.FormClosed += this.FormRRC_FormClosed;
+            this.tradeDeleted += form.MarkAsDeleted;
+            this.tradeUpdated += form.Trade_Updated;
+
+            _listOf_frmRiskRewardCalc.Add(form);
+        }
+
+        private void activateRiskRewardCalcForm(frmRiskRewardCalc rrc)
+        {
+            rrc.WindowState = FormWindowState.Normal;
+            rrc.Focus();
+        }
+
+        private void FormRRC_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _listOf_frmRiskRewardCalc.Remove((frmRiskRewardCalc)sender);
+            // 1 means this is the last form
+            if (this.OwnedForms.Length == 1) Application.Exit();
+        }
+
         private bool FormRRC_Trade_Spawn(Trade t)
         {
             // TODO: the EF core list is being renew whenever a Trade or CalculatorState is Updated fron the 
             // - maybe use id or something, maybe hash
             //var rrc = _listOf_frmRRC_Long.Find(x => x.CalculatorState.GetHashCode().Equals(c.GetHashCode()));
-            var rrc = _listOf_frmRRC_Long.Find(x => x.Trade?.Equals(t) ?? false);       // THOUGH THIS IS WORKING FINE
+            var rrc = _listOf_frmRiskRewardCalc.Find(x => x.Trade?.Equals(t) ?? false);       // THOUGH THIS IS WORKING FINE
             if (rrc != null)
             {
-                rrc.WindowState = FormWindowState.Normal;
-                rrc.Focus();
+                activateRiskRewardCalcForm(rrc);
             }
             else
             {
                 var riskRewardCalc = TradeService.RiskRewardCalcGetInstance(t.Side);
                 var form = new frmRiskRewardCalc(riskRewardCalc);
                 form.State = t.Status.Equals("open") ? RiskRewardCalcState.TradeOpen : RiskRewardCalcState.TradeClosed;
-                form.Owner = this;
                 form.Trade = t;
                 form.CalculatorState = t.CalculatorState;
-                form.Show();
-                //Delegates assignment here
-                form.FormClosed += (object sender, FormClosedEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc)sender);
-                this.tradeDeleted += form.MarkAsDeleted;
-                this.tradeUpdated += form.Trade_Updated;
 
-                _listOf_frmRRC_Long.Add(form);
+                registerNewRiskRewardCalcForm(form);
+                form.Show();
             }
 
             return true;
@@ -133,26 +151,20 @@ namespace TradingTools
 
         private bool FormRRC_Loaded_Spawn(CalculatorState c)
         {
-            var rrc = _listOf_frmRRC_Long.Find(x => x.CalculatorState?.Equals(c) ?? false);
+            var rrc = _listOf_frmRiskRewardCalc.Find(x => x.CalculatorState?.Equals(c) ?? false);
             if (rrc != null)
             {
-                rrc.WindowState = FormWindowState.Normal;
-                rrc.Focus();
+                activateRiskRewardCalcForm (rrc);
             }
             else
             {
                 var riskRewardCalc = TradeService.RiskRewardCalcGetInstance(c.Side);
                 var form = new frmRiskRewardCalc(riskRewardCalc);
                 form.State = RiskRewardCalcState.Loaded;
-                form.Owner = this;
                 form.CalculatorState = c;
-                form.Show();
-                //Delegates assignment here
-                form.FormClosed += (object sender, FormClosedEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc)sender);
-                this.tradeDeleted += form.MarkAsDeleted;
-                this.tradeUpdated += form.Trade_Updated;
 
-                _listOf_frmRRC_Long.Add(form);
+                registerNewRiskRewardCalcForm(form);
+                form.Show();
             }
 
             return true;
@@ -173,14 +185,8 @@ namespace TradingTools
         private void FormRRC_Empty_Spawn(IRiskRewardCalc riskRewardCalc)
         {
             var form = new frmRiskRewardCalc(riskRewardCalc);
-            form.Owner = this;
+            registerNewRiskRewardCalcForm(form);
             form.Show();
-            //Delegates assignment here
-            form.FormClosed += (object sender, FormClosedEventArgs e) => _listOf_frmRRC_Long.Remove((frmRiskRewardCalc)sender);
-            this.tradeDeleted += form.MarkAsDeleted;
-            this.tradeUpdated += form.Trade_Updated;
-
-            _listOf_frmRRC_Long.Add(form);
         }
         #endregion
 
@@ -284,7 +290,7 @@ namespace TradingTools
         private BindingSource _calculatorStates_unsaved;
         public BindingSource GetCalculatorStates_Unsaved_BindingSource()
         {
-            _calculatorStates_unsaved.DataSource = _listOf_frmRRC_Long
+            _calculatorStates_unsaved.DataSource = _listOf_frmRiskRewardCalc
                 .Where(x => x.State == RiskRewardCalcState.Empty)
                 .Select(x => x.CalculatorState)
                 .ToList();
