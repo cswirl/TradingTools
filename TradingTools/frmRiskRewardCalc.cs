@@ -189,7 +189,7 @@ namespace TradingTools
             return p;
         }
 
-        private void frmRRC_Long_Load(object sender, EventArgs e)
+        private void frmRiskRewardCalc_Load(object sender, EventArgs e)
         {
             // Proposal: rename to InitStateDependentComponents then change to public. Place in the constructor.
             callOnLoad();
@@ -465,7 +465,9 @@ namespace TradingTools
             this.WindowState = FormWindowState.Normal;
             this.Focus();
 
-            DialogResult objDialog = MessageBox.Show("Do you want to save before closing ?", this.Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            var msgBoxButtons = (e.CloseReason == CloseReason.ApplicationExitCall) ? MessageBoxButtons.YesNo : MessageBoxButtons.YesNoCancel;
+            DialogResult objDialog = MessageBox.Show("Do you want to save before closing ?", this.Text, msgBoxButtons, MessageBoxIcon.Question);
+
             if (objDialog == DialogResult.Cancel)
             {
                 // keep the form open

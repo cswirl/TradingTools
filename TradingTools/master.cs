@@ -99,6 +99,7 @@ namespace TradingTools
             }
         }
 
+        #region Risk Reward Calculator Forms
         private bool FormRRC_Trade_Spawn(Trade t)
         {
             // TODO: the EF core list is being renew whenever a Trade or CalculatorState is Updated fron the 
@@ -181,6 +182,8 @@ namespace TradingTools
 
             _listOf_frmRRC_Long.Add(form);
         }
+        #endregion
+
 
         public BindingList<CalculatorState> GetCalculatorStates_Unofficial_BindingList()
         {
