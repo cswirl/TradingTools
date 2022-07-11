@@ -349,7 +349,7 @@ namespace TradingTools
 
         private CalculatorState captureCalculatorState()
         {
-            var c = CalculatorState;
+            var c = new CalculatorState();
             // Collect Receptors
             c.Capital = txtCapital.Text.ToDecimal();
             c.Leverage = txtLeverage.Text.ToDecimal();
@@ -388,7 +388,7 @@ namespace TradingTools
         {
             // Capture state
             // 1
-            captureCalculatorState();
+            captureCalculatorState().CopyProperties(this.CalculatorState);
 
             // 2-B Validation - the implementation may be incomplete but suffice for nowInputConverter.MoneyToDecimal
             string msg;
@@ -521,7 +521,7 @@ namespace TradingTools
             // 2 - Collect Data
             var dateEnter = obj.DateEnter;
             // Need to capture calculatorstate to be updated automatically by dbcontext
-            captureCalculatorState();
+            captureCalculatorState().CopyProperties(this.CalculatorState);
             string msg;
             // 2 - Process
             var c = CalculatorState;
@@ -836,7 +836,7 @@ namespace TradingTools
                 txtReasonForExit.Text = t.CalculatorState.ReasonForExit;
 
                 // Need to capture calculatorstate to be updated automatically by dbcontext
-                captureCalculatorState();
+                captureCalculatorState().CopyProperties(this.CalculatorState);
 
                 // 2 - Process
                 // Collect -
