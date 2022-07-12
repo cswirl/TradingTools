@@ -62,7 +62,7 @@ namespace TradingTools.Services
                 msg = pref + " 'Date Exit' must come later in time from 'Date Enter'"; 
                 return false; 
             }
-            if (t.DateExit > DateTime.Now)
+            if (t.DateExit > DateTime.Now)  // THis means Date Exit cannot be future dated
             {
                 msg = pref + " 'Date Exit'cannot exceed the Date and Time right now.";
                 return false;

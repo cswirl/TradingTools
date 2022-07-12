@@ -130,24 +130,26 @@ namespace TradingTools
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             if (!checkCorrection.Checked) return;
-
+            var tradeClone = new Trade();
             var t = (Trade)dgvTrades.CurrentRow.DataBoundItem;
+            t.CopyProperties(tradeClone);
+
             DialogResult objDialog = MyMessageBox.Question_YesNo($"Confirmation: UPDATE Trade No. {t.Id}?", "Update");
             if (objDialog == DialogResult.Yes)
             {
                 // collect
-                t.DateEnter = dtpDateEnter.Value;
-                t.Ticker = txtTicker.Text;
-                t.Capital = txtCapital.Text.ToDecimal();
-                t.LotSize = txtLotSize.Text.ToDecimal();
-                t.EntryPriceAvg = txtEntryPrice.Text.ToDecimal();
-                t.Leverage = txtLeverage.Text.ToDecimal();
-                t.TradingStyle = cbxTradingStyle.SelectedValue.ToString();
+                tradeClone.DateEnter = dtpDateEnter.Value;
+                tradeClone.Ticker = txtTicker.Text;
+                tradeClone.Capital = txtCapital.Text.ToDecimal();
+                tradeClone.LotSize = txtLotSize.Text.ToDecimal();
+                tradeClone.EntryPriceAvg = txtEntryPrice.Text.ToDecimal();
+                tradeClone.Leverage = txtLeverage.Text.ToDecimal();
+                tradeClone.TradingStyle = cbxTradingStyle.SelectedValue.ToString();
 
                 string msg;
                 // validate
                 // for status = open
-                if (!TradeService.TradeOpening_Validate(t, out msg))
+                if (!TradeService.TradeOpening_Validate(tradeClone, out msg))
                 {
                     statusMessage.Text = msg;
                     MyMessageBox.Error(msg);
@@ -157,9 +159,9 @@ namespace TradingTools
                 // for status = closed
                 if (t.Status.Equals("closed"))
                 {
-                    t.DateExit = Validation.DateExit_PreDate_Fixer(dtpDateExit.Value);
-                    t.ExitPriceAvg = txtExitPrice.Text.ToDecimal();
-                    t.FinalCapital = txtFinalCapital.Text.ToDecimal();
+                    tradeClone.DateExit = Validation.DateExit_PreDate_Fixer(dtpDateExit.Value);
+                    tradeClone.ExitPriceAvg = txtExitPrice.Text.ToDecimal();
+                    tradeClone.FinalCapital = txtFinalCapital.Text.ToDecimal();
                     // auto-compute
 
                     // validate
@@ -170,6 +172,8 @@ namespace TradingTools
                         return;
                     }
                 }
+
+                tradeClone.CopyProperties(t);
 
                 // update database
                 if (_master.Trade_Update(t))
