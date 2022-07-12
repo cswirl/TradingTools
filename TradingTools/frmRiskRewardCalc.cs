@@ -350,6 +350,8 @@ namespace TradingTools
         private CalculatorState captureCalculatorState()
         {
             var c = new CalculatorState();
+            // Clone First - to copy the keys such as TradeId foreign key
+            this.CalculatorState.CopyProperties(c);
             // Collect Receptors
             c.Capital = txtCapital.Text.ToDecimal();
             c.Leverage = txtLeverage.Text.ToDecimal();
@@ -821,17 +823,28 @@ namespace TradingTools
         {
             if (State != RiskRewardCalcState.TradeOpen) return;
 
-            // Prepare a trade object for Closing
+            
+            // Prepare a proxy trade object for Closing
             var t = new Trade();
+            Trade?.CopyProperties(t);
             t.CalculatorState = new();
             t.ExitPriceAvg = txtTradeExit_ExitPrice.Text.ToDecimal();
             t.FinalCapital = txtFinalCapital.Text.ToDecimal();
             t.CalculatorState.ReasonForExit = txtReasonForExit.Text;
 
+            // 1 - Input and Sanitize - done on the TradeClosing Dialog
             var result = new TradeClosing(t).ShowDialog();
             if (result == DialogResult.Yes)
             {
-                // 1 - Input and Sanitize - done on the TradeClosing Dialog
+                // Validate the data gathered by the proxy trade object
+                string msg;
+                if (!TradeService.TradeClosing_Validate(t, out msg))
+                {
+                    statusMessage.Text = msg;
+                    MyMessageBox.Error(msg);
+                    return;
+                }
+
                 // Update this form if any changes made from TradeClosing Dialog before calling captureCalculatorState()
                 txtTradeExit_ExitPrice.Text = t.ExitPriceAvg?.ToString_UptoMaxDecimal();
                 txtFinalCapital.Text = t.FinalCapital?.ToMoney();
@@ -845,21 +858,12 @@ namespace TradingTools
                 Trade.DateExit = t.DateExit;
                 Trade.ExitPriceAvg = t.ExitPriceAvg;
                 Trade.FinalCapital = t.FinalCapital;
+                Trade.Status = t.Status;
 
-                Trade.Status = "closed";
-
-                string msg;
-                // 3 - Validation
-                if (!TradeService.TradeClosing_Validate(Trade, out msg))
-                {
-                    statusMessage.Text = msg;
-                    MyMessageBox.Error(msg);
-                    return;
-                }
-
-                // 4 - store and display
+                // 4 - store and set display
                 var o = (master)this.Owner;
-                // Add to the Owner's List
+                // This method will save the Trade object together with its CalculatorState object
+                // and will automatically register to the master form internal List
                 if (o.Trade_Close(Trade))
                 {
                     ChangeState(RiskRewardCalcState.TradeClosed);

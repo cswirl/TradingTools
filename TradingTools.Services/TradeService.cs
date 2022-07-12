@@ -52,7 +52,7 @@ namespace TradingTools.Services
         {
             msg = string.Empty;
             string pref = "Trade Closing Validation failed: ";
-            if (t.ExitPriceAvg <= 0 | t.FinalCapital <= 0) 
+            if (t.ExitPriceAvg <= 0 | t.FinalCapital < 0)   // Liquated will result in zero final capital
             {
                 msg =  pref + " invalid data found.";
                 return false; 

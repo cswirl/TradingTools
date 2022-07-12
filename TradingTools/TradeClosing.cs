@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using TradingTools.Model;
 using TradingTools.Trunk;
 using TradingTools.Trunk.Entity;
+using TradingTools.Trunk.Extensions;
 using TradingTools.Trunk.Validation;
 
 namespace TradingTools
@@ -37,9 +38,10 @@ namespace TradingTools
         private void btnCloseTrade_Click(object sender, EventArgs e)
         {
             Trade.DateExit = Validation.DateExit_PreDate_Fixer(dtpDateExit.Value);
-            Trade.ExitPriceAvg = InputConverter.Decimal(txtExitPrice.Text);
-            Trade.FinalCapital = StringToNumeric.MoneyToDecimal(txtFinalCapital.Text);
+            Trade.ExitPriceAvg = txtExitPrice.Text.ToDecimal();
+            Trade.FinalCapital = txtFinalCapital.Text.ToDecimal();
             Trade.CalculatorState.ReasonForExit = txtReasonForExit.Text;
+            Trade.Status = "closed";
 
             this.DialogResult = DialogResult.Yes;
             this.Close();
@@ -107,8 +109,8 @@ namespace TradingTools
         {
             if (Trade == null) return;
             Presentation.DateTimePicker_MaxDate_SafeAssign(dtpDateExit, DateTime.Now);
-            txtExitPrice.Text = Trade?.ExitPriceAvg?.ToString(Constant.DECIMAL_UPTO_MAX);
-            txtFinalCapital.Text = Trade?.FinalCapital?.ToString(Constant.MONEY_FORMAT);
+            txtExitPrice.Text = Trade?.ExitPriceAvg?.ToString_UptoMaxDecimal();
+            txtFinalCapital.Text = Trade?.FinalCapital?.ToMoney();
             txtReasonForExit.Text = Trade?.CalculatorState.ReasonForExit;
         }
     }
