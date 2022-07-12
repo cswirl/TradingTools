@@ -176,7 +176,7 @@ namespace TradingTools
                 tradeClone.CopyProperties(t);
 
                 // update database
-                if (_master.Trade_Update(t))
+                if (_master.Trade_Update(t))    // Trade object must be the original
                 {
                     statusMessage.Text = $"Trade No. {t.Id} was updated successfully.";
                     MyMessageBox.Inform(statusMessage.Text, "Update");

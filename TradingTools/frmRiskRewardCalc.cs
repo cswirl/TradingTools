@@ -403,6 +403,7 @@ namespace TradingTools
 
             // 3 - process data collected - this will save data into a data store - no need for step 4 which is to Display Data 
             var o = (master)this.Owner;
+            if (o == default) return false;
             if (State == RiskRewardCalcState.Empty)
             {
                 // Add to the Owner's List
@@ -883,8 +884,8 @@ namespace TradingTools
         {
             if (Trade != default && Trade.Equals(t))
             {
+                ChangeState(State);
                 Save();
-                ChangeState(State); 
             }
         }
 
