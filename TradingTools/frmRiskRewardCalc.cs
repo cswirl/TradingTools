@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using TradingTools.Model;
 using TradingTools.Services;
 using TradingTools.Services.Interface;
+using TradingTools.Services.Models;
 using TradingTools.Trunk;
 using TradingTools.Trunk.Entity;
 using TradingTools.Trunk.Extensions;
@@ -205,14 +206,16 @@ namespace TradingTools
             if (priceTarget <= 0) return;
 
             // 3
-            var rec = _rrc.ComputePnL(priceTarget, Position);
+            PnLRecord pnl;
+            try { pnl = _rrc.ComputePnL(priceTarget, Position); }
+            catch (NullReferenceException) { return; }
 
             // 4
-            if (rec == null) return;
-            txtPriceIncreasePercentage.Text = rec.PCP.ToPercentageSingle();
-            txtPriceIncrease_profit.Text = rec.PnL.ToMoney();
-            txtProfitPercentage.Text = rec.PnL_Percentage.ToPercentageSingle();
-        }
+            if (pnl == null) return;
+            txtPriceIncreasePercentage.Text = pnl.PCP.ToPercentageSingle();
+            txtPriceIncrease_profit.Text = pnl.PnL.ToMoney();
+            txtProfitPercentage.Text = pnl.PnL_Percentage.ToPercentageSingle();
+            }
 
         private void CustomPriceDecrease_Compute(object sender, EventArgs e)
         {
@@ -221,13 +224,15 @@ namespace TradingTools
             if (priceTarget <= 0) return;
 
             // 3
-            var rec = _rrc.ComputePnL(priceTarget, Position);
+            PnLRecord pnl;
+            try { pnl = _rrc.ComputePnL(priceTarget, Position); }
+            catch (NullReferenceException) { return; }
 
             // 4
-            if (rec == null) return;
-            txtPriceDecreasePercentage.Text = rec.PCP.ToPercentageSingle();
-            txtPriceDecrease_loss.Text = rec.PnL.ToMoney();
-            txtLossPercentage.Text = rec.PnL_Percentage.ToPercentageSingle();
+            if (pnl == null) return;
+            txtPriceDecreasePercentage.Text = pnl.PCP.ToPercentageSingle();
+            txtPriceDecrease_loss.Text = pnl.PnL.ToMoney();
+            txtLossPercentage.Text = pnl.PnL_Percentage.ToPercentageSingle();
         }
 
         private void updateRRR()
@@ -250,7 +255,10 @@ namespace TradingTools
             if (priceTarget <= 0) return;
 
             // 3
-            var exitPnl = _rrc.PnlExitPlan(priceTarget, Position);
+            Tuple<PnLRecord, decimal, decimal> exitPnl = null;
+            try { exitPnl = _rrc.PnlExitPlan(priceTarget, Position); }
+            catch (NullReferenceException) { return; }
+
             var rec = exitPnl.Item1;
             var pv = exitPnl.Item2;
             var equity = exitPnl.Item3;
@@ -266,7 +274,7 @@ namespace TradingTools
             txtPEP_TradingCost.Text = "--";
 
             updateRRR();
-        }
+            }
 
 
         private void LEP_Compute(object sender, EventArgs e)
@@ -276,13 +284,16 @@ namespace TradingTools
             if (priceTarget <= 0) return;
 
             // 3
-            var exitPlan = _rrc.PnlExitPlan(priceTarget, Position);
-            var rec = exitPlan.Item1;
-            var sPV = exitPlan.Item2;
-            var equity = exitPlan.Item3;
+            Tuple<PnLRecord, decimal, decimal> exitPnl = null;
+            try { exitPnl = _rrc.PnlExitPlan(priceTarget, Position); }
+            catch (NullReferenceException) { return; }
+
+            var rec = exitPnl.Item1;
+            var sPV = exitPnl.Item2;
+            var equity = exitPnl.Item3;
 
             // 4
-            if (exitPlan == null) return;
+            if (exitPnl == null) return;
             txtLEP_sPV.Text = sPV.ToMoney();
             txtLEP_AccountEquity.Text = equity.ToMoney();
 
@@ -301,7 +312,10 @@ namespace TradingTools
             if (priceTarget <= 0) return;
 
             // 3
-            var exitPnl = _rrc.PnlExitPlan(priceTarget, Position);
+            Tuple<PnLRecord, decimal, decimal> exitPnl = null;
+            try { exitPnl = _rrc.PnlExitPlan(priceTarget, Position); }
+            catch (NullReferenceException) { return; }
+
             var rec = exitPnl.Item1;
             var pv = exitPnl.Item2;
             var equity = exitPnl.Item3;
