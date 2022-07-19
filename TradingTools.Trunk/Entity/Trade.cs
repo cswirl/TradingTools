@@ -99,8 +99,8 @@ namespace TradingTools.Trunk.Entity
         public string Status { get; set; }
         #endregion
 
-        // CalculatorState
+        // Navigation Properties
         public virtual CalculatorState CalculatorState { get; set; }
-
+        public virtual ICollection<TradeThread> TradeThreads { get; set; }
     }
 }

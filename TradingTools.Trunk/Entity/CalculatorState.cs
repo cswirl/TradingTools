@@ -115,7 +115,7 @@ namespace TradingTools.Trunk.Entity
         public decimal? TradeExit_ExitPrice { get; set; }
 
 
-        // Trade
+        // Navigation Properties
         public int? TradeId { get; set; }
         [JsonIgnore]    // used to avoid circular loop since trade has a calculatorState object
         public virtual Trade Trade { get; set; }

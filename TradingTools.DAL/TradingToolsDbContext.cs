@@ -20,6 +20,26 @@ namespace TradingTools.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            /// Explicit Entities Relationship Declaration
+            /// 
+            /// Trade and TradeThread relationship is a little complex than normal - please see the documentation diagram
+            /// - A TradeThread record has 2 distinct Trade Record (Head and Tail)
+            /// - A Trade record belongs to 1-or-2 Trade Thread records where it is either a head or a tail
+            modelBuilder.Entity<Trade>()
+                .HasMany(t => t.TradeThreads)
+                .WithOne(tread => tread.Trade_head)
+                .HasForeignKey(tread => tread.TradeId_head)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Trade>()
+                .HasMany(t => t.TradeThreads)
+                .WithOne(tread => tread.Trade_tail)
+                .HasForeignKey(tread => tread.TradeId_tail)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.NoAction);
+
+            /// Decimal Place Setting
             foreach (var property in modelBuilder.Model.GetEntityTypes()
                 .SelectMany(t => t.GetProperties())
                 .Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?)))
