@@ -15,7 +15,7 @@ namespace TradingTools.Trunk.Entity
         
         [Required]
         public int TradeCap { get; set; }   // soft cap - just a reference for a trade limit
-        [Required, DefaultValue(true)]
+        [DefaultValue(true)]
         public bool IsOpen { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]

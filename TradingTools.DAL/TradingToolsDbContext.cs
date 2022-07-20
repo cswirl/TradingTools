@@ -20,8 +20,9 @@ namespace TradingTools.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TradeThread>()
-                .HasNoKey();
+            /// Using keyless entity is not generating migration file - failing on Add-Migration - Null Reference
+            //modelBuilder.Entity<TradeThread>()
+            //    .HasNoKey();
 
             /// Explicit Entities Relationship Declaration
             /// 
@@ -32,14 +33,12 @@ namespace TradingTools.DAL
                 .HasOne<TradeThread>(t => t.TradeThreadHead)
                 .WithOne(tread => tread.Trade_head)
                 .HasForeignKey<TradeThread>(tread => tread.TradeId_head)
-                .IsRequired()
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Trade>()
                 .HasOne<TradeThread>(t => t.TradeThreadTail)
                 .WithOne(tread => tread.Trade_tail)
                 .HasForeignKey<TradeThread>(tread => tread.TradeId_tail)
-                .IsRequired()
                 .OnDelete(DeleteBehavior.NoAction);
 
             /// Decimal Place Setting

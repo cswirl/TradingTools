@@ -10,16 +10,15 @@ namespace TradingTools.Trunk.Entity
 {
     public class TradeThread
     {
-        [Required]
-        public int TradeChallengeId { get; set; }
+        public int Id { get; set; }
+
+        public int? TradeChallengeId { get; set; }
         public virtual TradeChallenge TradeChallenge { get; set; }
 
-        [Required, DefaultValue(0)]
-        public int TradeId_tail { get; set; }
+        public int? TradeId_tail { get; set; }
         public virtual Trade Trade_tail { get; set; }
 
-        [Required]
-        public int TradeId_head { get; set; }
+        public int? TradeId_head { get; set; }
         public virtual Trade Trade_head { get; set; }
         
     }
