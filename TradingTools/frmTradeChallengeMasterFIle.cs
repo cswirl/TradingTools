@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TradingTools.Services;
+using TradingTools.Trunk;
 using TradingTools.Trunk.Entity;
 
 namespace TradingTools
@@ -36,23 +38,27 @@ namespace TradingTools
 
         private void TradeChallenge_Save(TradeChallenge tc)
         {
+            tc.IsOpen = true;
             if (_master.TradeChallenge_Create(tc)) {
                _currentTradeChallenges.Add(tc);
-                openTradeChallenge(tc);
+                TradeChallenge_Spawn(tc);
             }
         }
 
-        private void openTradeChallenge(TradeChallenge tc)
+        private void TradeChallenge_Spawn(TradeChallenge tc)
         {
             _frmTradeChallenge = new()
             {
-                Owner = _master,
+                Master = _master,
                 TradeChallenge = tc 
             };
+            // register
             _frmTradeChallenge.FormClosed += (object sender, FormClosedEventArgs e)
-                => { _listOf_frmTradeChallenge.Remove((frmTradeChallenge)sender);  };
+                => { _listOf_frmTradeChallenge.Remove((frmTradeChallenge)sender); };
 
-            _frmTradeChallenge.Show();
+            _listOf_frmTradeChallenge.Add(_frmTradeChallenge);
+
+            _frmTradeChallenge.Show(this);
         }
 
         private void frmTradeChallengeMasterFile_Load(object sender, EventArgs e)
@@ -62,6 +68,27 @@ namespace TradingTools
 
             dgvCurrent.DataSource = _currentTradeChallenges;
             dgvClosed.DataSource = _closedTradeChallenges;
+        }
+
+        private void dgvCurrent_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            TradeChallenge_ActivateForm((TradeChallenge)dgvCurrent.CurrentRow.DataBoundItem);
+        }
+
+        private bool TradeChallenge_ActivateForm(TradeChallenge tradeChallenge)
+        {
+            var tc = _listOf_frmTradeChallenge.Find(x => x.TradeChallenge.Id == tradeChallenge.Id);
+            if (tc != null)
+            {
+                tc.WindowState = FormWindowState.Normal;
+                tc.Focus();
+            }
+            else
+            {
+                TradeChallenge_Spawn(tradeChallenge);
+            }
+
+            return true;
         }
     }
 }

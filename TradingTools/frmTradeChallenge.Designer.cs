@@ -30,14 +30,14 @@
         {
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.radioClosed = new System.Windows.Forms.RadioButton();
+            this.radioOpen = new System.Windows.Forms.RadioButton();
+            this.txtDesc = new System.Windows.Forms.TextBox();
+            this.btnCompleted = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.txtId = new System.Windows.Forms.TextBox();
+            this.txtTitle = new System.Windows.Forms.TextBox();
+            this.txtCap = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -71,14 +71,14 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.radioButton2);
-            this.panel1.Controls.Add(this.radioButton1);
-            this.panel1.Controls.Add(this.textBox4);
-            this.panel1.Controls.Add(this.button2);
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.textBox3);
-            this.panel1.Controls.Add(this.textBox2);
-            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.radioClosed);
+            this.panel1.Controls.Add(this.radioOpen);
+            this.panel1.Controls.Add(this.txtDesc);
+            this.panel1.Controls.Add(this.btnCompleted);
+            this.panel1.Controls.Add(this.btnSave);
+            this.panel1.Controls.Add(this.txtId);
+            this.panel1.Controls.Add(this.txtTitle);
+            this.panel1.Controls.Add(this.txtCap);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label2);
@@ -89,77 +89,81 @@
             this.panel1.Size = new System.Drawing.Size(803, 95);
             this.panel1.TabIndex = 13;
             // 
-            // radioButton2
+            // radioClosed
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(246, 35);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(59, 19);
-            this.radioButton2.TabIndex = 3;
-            this.radioButton2.Text = "closed";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioClosed.AutoSize = true;
+            this.radioClosed.Enabled = false;
+            this.radioClosed.Location = new System.Drawing.Point(246, 35);
+            this.radioClosed.Name = "radioClosed";
+            this.radioClosed.Size = new System.Drawing.Size(59, 19);
+            this.radioClosed.TabIndex = 3;
+            this.radioClosed.Text = "closed";
+            this.radioClosed.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // radioOpen
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(246, 10);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(52, 19);
-            this.radioButton1.TabIndex = 2;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "open";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioOpen.AutoSize = true;
+            this.radioOpen.Checked = true;
+            this.radioOpen.Enabled = false;
+            this.radioOpen.Location = new System.Drawing.Point(246, 10);
+            this.radioOpen.Name = "radioOpen";
+            this.radioOpen.Size = new System.Drawing.Size(52, 19);
+            this.radioOpen.TabIndex = 2;
+            this.radioOpen.TabStop = true;
+            this.radioOpen.Text = "open";
+            this.radioOpen.UseVisualStyleBackColor = true;
             // 
-            // textBox4
+            // txtDesc
             // 
-            this.textBox4.Location = new System.Drawing.Point(409, 8);
-            this.textBox4.Multiline = true;
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(249, 80);
-            this.textBox4.TabIndex = 4;
+            this.txtDesc.Location = new System.Drawing.Point(409, 8);
+            this.txtDesc.Multiline = true;
+            this.txtDesc.Name = "txtDesc";
+            this.txtDesc.Size = new System.Drawing.Size(249, 80);
+            this.txtDesc.TabIndex = 4;
             // 
-            // button2
+            // btnCompleted
             // 
-            this.button2.Location = new System.Drawing.Point(701, 38);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "Completed";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnCompleted.Location = new System.Drawing.Point(701, 38);
+            this.btnCompleted.Name = "btnCompleted";
+            this.btnCompleted.Size = new System.Drawing.Size(75, 23);
+            this.btnCompleted.TabIndex = 6;
+            this.btnCompleted.Text = "Completed";
+            this.btnCompleted.UseVisualStyleBackColor = true;
+            this.btnCompleted.Click += new System.EventHandler(this.btnCompleted_Click);
             // 
-            // button1
+            // btnSave
             // 
-            this.button1.Location = new System.Drawing.Point(701, 7);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "SAVE";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnSave.Location = new System.Drawing.Point(701, 7);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 5;
+            this.btnSave.Text = "SAVE";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // textBox3
+            // txtId
             // 
-            this.textBox3.Location = new System.Drawing.Point(78, 6);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(49, 23);
-            this.textBox3.TabIndex = 1;
-            this.textBox3.TabStop = false;
+            this.txtId.Location = new System.Drawing.Point(78, 6);
+            this.txtId.Name = "txtId";
+            this.txtId.ReadOnly = true;
+            this.txtId.Size = new System.Drawing.Size(49, 23);
+            this.txtId.TabIndex = 1;
+            this.txtId.TabStop = false;
             // 
-            // textBox2
+            // txtTitle
             // 
-            this.textBox2.Location = new System.Drawing.Point(78, 64);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(297, 23);
-            this.textBox2.TabIndex = 1;
+            this.txtTitle.Location = new System.Drawing.Point(78, 64);
+            this.txtTitle.Name = "txtTitle";
+            this.txtTitle.ReadOnly = true;
+            this.txtTitle.Size = new System.Drawing.Size(297, 23);
+            this.txtTitle.TabIndex = 1;
             // 
-            // textBox1
+            // txtCap
             // 
-            this.textBox1.Location = new System.Drawing.Point(78, 35);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(49, 23);
-            this.textBox1.TabIndex = 1;
+            this.txtCap.Location = new System.Drawing.Point(78, 35);
+            this.txtCap.Name = "txtCap";
+            this.txtCap.Size = new System.Drawing.Size(49, 23);
+            this.txtCap.TabIndex = 1;
             // 
             // label7
             // 
@@ -252,7 +256,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label5.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label5.Location = new System.Drawing.Point(12, 432);
+            this.label5.Location = new System.Drawing.Point(12, 509);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(104, 20);
             this.label5.TabIndex = 11;
@@ -261,7 +265,7 @@
             // dgvTradeHistory
             // 
             this.dgvTradeHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvTradeHistory.Location = new System.Drawing.Point(12, 461);
+            this.dgvTradeHistory.Location = new System.Drawing.Point(12, 538);
             this.dgvTradeHistory.Name = "dgvTradeHistory";
             this.dgvTradeHistory.RowTemplate.Height = 25;
             this.dgvTradeHistory.Size = new System.Drawing.Size(803, 241);
@@ -273,7 +277,7 @@
             this.dgvActiveTrade.Location = new System.Drawing.Point(12, 150);
             this.dgvActiveTrade.Name = "dgvActiveTrade";
             this.dgvActiveTrade.RowTemplate.Height = 25;
-            this.dgvActiveTrade.Size = new System.Drawing.Size(803, 49);
+            this.dgvActiveTrade.Size = new System.Drawing.Size(803, 119);
             this.dgvActiveTrade.TabIndex = 15;
             // 
             // label6
@@ -281,7 +285,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label6.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label6.Location = new System.Drawing.Point(12, 224);
+            this.label6.Location = new System.Drawing.Point(12, 301);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(77, 20);
             this.label6.TabIndex = 11;
@@ -290,7 +294,7 @@
             // dgvProspects
             // 
             this.dgvProspects.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvProspects.Location = new System.Drawing.Point(12, 253);
+            this.dgvProspects.Location = new System.Drawing.Point(12, 330);
             this.dgvProspects.Name = "dgvProspects";
             this.dgvProspects.RowTemplate.Height = 25;
             this.dgvProspects.Size = new System.Drawing.Size(803, 150);
@@ -300,7 +304,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1033, 714);
+            this.ClientSize = new System.Drawing.Size(1033, 796);
             this.Controls.Add(this.dgvActiveTrade);
             this.Controls.Add(this.dgvProspects);
             this.Controls.Add(this.dgvTradeHistory);
@@ -331,23 +335,23 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button btnOpenCalcLong_Empty;
         private System.Windows.Forms.Button btnOpenCalcShort_Empty;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtTitle;
+        private System.Windows.Forms.TextBox txtCap;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnCompleted;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DataGridView dgvTradeHistory;
         private System.Windows.Forms.DataGridView dgvActiveTrade;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DataGridView dgvProspects;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtDesc;
+        private System.Windows.Forms.TextBox txtId;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton radioClosed;
+        private System.Windows.Forms.RadioButton radioOpen;
     }
 }

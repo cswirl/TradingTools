@@ -29,8 +29,14 @@ namespace TradingTools
                 TradeCap = txtCap.Text.ToInteger(),
                 Description = txtDesc.Text
             };
+            this.Close();
             // invoke delegate for Trade Challenge Master File
             TradeChallenge_Save?.Invoke(tc);
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

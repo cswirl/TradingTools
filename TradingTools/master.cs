@@ -331,7 +331,7 @@ namespace TradingTools
 
         public List<TradeChallenge> GetTradeChallenges_Open()
         {
-            return DbContext.TradeChallenge.ToList();
+            return DbContext.TradeChallenge.Where(x => x.IsOpen).ToList();
                 
         }
         public List<TradeChallenge> GetTradeChallenges_Closed()

@@ -46,7 +46,7 @@
             this.menuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(637, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(954, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -70,8 +70,9 @@
             this.dgvClosed.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvClosed.Location = new System.Drawing.Point(12, 291);
             this.dgvClosed.Name = "dgvClosed";
+            this.dgvClosed.ReadOnly = true;
             this.dgvClosed.RowTemplate.Height = 25;
-            this.dgvClosed.Size = new System.Drawing.Size(471, 177);
+            this.dgvClosed.Size = new System.Drawing.Size(680, 316);
             this.dgvClosed.TabIndex = 1;
             // 
             // label1
@@ -88,9 +89,11 @@
             this.dgvCurrent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCurrent.Location = new System.Drawing.Point(12, 74);
             this.dgvCurrent.Name = "dgvCurrent";
+            this.dgvCurrent.ReadOnly = true;
             this.dgvCurrent.RowTemplate.Height = 25;
-            this.dgvCurrent.Size = new System.Drawing.Size(471, 122);
+            this.dgvCurrent.Size = new System.Drawing.Size(680, 170);
             this.dgvCurrent.TabIndex = 1;
+            this.dgvCurrent.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCurrent_CellDoubleClick);
             // 
             // label2
             // 
@@ -105,7 +108,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(637, 534);
+            this.BackColor = System.Drawing.SystemColors.Window;
+            this.ClientSize = new System.Drawing.Size(954, 619);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dgvCurrent);
             this.Controls.Add(this.label1);
