@@ -22,6 +22,20 @@ namespace TradingTools
 {
     public partial class frmRiskRewardCalc : Form
     {
+        //delegates
+        public delegate void CalculatorState_Save(CalculatorState c);
+        public CalculatorState_Save CalculatorState_Added;
+        public CalculatorState_Save CalculatorState_Updated;
+        //
+        public delegate void CalculatorState_Delete(CalculatorState c);
+        public CalculatorState_Delete CalculatorState_Deleted;
+        //
+        public delegate void Trade_Create(Trade t);
+        public Trade_Create Trade_Officialized;
+        public delegate void Trade_Updated(Trade t);
+        public Trade_Updated Trade_Closed;
+
+        private master _master { get { return (master)this.Owner; } }
         private IRiskRewardCalc _rrc;
         private RiskRewardCalc_Serv _rrc_serv = new();  // Obsolete: in favor of IRiskRewardCalc
         public EventHandler<RiskRewardCalcState> OnStateChanged;
@@ -416,23 +430,24 @@ namespace TradingTools
             }
 
             // 3 - process data collected - this will save data into a data store - no need for step 4 which is to Display Data 
-            var o = (master)this.Owner;
-            if (o == default) return false;
+            if (_master == default) return false;
             if (State == RiskRewardCalcState.Empty)
             {
                 // Add to the Owner's List
-                if (o.CalculatorState_Add(CalculatorState))
+                if (_master.CalculatorState_Add(CalculatorState))
                 {
                     ChangeState(RiskRewardCalcState.Loaded);
                     statusMessage.Text = "State save successfully.";
+                    CalculatorState_Added?.Invoke(CalculatorState);
                 }
                 else statusMessage.Text = "Saving state failed.";
             }
             else if (State == RiskRewardCalcState.Loaded | State == RiskRewardCalcState.TradeOpen | State == RiskRewardCalcState.TradeClosed)
             {
-                if (o.CalculatorState_Update())
+                if (_master.CalculatorState_Update())
                 {
                     statusMessage.Text = "State updated successfully.";
+                    CalculatorState_Updated?.Invoke(CalculatorState);
                 }
                 else statusMessage.Text = "Updating state failed.";
             }
@@ -452,13 +467,13 @@ namespace TradingTools
             DialogResult objDialog = MyMessageBox.Question_YesNo("Are you sure you want to DELETE this State", "Delete");
             if (objDialog == DialogResult.Yes)
             {
-                var o = (master)this.Owner;
                 // Remove from the Owner's List
-                if (o.CalculatorState_Delete(CalculatorState))
+                if (_master.CalculatorState_Delete(this.CalculatorState))
                 {
                     ChangeState(RiskRewardCalcState.Deleted);
                     statusMessage.Text = "State was deleted successfully. \n\nThis form will now close.";
                     MessageBox.Show(statusMessage.Text, "Delete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CalculatorState_Deleted?.Invoke(this.CalculatorState);
                     // just close the form
                     this.Close();
                 }
@@ -570,12 +585,12 @@ namespace TradingTools
             }
 
             // 4 - Save data into a data store - ChangeState will Display Data 
-            var o = (master)this.Owner;
-            if (o.Trade_Add(this.Trade))
+            if (_master.Trade_Add(this.Trade))
             {
                 ChangeState(RiskRewardCalcState.TradeOpen);
                 statusMessage.Text = $"Ticker: {Trade.Ticker} has been officialized successfully.";
                 MyMessageBox.Inform(statusMessage.Text, $"Trade No. {Trade.Id} is Official");
+                Trade_Officialized?.Invoke(this.Trade);
             }
             else
             {
@@ -876,13 +891,13 @@ namespace TradingTools
                 Trade.Status = t.Status;
 
                 // 4 - store and set display
-                var o = (master)this.Owner;
                 // This method will save the Trade object together with its CalculatorState object
                 // and will automatically register to the master form internal List
-                if (o.Trade_Close(Trade))
+                if (_master.Trade_Close(Trade))
                 {
                     ChangeState(RiskRewardCalcState.TradeClosed);
                     statusMessage.Text = $"Trade No. '{Trade.Id}' has been closed successfully.";
+                    Trade_Closed?.Invoke(this.Trade);
                 }
                 else
                 {
@@ -894,7 +909,7 @@ namespace TradingTools
             }
         }
 
-        public void Trade_Updated(Trade t)
+        public void Trade_Updated_Handler(Trade t)
         {
             if (Trade != default && Trade.Equals(t))
             {

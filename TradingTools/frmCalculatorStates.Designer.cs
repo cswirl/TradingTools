@@ -48,6 +48,7 @@ namespace TradingTools
             this.btnViewOfficial = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusMessage = new System.Windows.Forms.ToolStripStatusLabel();
+            this.menuTradeChallenge = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -135,7 +136,8 @@ namespace TradingTools
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuTradeMasterFile});
+            this.menuTradeMasterFile,
+            this.menuTradeChallenge});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(50, 20);
             this.toolStripMenuItem1.Text = "Menu";
@@ -143,7 +145,7 @@ namespace TradingTools
             // menuTradeMasterFile
             // 
             this.menuTradeMasterFile.Name = "menuTradeMasterFile";
-            this.menuTradeMasterFile.Size = new System.Drawing.Size(162, 22);
+            this.menuTradeMasterFile.Size = new System.Drawing.Size(180, 22);
             this.menuTradeMasterFile.Text = "Trade Master File";
             this.menuTradeMasterFile.Click += new System.EventHandler(this.menuTradeMasterFile_Click);
             // 
@@ -292,6 +294,13 @@ namespace TradingTools
             this.statusMessage.Size = new System.Drawing.Size(106, 17);
             this.statusMessage.Text = "Status message . . .";
             // 
+            // menuTradeChallenge
+            // 
+            this.menuTradeChallenge.Name = "menuTradeChallenge";
+            this.menuTradeChallenge.Size = new System.Drawing.Size(180, 22);
+            this.menuTradeChallenge.Text = "Trade Challenge";
+            this.menuTradeChallenge.Click += new System.EventHandler(this.menuTradeChallenge_Click);
+            // 
             // frmCalculatorStates
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -347,5 +356,6 @@ namespace TradingTools
         private System.Windows.Forms.Button btnViewOfficial;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Button btnOpenCalcShort_Empty;
+        private System.Windows.Forms.ToolStripMenuItem menuTradeChallenge;
     }
 }

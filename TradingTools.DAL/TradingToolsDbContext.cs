@@ -56,5 +56,7 @@ namespace TradingTools.DAL
 
         public DbSet<Trade> Trades { get; set; }
         public DbSet<CalculatorState> CalculatorStates { get; set; }
+        public DbSet<TradeChallenge> TradeChallenges { get; set; }
+        public DbSet<TradeThread> TradeThreads { get; set; }
     }
 }

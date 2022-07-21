@@ -47,15 +47,15 @@
             this.btnOpenCalcShort_Empty = new System.Windows.Forms.Button();
             this.btnOpenCalcLong_Empty = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.dgvTradeHistory = new System.Windows.Forms.DataGridView();
+            this.dgvActiveTrade = new System.Windows.Forms.DataGridView();
             this.label6 = new System.Windows.Forms.Label();
-            this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.dgvProspects = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTradeHistory)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvActiveTrade)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProspects)).BeginInit();
             this.SuspendLayout();
             // 
             // label3
@@ -258,23 +258,23 @@
             this.label5.TabIndex = 11;
             this.label5.Text = "Trade History";
             // 
-            // dataGridView1
+            // dgvTradeHistory
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 461);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 25;
-            this.dataGridView1.Size = new System.Drawing.Size(803, 241);
-            this.dataGridView1.TabIndex = 14;
+            this.dgvTradeHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTradeHistory.Location = new System.Drawing.Point(12, 461);
+            this.dgvTradeHistory.Name = "dgvTradeHistory";
+            this.dgvTradeHistory.RowTemplate.Height = 25;
+            this.dgvTradeHistory.Size = new System.Drawing.Size(803, 241);
+            this.dgvTradeHistory.TabIndex = 14;
             // 
-            // dataGridView2
+            // dgvActiveTrade
             // 
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(12, 150);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.RowTemplate.Height = 25;
-            this.dataGridView2.Size = new System.Drawing.Size(803, 49);
-            this.dataGridView2.TabIndex = 15;
+            this.dgvActiveTrade.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvActiveTrade.Location = new System.Drawing.Point(12, 150);
+            this.dgvActiveTrade.Name = "dgvActiveTrade";
+            this.dgvActiveTrade.RowTemplate.Height = 25;
+            this.dgvActiveTrade.Size = new System.Drawing.Size(803, 49);
+            this.dgvActiveTrade.TabIndex = 15;
             // 
             // label6
             // 
@@ -287,23 +287,23 @@
             this.label6.TabIndex = 11;
             this.label6.Text = "Prospects";
             // 
-            // dataGridView3
+            // dgvProspects
             // 
-            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView3.Location = new System.Drawing.Point(12, 253);
-            this.dataGridView3.Name = "dataGridView3";
-            this.dataGridView3.RowTemplate.Height = 25;
-            this.dataGridView3.Size = new System.Drawing.Size(803, 150);
-            this.dataGridView3.TabIndex = 14;
+            this.dgvProspects.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvProspects.Location = new System.Drawing.Point(12, 253);
+            this.dgvProspects.Name = "dgvProspects";
+            this.dgvProspects.RowTemplate.Height = 25;
+            this.dgvProspects.Size = new System.Drawing.Size(803, 150);
+            this.dgvProspects.TabIndex = 14;
             // 
             // frmTradeChallenge
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1033, 714);
-            this.Controls.Add(this.dataGridView2);
-            this.Controls.Add(this.dataGridView3);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dgvActiveTrade);
+            this.Controls.Add(this.dgvProspects);
+            this.Controls.Add(this.dgvTradeHistory);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label6);
@@ -312,12 +312,13 @@
             this.MaximizeBox = false;
             this.Name = "frmTradeChallenge";
             this.Text = "Trade Challenge";
+            this.Load += new System.EventHandler(this.frmTradeChallenge_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTradeHistory)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvActiveTrade)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProspects)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -338,10 +339,10 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dgvTradeHistory;
+        private System.Windows.Forms.DataGridView dgvActiveTrade;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.DataGridView dataGridView3;
+        private System.Windows.Forms.DataGridView dgvProspects;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label7;

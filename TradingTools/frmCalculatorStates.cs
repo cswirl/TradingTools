@@ -21,9 +21,10 @@ namespace TradingTools
         public delegate bool Trade_OnRequest(Trade t);
         public Trade_OnRequest Trade_TradeOpen_OnRequest;
 
-        public event EventHandler FormRRC_Long_Empty_Open;
-        public event EventHandler FormRRC_Short_Empty_Open;
+        //public event EventHandler FormRRC_Long_Empty_Open;
+        //public event EventHandler FormRRC_Short_Empty_Open;
         public event EventHandler FormTradeMasterFile;
+        public event EventHandler FormTradeChallengeMasterFile;
 
         // fields
         private BindingList<CalculatorState> _calculatorStates_unofficial_bindingList;
@@ -70,12 +71,12 @@ namespace TradingTools
 
         private void btnOpenCalc_Empty_Click(object sender, EventArgs e)
         {
-            FormRRC_Long_Empty_Open?.Invoke(this, EventArgs.Empty);
+            _master.FormRRC_Long_Empty_Spawn();
         }
 
         private void btnOpenCalcShort_Empty_Click(object sender, EventArgs e)
         {
-            FormRRC_Short_Empty_Open?.Invoke(this, EventArgs.Empty);
+            _master.FormRRC_Short_Empty_Spawn();
         }
 
         private void frmCalculatorStates_Load(object sender, EventArgs e)
@@ -137,6 +138,11 @@ namespace TradingTools
                 // keep the form open
                 e.Cancel = true;
             }
+        }
+
+        private void menuTradeChallenge_Click(object sender, EventArgs e)
+        {
+            FormTradeChallengeMasterFile?.Invoke(null, null);
         }
     }
 }

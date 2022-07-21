@@ -26,6 +26,23 @@ namespace TradingTools.Trunk.Extensions
                 return decimal.TryParse(str, style, culture, out def_out) ? def_out : 0;
             }
         }
+
+        public static int ToInteger(this string str)
+        {
+            try
+            {
+                return Convert.ToInt32(str);
+
+            }
+            catch (FormatException)
+            {
+                NumberStyles style = NumberStyles.Currency;
+                CultureInfo culture = null;
+                int def_out;
+
+                return int.TryParse(str, style, culture, out def_out) ? def_out : 0;
+            }
+        }
     }
 
     public static class DecimalExtensions 

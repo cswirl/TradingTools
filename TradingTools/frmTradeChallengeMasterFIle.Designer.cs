@@ -31,13 +31,13 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgvClosed = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.dgvCurrent = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvClosed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCurrent)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -61,18 +61,18 @@
             // createNewToolStripMenuItem
             // 
             this.createNewToolStripMenuItem.Name = "createNewToolStripMenuItem";
-            this.createNewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.createNewToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.createNewToolStripMenuItem.Text = "Create New";
             this.createNewToolStripMenuItem.Click += new System.EventHandler(this.createNewToolStripMenuItem_Click);
             // 
-            // dataGridView1
+            // dgvClosed
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 291);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 25;
-            this.dataGridView1.Size = new System.Drawing.Size(471, 177);
-            this.dataGridView1.TabIndex = 1;
+            this.dgvClosed.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvClosed.Location = new System.Drawing.Point(12, 291);
+            this.dgvClosed.Name = "dgvClosed";
+            this.dgvClosed.RowTemplate.Height = 25;
+            this.dgvClosed.Size = new System.Drawing.Size(471, 177);
+            this.dgvClosed.TabIndex = 1;
             // 
             // label1
             // 
@@ -83,14 +83,14 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Closed";
             // 
-            // dataGridView2
+            // dgvCurrent
             // 
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(12, 74);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.RowTemplate.Height = 25;
-            this.dataGridView2.Size = new System.Drawing.Size(471, 122);
-            this.dataGridView2.TabIndex = 1;
+            this.dgvCurrent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCurrent.Location = new System.Drawing.Point(12, 74);
+            this.dgvCurrent.Name = "dgvCurrent";
+            this.dgvCurrent.RowTemplate.Height = 25;
+            this.dgvCurrent.Size = new System.Drawing.Size(471, 122);
+            this.dgvCurrent.TabIndex = 1;
             // 
             // label2
             // 
@@ -107,18 +107,19 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(637, 534);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.dataGridView2);
+            this.Controls.Add(this.dgvCurrent);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dgvClosed);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "frmTradeChallengeMasterFile";
             this.Text = "Trade Challeng Master File";
+            this.Load += new System.EventHandler(this.frmTradeChallengeMasterFile_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvClosed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCurrent)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -129,9 +130,9 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createNewToolStripMenuItem;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgvClosed;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dgvCurrent;
         private System.Windows.Forms.Label label2;
     }
 }

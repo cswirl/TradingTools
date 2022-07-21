@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TradingTools.DAL;
+//using TradingTools.DAL.Migrations;
 using TradingTools.Services;
 using TradingTools.Services.Interface;
 using TradingTools.Trunk;
@@ -27,6 +28,7 @@ namespace TradingTools
         public TradingToolsDbContext DbContext { get; set; }
         public frmCalculatorStates _frmCalcStates { get; set; }
         public frmTradeMasterFile _frmTradeMasterFile { get; set; }
+        public frmTradeChallengeMasterFile _frmTradeChallengeMasterFile { get; set; }
         public TradeService TradeService { get; private set; }
 
         public master()
@@ -49,12 +51,13 @@ namespace TradingTools
             _frmCalcStates.StartPosition = FormStartPosition.CenterScreen;
             _frmCalcStates.Show();
             // delegates
-            _frmCalcStates.FormRRC_Long_Empty_Open += this.FormRRC_Long_Empty_Spawn;
-            _frmCalcStates.FormRRC_Short_Empty_Open += this.FormRRC_Short_Empty_Spawn;
+            //_frmCalcStates.FormRRC_Long_Empty_Open += this.FormRRC_Long_Empty_Spawn;
+            //_frmCalcStates.FormRRC_Short_Empty_Open += this.FormRRC_Short_Empty_Spawn;
             _frmCalcStates.CalculatorState_Loaded_OnRequest += this.FormRRC_Loaded_Spawn;
             _frmCalcStates.Trade_TradeOpen_OnRequest += this.FormRRC_Trade_Spawn;
             //
             _frmCalcStates.FormTradeMasterFile += this.FormTradeMasterFile;
+            _frmCalcStates.FormTradeChallengeMasterFile += this.FormTradeChallengeMasterFile;
             //
             this.tradeOfficialized += _frmCalcStates.Trade_Officialized;
             this.tradeClosed += _frmCalcStates.Trade_Closed;
@@ -99,6 +102,25 @@ namespace TradingTools
             }
         }
 
+        private void FormTradeChallengeMasterFile(object sender, EventArgs e)
+        {
+            if (_frmTradeChallengeMasterFile == default || _frmTradeChallengeMasterFile.IsDisposed)
+            {
+                _frmTradeChallengeMasterFile = new();
+                _frmTradeChallengeMasterFile.Owner = this;
+                _frmTradeChallengeMasterFile.Show();
+                // delegates
+                //_frmTradeMasterFile.Trade_TradeOpen_OnRequest += this.FormRRC_Trade_Spawn;
+                //this.tradeOfficialized += _frmTradeChallengeMasterFile.Trade_Officialized;
+                //this.tradeClosed += _frmTradeChallengeMasterFile.Trade_Closed;
+            }
+            else
+            {
+                if (_frmTradeChallengeMasterFile.WindowState == FormWindowState.Minimized) _frmTradeChallengeMasterFile.WindowState = FormWindowState.Normal;
+                _frmTradeChallengeMasterFile.Focus();
+            }
+        }
+
         #region Risk Reward Calculator Forms
         private void registerNewRiskRewardCalcForm(frmRiskRewardCalc form)
         {
@@ -106,7 +128,7 @@ namespace TradingTools
             form.Owner = this;
             form.FormClosed += this.FormRRC_FormClosed;
             this.tradeDeleted += form.MarkAsDeleted;
-            this.tradeUpdated += form.Trade_Updated;
+            this.tradeUpdated += form.Trade_Updated_Handler;
 
             _listOf_frmRiskRewardCalc.Add(form);
         }
@@ -170,23 +192,25 @@ namespace TradingTools
             return true;
         }
 
-        private void FormRRC_Long_Empty_Spawn(object sender, EventArgs e)
+        public frmRiskRewardCalc FormRRC_Long_Empty_Spawn()
         {
             var rrc = TradeService.RiskRewardCalcGetInstance("long");
-            FormRRC_Empty_Spawn(rrc);
+            return FormRRC_Empty_Spawn(rrc);
         }
 
-        private void FormRRC_Short_Empty_Spawn(object sender, EventArgs e)
+        public frmRiskRewardCalc FormRRC_Short_Empty_Spawn()
         {
             var rrc = TradeService.RiskRewardCalcGetInstance("short");
-            FormRRC_Empty_Spawn(rrc);
+            return FormRRC_Empty_Spawn(rrc); ;
         }
 
-        private void FormRRC_Empty_Spawn(IRiskRewardCalc riskRewardCalc)
+        private frmRiskRewardCalc FormRRC_Empty_Spawn(IRiskRewardCalc riskRewardCalc)
         {
             var form = new frmRiskRewardCalc(riskRewardCalc);
             registerNewRiskRewardCalcForm(form);
             form.Show();
+
+            return form;
         }
         #endregion
 
@@ -285,6 +309,54 @@ namespace TradingTools
             return true;
         }
 
+        /// <summary>
+        ///  Trade Challenge
+        /// </summary>
+        /// 
+        public bool TradeChallenge_Create(TradeChallenge tc)
+        {
+            DbContext.TradeChallenges.Add(tc);
+            DbContext.SaveChanges();
+
+            return true;
+        }
+
+        public bool TradeChallenge_Update(TradeChallenge tc)
+        {
+            DbContext.TradeChallenges.Update(tc);
+            DbContext.SaveChanges();
+
+            return true;
+        }
+
+        public List<TradeChallenge> GetTradeChallenges_Open()
+        {
+            return DbContext.TradeChallenges.ToList();
+                
+        }
+        public List<TradeChallenge> GetTradeChallenges_Closed()
+        {
+            return DbContext.TradeChallenges.Where(x => !x.IsOpen).ToList();
+
+        }
+        public List<Trade> GetTradeChallenges_ActiveTrade(int tradeChallengeId)
+        {
+            return DbContext.Trades
+                .Where(x => x.Status.Equals("open"))
+                .Include(x => x.TradeThreadTail).ThenInclude(tr => tr.TradeChallenge).Where(tc => tc.Id == tradeChallengeId)
+                .Include(x => x.TradeThreadHead).ThenInclude(tr => tr.TradeChallenge).Where(tc => tc.Id == tradeChallengeId)
+                .ToList();
+        }
+
+        public List<Trade> GetTradeChallenges_TradeHistory(int tradeChallengeId)
+        {
+            return DbContext.Trades
+                .Where(x => x.Status.Equals("closed"))
+                .Include(x => x.TradeThreadTail).ThenInclude(tr => tr.TradeChallenge).Where(tc => tc.Id == tradeChallengeId)
+                .Include(x => x.TradeThreadHead).ThenInclude(tr => tr.TradeChallenge).Where(tc => tc.Id == tradeChallengeId)
+                .ToList();
+
+        }
 
         #region UNUSED
         private BindingSource _calculatorStates_unsaved;
