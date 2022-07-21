@@ -341,21 +341,32 @@ namespace TradingTools
         }
         public List<Trade> GetTradeChallenges_ActiveTrade(int tradeChallengeId)
         {
-            return DbContext.Trade
-                .Where(x => x.Status.Equals("open"))
-                .Include(x => x.TradeThreadTail).ThenInclude(tr => tr.TradeChallenge).Where(tc => tc.Id == tradeChallengeId)
-                .Include(x => x.TradeThreadHead).ThenInclude(tr => tr.TradeChallenge).Where(tc => tc.Id == tradeChallengeId)
+            //var x = DbContext.Trade
+            //    .Where(x => x.Status.Equals("open"))
+            //    .Include(x => x.TradeThreadTail).ThenInclude(tr => tr.TradeChallenge).Where(tc => tc.Id == tradeChallengeId)
+            //    .Include(x => x.TradeThreadHead).ThenInclude(tr => tr.TradeChallenge).Where(tc => tc.Id == tradeChallengeId)
+            //    .ToList();
+
+            return DbContext.TradeThread
+                .Include(x => x.Trade_head).Where(x => x.Trade_head.Status.Equals("open"))
+                .Where(x => x.TradeChallengeId == tradeChallengeId)
+                .Select(tr => tr.Trade_head)
                 .ToList();
         }
 
         public List<Trade> GetTradeChallenges_TradeHistory(int tradeChallengeId)
         {
-            return DbContext.Trade
-                .Where(x => x.Status.Equals("closed"))
-                .Include(x => x.TradeThreadTail).ThenInclude(tr => tr.TradeChallenge).Where(tc => tc.Id == tradeChallengeId)
-                .Include(x => x.TradeThreadHead).ThenInclude(tr => tr.TradeChallenge).Where(tc => tc.Id == tradeChallengeId)
-                .ToList();
+            //var a = DbContext.Trade
+            //    .Include(x => x.TradeThreadHead).Where(t => t.TradeThreadHead.TradeChallengeId == tradeChallengeId)
+            //    .ThenInclude(x => x.TradeChallenge).Where(tc => tc.Id == tradeChallengeId)
+            //    .Where(x => x.Status.Equals("closed"))
+            //    .ToList();
 
+            return DbContext.TradeThread
+                .Include(x => x.Trade_head).Where(x => x.Trade_head.Status.Equals("closed"))
+                .Where(x => x.TradeChallengeId == tradeChallengeId)
+                .Select(tr => tr.Trade_head)
+                .ToList();
         }
 
         #region UNUSED

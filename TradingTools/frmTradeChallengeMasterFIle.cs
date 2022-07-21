@@ -15,7 +15,7 @@ namespace TradingTools
 {
     public partial class frmTradeChallengeMasterFile : Form
     {
-        private frmTradeChallenge _frmTradeChallenge;
+        //private frmTradeChallenge _frmTradeChallenge;
         private List<frmTradeChallenge> _listOf_frmTradeChallenge;
         private master _master { get { return (master)this.Owner; } }
 
@@ -45,20 +45,41 @@ namespace TradingTools
             }
         }
 
+        private void registerForm(frmTradeChallenge form)
+        {
+            form.TradeChallenge_Updated += this.TradeChallenge_Updated;
+            form.TradeChallenge_Closed += this.TradeChallenge_Closed;
+
+            form.FormClosed += (object sender, FormClosedEventArgs e)
+                => { _listOf_frmTradeChallenge.Remove((frmTradeChallenge)sender); };
+
+            _listOf_frmTradeChallenge.Add(form);
+        }
+
+        private void TradeChallenge_Updated(TradeChallenge tc)
+        {
+            if (tc.IsOpen) dgvOpen.Invalidate();
+            else dgvClosed.Invalidate();
+
+        }
+
+        private void TradeChallenge_Closed(TradeChallenge tc)
+        {
+            _currentTradeChallenges.Remove(tc);
+            _closedTradeChallenges.Add(tc);
+        }
+
         private void TradeChallenge_Spawn(TradeChallenge tc)
         {
-            _frmTradeChallenge = new()
+            var form = new frmTradeChallenge
             {
                 Master = _master,
                 TradeChallenge = tc 
             };
             // register
-            _frmTradeChallenge.FormClosed += (object sender, FormClosedEventArgs e)
-                => { _listOf_frmTradeChallenge.Remove((frmTradeChallenge)sender); };
+            registerForm(form);
 
-            _listOf_frmTradeChallenge.Add(_frmTradeChallenge);
-
-            _frmTradeChallenge.Show(this);
+            form.Show(this);
         }
 
         private void frmTradeChallengeMasterFile_Load(object sender, EventArgs e)
@@ -66,13 +87,14 @@ namespace TradingTools
             _currentTradeChallenges = new BindingList<TradeChallenge>(_master.GetTradeChallenges_Open());
             _closedTradeChallenges = new BindingList<TradeChallenge>(_master.GetTradeChallenges_Closed());
 
-            dgvCurrent.DataSource = _currentTradeChallenges;
+            dgvOpen.DataSource = _currentTradeChallenges;
             dgvClosed.DataSource = _closedTradeChallenges;
         }
 
-        private void dgvCurrent_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void dgv_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            TradeChallenge_ActivateForm((TradeChallenge)dgvCurrent.CurrentRow.DataBoundItem);
+            var dgv = (DataGridView)sender;
+            TradeChallenge_ActivateForm((TradeChallenge)dgv.CurrentRow.DataBoundItem);
         }
 
         private bool TradeChallenge_ActivateForm(TradeChallenge tradeChallenge)

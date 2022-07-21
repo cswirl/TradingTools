@@ -33,11 +33,11 @@
             this.createNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dgvClosed = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
-            this.dgvCurrent = new System.Windows.Forms.DataGridView();
+            this.dgvOpen = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClosed)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCurrent)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvOpen)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -46,7 +46,7 @@
             this.menuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(954, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(981, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -67,63 +67,80 @@
             // 
             // dgvClosed
             // 
+            this.dgvClosed.AllowUserToAddRows = false;
+            this.dgvClosed.AllowUserToDeleteRows = false;
+            this.dgvClosed.AllowUserToResizeRows = false;
             this.dgvClosed.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvClosed.Location = new System.Drawing.Point(12, 291);
+            this.dgvClosed.Location = new System.Drawing.Point(41, 289);
             this.dgvClosed.Name = "dgvClosed";
             this.dgvClosed.ReadOnly = true;
             this.dgvClosed.RowTemplate.Height = 25;
+            this.dgvClosed.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvClosed.Size = new System.Drawing.Size(680, 316);
             this.dgvClosed.TabIndex = 1;
+            this.dgvClosed.TabStop = false;
+            this.dgvClosed.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 273);
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label1.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label1.Location = new System.Drawing.Point(41, 261);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(43, 15);
+            this.label1.Size = new System.Drawing.Size(69, 25);
             this.label1.TabIndex = 2;
             this.label1.Text = "Closed";
             // 
-            // dgvCurrent
+            // dgvOpen
             // 
-            this.dgvCurrent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCurrent.Location = new System.Drawing.Point(12, 74);
-            this.dgvCurrent.Name = "dgvCurrent";
-            this.dgvCurrent.ReadOnly = true;
-            this.dgvCurrent.RowTemplate.Height = 25;
-            this.dgvCurrent.Size = new System.Drawing.Size(680, 170);
-            this.dgvCurrent.TabIndex = 1;
-            this.dgvCurrent.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCurrent_CellDoubleClick);
+            this.dgvOpen.AllowUserToAddRows = false;
+            this.dgvOpen.AllowUserToDeleteRows = false;
+            this.dgvOpen.AllowUserToResizeRows = false;
+            this.dgvOpen.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvOpen.Location = new System.Drawing.Point(41, 72);
+            this.dgvOpen.Name = "dgvOpen";
+            this.dgvOpen.ReadOnly = true;
+            this.dgvOpen.RowTemplate.Height = 25;
+            this.dgvOpen.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvOpen.Size = new System.Drawing.Size(680, 170);
+            this.dgvOpen.TabIndex = 1;
+            this.dgvOpen.TabStop = false;
+            this.dgvOpen.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 56);
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label2.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label2.Location = new System.Drawing.Point(41, 44);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(47, 15);
+            this.label2.Size = new System.Drawing.Size(58, 25);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Current";
+            this.label2.Text = "Open";
             // 
             // frmTradeChallengeMasterFile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(954, 619);
+            this.ClientSize = new System.Drawing.Size(981, 652);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.dgvCurrent);
+            this.Controls.Add(this.dgvOpen);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dgvClosed);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "frmTradeChallengeMasterFile";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Trade Challeng Master File";
             this.Load += new System.EventHandler(this.frmTradeChallengeMasterFile_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClosed)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCurrent)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvOpen)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -136,7 +153,7 @@
         private System.Windows.Forms.ToolStripMenuItem createNewToolStripMenuItem;
         private System.Windows.Forms.DataGridView dgvClosed;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView dgvCurrent;
+        private System.Windows.Forms.DataGridView dgvOpen;
         private System.Windows.Forms.Label label2;
     }
 }

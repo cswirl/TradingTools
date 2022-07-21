@@ -43,7 +43,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel_LongShortButtons = new System.Windows.Forms.TableLayoutPanel();
             this.btnOpenCalcShort_Empty = new System.Windows.Forms.Button();
             this.btnOpenCalcLong_Empty = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
@@ -52,7 +52,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.dgvProspects = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel_LongShortButtons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTradeHistory)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvActiveTrade)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProspects)).BeginInit();
@@ -63,7 +63,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label3.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label3.Location = new System.Drawing.Point(12, 121);
+            this.label3.Location = new System.Drawing.Point(42, 152);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(96, 20);
             this.label3.TabIndex = 11;
@@ -71,6 +71,7 @@
             // 
             // panel1
             // 
+            this.panel1.BackColor = System.Drawing.SystemColors.Control;
             this.panel1.Controls.Add(this.radioClosed);
             this.panel1.Controls.Add(this.radioOpen);
             this.panel1.Controls.Add(this.txtDesc);
@@ -84,7 +85,7 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(12, 12);
+            this.panel1.Location = new System.Drawing.Point(42, 24);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(803, 95);
             this.panel1.TabIndex = 13;
@@ -210,19 +211,19 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Trade Cap";
             // 
-            // tableLayoutPanel1
+            // tableLayoutPanel_LongShortButtons
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.btnOpenCalcShort_Empty, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnOpenCalcLong_Empty, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(821, 12);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(200, 66);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.tableLayoutPanel_LongShortButtons.ColumnCount = 2;
+            this.tableLayoutPanel_LongShortButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel_LongShortButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel_LongShortButtons.Controls.Add(this.btnOpenCalcShort_Empty, 0, 0);
+            this.tableLayoutPanel_LongShortButtons.Controls.Add(this.btnOpenCalcLong_Empty, 0, 0);
+            this.tableLayoutPanel_LongShortButtons.Location = new System.Drawing.Point(865, 24);
+            this.tableLayoutPanel_LongShortButtons.Name = "tableLayoutPanel_LongShortButtons";
+            this.tableLayoutPanel_LongShortButtons.RowCount = 1;
+            this.tableLayoutPanel_LongShortButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel_LongShortButtons.Size = new System.Drawing.Size(200, 66);
+            this.tableLayoutPanel_LongShortButtons.TabIndex = 0;
             // 
             // btnOpenCalcShort_Empty
             // 
@@ -256,7 +257,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label5.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label5.Location = new System.Drawing.Point(12, 509);
+            this.label5.Location = new System.Drawing.Point(42, 540);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(104, 20);
             this.label5.TabIndex = 11;
@@ -264,19 +265,29 @@
             // 
             // dgvTradeHistory
             // 
+            this.dgvTradeHistory.AllowUserToAddRows = false;
+            this.dgvTradeHistory.AllowUserToDeleteRows = false;
+            this.dgvTradeHistory.AllowUserToResizeRows = false;
             this.dgvTradeHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvTradeHistory.Location = new System.Drawing.Point(12, 538);
+            this.dgvTradeHistory.Location = new System.Drawing.Point(42, 569);
             this.dgvTradeHistory.Name = "dgvTradeHistory";
+            this.dgvTradeHistory.ReadOnly = true;
             this.dgvTradeHistory.RowTemplate.Height = 25;
+            this.dgvTradeHistory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvTradeHistory.Size = new System.Drawing.Size(803, 241);
             this.dgvTradeHistory.TabIndex = 14;
             // 
             // dgvActiveTrade
             // 
+            this.dgvActiveTrade.AllowUserToAddRows = false;
+            this.dgvActiveTrade.AllowUserToDeleteRows = false;
+            this.dgvActiveTrade.AllowUserToResizeRows = false;
             this.dgvActiveTrade.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvActiveTrade.Location = new System.Drawing.Point(12, 150);
+            this.dgvActiveTrade.Location = new System.Drawing.Point(42, 181);
             this.dgvActiveTrade.Name = "dgvActiveTrade";
+            this.dgvActiveTrade.ReadOnly = true;
             this.dgvActiveTrade.RowTemplate.Height = 25;
+            this.dgvActiveTrade.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvActiveTrade.Size = new System.Drawing.Size(803, 119);
             this.dgvActiveTrade.TabIndex = 15;
             // 
@@ -285,7 +296,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label6.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label6.Location = new System.Drawing.Point(12, 301);
+            this.label6.Location = new System.Drawing.Point(42, 332);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(77, 20);
             this.label6.TabIndex = 11;
@@ -293,10 +304,15 @@
             // 
             // dgvProspects
             // 
+            this.dgvProspects.AllowUserToAddRows = false;
+            this.dgvProspects.AllowUserToDeleteRows = false;
+            this.dgvProspects.AllowUserToResizeRows = false;
             this.dgvProspects.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvProspects.Location = new System.Drawing.Point(12, 330);
+            this.dgvProspects.Location = new System.Drawing.Point(42, 361);
             this.dgvProspects.Name = "dgvProspects";
+            this.dgvProspects.ReadOnly = true;
             this.dgvProspects.RowTemplate.Height = 25;
+            this.dgvProspects.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvProspects.Size = new System.Drawing.Size(803, 150);
             this.dgvProspects.TabIndex = 14;
             // 
@@ -304,22 +320,25 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1033, 796);
+            this.BackColor = System.Drawing.SystemColors.Window;
+            this.ClientSize = new System.Drawing.Size(1105, 866);
             this.Controls.Add(this.dgvActiveTrade);
             this.Controls.Add(this.dgvProspects);
             this.Controls.Add(this.dgvTradeHistory);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.tableLayoutPanel_LongShortButtons);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.Name = "frmTradeChallenge";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Trade Challenge";
             this.Load += new System.EventHandler(this.frmTradeChallenge_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel_LongShortButtons.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTradeHistory)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvActiveTrade)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProspects)).EndInit();
@@ -332,7 +351,7 @@
 
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_LongShortButtons;
         private System.Windows.Forms.Button btnOpenCalcLong_Empty;
         private System.Windows.Forms.Button btnOpenCalcShort_Empty;
         private System.Windows.Forms.TextBox txtTitle;

@@ -14,12 +14,20 @@ namespace TradingTools
 {
     public partial class frmTradeChallenge : Form
     {
+        // delegates
+        public delegate void Save(TradeChallenge tc);
+        public Save TradeChallenge_Updated;
+        public delegate void Completed(TradeChallenge tc);
+        public Completed TradeChallenge_Closed;
+
         private BindingList<Trade> _activeTrades;
         private BindingList<Trade> _tradeHistory;
         private BindingList<CalculatorState> _prospects;
-        //private master Master { get { return (master)this.Owner; } }
+        
         public TradeChallenge TradeChallenge { get; set; }
         public master Master { get; set; }
+
+        public Status State { get; set; } = Status.Open;
 
         public frmTradeChallenge()
         {
@@ -48,10 +56,10 @@ namespace TradingTools
 
         private void Trade_Officialized(Trade t)
         {
-            //if (_activeTrade.Count > 0) return;
-            _activeTrades.Add(t);
-
             // add to TradeThread
+
+
+            _activeTrades.Add(t);
         }
 
         private void Trade_Closed(Trade t)
@@ -73,10 +81,9 @@ namespace TradingTools
             txtId.Text = TradeChallenge.Id.ToString();
             txtCap.Text = TradeChallenge.TradeCap.ToString();
             txtDesc.Text = TradeChallenge.Description;
-            if (TradeChallenge.IsOpen) radioOpen.Checked = true; 
-            else radioClosed.Checked = true;
-
             txtTitle.Text = TradeChallenge.Title;
+
+            changeState(this.TradeChallenge.IsOpen ? Status.Open : Status.Closed);
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -88,6 +95,7 @@ namespace TradingTools
             if (Master.TradeChallenge_Update(this.TradeChallenge))
             {
                 MyMessageBox.Inform("Changes were saved");
+                TradeChallenge_Updated?.Invoke(this.TradeChallenge);
             }
         }
 
@@ -104,25 +112,49 @@ namespace TradingTools
 
         private void btnCompleted_Click(object sender, EventArgs e)
         {
-            if (_tradeHistory.Count < TradeChallenge.TradeCap)
+            var premature = (_tradeHistory.Count < TradeChallenge.TradeCap) ? "Pre-Maturely" : "";
+            DialogResult objDialog = MyMessageBox.Question_YesNo(
+                     $"Are you sure to terminate Trade Challenge {premature} ?",
+                     "Terminating Trade Challenge");
+            if (objDialog == DialogResult.Yes)
             {
-                DialogResult objDialog = MyMessageBox.Question_YesNo(
-                    "Are you sure to terminate Trade Challenge pre-maturely ?",
-                    "Terminating Trade Challenge");
-                if (objDialog == DialogResult.Yes)
+                TradeChallenge.IsOpen = false;
+                if (Master.TradeChallenge_Update(this.TradeChallenge))
                 {
-                    TradeChallenge.IsOpen = false;
-                    if (Master.TradeChallenge_Update(this.TradeChallenge))
-                    {
-                        MyMessageBox.Inform($"Trade Challenge: {TradeChallenge.Id} was closed");
-                        radioClosed.Checked = true;
-                    }
-                    else
-                    {
-                        MyMessageBox.Error($"Fail terminating the Trade Challenge: {TradeChallenge.Id}");
-                    }
+                    MyMessageBox.Inform($"Trade Challenge: {TradeChallenge.Id} was closed");
+                    TradeChallenge_Closed?.Invoke(this.TradeChallenge);
+                    changeState(Status.Closed);
+                }
+                else
+                {
+                    MyMessageBox.Error($"Fail terminating the Trade Challenge: {TradeChallenge.Id}");
                 }
             }
         }
+
+        private void changeState(Status s)
+        {
+            switch (s)
+            {
+                case Status.Open:
+                    radioOpen.Checked = true;
+                    break;
+
+                case Status.Closed:
+                    radioClosed.Checked = true;
+                    btnCompleted.Visible = false;
+                    tableLayoutPanel_LongShortButtons.Visible = false;
+                    txtCap.ReadOnly = true;
+                    break;
+            }  
+        }
+
+        public enum Status
+        {
+            Open,
+            Closed
+        }
     }
+
+    
 }
