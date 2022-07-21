@@ -19,8 +19,8 @@ namespace TradingTools.DAL
 
         public BindingList<CalculatorState> RetrieveBindingList()
         {
-            Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.Load(_dbContext.CalculatorStates);
-            return _dbContext.CalculatorStates.Local.ToBindingList();
+            Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.Load(_dbContext.CalculatorState);
+            return _dbContext.CalculatorState.Local.ToBindingList();
         }
 
         public void SaveChanges()
@@ -31,19 +31,19 @@ namespace TradingTools.DAL
         public void Add(CalculatorState calculatorState)
         {
             // Use ApplicationDbContext here
-            _dbContext.CalculatorStates.Add(calculatorState);
+            _dbContext.CalculatorState.Add(calculatorState);
             _dbContext.SaveChanges();
         }
 
         public void Update(CalculatorState calculatorState)
         {
-            _dbContext.CalculatorStates.Update(calculatorState);
+            _dbContext.CalculatorState.Update(calculatorState);
             _dbContext.SaveChanges();
         }
 
         public void Delete(CalculatorState calculatorState)
         {
-            _dbContext.CalculatorStates.Remove(calculatorState);
+            _dbContext.CalculatorState.Remove(calculatorState);
             _dbContext.SaveChanges();
         }
     }

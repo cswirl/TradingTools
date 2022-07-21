@@ -217,7 +217,7 @@ namespace TradingTools
 
         public BindingList<CalculatorState> GetCalculatorStates_Unofficial_BindingList()
         {
-            _calculatorStates_unofficial_bindingList = new BindingList<CalculatorState>(DbContext.CalculatorStates
+            _calculatorStates_unofficial_bindingList = new BindingList<CalculatorState>(DbContext.CalculatorState
                 .Where(x => x.TradeId == null)
                 .ToList());
 
@@ -228,7 +228,7 @@ namespace TradingTools
         // Return True if no error
         public bool CalculatorState_Add(CalculatorState calculatorState)
         {
-            DbContext.CalculatorStates.Add(calculatorState);    // order matters here
+            DbContext.CalculatorState.Add(calculatorState);    // order matters here
             DbContext.SaveChanges();
             _calculatorStates_unofficial_bindingList.Add(calculatorState);
 
@@ -246,7 +246,7 @@ namespace TradingTools
 
         public bool CalculatorState_Delete(CalculatorState calculatorState)
         {
-            DbContext.CalculatorStates.Remove(calculatorState);
+            DbContext.CalculatorState.Remove(calculatorState);
             DbContext.SaveChanges();
             _calculatorStates_unofficial_bindingList.Remove(calculatorState);
 
@@ -255,20 +255,20 @@ namespace TradingTools
 
         public BindingList<Trade> GetTrades_All()
         {
-            return new BindingList<Trade>(DbContext.Trades
+            return new BindingList<Trade>(DbContext.Trade
                 .Include(x => x.CalculatorState).ToList());
         }
 
         public BindingList<Trade> GetTrades_Closed()
         {
-            return new BindingList<Trade>(DbContext.Trades
+            return new BindingList<Trade>(DbContext.Trade
                 .Where(x => x.Status.Equals("closed"))
                 .Include(x => x.CalculatorState).ToList());
         }
 
         public BindingList<Trade> GetTrades_Open()
         {
-            return new BindingList<Trade>(DbContext.Trades
+            return new BindingList<Trade>(DbContext.Trade
                 .Where(x => x.Status.Equals("open"))
                 .Include(x => x.CalculatorState).ToList());
         }
@@ -276,7 +276,7 @@ namespace TradingTools
 
         internal bool Trade_Add(Trade t)
         {
-            DbContext.Trades.Add(t);
+            DbContext.Trade.Add(t);
             DbContext.SaveChanges();
             tradeOfficialized?.Invoke(t);
 
@@ -293,8 +293,8 @@ namespace TradingTools
 
         internal bool Trade_Delete(Trade t)
         {
-            DbContext.Trades.Remove(t);
-            DbContext.CalculatorStates.Remove(t.CalculatorState);
+            DbContext.Trade.Remove(t);
+            DbContext.CalculatorState.Remove(t.CalculatorState);
             DbContext.SaveChanges();
             tradeDeleted?.Invoke(t);
 
@@ -315,7 +315,7 @@ namespace TradingTools
         /// 
         public bool TradeChallenge_Create(TradeChallenge tc)
         {
-            DbContext.TradeChallenges.Add(tc);
+            DbContext.TradeChallenge.Add(tc);
             DbContext.SaveChanges();
 
             return true;
@@ -323,7 +323,7 @@ namespace TradingTools
 
         public bool TradeChallenge_Update(TradeChallenge tc)
         {
-            DbContext.TradeChallenges.Update(tc);
+            DbContext.TradeChallenge.Update(tc);
             DbContext.SaveChanges();
 
             return true;
@@ -331,17 +331,17 @@ namespace TradingTools
 
         public List<TradeChallenge> GetTradeChallenges_Open()
         {
-            return DbContext.TradeChallenges.ToList();
+            return DbContext.TradeChallenge.ToList();
                 
         }
         public List<TradeChallenge> GetTradeChallenges_Closed()
         {
-            return DbContext.TradeChallenges.Where(x => !x.IsOpen).ToList();
+            return DbContext.TradeChallenge.Where(x => !x.IsOpen).ToList();
 
         }
         public List<Trade> GetTradeChallenges_ActiveTrade(int tradeChallengeId)
         {
-            return DbContext.Trades
+            return DbContext.Trade
                 .Where(x => x.Status.Equals("open"))
                 .Include(x => x.TradeThreadTail).ThenInclude(tr => tr.TradeChallenge).Where(tc => tc.Id == tradeChallengeId)
                 .Include(x => x.TradeThreadHead).ThenInclude(tr => tr.TradeChallenge).Where(tc => tc.Id == tradeChallengeId)
@@ -350,7 +350,7 @@ namespace TradingTools
 
         public List<Trade> GetTradeChallenges_TradeHistory(int tradeChallengeId)
         {
-            return DbContext.Trades
+            return DbContext.Trade
                 .Where(x => x.Status.Equals("closed"))
                 .Include(x => x.TradeThreadTail).ThenInclude(tr => tr.TradeChallenge).Where(tc => tc.Id == tradeChallengeId)
                 .Include(x => x.TradeThreadHead).ThenInclude(tr => tr.TradeChallenge).Where(tc => tc.Id == tradeChallengeId)

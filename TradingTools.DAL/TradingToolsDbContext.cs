@@ -26,7 +26,7 @@ namespace TradingTools.DAL
 
             /// Explicit Entities Relationship Declaration
             /// 
-            /// Trade and TradeThread relationship is a little complex than normal - please see the documentation diagram
+            /// Trade and TradeThread relationship is a little special than normal - please see the documentation diagram
             /// - A TradeThread record has 2 distinct Trade Record (Head and Tail)
             /// - A Trade record belongs to 1-or-2 Trade Thread records where it is either a head or a tail
             modelBuilder.Entity<Trade>()
@@ -54,9 +54,9 @@ namespace TradingTools.DAL
             }
         }
 
-        public DbSet<Trade> Trades { get; set; }
-        public DbSet<CalculatorState> CalculatorStates { get; set; }
-        public DbSet<TradeChallenge> TradeChallenges { get; set; }
-        public DbSet<TradeThread> TradeThreads { get; set; }
+        public DbSet<Trade> Trade { get; set; }
+        public DbSet<CalculatorState> CalculatorState { get; set; }
+        public DbSet<TradeChallenge> TradeChallenge { get; set; }
+        public DbSet<TradeThread> TradeThread { get; set; }
     }
 }
