@@ -339,7 +339,20 @@ namespace TradingTools
             return DbContext.TradeChallenge.Where(x => !x.IsOpen).ToList();
 
         }
-        public List<Trade> GetTradeChallenges_ActiveTrade(int tradeChallengeId)
+
+        /// <summary>
+        ///  Trade Thread
+        /// </summary>
+        /// 
+        public bool TradeThread_Create(TradeThread tr)
+        {
+            DbContext.TradeThread.Add(tr);
+            DbContext.SaveChanges();
+
+            return true;
+        }
+
+        public List<Trade> TradeThread_GetActiveTrade(int tradeChallengeId)
         {
             //var x = DbContext.Trade
             //    .Where(x => x.Status.Equals("open"))
@@ -354,7 +367,7 @@ namespace TradingTools
                 .ToList();
         }
 
-        public List<Trade> GetTradeChallenges_TradeHistory(int tradeChallengeId)
+        public List<Trade> TradeThread_GetTradeHistory(int tradeChallengeId)
         {
             //var a = DbContext.Trade
             //    .Include(x => x.TradeThreadHead).Where(t => t.TradeThreadHead.TradeChallengeId == tradeChallengeId)
@@ -364,6 +377,16 @@ namespace TradingTools
 
             return DbContext.TradeThread
                 .Include(x => x.Trade_head).Where(x => x.Trade_head.Status.Equals("closed"))
+                .Where(x => x.TradeChallengeId == tradeChallengeId)
+                .Select(tr => tr.Trade_head)
+                .ToList();
+        }
+
+        // may be deleted
+        public List<Trade> TradeThread_GetTail(int tradeChallengeId)
+        {
+            return DbContext.TradeThread
+                .Include(x => x.Trade_head)
                 .Where(x => x.TradeChallengeId == tradeChallengeId)
                 .Select(tr => tr.Trade_head)
                 .ToList();

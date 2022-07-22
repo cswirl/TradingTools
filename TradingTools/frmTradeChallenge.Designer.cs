@@ -237,6 +237,7 @@
             this.btnOpenCalcShort_Empty.TabIndex = 8;
             this.btnOpenCalcShort_Empty.Text = "NEW SHORT";
             this.btnOpenCalcShort_Empty.UseVisualStyleBackColor = false;
+            this.btnOpenCalcShort_Empty.Click += new System.EventHandler(this.btnOpenCalcShort_Empty_Click);
             // 
             // btnOpenCalcLong_Empty
             // 

@@ -36,6 +36,12 @@ namespace TradingTools
 
         private void btnOpenCalcLong_Empty_Click(object sender, EventArgs e)
         {
+            if (_activeTrades.Count > 0)
+            {
+                MyMessageBox.Inform("The Active Trade must be closed");
+                return;
+            }
+
             var rrc = Master.FormRRC_Long_Empty_Spawn();
             //delegates
             rrc.CalculatorState_Added += this.CalculatorState_Added;
@@ -57,9 +63,17 @@ namespace TradingTools
         private void Trade_Officialized(Trade t)
         {
             // add to TradeThread
+            var tr = new TradeThread
+            {
+                TradeChallengeId = this.TradeChallenge.Id,
+                TradeId_head = t.Id,
+                TradeId_tail = _tradeHistory.Count < 1 ? null : _tradeHistory.Last().Id
+            };
 
-
-            _activeTrades.Add(t);
+            if (Master.TradeThread_Create(tr))
+            {
+                _activeTrades.Add(t);
+            }
         }
 
         private void Trade_Closed(Trade t)
@@ -70,8 +84,8 @@ namespace TradingTools
 
         private void frmTradeChallenge_Load(object sender, EventArgs e)
         {
-            _activeTrades = new BindingList<Trade>(Master.GetTradeChallenges_ActiveTrade(TradeChallenge.Id));
-            _tradeHistory = new BindingList<Trade>(Master.GetTradeChallenges_TradeHistory(TradeChallenge.Id));
+            _activeTrades = new BindingList<Trade>(Master.TradeThread_GetActiveTrade(TradeChallenge.Id));
+            _tradeHistory = new BindingList<Trade>(Master.TradeThread_GetTradeHistory(TradeChallenge.Id));
 
             dgvActiveTrade.DataSource = _activeTrades;
             //dgvProspects.DataSource = _prospects;
@@ -153,6 +167,15 @@ namespace TradingTools
         {
             Open,
             Closed
+        }
+
+        private void btnOpenCalcShort_Empty_Click(object sender, EventArgs e)
+        {
+            if (_activeTrades.Count > 0)
+            {
+                MyMessageBox.Inform("The Active Trade must be closed");
+                return;
+            }
         }
     }
 
