@@ -18,7 +18,7 @@ namespace TradingTools
         public delegate bool CalculatorState_OnRequest(CalculatorState c);
         public CalculatorState_OnRequest CalculatorState_Loaded_OnRequest;
 
-        public delegate bool Trade_OnRequest(Trade t);
+        public delegate frmRiskRewardCalc Trade_OnRequest(Trade t);
         public Trade_OnRequest Trade_TradeOpen_OnRequest;
 
         //public event EventHandler FormRRC_Long_Empty_Open;

@@ -21,7 +21,7 @@ namespace TradingTools
         private StatusFilter _statusFilter;
         private BindingList<Trade> _trade_bindingList;
 
-        public delegate bool Trade_OnRequest(Trade t);
+        public delegate frmRiskRewardCalc Trade_OnRequest(Trade t);
         public Trade_OnRequest Trade_TradeOpen_OnRequest;
         private TradingStyle tradeStyle;
 

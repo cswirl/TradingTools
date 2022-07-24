@@ -146,7 +146,7 @@ namespace TradingTools
             if (this.OwnedForms.Length == 1) Application.Exit();
         }
 
-        private bool FormRRC_Trade_Spawn(Trade t)
+        public frmRiskRewardCalc FormRRC_Trade_Spawn(Trade t)
         {
             // TODO: the EF core list is being renew whenever a Trade or CalculatorState is Updated fron the 
             // - maybe use id or something, maybe hash
@@ -155,6 +155,7 @@ namespace TradingTools
             if (rrc != null)
             {
                 activateRiskRewardCalcForm(rrc);
+                return rrc;
             }
             else
             {
@@ -166,9 +167,9 @@ namespace TradingTools
 
                 registerNewRiskRewardCalcForm(form);
                 form.Show();
-            }
 
-            return true;
+                return form;
+            }
         }
 
         private bool FormRRC_Loaded_Spawn(CalculatorState c)
@@ -361,8 +362,8 @@ namespace TradingTools
             //    .ToList();
 
             return DbContext.TradeThread
-                .Include(x => x.Trade_head).Where(x => x.Trade_head.Status.Equals("open"))
-                .Where(x => x.TradeChallengeId == tradeChallengeId)
+                .Include(tr => tr.Trade_head).ThenInclude(t => t.CalculatorState).Where(tr => tr.Trade_head.Status.Equals("open"))
+                .Where(tr => tr.TradeChallengeId == tradeChallengeId)
                 .Select(tr => tr.Trade_head)
                 .ToList();
         }
@@ -376,18 +377,8 @@ namespace TradingTools
             //    .ToList();
 
             return DbContext.TradeThread
-                .Include(x => x.Trade_head).Where(x => x.Trade_head.Status.Equals("closed"))
-                .Where(x => x.TradeChallengeId == tradeChallengeId)
-                .Select(tr => tr.Trade_head)
-                .ToList();
-        }
-
-        // may be deleted
-        public List<Trade> TradeThread_GetTail(int tradeChallengeId)
-        {
-            return DbContext.TradeThread
-                .Include(x => x.Trade_head)
-                .Where(x => x.TradeChallengeId == tradeChallengeId)
+                .Include(tr => tr.Trade_head).ThenInclude(t => t.CalculatorState).Where(tr => tr.Trade_head.Status.Equals("closed"))
+                .Where(tr => tr.TradeChallengeId == tradeChallengeId)
                 .Select(tr => tr.Trade_head)
                 .ToList();
         }

@@ -49,6 +49,15 @@ namespace TradingTools
             registerFormRRC(rrc);
         }
 
+        private void dgvTrades_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var dgv = (DataGridView)sender;
+            var trade = (Trade)dgv.CurrentRow.DataBoundItem;
+            if (trade == null) return;
+            var rrc = Master.FormRRC_Trade_Spawn(trade);
+            registerFormRRC(rrc);
+        }
+
         // register delegates
         internal void registerFormRRC(frmRiskRewardCalc rrc)
         {

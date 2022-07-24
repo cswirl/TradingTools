@@ -277,6 +277,7 @@
             this.dgvTradeHistory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvTradeHistory.Size = new System.Drawing.Size(803, 241);
             this.dgvTradeHistory.TabIndex = 14;
+            this.dgvTradeHistory.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTrades_CellDoubleClick);
             // 
             // dgvActiveTrade
             // 
@@ -291,6 +292,7 @@
             this.dgvActiveTrade.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvActiveTrade.Size = new System.Drawing.Size(803, 119);
             this.dgvActiveTrade.TabIndex = 15;
+            this.dgvActiveTrade.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTrades_CellDoubleClick);
             // 
             // label6
             // 
