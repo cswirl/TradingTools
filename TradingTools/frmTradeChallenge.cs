@@ -23,7 +23,7 @@ namespace TradingTools
         private BindingList<Trade> _activeTrades;
         private BindingList<Trade> _tradeHistory;
         private BindingList<CalculatorState> _prospects;
-        
+
         public TradeChallenge TradeChallenge { get; set; }
         public master Master { get; set; }
 
@@ -36,18 +36,37 @@ namespace TradingTools
 
         private void btnOpenCalcLong_Empty_Click(object sender, EventArgs e)
         {
-            if (_activeTrades.Count > 0)
-            {
-                MyMessageBox.Inform("The Active Trade must be closed");
-                return;
-            }
+            if (activeTradeExisting()) return;
 
             var rrc = Master.FormRRC_Long_Empty_Spawn();
+            registerFormRRC(rrc);   
+        }
+
+        private void btnOpenCalcShort_Empty_Click(object sender, EventArgs e)
+        {
+            if (activeTradeExisting()) return;
+            var rrc = Master.FormRRC_Short_Empty_Spawn();
+            registerFormRRC(rrc);
+        }
+
+        // register delegates
+        internal void registerFormRRC(frmRiskRewardCalc rrc)
+        {
             //delegates
             rrc.CalculatorState_Added += this.CalculatorState_Added;
             rrc.CalculatorState_Deleted += this.CalculatorState_Deleted;
             rrc.Trade_Officialized += this.Trade_Officialized;
-            rrc.Trade_Closed += this.Trade_Closed; 
+            rrc.Trade_Closed += this.Trade_Closed;
+        }
+
+        internal bool activeTradeExisting()
+        {
+            if (_activeTrades.Count > 0)
+            {
+                MyMessageBox.Inform("Trade Challenge allows one active trade at a time");
+                return true;
+            }
+            return false;
         }
 
         private void CalculatorState_Added(CalculatorState c)
@@ -169,14 +188,6 @@ namespace TradingTools
             Closed
         }
 
-        private void btnOpenCalcShort_Empty_Click(object sender, EventArgs e)
-        {
-            if (_activeTrades.Count > 0)
-            {
-                MyMessageBox.Inform("The Active Trade must be closed");
-                return;
-            }
-        }
     }
 
     
