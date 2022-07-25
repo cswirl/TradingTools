@@ -464,7 +464,7 @@ namespace TradingTools
             if (State == RiskRewardCalcState.TradeOpen) return;
             if (State == RiskRewardCalcState.TradeClosed) return;
 
-            DialogResult objDialog = MyMessageBox.Question_YesNo("Are you sure you want to DELETE this State", "Delete");
+            DialogResult objDialog = MyMessageBox.Question_YesNo("This action is not reversible\n\n Confirm DELETE?", "Delete");
             if (objDialog == DialogResult.Yes)
             {
                 // Remove from the Owner's List

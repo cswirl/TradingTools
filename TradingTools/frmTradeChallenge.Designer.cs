@@ -318,6 +318,7 @@
             this.dgvProspects.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvProspects.Size = new System.Drawing.Size(803, 150);
             this.dgvProspects.TabIndex = 14;
+            this.dgvProspects.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProspects_CellDoubleClick);
             // 
             // frmTradeChallenge
             // 

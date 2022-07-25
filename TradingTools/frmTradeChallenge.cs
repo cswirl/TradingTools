@@ -36,15 +36,12 @@ namespace TradingTools
 
         private void btnOpenCalcLong_Empty_Click(object sender, EventArgs e)
         {
-            if (activeTradeExisting()) return;
-
             var rrc = Master.FormRRC_Long_Empty_Spawn();
             registerFormRRC(rrc);   
         }
 
         private void btnOpenCalcShort_Empty_Click(object sender, EventArgs e)
         {
-            if (activeTradeExisting()) return;
             var rrc = Master.FormRRC_Short_Empty_Spawn();
             registerFormRRC(rrc);
         }
@@ -58,12 +55,23 @@ namespace TradingTools
             registerFormRRC(rrc);
         }
 
+        private void dgvProspects_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var dgv = (DataGridView)sender;
+            var c = (CalculatorState)dgv.CurrentRow.DataBoundItem;
+            if (c == null) return;
+            var rrc = Master.FormRRC_Loaded_Spawn(c);
+            registerFormRRC(rrc);
+        }
+
         // register delegates
         internal void registerFormRRC(frmRiskRewardCalc rrc)
         {
             //delegates
             rrc.CalculatorState_Added += this.CalculatorState_Added;
+            rrc.CalculatorState_Updated += this.CalculatorState_Updated;
             rrc.CalculatorState_Deleted += this.CalculatorState_Deleted;
+            //rrc.Trade_Officializing_Cancelled += this.Trade_Officializing_Cancelled;
             rrc.Trade_Officialized += this.Trade_Officialized;
             rrc.Trade_Closed += this.Trade_Closed;
         }
@@ -80,13 +88,31 @@ namespace TradingTools
 
         private void CalculatorState_Added(CalculatorState c)
         {
-            _prospects.Add(c);
+            var tcp = new TradeChallengeProspect { TradeChallenge = this.TradeChallenge, CalculatorState = c};
+            // Create record to database
+            if (Master.TradeChallengeProspect_Create(tcp)) _prospects.Add(c);
         }
+
+        private void CalculatorState_Updated(CalculatorState c) => dgvProspects.Invalidate();
 
         private void CalculatorState_Deleted(CalculatorState c)
         {
+            // will rely on Foreign Key referential integrity OnDelete->Cascade
             _prospects.Remove(c);
         }
+
+        // Moved to master DelegateHandlers
+        //private bool Trade_Officializing_Cancelled(out string msg)
+        //{
+        //    msg = "";
+        //    if (_activeTrades.Count > 0)
+        //    {
+        //        msg = $"This Risk/Reward Calculator belongs to Trade Challenge: {TradeChallenge.Id}" +
+        //            $"\n\nYou must first closed its Active Trade with Id: {_activeTrades.First().Id}" ;
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
         private void Trade_Officialized(Trade t)
         {
@@ -95,14 +121,16 @@ namespace TradingTools
             {
                 TradeChallengeId = this.TradeChallenge.Id,
                 TradeId_head = t.Id,
-                TradeId_tail = _tradeHistory.Count < 1 ? null : _tradeHistory.Last().Id
-            };
+                TradeId_tail = _tradeHistory.Count < 1 ? null : getTail_Id()
+        };
 
             if (Master.TradeThread_Create(tr))
             {
                 _activeTrades.Add(t);
+                _prospects.Remove(t.CalculatorState);
             }
         }
+        private int getTail_Id() => _tradeHistory.Last().Id;
 
         private void Trade_Closed(Trade t)
         {
@@ -114,9 +142,10 @@ namespace TradingTools
         {
             _activeTrades = new BindingList<Trade>(Master.TradeThread_GetActiveTrade(TradeChallenge.Id));
             _tradeHistory = new BindingList<Trade>(Master.TradeThread_GetTradeHistory(TradeChallenge.Id));
+            _prospects = new BindingList<CalculatorState>(Master.TradeChallengeProspect_GetAll(TradeChallenge.Id));
 
             dgvActiveTrade.DataSource = _activeTrades;
-            //dgvProspects.DataSource = _prospects;
+            dgvProspects.DataSource = _prospects;
             dgvTradeHistory.DataSource = _tradeHistory;
 
             // Load Trade Challenge Object

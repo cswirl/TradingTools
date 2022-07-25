@@ -15,7 +15,7 @@ namespace TradingTools
     public partial class frmCalculatorStates : Form
     {
         //delegates
-        public delegate bool CalculatorState_OnRequest(CalculatorState c);
+        public delegate frmRiskRewardCalc CalculatorState_OnRequest(CalculatorState c);
         public CalculatorState_OnRequest CalculatorState_Loaded_OnRequest;
 
         public delegate frmRiskRewardCalc Trade_OnRequest(Trade t);

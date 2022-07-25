@@ -172,12 +172,13 @@ namespace TradingTools
             }
         }
 
-        private bool FormRRC_Loaded_Spawn(CalculatorState c)
+        private frmRiskRewardCalc FormRRC_Loaded_Spawn(CalculatorState c)
         {
             var rrc = _listOf_frmRiskRewardCalc.Find(x => x.CalculatorState?.Equals(c) ?? false);
             if (rrc != null)
             {
                 activateRiskRewardCalcForm (rrc);
+                return rrc;
             }
             else
             {
@@ -188,9 +189,9 @@ namespace TradingTools
 
                 registerNewRiskRewardCalcForm(form);
                 form.Show();
-            }
 
-            return true;
+                return form;
+            }
         }
 
         public frmRiskRewardCalc FormRRC_Long_Empty_Spawn()
@@ -380,6 +381,26 @@ namespace TradingTools
                 .Include(tr => tr.Trade_head).ThenInclude(t => t.CalculatorState).Where(tr => tr.Trade_head.Status.Equals("closed"))
                 .Where(tr => tr.TradeChallengeId == tradeChallengeId)
                 .Select(tr => tr.Trade_head)
+                .ToList();
+        }
+
+        /// <summary>
+        ///  Trade Challenge Prospect
+        /// </summary>
+        /// 
+        public bool TradeChallengeProspect_Create(TradeChallengeProspect tcp)
+        {
+            DbContext.TradeChallengeProspect.Add(tcp);
+            DbContext.SaveChanges();
+            return true;
+        }
+
+        public List<CalculatorState> TradeChallengeProspect_GetAll(int tradeChallengeId)
+        {
+            return DbContext.TradeChallengeProspect
+                .Include(tcp => tcp.CalculatorState)
+                .Where(tcp => tcp.TradeChallengeId == tradeChallengeId)
+                .Select(tcp => tcp.CalculatorState)
                 .ToList();
         }
 
