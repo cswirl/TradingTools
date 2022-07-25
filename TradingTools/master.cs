@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TradingTools.DAL;
+using TradingTools.Helpers;
 //using TradingTools.DAL.Migrations;
 using TradingTools.Services;
 using TradingTools.Services.Interface;
@@ -30,6 +31,7 @@ namespace TradingTools
         public frmTradeMasterFile _frmTradeMasterFile { get; set; }
         public frmTradeChallengeMasterFile _frmTradeChallengeMasterFile { get; set; }
         public TradeService TradeService { get; private set; }
+        public DelegateHandlers DelegateHandlers { get; set; }
 
         public master()
         {
@@ -43,6 +45,7 @@ namespace TradingTools
             // Initialize Components
             InitializeDbContext();
             _listOf_frmRiskRewardCalc = new();
+            this.DelegateHandlers = new(this);
 
 
             // gateway form
@@ -127,9 +130,10 @@ namespace TradingTools
             //Delegates assignment here
             form.Owner = this;
             form.FormClosed += this.FormRRC_FormClosed;
+            form.Trade_Officializing_Cancelled += this.DelegateHandlers.Trade_Officializing_Cancelled;
             this.tradeDeleted += form.MarkAsDeleted;
             this.tradeUpdated += form.Trade_Updated_Handler;
-
+            
             _listOf_frmRiskRewardCalc.Add(form);
         }
 
@@ -172,7 +176,7 @@ namespace TradingTools
             }
         }
 
-        private frmRiskRewardCalc FormRRC_Loaded_Spawn(CalculatorState c)
+        public frmRiskRewardCalc FormRRC_Loaded_Spawn(CalculatorState c)
         {
             var rrc = _listOf_frmRiskRewardCalc.Find(x => x.CalculatorState?.Equals(c) ?? false);
             if (rrc != null)
@@ -381,6 +385,7 @@ namespace TradingTools
                 .Include(tr => tr.Trade_head).ThenInclude(t => t.CalculatorState).Where(tr => tr.Trade_head.Status.Equals("closed"))
                 .Where(tr => tr.TradeChallengeId == tradeChallengeId)
                 .Select(tr => tr.Trade_head)
+                .OrderBy(t => t.DateExit)
                 .ToList();
         }
 
@@ -399,9 +404,23 @@ namespace TradingTools
         {
             return DbContext.TradeChallengeProspect
                 .Include(tcp => tcp.CalculatorState)
-                .Where(tcp => tcp.TradeChallengeId == tradeChallengeId)
+                .Where(tcp => tcp.TradeChallengeId == tradeChallengeId 
+                && tcp.CalculatorState.TradeId == default || tcp.CalculatorState.TradeId < 1)
                 .Select(tcp => tcp.CalculatorState)
                 .ToList();
+        }
+
+        public int TradeChallengeProspect_GetTradeChallengeId(int calculatorStateId)
+        {
+            var p = DbContext.TradeChallengeProspect
+                .Include(tcp => tcp.CalculatorState)
+                .Where(tcp => tcp.CalculatorStateId == calculatorStateId)
+                .FirstOrDefault();
+   
+            if (p != default) 
+                return p.TradeChallengeId;
+
+            return 0;
         }
 
         #region UNUSED

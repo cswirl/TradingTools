@@ -32,6 +32,8 @@ namespace TradingTools
         //
         public delegate void Trade_Create(Trade t);
         public Trade_Create Trade_Officialized;
+        public delegate bool Trade_Creating(CalculatorState c, out string msg);
+        public Trade_Creating Trade_Officializing_Cancelled;
         public delegate void Trade_Updated(Trade t);
         public Trade_Updated Trade_Closed;
 
@@ -526,6 +528,14 @@ namespace TradingTools
         private void btnOfficializedTrade_Click(object sender, EventArgs e)
         {
             if (State == RiskRewardCalcState.Deleted) return;
+
+            // delegate cancel
+            string msg;
+            if (Trade_Officializing_Cancelled?.Invoke(this.CalculatorState, out msg) ?? false)
+            {
+                MyMessageBox.Error(msg, "Officializing a Trade Denied");
+                return;
+            }
 
             if (State == RiskRewardCalcState.Empty | State == RiskRewardCalcState.Loaded)
             {
