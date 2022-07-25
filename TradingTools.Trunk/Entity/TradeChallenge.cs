@@ -29,6 +29,7 @@ namespace TradingTools.Trunk.Entity
 
         // Navigation Properties
         public virtual ICollection<TradeThread> TradeThreads { get; set; }
+        public virtual ICollection<TradeChallengeProspect> TradeChallengeProspects { get; set; }
 
     }
 }

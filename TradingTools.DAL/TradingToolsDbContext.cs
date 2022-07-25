@@ -41,6 +41,21 @@ namespace TradingTools.DAL
                 .HasForeignKey<TradeThread>(tread => tread.TradeId_tail)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            /// TradeChallengeProspect Entity Relationship
+            /// Explicitly declared to cascade on delete
+            modelBuilder.Entity<TradeChallenge>()
+                .HasMany(tc => tc.TradeChallengeProspects)
+                .WithOne(tcp => tcp.TradeChallenge)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CalculatorState>()
+                .HasOne(tc => tc.TradeChallengeProspect)
+                .WithOne(tcp => tcp.CalculatorState)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+
             /// Decimal Place Setting
             foreach (var property in modelBuilder.Model.GetEntityTypes()
                 .SelectMany(t => t.GetProperties())
@@ -58,5 +73,6 @@ namespace TradingTools.DAL
         public DbSet<CalculatorState> CalculatorState { get; set; }
         public DbSet<TradeChallenge> TradeChallenge { get; set; }
         public DbSet<TradeThread> TradeThread { get; set; }
+        public DbSet<TradeChallengeProspect> TradeChallengeProspect { get; set; }
     }
 }

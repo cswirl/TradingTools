@@ -114,13 +114,15 @@ namespace TradingTools.Trunk.Entity
         public string PerfectEntry_Note { get; set; }
         public decimal? TradeExit_ExitPrice { get; set; }
 
+        // Meta data
+        public bool IsLotSizeChecked { get; set; }
 
         // Navigation Properties
         public int? TradeId { get; set; }
-        [JsonIgnore]    // used to avoid circular loop since trade has a calculatorState object
+        [JsonIgnore]    // To avoid circular loop when converting to JSON since trade has a calculatorState object
         public virtual Trade Trade { get; set; }
+        [JsonIgnore]
+        public virtual TradeChallengeProspect TradeChallengeProspect { get; set; }
 
-        // Meta data
-        public bool IsLotSizeChecked { get; set; }
     }
 }
