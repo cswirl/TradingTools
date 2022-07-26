@@ -32,6 +32,8 @@ namespace TradingTools
         public frmTradeChallenge()
         {
             InitializeComponent();
+
+            
         }
 
         private void btnOpenCalcLong_Empty_Click(object sender, EventArgs e)
@@ -144,6 +146,12 @@ namespace TradingTools
             txtDesc.Text = TradeChallenge.Description;
             txtTitle.Text = TradeChallenge.Title;
 
+            monthCalendarDateEnter.MinDate = _tradeHistory.First().DateEnter;
+            monthCalendarDateEnter.MaxDate = _tradeHistory.Last().DateEnter.AddYears(2);
+            var boldDates = _tradeHistory.Select(x => x.DateEnter).ToList();
+            boldDates.Add(_activeTrades.FirstOrDefault().DateEnter);
+            monthCalendarDateEnter.BoldedDates = boldDates.ToArray();
+
             changeState(this.TradeChallenge.IsOpen ? Status.Open : Status.Closed);
         }
 
@@ -156,6 +164,9 @@ namespace TradingTools
             if (Master.TradeChallenge_Update(this.TradeChallenge))
             {
                 MyMessageBox.Inform("Changes were saved");
+                txtTitle.Text = TradeChallenge.Title;
+                this.Text = TradeChallenge.Title;
+
                 TradeChallenge_Updated?.Invoke(this.TradeChallenge);
             }
         }
@@ -173,6 +184,12 @@ namespace TradingTools
 
         private void btnCompleted_Click(object sender, EventArgs e)
         {
+            if (_activeTrades.Count > 0)
+            {
+                MyMessageBox.Error("Active Trade must be closed first", "Ending Trade Challenge");
+                return;
+            }
+
             var premature = (_tradeHistory.Count < TradeChallenge.TradeCap) ? "Pre-Maturely" : "";
             DialogResult objDialog = MyMessageBox.Question_YesNo(
                      $"Are you sure to terminate Trade Challenge {premature} ?",
@@ -195,6 +212,7 @@ namespace TradingTools
 
         private void changeState(Status s)
         {
+            this.Text = TradeChallenge.Title;
             switch (s)
             {
                 case Status.Open:

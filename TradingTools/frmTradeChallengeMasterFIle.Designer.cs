@@ -46,7 +46,7 @@
             this.menuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(981, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(886, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -71,12 +71,12 @@
             this.dgvClosed.AllowUserToDeleteRows = false;
             this.dgvClosed.AllowUserToResizeRows = false;
             this.dgvClosed.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvClosed.Location = new System.Drawing.Point(41, 289);
+            this.dgvClosed.Location = new System.Drawing.Point(41, 327);
             this.dgvClosed.Name = "dgvClosed";
             this.dgvClosed.ReadOnly = true;
             this.dgvClosed.RowTemplate.Height = 25;
             this.dgvClosed.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvClosed.Size = new System.Drawing.Size(680, 316);
+            this.dgvClosed.Size = new System.Drawing.Size(792, 531);
             this.dgvClosed.TabIndex = 1;
             this.dgvClosed.TabStop = false;
             this.dgvClosed.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
@@ -86,7 +86,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label1.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.label1.Location = new System.Drawing.Point(41, 261);
+            this.label1.Location = new System.Drawing.Point(41, 299);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(69, 25);
             this.label1.TabIndex = 2;
@@ -98,12 +98,12 @@
             this.dgvOpen.AllowUserToDeleteRows = false;
             this.dgvOpen.AllowUserToResizeRows = false;
             this.dgvOpen.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvOpen.Location = new System.Drawing.Point(41, 72);
+            this.dgvOpen.Location = new System.Drawing.Point(41, 87);
             this.dgvOpen.Name = "dgvOpen";
             this.dgvOpen.ReadOnly = true;
             this.dgvOpen.RowTemplate.Height = 25;
             this.dgvOpen.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvOpen.Size = new System.Drawing.Size(680, 170);
+            this.dgvOpen.Size = new System.Drawing.Size(792, 187);
             this.dgvOpen.TabIndex = 1;
             this.dgvOpen.TabStop = false;
             this.dgvOpen.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
@@ -113,7 +113,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label2.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.label2.Location = new System.Drawing.Point(41, 44);
+            this.label2.Location = new System.Drawing.Point(41, 59);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 25);
             this.label2.TabIndex = 2;
@@ -124,7 +124,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(981, 652);
+            this.ClientSize = new System.Drawing.Size(886, 898);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dgvOpen);
             this.Controls.Add(this.label1);
