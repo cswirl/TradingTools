@@ -95,6 +95,7 @@
             this.txtCap.Name = "txtCap";
             this.txtCap.Size = new System.Drawing.Size(49, 23);
             this.txtCap.TabIndex = 3;
+            this.txtCap.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCap_KeyPress);
             // 
             // label1
             // 

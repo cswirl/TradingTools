@@ -66,7 +66,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label3.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label3.Location = new System.Drawing.Point(42, 200);
+            this.label3.Location = new System.Drawing.Point(42, 456);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(96, 20);
             this.label3.TabIndex = 11;
@@ -137,6 +137,7 @@
             this.txtCap.Size = new System.Drawing.Size(49, 23);
             this.txtCap.TabIndex = 1;
             this.txtCap.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtCap.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCap_KeyPress);
             // 
             // label7
             // 
@@ -207,7 +208,7 @@
             this.tableLayoutPanel_LongShortButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel_LongShortButtons.Controls.Add(this.btnOpenCalcShort_Empty, 0, 0);
             this.tableLayoutPanel_LongShortButtons.Controls.Add(this.btnOpenCalcLong_Empty, 0, 0);
-            this.tableLayoutPanel_LongShortButtons.Location = new System.Drawing.Point(1060, 22);
+            this.tableLayoutPanel_LongShortButtons.Location = new System.Drawing.Point(1111, 22);
             this.tableLayoutPanel_LongShortButtons.Name = "tableLayoutPanel_LongShortButtons";
             this.tableLayoutPanel_LongShortButtons.RowCount = 1;
             this.tableLayoutPanel_LongShortButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -247,7 +248,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label5.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label5.Location = new System.Drawing.Point(42, 580);
+            this.label5.Location = new System.Drawing.Point(42, 584);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(104, 20);
             this.label5.TabIndex = 11;
@@ -259,12 +260,12 @@
             this.dgvTradeHistory.AllowUserToDeleteRows = false;
             this.dgvTradeHistory.AllowUserToResizeRows = false;
             this.dgvTradeHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvTradeHistory.Location = new System.Drawing.Point(42, 609);
+            this.dgvTradeHistory.Location = new System.Drawing.Point(42, 613);
             this.dgvTradeHistory.Name = "dgvTradeHistory";
             this.dgvTradeHistory.ReadOnly = true;
             this.dgvTradeHistory.RowTemplate.Height = 25;
             this.dgvTradeHistory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTradeHistory.Size = new System.Drawing.Size(786, 297);
+            this.dgvTradeHistory.Size = new System.Drawing.Size(865, 297);
             this.dgvTradeHistory.TabIndex = 14;
             this.dgvTradeHistory.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTrades_CellDoubleClick);
             // 
@@ -274,12 +275,12 @@
             this.dgvActiveTrade.AllowUserToDeleteRows = false;
             this.dgvActiveTrade.AllowUserToResizeRows = false;
             this.dgvActiveTrade.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvActiveTrade.Location = new System.Drawing.Point(42, 229);
+            this.dgvActiveTrade.Location = new System.Drawing.Point(42, 485);
             this.dgvActiveTrade.Name = "dgvActiveTrade";
             this.dgvActiveTrade.ReadOnly = true;
             this.dgvActiveTrade.RowTemplate.Height = 25;
             this.dgvActiveTrade.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvActiveTrade.Size = new System.Drawing.Size(786, 93);
+            this.dgvActiveTrade.Size = new System.Drawing.Size(514, 67);
             this.dgvActiveTrade.TabIndex = 15;
             this.dgvActiveTrade.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTrades_CellDoubleClick);
             // 
@@ -288,7 +289,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label6.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label6.Location = new System.Drawing.Point(42, 343);
+            this.label6.Location = new System.Drawing.Point(42, 197);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(77, 20);
             this.label6.TabIndex = 11;
@@ -300,12 +301,12 @@
             this.dgvProspects.AllowUserToDeleteRows = false;
             this.dgvProspects.AllowUserToResizeRows = false;
             this.dgvProspects.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvProspects.Location = new System.Drawing.Point(42, 372);
+            this.dgvProspects.Location = new System.Drawing.Point(42, 226);
             this.dgvProspects.Name = "dgvProspects";
             this.dgvProspects.ReadOnly = true;
             this.dgvProspects.RowTemplate.Height = 25;
             this.dgvProspects.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvProspects.Size = new System.Drawing.Size(786, 187);
+            this.dgvProspects.Size = new System.Drawing.Size(275, 175);
             this.dgvProspects.TabIndex = 14;
             this.dgvProspects.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProspects_CellDoubleClick);
             // 
@@ -327,7 +328,7 @@
             this.monthCalendarDateEnter.BackColor = System.Drawing.SystemColors.Window;
             this.monthCalendarDateEnter.CalendarDimensions = new System.Drawing.Size(2, 6);
             this.monthCalendarDateEnter.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.monthCalendarDateEnter.Location = new System.Drawing.Point(868, 43);
+            this.monthCalendarDateEnter.Location = new System.Drawing.Point(919, 51);
             this.monthCalendarDateEnter.Name = "monthCalendarDateEnter";
             this.monthCalendarDateEnter.ScrollChange = 12;
             this.monthCalendarDateEnter.ShowToday = false;
@@ -339,7 +340,7 @@
             this.statusMessage});
             this.statusStrip1.Location = new System.Drawing.Point(0, 940);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1381, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1401, 22);
             this.statusStrip1.TabIndex = 19;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -354,7 +355,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1381, 962);
+            this.ClientSize = new System.Drawing.Size(1401, 962);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.dgvActiveTrade);
             this.Controls.Add(this.dgvProspects);

@@ -76,7 +76,7 @@
             this.dgvClosed.ReadOnly = true;
             this.dgvClosed.RowTemplate.Height = 25;
             this.dgvClosed.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvClosed.Size = new System.Drawing.Size(792, 531);
+            this.dgvClosed.Size = new System.Drawing.Size(760, 596);
             this.dgvClosed.TabIndex = 1;
             this.dgvClosed.TabStop = false;
             this.dgvClosed.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
@@ -103,7 +103,7 @@
             this.dgvOpen.ReadOnly = true;
             this.dgvOpen.RowTemplate.Height = 25;
             this.dgvOpen.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvOpen.Size = new System.Drawing.Size(792, 187);
+            this.dgvOpen.Size = new System.Drawing.Size(760, 187);
             this.dgvOpen.TabIndex = 1;
             this.dgvOpen.TabStop = false;
             this.dgvOpen.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
@@ -124,7 +124,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(886, 898);
+            this.ClientSize = new System.Drawing.Size(886, 998);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dgvOpen);
             this.Controls.Add(this.label1);
@@ -136,6 +136,7 @@
             this.Name = "frmTradeChallengeMasterFile";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Trade Challeng Master File";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmTradeChallengeMasterFile_FormClosing);
             this.Load += new System.EventHandler(this.frmTradeChallengeMasterFile_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
