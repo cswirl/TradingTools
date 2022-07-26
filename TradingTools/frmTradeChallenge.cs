@@ -71,19 +71,10 @@ namespace TradingTools
             rrc.CalculatorState_Added += this.CalculatorState_Added;
             rrc.CalculatorState_Updated += this.CalculatorState_Updated;
             rrc.CalculatorState_Deleted += this.CalculatorState_Deleted;
-            //rrc.Trade_Officializing_Cancelled += this.Trade_Officializing_Cancelled;
             rrc.Trade_Officialized += this.Trade_Officialized;
             rrc.Trade_Closed += this.Trade_Closed;
-        }
-
-        internal bool activeTradeExisting()
-        {
-            if (_activeTrades.Count > 0)
-            {
-                MyMessageBox.Inform("Trade Challenge allows one active trade at a time");
-                return true;
-            }
-            return false;
+            // Here, not using the '+=' assignment to override the assignment in master.DelegateHandlers 
+            rrc.Trade_Officializing_Cancelled = this.Trade_Officializing_Cancelled;
         }
 
         private void CalculatorState_Added(CalculatorState c)
@@ -101,18 +92,17 @@ namespace TradingTools
             _prospects.Remove(c);
         }
 
-        // Moved to master DelegateHandlers
-        //private bool Trade_Officializing_Cancelled(out string msg)
-        //{
-        //    msg = "";
-        //    if (_activeTrades.Count > 0)
-        //    {
-        //        msg = $"This Risk/Reward Calculator belongs to Trade Challenge: {TradeChallenge.Id}" +
-        //            $"\n\nYou must first closed its Active Trade with Id: {_activeTrades.First().Id}" ;
-        //        return true;
-        //    }
-        //    return false;
-        //}
+        private bool Trade_Officializing_Cancelled(CalculatorState c, out string msg)
+        {
+            msg = "";
+            if (_activeTrades.Count > 0)
+            {
+                msg = $"The Trade Challenge only allows one Active Trade at a time." +
+                    $"\n\nYou must first closed its Active Trade with Id: {_activeTrades.First().Id}";
+                return true;
+            }
+            return false;
+        }
 
         private void Trade_Officialized(Trade t)
         {

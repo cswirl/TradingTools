@@ -19,15 +19,10 @@ namespace TradingTools.Helpers
             msg = "";
 
             var tradeChallengeId = Master.TradeChallengeProspect_GetTradeChallengeId(c.Id);
-            if (tradeChallengeId == 0) return false;
-
-            var _activeTrades = Master.TradeThread_GetActiveTrade(tradeChallengeId);
-            if (_activeTrades == default) return false;
-            
-            if (_activeTrades.Count > 0)
+            if (tradeChallengeId > 0)
             {
                 msg = $"This Risk/Reward Calculator belongs to Trade Challenge: {tradeChallengeId}" +
-                    $"\n\nYou must first closed its Active Trade with Id: {_activeTrades.First().Id}";
+                    $"\n\nYou need to re-open this form in the Trade Challenge window";
                 return true;
             }
             return false;
