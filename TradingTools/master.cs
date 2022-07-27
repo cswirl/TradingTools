@@ -402,7 +402,6 @@ namespace TradingTools
                 .Include(tr => tr.Trade_head).ThenInclude(t => t.CalculatorState)
                 .Where(tr => tr.TradeChallengeId == tradeChallengeId)
                 .Select(tr => tr.Trade_head)
-                .OrderBy(t => t.DateExit)
                 .ToList();
         }
 
@@ -432,6 +431,19 @@ namespace TradingTools
         public bool TradeChallengeProspect_Delete(TradeChallengeProspect[] tcp)
         {
             DbContext.TradeChallengeProspect.RemoveRange(tcp);
+            DbContext.SaveChanges();
+            return true;
+        }
+
+        public bool TradeChallengeProspect_Delete(CalculatorState c)
+        {
+            var tcp = DbContext.TradeChallengeProspect
+                .Where(tcp => tcp.CalculatorStateId == c.Id)
+                .FirstOrDefault();
+            // when there's nothing to remove - just return success/true
+            if (tcp == default) return true;
+
+            DbContext.TradeChallengeProspect.Remove(tcp);
             DbContext.SaveChanges();
             return true;
         }

@@ -133,10 +133,13 @@ namespace TradingTools
             if (Master.TradeThread_Create(tr))
             {
                 _activeTrades.Add(t);
-                _prospects.Remove(t.CalculatorState);
                 monthCalendarDateEnter.Visible = true;
                 monthCalendarDateEnter.BoldedDates = monthCalendarDateEnter.BoldedDates.Append(t.DateEnter).ToArray();
                 messageBus($"New Trade with ticker: {t.Ticker} was officialized");
+                if (Master.TradeChallengeProspect_Delete(t.CalculatorState))
+                    _prospects.Remove(t.CalculatorState);
+                else
+                    messageBus($"An error occur while removing Prospect: {t.CalculatorState.Id} from the database");
             }
         }
         private int getTail_Id() => Master.TradeThread_GetNextTail(TradeChallenge.Id)?.Id ?? 0;
@@ -180,8 +183,6 @@ namespace TradingTools
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // validation
-
             // copy back to original
             captureTradeChallenge().CopyProperties(this.TradeChallenge);
             if (Master.TradeChallenge_Update(this.TradeChallenge))
@@ -287,18 +288,11 @@ namespace TradingTools
             }
         }
 
-        private List<Trade> getAllTrades()
-        {
-            var allTrades = _tradeHistory.ToList();
-            if (_activeTrades.Count > 0) allTrades.AddRange(_activeTrades);
-
-            return allTrades;
-        }
+        private List<Trade> getAllTrades() => Master.TradeThread_GetAllTrades(TradeChallenge.Id);
 
         private void changeState(Status s)
         {
             this.Text = TradeChallenge.Title;
-            var allTrades = getAllTrades();
 
             switch (s)
             {
@@ -314,6 +308,7 @@ namespace TradingTools
                     txtCap.ReadOnly = true;
 
                     // calendar
+                    var allTrades = getAllTrades();
                     if (allTrades.Count > 0)
                         monthCalendarDateEnter.MaxDate = allTrades.Last().DateExit
                             ?? allTrades.Last().DateEnter.AddMonths(2);
