@@ -20,6 +20,7 @@ namespace TradingTools
         public Save TradeChallenge_Updated;
         public delegate void Completed(TradeChallenge tc);
         public Completed TradeChallenge_Closed;
+        public Completed TradeChallenge_Deleted;
 
         private BindingList<Trade> _activeTrades;
         private BindingList<Trade> _tradeHistory;
@@ -108,8 +109,11 @@ namespace TradingTools
             msg = "";
             if (_activeTrades.Count > 0)
             {
-                msg = $"The Trade Challenge only allows one Active Trade at a time." +
-                    $"\n\nYou must first closed its Active Trade with Id: {_activeTrades.First().Id}";
+                msg = $"The Trade Challenge only allows one Active Trade at a time" +
+                    $"\n\nTwo options:" +
+                    $"\n\t- Close the Active Trade with Id: {_activeTrades.First().Id}" +
+                    $"\n\tOR" +
+                    $"\n\t- Save this Risk/Reward Calculator for future use";
                 return true;
             }
             return false;
@@ -117,12 +121,13 @@ namespace TradingTools
 
         private void Trade_Officialized(Trade t)
         {
+            var tail_id = getTail_Id();
             // add to TradeThread
             var tr = new TradeThread
             {
                 TradeChallengeId = this.TradeChallenge.Id,
                 TradeId_head = t.Id,
-                TradeId_tail = _tradeHistory.Count < 1 ? null : getTail_Id()
+                TradeId_tail = tail_id < 1 ? null : tail_id
             };
 
             if (Master.TradeThread_Create(tr))
@@ -134,7 +139,7 @@ namespace TradingTools
                 messageBus($"New Trade with ticker: {t.Ticker} was officialized");
             }
         }
-        private int getTail_Id() => _tradeHistory.Last().Id;
+        private int getTail_Id() => Master.TradeThread_GetNextTail(TradeChallenge.Id)?.Id ?? 0;
 
         private void Trade_Closed(Trade t)
         {
@@ -200,37 +205,70 @@ namespace TradingTools
             return clone;
         }
 
+        private void deleteTradeChallenge(TradeChallenge tc)
+        {
+            string msg;
+            var result = MyMessageBox.Question_YesNo(
+                $"Trade Challenge: {tc.Id} does not contain any Trade and will be deleted", 
+                "Ending Trade Challenge");
+            if (result == DialogResult.Yes)
+                if (Master.TradeChallenge_Delete(tc))
+                {
+                    msg = $"Trade Challenge: {tc.Id} is now deleted\n\nThis form will now close";
+                    messageBus(msg);
+                    MyMessageBox.Inform(msg);
+                    TradeChallenge_Deleted?.Invoke(tc);
+                    this.Close();
+                }
+                else
+                {
+                    msg = $"An unexpected error occur while deleting Trade Challenge: {tc.Id}";
+                    messageBus(msg);
+                    MyMessageBox.Error(msg);
+                }
+        }
+
         private void btnCompleted_Click(object sender, EventArgs e)
         {
             string msg;
-            if (_activeTrades.Count > 0)
+
+            // Empty Trade Challenge
+            if (Master.TradeThread_GetAllTrades(TradeChallenge.Id).Count < 1)
+            {
+                deleteTradeChallenge(this.TradeChallenge);
+            }
+            // Active Trade Exist
+            else if (_activeTrades.Count > 0)
             {
                 msg = "To proceed ending this Trade Challenge, the Active Trade need to be closed first";
                 messageBus(msg);
                 MyMessageBox.Error(msg, "Ending Trade Challenge");
                 return;
             }
-
-            var premature = (_tradeHistory.Count < TradeChallenge.TradeCap) ? "Pre-Maturely" : "";
-            DialogResult objDialog = MyMessageBox.Question_YesNo(
-                     $"Are you sure to terminate Trade Challenge {premature} ?",
-                     "Terminating Trade Challenge");
-            if (objDialog == DialogResult.Yes)
+            else
             {
-                TradeChallenge.IsOpen = false;
-                if (Master.TradeChallenge_Update(this.TradeChallenge))
+                // Dialog confirmation
+                var premature = (_tradeHistory.Count < TradeChallenge.TradeCap) ? "Pre-Maturely" : "";
+                DialogResult objDialog = MyMessageBox.Question_YesNo(
+                         $"Are you sure to terminate Trade Challenge: {this.TradeChallenge.Id} {premature} ?",
+                         "Terminating Trade Challenge");
+                if (objDialog == DialogResult.Yes)
                 {
-                    msg = $"Trade Challenge: {TradeChallenge.Id} was closed";
-                    messageBus(msg);
-                    MyMessageBox.Inform(msg);
-                    TradeChallenge_Closed?.Invoke(this.TradeChallenge);
-                    changeState(Status.Closed);
-                }
-                else
-                {
-                    msg = $"Fail terminating the Trade Challenge: {TradeChallenge.Id}";
-                    messageBus(msg);
-                    MyMessageBox.Error(msg);
+                    TradeChallenge.IsOpen = false;
+                    if (Master.TradeChallenge_Update(this.TradeChallenge))
+                    {
+                        msg = $"Trade Challenge: {TradeChallenge.Id} was closed";
+                        messageBus(msg);
+                        MyMessageBox.Inform(msg);
+                        TradeChallenge_Closed?.Invoke(this.TradeChallenge);
+                        changeState(Status.Closed);
+                    }
+                    else
+                    {
+                        msg = $"Fail ending the Trade Challenge: {TradeChallenge.Id}";
+                        messageBus(msg);
+                        MyMessageBox.Error(msg);
+                    }
                 }
             }
         }

@@ -51,6 +51,7 @@ namespace TradingTools
         {
             form.TradeChallenge_Updated += this.TradeChallenge_Updated;
             form.TradeChallenge_Closed += this.TradeChallenge_Closed;
+            form.TradeChallenge_Deleted += this.TradeChallenge_Deleted;
 
             form.FormClosed += (object sender, FormClosedEventArgs e)
                 => { _listOf_frmTradeChallenge.Remove((frmTradeChallenge)sender); };
@@ -69,6 +70,11 @@ namespace TradingTools
         {
             _currentTradeChallenges.Remove(tc);
             _closedTradeChallenges.Add(tc);
+        }
+
+        private void TradeChallenge_Deleted(TradeChallenge tc)
+        {
+            _currentTradeChallenges.Remove(tc);
         }
 
         private void TradeChallenge_Spawn(TradeChallenge tc)

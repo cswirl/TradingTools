@@ -22,6 +22,8 @@ namespace TradingTools
         Action<Trade> tradeClosed;
         Action<Trade> tradeDeleted;
         Action<Trade> tradeUpdated;
+        //
+        Action<TradeChallenge> tradeChallengeDeleted;
 
         private List<frmRiskRewardCalc> _listOf_frmRiskRewardCalc;
         private BindingList<CalculatorState> _calculatorStates_unofficial_bindingList;
@@ -54,8 +56,6 @@ namespace TradingTools
             _frmCalcStates.StartPosition = FormStartPosition.CenterScreen;
             _frmCalcStates.Show();
             // delegates
-            //_frmCalcStates.FormRRC_Long_Empty_Open += this.FormRRC_Long_Empty_Spawn;
-            //_frmCalcStates.FormRRC_Short_Empty_Open += this.FormRRC_Short_Empty_Spawn;
             _frmCalcStates.CalculatorState_Loaded_OnRequest += this.FormRRC_Loaded_Spawn;
             _frmCalcStates.Trade_TradeOpen_OnRequest += this.FormRRC_Trade_Spawn;
             //
@@ -113,9 +113,6 @@ namespace TradingTools
                 _frmTradeChallengeMasterFile.Owner = this;
                 _frmTradeChallengeMasterFile.Show();
                 // delegates
-                //_frmTradeMasterFile.Trade_TradeOpen_OnRequest += this.FormRRC_Trade_Spawn;
-                //this.tradeOfficialized += _frmTradeChallengeMasterFile.Trade_Officialized;
-                //this.tradeClosed += _frmTradeChallengeMasterFile.Trade_Closed;
             }
             else
             {
@@ -131,6 +128,7 @@ namespace TradingTools
             form.Owner = this;
             form.FormClosed += this.FormRRC_FormClosed;
             form.Trade_Officializing_Cancelled += this.DelegateHandlers.Trade_Officializing_Cancelled;
+            form.Trade_Closing_Cancelled += this.DelegateHandlers.Trade_Closing_Cancelled;
             this.tradeDeleted += form.MarkAsDeleted;
             this.tradeUpdated += form.Trade_Updated_Handler;
             
@@ -335,6 +333,14 @@ namespace TradingTools
             return true;
         }
 
+        public bool TradeChallenge_Delete(TradeChallenge tc)
+        {
+            DbContext.TradeChallenge.Remove(tc);
+            DbContext.SaveChanges();
+            tradeChallengeDeleted?.Invoke(tc);
+            return true;
+        }
+
         public List<TradeChallenge> GetTradeChallenges_Open()
         {
             return DbContext.TradeChallenge.Where(x => x.IsOpen).ToList();
@@ -388,6 +394,29 @@ namespace TradingTools
                 .OrderBy(t => t.DateExit)
                 .ToList();
         }
+
+        public List<Trade> TradeThread_GetAllTrades(int tradeChallengeId)
+        {
+
+            return DbContext.TradeThread
+                .Include(tr => tr.Trade_head).ThenInclude(t => t.CalculatorState)
+                .Where(tr => tr.TradeChallengeId == tradeChallengeId)
+                .Select(tr => tr.Trade_head)
+                .OrderBy(t => t.DateExit)
+                .ToList();
+        }
+
+        public Trade TradeThread_GetNextTail(int tradeChallengeId)
+        {
+            return DbContext.TradeThread
+                .Include(tr => tr.Trade_head).ThenInclude(t => t.CalculatorState).Where(tr => tr.Trade_head.Status.Equals("closed"))
+                .Where(tr => tr.TradeChallengeId == tradeChallengeId)
+                .Select(tr => tr.Trade_head)
+                .OrderBy(t => t.DateExit)
+                .LastOrDefault();
+        }
+
+
 
         /// <summary>
         ///  Trade Challenge Prospect
