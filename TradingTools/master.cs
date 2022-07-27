@@ -429,13 +429,19 @@ namespace TradingTools
             return true;
         }
 
+        public bool TradeChallengeProspect_Delete(TradeChallengeProspect[] tcp)
+        {
+            DbContext.TradeChallengeProspect.RemoveRange(tcp);
+            DbContext.SaveChanges();
+            return true;
+        }
+
         public List<CalculatorState> TradeChallengeProspect_GetAll(int tradeChallengeId)
         {
-            return DbContext.TradeChallengeProspect
-                .Include(tcp => tcp.CalculatorState)
-                .Where(tcp => tcp.TradeChallengeId == tradeChallengeId 
-                && tcp.CalculatorState.TradeId == default || tcp.CalculatorState.TradeId < 1)
-                .Select(tcp => tcp.CalculatorState)
+            return DbContext.CalculatorState
+                .Include(c => c.TradeChallengeProspect)
+                .Where(c => c.TradeChallengeProspect.TradeChallengeId == tradeChallengeId
+                    && c.TradeId == default || c.TradeId < 1)
                 .ToList();
         }
 

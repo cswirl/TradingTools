@@ -217,6 +217,7 @@ namespace TradingTools
                     msg = $"Trade Challenge: {tc.Id} is now deleted\n\nThis form will now close";
                     messageBus(msg);
                     MyMessageBox.Inform(msg);
+                    _prospects.Clear(); // We will rely on foreign key's Cascade on delete
                     TradeChallenge_Deleted?.Invoke(tc);
                     this.Close();
                 }
@@ -232,18 +233,18 @@ namespace TradingTools
         {
             string msg;
 
-            // Empty Trade Challenge
-            if (Master.TradeThread_GetAllTrades(TradeChallenge.Id).Count < 1)
-            {
-                deleteTradeChallenge(this.TradeChallenge);
-            }
             // Active Trade Exist
-            else if (_activeTrades.Count > 0)
+            if (_activeTrades.Count > 0)
             {
                 msg = "To proceed ending this Trade Challenge, the Active Trade need to be closed first";
                 messageBus(msg);
                 MyMessageBox.Error(msg, "Ending Trade Challenge");
                 return;
+            }
+            // Empty Trade Challenge
+            else if (Master.TradeThread_GetAllTrades(TradeChallenge.Id).Count < 1)
+            {
+                deleteTradeChallenge(this.TradeChallenge);
             }
             else
             {
@@ -254,6 +255,7 @@ namespace TradingTools
                          "Terminating Trade Challenge");
                 if (objDialog == DialogResult.Yes)
                 {
+                    // mark trade challenge as closed
                     TradeChallenge.IsOpen = false;
                     if (Master.TradeChallenge_Update(this.TradeChallenge))
                     {
@@ -262,6 +264,18 @@ namespace TradingTools
                         MyMessageBox.Inform(msg);
                         TradeChallenge_Closed?.Invoke(this.TradeChallenge);
                         changeState(Status.Closed);
+                        // delete the CalculatorStates in the TradeProspects linked to this Trade Challenge
+                        var tcp = _prospects.Select(p => p.TradeChallengeProspect).ToArray();
+                        if (Master.TradeChallengeProspect_Delete(tcp))
+                        {
+                            _prospects.Clear();
+                        }
+                        else
+                        {
+                            msg = $"Fail deleting the Prospects in the database";
+                            messageBus(msg);
+                            MyMessageBox.Error(msg);
+                        }
                     }
                     else
                     {
