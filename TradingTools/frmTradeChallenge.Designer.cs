@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.radioClosed = new System.Windows.Forms.RadioButton();
@@ -53,6 +54,7 @@
             this.monthCalendarDateEnter = new System.Windows.Forms.MonthCalendar();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusMessage = new System.Windows.Forms.ToolStripStatusLabel();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.tableLayoutPanel_LongShortButtons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTradeHistory)).BeginInit();
@@ -75,6 +77,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.radioClosed);
             this.panel1.Controls.Add(this.radioOpen);
             this.panel1.Controls.Add(this.txtDesc);
@@ -178,11 +181,11 @@
             // btnCompleted
             // 
             this.btnCompleted.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnCompleted.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnCompleted.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnCompleted.ForeColor = System.Drawing.Color.White;
-            this.btnCompleted.Location = new System.Drawing.Point(585, 22);
+            this.btnCompleted.Location = new System.Drawing.Point(585, 28);
             this.btnCompleted.Name = "btnCompleted";
-            this.btnCompleted.Size = new System.Drawing.Size(128, 39);
+            this.btnCompleted.Size = new System.Drawing.Size(128, 33);
             this.btnCompleted.TabIndex = 6;
             this.btnCompleted.Text = "END Challenge";
             this.btnCompleted.UseVisualStyleBackColor = false;
@@ -191,11 +194,11 @@
             // btnSave
             // 
             this.btnSave.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnSave.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnSave.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(719, 21);
+            this.btnSave.Location = new System.Drawing.Point(719, 27);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(109, 40);
+            this.btnSave.Size = new System.Drawing.Size(109, 34);
             this.btnSave.TabIndex = 5;
             this.btnSave.Text = "SAVE";
             this.btnSave.UseVisualStyleBackColor = false;
@@ -346,9 +349,16 @@
             // 
             // statusMessage
             // 
+            this.statusMessage.BackColor = System.Drawing.Color.Transparent;
+            this.statusMessage.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.statusMessage.Name = "statusMessage";
-            this.statusMessage.Size = new System.Drawing.Size(56, 17);
+            this.statusMessage.Size = new System.Drawing.Size(63, 17);
             this.statusMessage.Text = "status . . .";
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // frmTradeChallenge
             // 
@@ -415,5 +425,6 @@
         private System.Windows.Forms.MonthCalendar monthCalendarDateEnter;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel statusMessage;
+        private System.Windows.Forms.Timer timer1;
     }
 }

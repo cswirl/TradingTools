@@ -34,6 +34,8 @@ namespace TradingTools
         {
             InitializeComponent();
 
+            timer1.Interval = Presentation.INTERNAL_TIMER_REFRESH_VALUE;
+
             DataGridViewFormat_Common(dgvProspects);
             DataGridViewFormat_Trade_Active(dgvActiveTrade);
             DataGridViewFormat_Trade_Closed(dgvTradeHistory);
@@ -82,11 +84,14 @@ namespace TradingTools
             rrc.Trade_Officializing_Cancelled = this.Trade_Officializing_Cancelled;
         }
 
+        private void messageBus(string msg) => statusMessage.Text = msg;
+
         private void CalculatorState_Added(CalculatorState c)
         {
             var tcp = new TradeChallengeProspect { TradeChallenge = this.TradeChallenge, CalculatorState = c};
             // Create record to database
             if (Master.TradeChallengeProspect_Create(tcp)) _prospects.Add(c);
+            messageBus($"New prospect ticker: {c.Ticker} added successfully");
         }
 
         private void CalculatorState_Updated(CalculatorState c) => dgvProspects.Invalidate();
@@ -95,6 +100,7 @@ namespace TradingTools
         {
             // will rely on Foreign Key referential integrity OnDelete->Cascade
             _prospects.Remove(c);
+            messageBus($"Prospect with Id: {c.Id} was removed successfully");
         }
 
         private bool Trade_Officializing_Cancelled(CalculatorState c, out string msg)
@@ -117,12 +123,15 @@ namespace TradingTools
                 TradeChallengeId = this.TradeChallenge.Id,
                 TradeId_head = t.Id,
                 TradeId_tail = _tradeHistory.Count < 1 ? null : getTail_Id()
-        };
+            };
 
             if (Master.TradeThread_Create(tr))
             {
                 _activeTrades.Add(t);
                 _prospects.Remove(t.CalculatorState);
+                monthCalendarDateEnter.Visible = true;
+                monthCalendarDateEnter.BoldedDates = monthCalendarDateEnter.BoldedDates.Append(t.DateEnter).ToArray();
+                messageBus($"New Trade with ticker: {t.Ticker} was officialized");
             }
         }
         private int getTail_Id() => _tradeHistory.Last().Id;
@@ -131,6 +140,7 @@ namespace TradingTools
         {
             _activeTrades.Remove(t);
             _tradeHistory.Add(t);
+            messageBus($"Trade {t.Id} was closed successfully");
         }
 
         private void frmTradeChallenge_Load(object sender, EventArgs e)
@@ -148,8 +158,19 @@ namespace TradingTools
             txtCap.Text = TradeChallenge.TradeCap.ToString();
             txtDesc.Text = TradeChallenge.Description;
             txtTitle.Text = TradeChallenge.Title;
+            // calendar
+            var allTrades = getAllTrades();
+            if (allTrades.Count > 0)
+            {
+                monthCalendarDateEnter.MinDate = allTrades.First().DateEnter;
+                monthCalendarDateEnter.BoldedDates = allTrades.Select(x => x.DateEnter).ToArray();
+                monthCalendarDateEnter.MaxDate = DateTime.Now;
+            }
+            else
+                monthCalendarDateEnter.Visible = false;
 
             changeState(this.TradeChallenge.IsOpen ? Status.Open : Status.Closed);
+            messageBus("Form loaded successful");
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -160,7 +181,7 @@ namespace TradingTools
             captureTradeChallenge().CopyProperties(this.TradeChallenge);
             if (Master.TradeChallenge_Update(this.TradeChallenge))
             {
-                MyMessageBox.Inform("Changes were saved");
+                statusMessage.Text = "Changes were saved successfully";
                 txtTitle.Text = TradeChallenge.Title;
                 this.Text = TradeChallenge.Title;
 
@@ -181,9 +202,12 @@ namespace TradingTools
 
         private void btnCompleted_Click(object sender, EventArgs e)
         {
+            string msg;
             if (_activeTrades.Count > 0)
             {
-                MyMessageBox.Error("To proceed ending this Trade Challenge, the Active Trade need to be closed first", "Ending Trade Challenge");
+                msg = "To proceed ending this Trade Challenge, the Active Trade need to be closed first";
+                messageBus(msg);
+                MyMessageBox.Error(msg, "Ending Trade Challenge");
                 return;
             }
 
@@ -196,40 +220,39 @@ namespace TradingTools
                 TradeChallenge.IsOpen = false;
                 if (Master.TradeChallenge_Update(this.TradeChallenge))
                 {
-                    MyMessageBox.Inform($"Trade Challenge: {TradeChallenge.Id} was closed");
+                    msg = $"Trade Challenge: {TradeChallenge.Id} was closed";
+                    messageBus(msg);
+                    MyMessageBox.Inform(msg);
                     TradeChallenge_Closed?.Invoke(this.TradeChallenge);
                     changeState(Status.Closed);
                 }
                 else
                 {
-                    MyMessageBox.Error($"Fail terminating the Trade Challenge: {TradeChallenge.Id}");
+                    msg = $"Fail terminating the Trade Challenge: {TradeChallenge.Id}";
+                    messageBus(msg);
+                    MyMessageBox.Error(msg);
                 }
             }
+        }
+
+        private List<Trade> getAllTrades()
+        {
+            var allTrades = _tradeHistory.ToList();
+            if (_activeTrades.Count > 0) allTrades.AddRange(_activeTrades);
+
+            return allTrades;
         }
 
         private void changeState(Status s)
         {
             this.Text = TradeChallenge.Title;
+            var allTrades = getAllTrades();
+
             switch (s)
             {
                 case Status.Open:
                     radioOpen.Checked = true;
 
-                    // calendar
-                    if (_tradeHistory.Count > 0)
-                    {
-                        monthCalendarDateEnter.MinDate = _tradeHistory.First().DateEnter;
-                        monthCalendarDateEnter.MaxDate = _tradeHistory.First().DateEnter.AddYears(2);
-                        var boldDates = _tradeHistory.Select(x => x.DateEnter).ToList();
-                        boldDates.Add(_activeTrades.FirstOrDefault().DateEnter);
-                        monthCalendarDateEnter.BoldedDates = boldDates.ToArray();
-                    }
-                    else
-                    {
-                        var today = DateTime.Today;
-                        monthCalendarDateEnter.MinDate = today;
-                        monthCalendarDateEnter.MaxDate = today.AddYears(2);
-                    }
                     break;
 
                 case Status.Closed:
@@ -239,23 +262,17 @@ namespace TradingTools
                     txtCap.ReadOnly = true;
 
                     // calendar
-                    if (_tradeHistory.Count > 0)
-                    {
-                        monthCalendarDateEnter.MinDate = _tradeHistory.First().DateEnter;
-                        monthCalendarDateEnter.MaxDate = _tradeHistory.Last().DateExit 
-                            ?? _tradeHistory.First().DateEnter.AddYears(2);
-                        var boldDates = _tradeHistory.Select(x => x.DateEnter).ToList();
-                        boldDates.Add(_activeTrades.FirstOrDefault().DateEnter);
-                        monthCalendarDateEnter.BoldedDates = boldDates.ToArray();
-                    }
-                    else
-                    {
-                        var today = DateTime.Today;
-                        monthCalendarDateEnter.MinDate = today;
-                        monthCalendarDateEnter.MaxDate = today.AddYears(2);
-                    }
+                    if (allTrades.Count > 0)
+                        monthCalendarDateEnter.MaxDate = allTrades.Last().DateExit
+                            ?? allTrades.Last().DateEnter.AddMonths(2);
+
                     break;
             }  
+        }
+
+        private void CalendarMaxDateRefresh()
+        {
+            if (this.State == Status.Open) monthCalendarDateEnter.MaxDate = DateTime.Now;   
         }
 
 
@@ -460,6 +477,12 @@ namespace TradingTools
             {
                 e.Handled = true;
             }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            CalendarMaxDateRefresh();
+            statusMessage.Text = "status . . .";
         }
     }
 
