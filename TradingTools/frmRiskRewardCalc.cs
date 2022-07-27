@@ -34,6 +34,8 @@ namespace TradingTools
         public Trade_Create Trade_Officialized;
         public delegate bool Trade_Creating(CalculatorState c, out string msg);
         public Trade_Creating Trade_Officializing_Cancelled;
+        public delegate bool Trade_Updating(CalculatorState c, out string msg);
+        public Trade_Updating Trade_Closing_Cancelled;
         public delegate void Trade_Updated(Trade t);
         public Trade_Updated Trade_Closed;
 
@@ -863,6 +865,13 @@ namespace TradingTools
         {
             if (State != RiskRewardCalcState.TradeOpen) return;
 
+            // delegate cancel
+            string msg;
+            if (Trade_Closing_Cancelled?.Invoke(this.CalculatorState, out msg) ?? false)
+            {
+                MyMessageBox.Error(msg, "Closing a Trade Denied");
+                return;
+            }
             
             // Prepare a proxy trade object for Closing
             var t = new Trade();
@@ -877,7 +886,6 @@ namespace TradingTools
             if (result == DialogResult.Yes)
             {
                 // Validate the data gathered by the proxy trade object
-                string msg;
                 if (!TradeService.TradeClosing_Validate(t, out msg))
                 {
                     statusMessage.Text = msg;

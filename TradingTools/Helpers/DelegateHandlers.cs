@@ -28,5 +28,19 @@ namespace TradingTools.Helpers
             return false;
         }
 
+        public bool Trade_Closing_Cancelled(CalculatorState c, out string msg)
+        {
+            msg = "";
+
+            var tradeChallengeId = Master.TradeChallengeProspect_GetTradeChallengeId(c.Id);
+            if (tradeChallengeId > 0)
+            {
+                msg = $"This Risk/Reward Calculator belongs to Trade Challenge: {tradeChallengeId}" +
+                    $"\n\nYou need to re-open this form in the Trade Challenge window";
+                return true;
+            }
+            return false;
+        }
+
     }
 }
