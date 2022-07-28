@@ -68,7 +68,7 @@ namespace TradingTools
             this.DelegateHandlers = new(this);
 
 
-            // gateway form
+            // Dashboard (gateway form)
             _frmCalcStates = new();
             _frmCalcStates.Owner = this;
             _frmCalcStates.StartPosition = FormStartPosition.CenterScreen;
@@ -237,20 +237,14 @@ namespace TradingTools
         #endregion
 
 
-        public BindingList<CalculatorState> GetCalculatorStates_Unofficial_BindingList()
-        {
-            _calculatorStates_unofficial_bindingList = new BindingList<CalculatorState>(DbContext.CalculatorState
-                .Where(x => x.TradeId == null)
-                .ToList());
-
-            return _calculatorStates_unofficial_bindingList;
-        }
-
-        // temporary fix - an event listener sounds perfect for this - maybe a queueu
-        // Return True if no error
+        #region Repository
+        /// <summary>
+        /// CalculatorState
+        /// </summary>
+        // Return True for sucess
         public bool CalculatorState_Add(CalculatorState calculatorState)
         {
-            DbContext.CalculatorState.Add(calculatorState);    // order matters here
+            DbContext.CalculatorState.Add(calculatorState);
             DbContext.SaveChanges();
             _calculatorStates_unofficial_bindingList.Add(calculatorState);
 
@@ -278,27 +272,18 @@ namespace TradingTools
             return true;
         }
 
-        public BindingList<Trade> GetTrades_All()
+        public BindingList<CalculatorState> GetCalculatorStates_Unofficial_BindingList()
         {
-            return new BindingList<Trade>(DbContext.Trade
-                .Include(x => x.CalculatorState).ToList());
+            _calculatorStates_unofficial_bindingList = new BindingList<CalculatorState>(DbContext.CalculatorState
+                .Where(x => x.TradeId == null)
+                .ToList());
+
+            return _calculatorStates_unofficial_bindingList;
         }
 
-        public BindingList<Trade> GetTrades_Closed()
-        {
-            return new BindingList<Trade>(DbContext.Trade
-                .Where(x => x.Status.Equals("closed"))
-                .Include(x => x.CalculatorState).ToList());
-        }
-
-        public BindingList<Trade> GetTrades_Open()
-        {
-            return new BindingList<Trade>(DbContext.Trade
-                .Where(x => x.Status.Equals("open"))
-                .Include(x => x.CalculatorState).ToList());
-        }
-
-
+        /// <summary>
+        /// Trade
+        /// </summary>
         internal bool Trade_Add(Trade t)
         {
             DbContext.Trade.Add(t);
@@ -338,6 +323,26 @@ namespace TradingTools
             Trade_Deleted?.Invoke(t);
 
             return true;
+        }
+
+        public BindingList<Trade> GetTrades_All()
+        {
+            return new BindingList<Trade>(DbContext.Trade
+                .Include(x => x.CalculatorState).ToList());
+        }
+
+        public BindingList<Trade> GetTrades_Closed()
+        {
+            return new BindingList<Trade>(DbContext.Trade
+                .Where(x => x.Status.Equals("closed"))
+                .Include(x => x.CalculatorState).ToList());
+        }
+
+        public BindingList<Trade> GetTrades_Open()
+        {
+            return new BindingList<Trade>(DbContext.Trade
+                .Where(x => x.Status.Equals("open"))
+                .Include(x => x.CalculatorState).ToList());
         }
 
         /// <summary>
@@ -464,8 +469,6 @@ namespace TradingTools
             return x?.TradeChallengeId ?? 0;
         }
 
-
-
         /// <summary>
         ///  Trade Challenge Prospect
         /// </summary>
@@ -524,6 +527,7 @@ namespace TradingTools
 
             return 0;
         }
+        #endregion
 
         #region UNUSED
         private BindingSource _calculatorStates_unsaved;

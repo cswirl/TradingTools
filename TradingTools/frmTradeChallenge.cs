@@ -76,17 +76,11 @@ namespace TradingTools
             ///
 
             /// delegates
-            // Empty frmRRC - Trade Challenge object has exclusive access to empty frmRRC spawned from it
+            // Empty frmRRC - Trade Challenge object has exclusive access to empty frmRRC spawned by it
             rrc.CalculatorState_Added += this.CalculatorState_Added;
 
             /// Once a Trade Challenge object has a hook to these delegates thru here, it doesn't matter
             /// if any frmRRC object is re-activated anywhere in the program
-
-            /// Use delegate from the master - these are invoked right after DbContext CRUD statements
-            Master.CalculatorState_Updated += this.CalculatorState_Updated;
-            Master.CalculatorState_Deleted += this.CalculatorState_Deleted;
-            Master.Trade_Officialized += this.Trade_Officialized;
-            Master.Trade_Closed += this.Trade_Closed;
 
             /// Bypass delegate handler from master.DelegateHandlers
             // Here, not using the '+=' assignment to override the handler in master.DelegateHandlers
@@ -188,6 +182,14 @@ namespace TradingTools
             dgvActiveTrade.DataSource = _activeTrades;
             dgvProspects.DataSource = _prospects;
             dgvTradeHistory.DataSource = _tradeHistory;
+
+            // delegates
+            /// Use delegate from the master - these are invoked right after DbContext CRUD statements
+            Master.CalculatorState_Updated += this.CalculatorState_Updated;
+            Master.CalculatorState_Deleted += this.CalculatorState_Deleted;
+            Master.Trade_Officialized += this.Trade_Officialized;
+            Master.Trade_Closed += this.Trade_Closed;
+            //
 
             // Load Trade Challenge Object
             txtId.Text = TradeChallenge.Id.ToString();
