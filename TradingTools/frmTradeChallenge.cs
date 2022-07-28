@@ -81,8 +81,8 @@ namespace TradingTools
             rrc.CalculatorState_Deleted += this.CalculatorState_Deleted;
             rrc.Trade_Officialized += this.Trade_Officialized;
             rrc.Trade_Closed += this.Trade_Closed;
-            // Here, not using the '+=' assignment to override the assignment in master.DelegateHandlers 
-            rrc.Trade_Officializing_Cancelled = this.Trade_Officializing_Cancelled;
+            // (HAS PROBLEM AS WELL) Here, not using the '+=' assignment to override the assignment in master.DelegateHandlers 
+            rrc.Trade_Officializing_Cancelled += this.Trade_Officializing_Cancelled;
         }
 
         private void messageBus(string msg) => statusMessage.Text = msg;

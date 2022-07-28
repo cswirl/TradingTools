@@ -374,7 +374,7 @@ namespace TradingTools
 
             return DbContext.TradeThread
                 .Include(tr => tr.Trade_head).ThenInclude(t => t.CalculatorState).Where(tr => tr.Trade_head.Status.Equals("open"))
-                .Where(tr => tr.TradeChallengeId == tradeChallengeId)
+                .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId_head != default)
                 .Select(tr => tr.Trade_head)
                 .ToList();
         }
@@ -389,7 +389,7 @@ namespace TradingTools
 
             return DbContext.TradeThread
                 .Include(tr => tr.Trade_head).ThenInclude(t => t.CalculatorState).Where(tr => tr.Trade_head.Status.Equals("closed"))
-                .Where(tr => tr.TradeChallengeId == tradeChallengeId)
+                .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId_head != default)
                 .Select(tr => tr.Trade_head)
                 .OrderBy(t => t.DateExit)
                 .ToList();
@@ -400,7 +400,7 @@ namespace TradingTools
 
             return DbContext.TradeThread
                 .Include(tr => tr.Trade_head).ThenInclude(t => t.CalculatorState)
-                .Where(tr => tr.TradeChallengeId == tradeChallengeId)
+                .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId_head != default)
                 .Select(tr => tr.Trade_head)
                 .ToList();
         }
@@ -409,7 +409,7 @@ namespace TradingTools
         {
             return DbContext.TradeThread
                 .Include(tr => tr.Trade_head).ThenInclude(t => t.CalculatorState).Where(tr => tr.Trade_head.Status.Equals("closed"))
-                .Where(tr => tr.TradeChallengeId == tradeChallengeId)
+                .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId_head != default)
                 .Select(tr => tr.Trade_head)
                 .OrderBy(t => t.DateExit)
                 .LastOrDefault();
