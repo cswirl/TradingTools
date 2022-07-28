@@ -68,7 +68,7 @@ namespace TradingTools
         // register delegates
         internal void registerFormRRC(frmRiskRewardCalc rrc)
         {
-            /// this block avoid duplicate delegate registration
+            /// this block of code prevents duplicate delegate registration for frmRRC objects
             /// - only one of the delegates below is enough for checking
             if (rrc.CalculatorState_Added != default)
                 foreach (var x in rrc.CalculatorState_Added.GetInvocationList())
@@ -82,16 +82,16 @@ namespace TradingTools
             /// Once a Trade Challenge object has a hook to these delegates thru here, it doesn't matter
             /// if any frmRRC object is re-activated anywhere in the program
 
-
-            /// Use delegate from the master - right after DbContext CRUD statements
-            // prospects (unofficial or CalculatorState)
+            /// Use delegate from the master - these are invoked right after DbContext CRUD statements
             Master.CalculatorState_Updated += this.CalculatorState_Updated;
             Master.CalculatorState_Deleted += this.CalculatorState_Deleted;
-            // trade history (official trade or Trade object)
             Master.Trade_Officialized += this.Trade_Officialized;
             Master.Trade_Closed += this.Trade_Closed;
-            // Here, not using the '+=' assignment to override the assignment in master.DelegateHandlers which is no longer necessary
+
+            /// Bypass delegate handler from master.DelegateHandlers
+            // Here, not using the '+=' assignment to override the handler in master.DelegateHandlers
             rrc.CalculatorState_Officializing_IsCancelled = this.CalculatorState_Officializing_IsCancelled_Handler;
+            rrc.Trade_Closing_IsCancelled = null;   
         }
 
         private void messageBus(string msg) => statusMessage.Text = msg;

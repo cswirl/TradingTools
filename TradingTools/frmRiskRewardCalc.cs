@@ -26,23 +26,21 @@ namespace TradingTools
         public CalculatorStateCreated CalculatorState_Added;
         public CalculatorStateUpdating CalculatorState_Officializing_IsCancelled;
         //
-        
         public TradeUpdating Trade_Closing_IsCancelled;
         //
-
-
-        private master _master { get { return (master)this.Owner; } }
-        private IRiskRewardCalc _rrc;
-        private RiskRewardCalc_Serv _rrc_serv = new();  // Obsolete: in favor of IRiskRewardCalc
         public EventHandler<RiskRewardCalcState> OnStateChanged;
+
+        private IRiskRewardCalc _rrc;
         private TradingStyle _tradingStyle;
         private string _headerMetadata;
         private string _lastSavedStateHash;
+        
+        private master _master { get { return (master)this.Owner; } }
 
+        // Properties
         public RiskRewardCalcState State { get; set; } = RiskRewardCalcState.Empty;
 
         public CalculatorState? CalculatorState { get; set; }
-        private CalculatorState? LastSavedCalculatorState { get; set; }
         public Trade? Trade { get; set; }
         public string Side { get; set; }
         public Position Position { get; set; }
