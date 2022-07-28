@@ -75,6 +75,22 @@ namespace TradingTools
         // register delegates
         internal void registerFormRRC(frmRiskRewardCalc rrc)
         {
+            var isRegistered = false;
+
+            if (rrc.CalculatorState_Added != default)
+            {
+                foreach (var x in rrc.CalculatorState_Added.GetInvocationList())
+                {
+                    if (x.Target.Equals(this))
+                    {
+                        isRegistered = true;
+                        break;
+                    }
+                }
+            }
+
+            if (isRegistered) return;
+
             //delegates
             rrc.CalculatorState_Added += this.CalculatorState_Added;
             rrc.CalculatorState_Updated += this.CalculatorState_Updated;
