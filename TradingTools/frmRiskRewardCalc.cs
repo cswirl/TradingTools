@@ -23,21 +23,13 @@ namespace TradingTools
     public partial class frmRiskRewardCalc : Form
     {
         //delegates
-        public delegate void CalculatorState_Save(CalculatorState c);
-        public CalculatorState_Save CalculatorState_Added;
-        public CalculatorState_Save CalculatorState_Updated;
+        public CalculatorStateCreated CalculatorState_Added;
+        public CalculatorStateUpdating CalculatorState_Officializing_IsCancelled;
         //
-        public delegate void CalculatorState_Delete(CalculatorState c);
-        public CalculatorState_Delete CalculatorState_Deleted;
+        
+        public TradeUpdating Trade_Closing_IsCancelled;
         //
-        public delegate void Trade_Create(Trade t);
-        public Trade_Create Trade_Officialized;
-        public delegate bool Trade_Creating(CalculatorState c, out string msg);
-        public Trade_Creating Trade_Officializing_Cancelled;
-        public delegate bool Trade_Updating(CalculatorState c, out string msg);
-        public Trade_Updating Trade_Closing_Cancelled;
-        public delegate void Trade_Updated(Trade t);
-        public Trade_Updated Trade_Closed;
+
 
         private master _master { get { return (master)this.Owner; } }
         private IRiskRewardCalc _rrc;
@@ -448,10 +440,9 @@ namespace TradingTools
             }
             else if (State == RiskRewardCalcState.Loaded | State == RiskRewardCalcState.TradeOpen | State == RiskRewardCalcState.TradeClosed)
             {
-                if (_master.CalculatorState_Update())
+                if (_master.CalculatorState_Update(this.CalculatorState))
                 {
                     statusMessage.Text = "State updated successfully.";
-                    CalculatorState_Updated?.Invoke(CalculatorState);
                 }
                 else statusMessage.Text = "Updating state failed.";
             }
@@ -477,7 +468,6 @@ namespace TradingTools
                     ChangeState(RiskRewardCalcState.Deleted);
                     statusMessage.Text = "State was deleted successfully. \n\nThis form will now close.";
                     MessageBox.Show(statusMessage.Text, "Delete", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    CalculatorState_Deleted?.Invoke(this.CalculatorState);
                     // just close the form
                     this.Close();
                 }
@@ -533,7 +523,7 @@ namespace TradingTools
 
             // delegate cancel
             string msg;
-            if (Trade_Officializing_Cancelled?.Invoke(this.CalculatorState, out msg) ?? false)
+            if (CalculatorState_Officializing_IsCancelled?.Invoke(this.CalculatorState, out msg) ?? false)
             {
                 MyMessageBox.Error(msg, "Officializing a Trade Denied");
                 return;
@@ -599,10 +589,9 @@ namespace TradingTools
             // 4 - Save data into a data store - ChangeState will Display Data 
             if (_master.Trade_Add(this.Trade))
             {
-                ChangeState(RiskRewardCalcState.TradeOpen);
                 statusMessage.Text = $"Ticker: {Trade.Ticker} has been officialized successfully.";
                 MyMessageBox.Inform(statusMessage.Text, $"Trade No. {Trade.Id} is Official");
-                Trade_Officialized?.Invoke(this.Trade);
+                ChangeState(RiskRewardCalcState.TradeOpen); 
             }
             else
             {
@@ -867,7 +856,7 @@ namespace TradingTools
 
             // delegate cancel
             string msg;
-            if (Trade_Closing_Cancelled?.Invoke(this.CalculatorState, out msg) ?? false)
+            if (Trade_Closing_IsCancelled?.Invoke(this.Trade, out msg) ?? false)
             {
                 MyMessageBox.Error(msg, "Closing a Trade Denied");
                 return;
@@ -915,7 +904,6 @@ namespace TradingTools
                 {
                     ChangeState(RiskRewardCalcState.TradeClosed);
                     statusMessage.Text = $"Trade No. '{Trade.Id}' has been closed successfully.";
-                    Trade_Closed?.Invoke(this.Trade);
                 }
                 else
                 {

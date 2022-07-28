@@ -14,7 +14,7 @@ namespace TradingTools.Helpers
         {
             this.Master = m;
         }
-        public bool Trade_Officializing_Cancelled(CalculatorState c, out string msg)
+        public bool CalculatorState_Officializing_IsCancelled_Handler(CalculatorState c, out string msg)
         {
             msg = "";
 
@@ -28,11 +28,11 @@ namespace TradingTools.Helpers
             return false;
         }
 
-        public bool Trade_Closing_Cancelled(CalculatorState c, out string msg)
+        public bool Trade_Closing_IsCancelled_Handler(Trade t, out string msg)
         {
             msg = "";
 
-            var tradeChallengeId = Master.TradeChallengeProspect_GetTradeChallengeId(c.Id);
+            var tradeChallengeId = Master.TradeThread_GetTradeChallengeId(t.Id);
             if (tradeChallengeId > 0)
             {
                 msg = $"This Risk/Reward Calculator belongs to Trade Challenge: {tradeChallengeId}" +

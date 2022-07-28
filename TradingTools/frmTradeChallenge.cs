@@ -15,13 +15,6 @@ namespace TradingTools
 {
     public partial class frmTradeChallenge : Form
     {
-        // delegates
-        public delegate void Save(TradeChallenge tc);
-        public Save TradeChallenge_Updated;
-        public delegate void Completed(TradeChallenge tc);
-        public Completed TradeChallenge_Closed;
-        public Completed TradeChallenge_Deleted;
-
         private BindingList<Trade> _activeTrades;
         private BindingList<Trade> _tradeHistory;
         private BindingList<CalculatorState> _prospects;
@@ -75,30 +68,30 @@ namespace TradingTools
         // register delegates
         internal void registerFormRRC(frmRiskRewardCalc rrc)
         {
-            var isRegistered = false;
-
+            /// this block avoid duplicate delegate registration
+            /// - only one of the delegates below is enough for checking
             if (rrc.CalculatorState_Added != default)
-            {
                 foreach (var x in rrc.CalculatorState_Added.GetInvocationList())
-                {
-                    if (x.Target.Equals(this))
-                    {
-                        isRegistered = true;
-                        break;
-                    }
-                }
-            }
+                    if (x.Target.Equals(this)) return;
+            ///
 
-            if (isRegistered) return;
-
-            //delegates
+            /// delegates
+            // Empty frmRRC - Trade Challenge object has exclusive access to empty frmRRC spawned from it
             rrc.CalculatorState_Added += this.CalculatorState_Added;
-            rrc.CalculatorState_Updated += this.CalculatorState_Updated;
-            rrc.CalculatorState_Deleted += this.CalculatorState_Deleted;
-            rrc.Trade_Officialized += this.Trade_Officialized;
-            rrc.Trade_Closed += this.Trade_Closed;
-            // (HAS PROBLEM AS WELL) Here, not using the '+=' assignment to override the assignment in master.DelegateHandlers 
-            rrc.Trade_Officializing_Cancelled += this.Trade_Officializing_Cancelled;
+
+            /// Once a Trade Challenge object has a hook to these delegates thru here, it doesn't matter
+            /// if any frmRRC object is re-activated anywhere in the program
+
+
+            /// Use delegate from the master - right after DbContext CRUD statements
+            // prospects (unofficial or CalculatorState)
+            Master.CalculatorState_Updated += this.CalculatorState_Updated;
+            Master.CalculatorState_Deleted += this.CalculatorState_Deleted;
+            // trade history (official trade or Trade object)
+            Master.Trade_Officialized += this.Trade_Officialized;
+            Master.Trade_Closed += this.Trade_Closed;
+            // Here, not using the '+=' assignment to override the assignment in master.DelegateHandlers which is no longer necessary
+            rrc.CalculatorState_Officializing_IsCancelled = this.CalculatorState_Officializing_IsCancelled_Handler;
         }
 
         private void messageBus(string msg) => statusMessage.Text = msg;
@@ -111,16 +104,27 @@ namespace TradingTools
             messageBus($"New prospect ticker: {c.Ticker} added successfully");
         }
 
-        private void CalculatorState_Updated(CalculatorState c) => dgvProspects.Invalidate();
+        private void CalculatorState_Updated(CalculatorState c)
+        {
+            if (_prospects.Contains(c))
+            {
+                dgvProspects.Invalidate(); 
+                messageBus($"Prospect with Id: {c.Id} was updated successfully");
+            }
+            
+        }
 
         private void CalculatorState_Deleted(CalculatorState c)
         {
-            // will rely on Foreign Key referential integrity OnDelete->Cascade
-            _prospects.Remove(c);
-            messageBus($"Prospect with Id: {c.Id} was removed successfully");
+            if (_prospects.Contains(c))
+            {
+                // will rely on Foreign Key referential integrity OnDelete->Cascade
+                _prospects.Remove(c);
+                messageBus($"Prospect with Id: {c.Id} was removed successfully");
+            }
         }
 
-        private bool Trade_Officializing_Cancelled(CalculatorState c, out string msg)
+        private bool CalculatorState_Officializing_IsCancelled_Handler(CalculatorState c, out string msg)
         {
             msg = "";
             if (_activeTrades.Count > 0)
@@ -137,8 +141,13 @@ namespace TradingTools
 
         private void Trade_Officialized(Trade t)
         {
-            var tail_id = getTail_Id();
+            // Ignore if not in the prospects list
+            if (!_prospects.Contains(t.CalculatorState)) return;
+
+            // Beyond this point means it passed the CalculatorState_Officializing_IsCancelled check
+
             // add to TradeThread
+            var tail_id = getTail_Id();
             var tr = new TradeThread
             {
                 TradeChallengeId = this.TradeChallenge.Id,
@@ -148,13 +157,13 @@ namespace TradingTools
 
             if (Master.TradeThread_Create(tr))
             {
+                _prospects.Remove(t.CalculatorState);
                 _activeTrades.Add(t);
                 monthCalendarDateEnter.Visible = true;
                 monthCalendarDateEnter.BoldedDates = monthCalendarDateEnter.BoldedDates.Append(t.DateEnter).ToArray();
                 messageBus($"New Trade with ticker: {t.Ticker} was officialized");
-                if (Master.TradeChallengeProspect_Delete(t.CalculatorState))
-                    _prospects.Remove(t.CalculatorState);
-                else
+                // Delete the Prospect from the database
+                if (!Master.TradeChallengeProspect_Delete(t.CalculatorState))
                     messageBus($"An error occur while removing Prospect: {t.CalculatorState.Id} from the database");
             }
         }
@@ -162,9 +171,12 @@ namespace TradingTools
 
         private void Trade_Closed(Trade t)
         {
-            _activeTrades.Remove(t);
-            _tradeHistory.Add(t);
-            messageBus($"Trade {t.Id} was closed successfully");
+            if (_activeTrades.Contains(t))
+            {
+                _activeTrades.Remove(t);
+                _tradeHistory.Add(t);
+                messageBus($"Trade {t.Id} was closed successfully");
+            }
         }
 
         private void frmTradeChallenge_Load(object sender, EventArgs e)
@@ -206,8 +218,6 @@ namespace TradingTools
                 statusMessage.Text = "Changes were saved successfully";
                 txtTitle.Text = TradeChallenge.Title;
                 this.Text = TradeChallenge.Title;
-
-                TradeChallenge_Updated?.Invoke(this.TradeChallenge);
             }
         }
 
@@ -235,7 +245,6 @@ namespace TradingTools
                     messageBus(msg);
                     MyMessageBox.Inform(msg);
                     _prospects.Clear(); // We will rely on foreign key's Cascade on delete
-                    TradeChallenge_Deleted?.Invoke(tc);
                     this.Close();
                 }
                 else
@@ -274,12 +283,11 @@ namespace TradingTools
                 {
                     // mark trade challenge as closed
                     TradeChallenge.IsOpen = false;
-                    if (Master.TradeChallenge_Update(this.TradeChallenge))
+                    if (Master.TradeChallenge_Close(this.TradeChallenge))
                     {
                         msg = $"Trade Challenge: {TradeChallenge.Id} was closed";
                         messageBus(msg);
                         MyMessageBox.Inform(msg);
-                        TradeChallenge_Closed?.Invoke(this.TradeChallenge);
                         changeState(Status.Closed);
                         // delete the CalculatorStates in the TradeProspects linked to this Trade Challenge
                         var tcp = _prospects.Select(p => p.TradeChallengeProspect).ToArray();

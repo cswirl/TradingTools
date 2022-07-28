@@ -18,22 +18,40 @@ namespace TradingTools
 {
     public class master : Form
     {
-        Action<Trade> tradeOfficialized;
-        Action<Trade> tradeClosed;
-        Action<Trade> tradeDeleted;
-        Action<Trade> tradeUpdated;
+        //  delegates
+        // CalculatorState
+        public CalculatorStateCreated CalculatorState_Added;
+        public CalculatorStateUpdated CalculatorState_Updated;
+        public CalculatorStateDeleted CalculatorState_Deleted;
+        // Trade
+        public TradeCreated Trade_Officialized;
+        public TradeUpdated Trade_Updated;
+        public TradeUpdated Trade_Closed;
+        public TradeDeleted Trade_Deleted;
+        // Trade Challenge
+        public TradeChallengeCreated TradeChallenge_Created;
+        public TradeChallengeUpdated TradeChallenge_Updated;
+        public TradeChallengeUpdated TradeChallenge_Closed;
+        public TradeChallengeDeleted TradeChallenge_Deleted;
+        // Trade Thread
+        public TradeThreadCreated TradeThread_Created;
+        // Trade Challenge Prospect
+        public TradeChallengeProspectCreated TradeChallengeProspect_Created;
+        public TradeChallengeProspectDeleted TradeChallengeProspect_Deleted;
+        public TradeChallengeProspectDeletedRange TradeChallengeProspect_DeletedRange;
         //
-        Action<TradeChallenge> tradeChallengeDeleted;
+        public DelegateHandlers DelegateHandlers { get; set; }
+
+        public TradingToolsDbContext DbContext { get; set; }
 
         private List<frmRiskRewardCalc> _listOf_frmRiskRewardCalc;
-        private BindingList<CalculatorState> _calculatorStates_unofficial_bindingList;
-        
-        public TradingToolsDbContext DbContext { get; set; }
+
         public frmCalculatorStates _frmCalcStates { get; set; }
         public frmTradeMasterFile _frmTradeMasterFile { get; set; }
         public frmTradeChallengeMasterFile _frmTradeChallengeMasterFile { get; set; }
-        public TradeService TradeService { get; private set; }
-        public DelegateHandlers DelegateHandlers { get; set; }
+
+        private BindingList<CalculatorState> _calculatorStates_unofficial_bindingList;
+
 
         public master()
         {
@@ -62,10 +80,10 @@ namespace TradingTools
             _frmCalcStates.FormTradeMasterFile += this.FormTradeMasterFile;
             _frmCalcStates.FormTradeChallengeMasterFile += this.FormTradeChallengeMasterFile;
             //
-            this.tradeOfficialized += _frmCalcStates.Trade_Officialized;
-            this.tradeClosed += _frmCalcStates.Trade_Closed;
-            this.tradeDeleted += _frmCalcStates.Trade_Deleted;
-            this.tradeUpdated += _frmCalcStates.Trade_Updated;
+            this.Trade_Officialized += _frmCalcStates.Trade_Officialized;
+            this.Trade_Closed += _frmCalcStates.Trade_Closed;
+            this.Trade_Deleted += _frmCalcStates.Trade_Deleted;
+            this.Trade_Updated += _frmCalcStates.Trade_Updated;
 
         }
 
@@ -95,8 +113,8 @@ namespace TradingTools
                 _frmTradeMasterFile.Show();
                 // delegates
                 _frmTradeMasterFile.Trade_TradeOpen_OnRequest += this.FormRRC_Trade_Spawn;
-                this.tradeOfficialized += _frmTradeMasterFile.Trade_Officialized;
-                this.tradeClosed += _frmTradeMasterFile.Trade_Closed;
+                this.Trade_Officialized += _frmTradeMasterFile.Trade_Officialized;
+                this.Trade_Closed += _frmTradeMasterFile.Trade_Closed;
             }
             else
             {
@@ -127,10 +145,10 @@ namespace TradingTools
             //Delegates assignment here
             form.Owner = this;
             form.FormClosed += this.FormRRC_FormClosed;
-            form.Trade_Officializing_Cancelled += this.DelegateHandlers.Trade_Officializing_Cancelled;
-            form.Trade_Closing_Cancelled += this.DelegateHandlers.Trade_Closing_Cancelled;
-            this.tradeDeleted += form.MarkAsDeleted;
-            this.tradeUpdated += form.Trade_Updated_Handler;
+            form.CalculatorState_Officializing_IsCancelled += this.DelegateHandlers.CalculatorState_Officializing_IsCancelled_Handler;
+            form.Trade_Closing_IsCancelled += this.DelegateHandlers.Trade_Closing_IsCancelled_Handler;
+            this.Trade_Deleted += form.MarkAsDeleted;
+            this.Trade_Updated += form.Trade_Updated_Handler;
             
             _listOf_frmRiskRewardCalc.Add(form);
         }
@@ -236,15 +254,17 @@ namespace TradingTools
             DbContext.SaveChanges();
             _calculatorStates_unofficial_bindingList.Add(calculatorState);
 
+            CalculatorState_Added?.Invoke(calculatorState);
             return true;
         }
 
-        public bool CalculatorState_Update()
+        public bool CalculatorState_Update(CalculatorState calculatorState)
         {
-            // This one line code is sufficed sinced the CalculatorState objects are referenced properly
+            DbContext.CalculatorState.Update(calculatorState);
             DbContext.SaveChanges();
             _frmCalcStates.dgvUnofficial_Invalidate();       // Refereshes the DataGridView
 
+            CalculatorState_Updated?.Invoke(calculatorState);
             return true;
         }
 
@@ -254,6 +274,7 @@ namespace TradingTools
             DbContext.SaveChanges();
             _calculatorStates_unofficial_bindingList.Remove(calculatorState);
 
+            CalculatorState_Deleted?.Invoke(calculatorState);
             return true;
         }
 
@@ -282,15 +303,28 @@ namespace TradingTools
         {
             DbContext.Trade.Add(t);
             DbContext.SaveChanges();
-            tradeOfficialized?.Invoke(t);
+
+            Trade_Officialized?.Invoke(t);
+
+            return true;
+        }
+
+        internal bool Trade_Update(Trade t)
+        {
+            DbContext.Trade.Update(t);
+            DbContext.SaveChanges();
+
+            Trade_Updated?.Invoke(t);
 
             return true;
         }
 
         internal bool Trade_Close(Trade t)
         {
+            DbContext.Trade.Update(t);
             DbContext.SaveChanges();
-            tradeClosed?.Invoke(t);
+            
+            Trade_Closed?.Invoke(t);
 
             return true;
         }
@@ -300,15 +334,8 @@ namespace TradingTools
             DbContext.Trade.Remove(t);
             DbContext.CalculatorState.Remove(t.CalculatorState);
             DbContext.SaveChanges();
-            tradeDeleted?.Invoke(t);
 
-            return true;
-        }
-
-        internal bool Trade_Update(Trade t)
-        {
-            DbContext.SaveChanges();
-            tradeUpdated?.Invoke(t);
+            Trade_Deleted?.Invoke(t);
 
             return true;
         }
@@ -321,6 +348,7 @@ namespace TradingTools
         {
             DbContext.TradeChallenge.Add(tc);
             DbContext.SaveChanges();
+            TradeChallenge_Created?.Invoke(tc);
 
             return true;
         }
@@ -329,6 +357,16 @@ namespace TradingTools
         {
             DbContext.TradeChallenge.Update(tc);
             DbContext.SaveChanges();
+            TradeChallenge_Updated?.Invoke(tc);
+
+            return true;
+        }
+
+        public bool TradeChallenge_Close(TradeChallenge tc)
+        {
+            DbContext.TradeChallenge.Update(tc);
+            DbContext.SaveChanges();
+            TradeChallenge_Closed?.Invoke(tc);
 
             return true;
         }
@@ -337,7 +375,8 @@ namespace TradingTools
         {
             DbContext.TradeChallenge.Remove(tc);
             DbContext.SaveChanges();
-            tradeChallengeDeleted?.Invoke(tc);
+            TradeChallenge_Deleted?.Invoke(tc);
+
             return true;
         }
 
@@ -360,6 +399,7 @@ namespace TradingTools
         {
             DbContext.TradeThread.Add(tr);
             DbContext.SaveChanges();
+            TradeThread_Created?.Invoke(tr);
 
             return true;
         }
@@ -415,6 +455,15 @@ namespace TradingTools
                 .LastOrDefault();
         }
 
+        public int TradeThread_GetTradeChallengeId(int tradeId)
+        {
+            var x = DbContext.TradeThread
+                .Where(tr => tr.TradeId_head == tradeId)
+                .FirstOrDefault();
+
+            return x?.TradeChallengeId ?? 0;
+        }
+
 
 
         /// <summary>
@@ -425,6 +474,8 @@ namespace TradingTools
         {
             DbContext.TradeChallengeProspect.Add(tcp);
             DbContext.SaveChanges();
+            TradeChallengeProspect_Created?.Invoke(tcp);
+
             return true;
         }
 
@@ -432,6 +483,8 @@ namespace TradingTools
         {
             DbContext.TradeChallengeProspect.RemoveRange(tcp);
             DbContext.SaveChanges();
+            TradeChallengeProspect_DeletedRange?.Invoke(tcp);
+
             return true;
         }
 
@@ -445,6 +498,8 @@ namespace TradingTools
 
             DbContext.TradeChallengeProspect.Remove(tcp);
             DbContext.SaveChanges();
+            TradeChallengeProspect_Deleted?.Invoke(tcp);
+
             return true;
         }
 

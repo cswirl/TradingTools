@@ -49,9 +49,9 @@ namespace TradingTools
 
         private void registerForm(frmTradeChallenge form)
         {
-            form.TradeChallenge_Updated += this.TradeChallenge_Updated;
-            form.TradeChallenge_Closed += this.TradeChallenge_Closed;
-            form.TradeChallenge_Deleted += this.TradeChallenge_Deleted;
+            _master.TradeChallenge_Updated += this.TradeChallenge_Updated;
+            _master.TradeChallenge_Closed += this.TradeChallenge_Closed;
+            _master.TradeChallenge_Deleted += this.TradeChallenge_Deleted;
 
             form.FormClosed += (object sender, FormClosedEventArgs e)
                 => { _listOf_frmTradeChallenge.Remove((frmTradeChallenge)sender); };
@@ -61,20 +61,26 @@ namespace TradingTools
 
         private void TradeChallenge_Updated(TradeChallenge tc)
         {
-            if (tc.IsOpen) dgvOpen.Invalidate();
-            else dgvClosed.Invalidate();
-
+            if (_currentTradeChallenges.Contains(tc)) dgvOpen.Invalidate();
+            else if (_closedTradeChallenges.Contains(tc)) dgvClosed.Invalidate();
         }
 
         private void TradeChallenge_Closed(TradeChallenge tc)
         {
-            _currentTradeChallenges.Remove(tc);
-            _closedTradeChallenges.Add(tc);
+            if (_currentTradeChallenges.Contains(tc))
+            {
+                _currentTradeChallenges.Remove(tc);
+                _closedTradeChallenges.Add(tc);
+            }
         }
 
         private void TradeChallenge_Deleted(TradeChallenge tc)
         {
-            _currentTradeChallenges.Remove(tc);
+            if (_currentTradeChallenges.Contains(tc)) 
+                _currentTradeChallenges.Remove(tc);
+
+            else if (_closedTradeChallenges.Contains(tc))
+                _closedTradeChallenges.Remove(tc);
         }
 
         private void TradeChallenge_Spawn(TradeChallenge tc)
