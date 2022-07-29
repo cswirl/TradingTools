@@ -111,12 +111,58 @@ namespace TradingTools
 
         private void CalculatorState_Deleted(CalculatorState c)
         {
-            if (_prospects.Contains(c))
-            {
-                // will rely on Foreign Key referential integrity OnDelete->Cascade
-                _prospects.Remove(c);
+            // will rely on Foreign Key referential integrity OnDelete->Cascade
+            if (_prospects.Remove(c))
                 messageBus($"Prospect with Id: {c.Id} was removed successfully");
+        }
+
+        private void Trade_Updated(Trade t)
+        {
+            bool flag = false;
+            if (_activeTrades.Contains(t))
+            {
+                dgvActiveTrade.Invalidate();
+                flag = true;
             }
+            else if (_tradeHistory.Contains(t))
+            {
+                dgvTradeHistory.Invalidate();
+                flag = true;
+            }
+
+            if (flag)
+            {
+                messageBus($"Trade with Id: {t.Id} was updated successfully");
+                refreshCalendarBoldDates();
+            }
+            
+        }
+
+        private void Trade_Deleted(Trade t)
+        {
+            bool flag = false;
+            if (_activeTrades.Remove(t)) flag = true;
+            else if (_tradeHistory.Remove(t)) flag = true;
+
+            if (flag)
+            {
+                messageBus($"Trade with Id: {t.Id} was removed successfully");
+                refreshCalendarBoldDates();
+            }
+        }
+
+        private void refreshCalendarBoldDates()
+        {
+            monthCalendarDateEnter.BoldedDates = null;
+            var allTrades = getAllTrades();
+            if (allTrades.Count > 0)
+            {
+                monthCalendarDateEnter.MinDate = allTrades.First().DateEnter;
+                monthCalendarDateEnter.BoldedDates = allTrades.Select(x => x.DateEnter).ToArray();
+                monthCalendarDateEnter.MaxDate = DateTime.Now;
+            }
+            else
+                monthCalendarDateEnter.Visible = false;
         }
 
         private bool CalculatorState_Officializing_IsCancelled_Handler(CalculatorState c, out string msg)
@@ -183,7 +229,9 @@ namespace TradingTools
             /// Use delegate from the master - these are invoked right after DbContext CRUD statements
             Master.CalculatorState_Updated += this.CalculatorState_Updated;
             Master.CalculatorState_Deleted += this.CalculatorState_Deleted;
+            Master.Trade_Updated += this.Trade_Updated;
             Master.Trade_Closed += this.Trade_Closed;
+            Master.Trade_Deleted += this.Trade_Deleted;
             //
 
             // Load Trade Challenge Object
@@ -192,15 +240,7 @@ namespace TradingTools
             txtDesc.Text = TradeChallenge.Description;
             txtTitle.Text = TradeChallenge.Title;
             // calendar
-            var allTrades = getAllTrades();
-            if (allTrades.Count > 0)
-            {
-                monthCalendarDateEnter.MinDate = allTrades.First().DateEnter;
-                monthCalendarDateEnter.BoldedDates = allTrades.Select(x => x.DateEnter).ToArray();
-                monthCalendarDateEnter.MaxDate = DateTime.Now;
-            }
-            else
-                monthCalendarDateEnter.Visible = false;
+            refreshCalendarBoldDates();
 
             changeState(this.TradeChallenge.IsOpen ? Status.Open : Status.Closed);
             messageBus("Form loaded successful");
