@@ -429,9 +429,9 @@ namespace TradingTools
             //    .ToList();
 
             return DbContext.TradeThread
-                .Include(tr => tr.Trade_head).ThenInclude(t => t.CalculatorState).Where(tr => tr.Trade_head.Status.Equals("open"))
-                .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId_head != default)
-                .Select(tr => tr.Trade_head).Where(t => !t.IsDeleted)
+                .Include(tr => tr.Trade).ThenInclude(t => t.CalculatorState).Where(tr => tr.Trade.Status.Equals("open"))
+                .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId != default)
+                .Select(tr => tr.Trade).Where(t => !t.IsDeleted)
                 .ToList();
         }
 
@@ -444,9 +444,9 @@ namespace TradingTools
             //    .ToList();
 
             return DbContext.TradeThread
-                .Include(tr => tr.Trade_head).ThenInclude(t => t.CalculatorState).Where(tr => tr.Trade_head.Status.Equals("closed"))
-                .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId_head != default)
-                .Select(tr => tr.Trade_head).Where(t => !t.IsDeleted)
+                .Include(tr => tr.Trade).ThenInclude(t => t.CalculatorState).Where(tr => tr.Trade.Status.Equals("closed"))
+                .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId != default)
+                .Select(tr => tr.Trade).Where(t => !t.IsDeleted)
                 .OrderBy(t => t.DateExit)
                 .ToList();
         }
@@ -455,18 +455,18 @@ namespace TradingTools
         {
 
             return DbContext.TradeThread
-                .Include(tr => tr.Trade_head).ThenInclude(t => t.CalculatorState)
-                .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId_head != default)
-                .Select(tr => tr.Trade_head).Where(t => !t.IsDeleted)
+                .Include(tr => tr.Trade).ThenInclude(t => t.CalculatorState)
+                .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId != default)
+                .Select(tr => tr.Trade).Where(t => !t.IsDeleted)
                 .ToList();
         }
 
         public Trade TradeThread_GetNextTail(int tradeChallengeId)
         {
             return DbContext.TradeThread
-                .Include(tr => tr.Trade_head).ThenInclude(t => t.CalculatorState).Where(tr => tr.Trade_head.Status.Equals("closed"))
-                .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId_head != default)
-                .Select(tr => tr.Trade_head).Where(t => !t.IsDeleted)
+                .Include(tr => tr.Trade).ThenInclude(t => t.CalculatorState).Where(tr => tr.Trade.Status.Equals("closed"))
+                .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId != default)
+                .Select(tr => tr.Trade).Where(t => !t.IsDeleted)
                 .OrderBy(t => t.DateExit)
                 .LastOrDefault();
         }
@@ -474,7 +474,7 @@ namespace TradingTools
         public int TradeThread_GetTradeChallengeId(int tradeId)
         {
             var x = DbContext.TradeThread
-                .Where(tr => tr.TradeId_head == tradeId)
+                .Where(tr => tr.TradeId == tradeId)
                 .FirstOrDefault();
 
             return x?.TradeChallengeId ?? 0;

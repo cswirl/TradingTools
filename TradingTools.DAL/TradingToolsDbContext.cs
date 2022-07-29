@@ -26,14 +26,7 @@ namespace TradingTools.DAL
 
             /// Explicit Entities Relationship Declaration
             /// 
-            /// Trade and TradeThread relationship is a little special than normal - please see the documentation diagram
-            /// - A TradeThread record has 2 distinct Trade Record (Head and Tail)
-            /// - A Trade record belongs to 1-or-2 Trade Thread records where it is either a head or a tail
-            modelBuilder.Entity<Trade>()
-                .HasOne<TradeThread>(t => t.TradeThreadHead)
-                .WithOne(tread => tread.Trade_head)
-                .HasForeignKey<TradeThread>(tread => tread.TradeId_head)
-                .OnDelete(DeleteBehavior.NoAction);
+
 
 
             /// TradeChallengeProspect Entity Relationship

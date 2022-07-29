@@ -186,7 +186,7 @@ namespace TradingTools
             var tr = new TradeThread
             {
                 TradeChallenge = this.TradeChallenge,
-                Trade_head = t,
+                Trade = t,
             };
 
             if (Master.TradeThread_Create(tr))

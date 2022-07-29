@@ -15,8 +15,8 @@ namespace TradingTools.Trunk.Entity
         public int? TradeChallengeId { get; set; }
         public virtual TradeChallenge TradeChallenge { get; set; }
 
-        public int? TradeId_head { get; set; }
-        public virtual Trade Trade_head { get; set; }
+        public int? TradeId { get; set; }
+        public virtual Trade Trade { get; set; }
         
     }
 }
