@@ -26,6 +26,7 @@ namespace TradingTools
         public CalculatorStateCreated CalculatorState_Added;
         public CalculatorStateUpdating CalculatorState_Officializing_IsCancelled;
         //
+        public TradeCreated Trade_Officialized;
         public TradeUpdating Trade_Closing_IsCancelled;
         //
         public EventHandler<RiskRewardCalcState> OnStateChanged;
@@ -589,7 +590,8 @@ namespace TradingTools
             {
                 statusMessage.Text = $"Ticker: {Trade.Ticker} has been officialized successfully.";
                 MyMessageBox.Inform(statusMessage.Text, $"Trade No. {Trade.Id} is Official");
-                ChangeState(RiskRewardCalcState.TradeOpen); 
+                ChangeState(RiskRewardCalcState.TradeOpen);
+                Trade_Officialized?.Invoke(this.Trade);
             }
             else
             {

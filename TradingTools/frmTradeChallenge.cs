@@ -79,8 +79,9 @@ namespace TradingTools
             // Empty frmRRC - Trade Challenge object has exclusive access to empty frmRRC spawned by it
             rrc.CalculatorState_Added += this.CalculatorState_Added;
 
-            /// Once a Trade Challenge object has a hook to these delegates thru here, it doesn't matter
-            /// if any frmRRC object is re-activated anywhere in the program
+            /// Once a Trade Challenge object has a hook to rrc.Trade_Officialized delegate thru here, 
+            /// it doesn't matter if a frmRRC object is re-activated anywhere in the program
+            rrc.Trade_Officialized = this.Trade_Officialized;
 
             /// Bypass delegate handler from master.DelegateHandlers
             // Here, not using the '+=' assignment to override the handler in master.DelegateHandlers
@@ -135,11 +136,6 @@ namespace TradingTools
 
         private void Trade_Officialized(Trade t)
         {
-            // Ignore if not in the prospects list
-            if (!_prospects.Contains(t.CalculatorState)) return;
-
-            // Beyond this point means it passed the CalculatorState_Officializing_IsCancelled check
-
             // add to TradeThread
             var tail_id = getTail_Id();
             var tr = new TradeThread
@@ -187,7 +183,6 @@ namespace TradingTools
             /// Use delegate from the master - these are invoked right after DbContext CRUD statements
             Master.CalculatorState_Updated += this.CalculatorState_Updated;
             Master.CalculatorState_Deleted += this.CalculatorState_Deleted;
-            Master.Trade_Officialized += this.Trade_Officialized;
             Master.Trade_Closed += this.Trade_Closed;
             //
 
