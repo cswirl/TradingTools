@@ -81,6 +81,9 @@ namespace TradingTools
                 case StatusFilter.Open:
                     DataGridView_SetDataSource(_master?.GetTrades_Open());
                     break;
+                case StatusFilter.Deleted:
+                    DataGridView_SetDataSource(_master?.GetTrades_Deleted());
+                    break;
             }
             dgvTrades.Focus();
         }
@@ -376,7 +379,8 @@ namespace TradingTools
     {
         All,
         Closed,
-        Open
+        Open,
+        Deleted
     }
 
 }
