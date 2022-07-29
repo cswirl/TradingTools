@@ -99,6 +99,10 @@ namespace TradingTools.Trunk.Entity
         public string Status { get; set; }
         #endregion
 
+        // Meta Data
+        [DefaultValue(false)]
+        public bool IsDeleted { get; set; }
+
         // Navigation Properties
         public virtual CalculatorState CalculatorState { get; set; }
         public virtual TradeThread TradeThreadHead { get; set; }
