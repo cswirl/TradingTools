@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -106,7 +106,6 @@ namespace TradingTools.Trunk.Entity
         // Navigation Properties
         public virtual CalculatorState CalculatorState { get; set; }
         public virtual TradeThread TradeThreadHead { get; set; }
-        public virtual TradeThread TradeThreadTail { get; set; }
 
     }
 }

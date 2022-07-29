@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
@@ -14,9 +14,6 @@ namespace TradingTools.Trunk.Entity
 
         public int? TradeChallengeId { get; set; }
         public virtual TradeChallenge TradeChallenge { get; set; }
-
-        public int? TradeId_tail { get; set; }
-        public virtual Trade Trade_tail { get; set; }
 
         public int? TradeId_head { get; set; }
         public virtual Trade Trade_head { get; set; }

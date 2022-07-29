@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -183,12 +183,10 @@ namespace TradingTools
         private void Trade_Officialized(Trade t)
         {
             // add to TradeThread
-            var tail_id = getTail_Id();
             var tr = new TradeThread
             {
-                TradeChallengeId = this.TradeChallenge.Id,
-                TradeId_head = t.Id,
-                TradeId_tail = tail_id < 1 ? null : tail_id
+                TradeChallenge = this.TradeChallenge,
+                Trade_head = t,
             };
 
             if (Master.TradeThread_Create(tr))
@@ -203,7 +201,6 @@ namespace TradingTools
                     messageBus($"An error occur while removing Prospect: {t.CalculatorState.Id} from the database");
             }
         }
-        private int getTail_Id() => Master.TradeThread_GetNextTail(TradeChallenge.Id)?.Id ?? 0;
 
         private void Trade_Closed(Trade t)
         {

@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -35,11 +35,6 @@ namespace TradingTools.DAL
                 .HasForeignKey<TradeThread>(tread => tread.TradeId_head)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<Trade>()
-                .HasOne<TradeThread>(t => t.TradeThreadTail)
-                .WithOne(tread => tread.Trade_tail)
-                .HasForeignKey<TradeThread>(tread => tread.TradeId_tail)
-                .OnDelete(DeleteBehavior.NoAction);
 
             /// TradeChallengeProspect Entity Relationship
             /// Explicitly declared to cascade on delete
