@@ -116,7 +116,6 @@ namespace TradingTools
             if (Position  == default)
             {
                 statusMessage.Text = msg;
-                MyMessageBox.Error(statusMessage.Text, "");
                 return;
             }
 
@@ -153,13 +152,13 @@ namespace TradingTools
             var p = new Position();
             msg = string.Empty;
 
-            // Collect Data
+            // Collect Data - The collection process will assign default values - no exception is expected
             p.Capital = txtCapital.Text.ToDecimal();
             p.EntryPriceAvg = txtEntryPrice.Text.ToDecimal();
             p.Leverage = txtLeverage.Text.ToDecimal();
             p.LotSize = txtLotSize.Text.ToDecimal();
 
-            // Validation - The collection process will assign default values - no null object is expected
+            // Validation 
             // divide by zero screener
             if (p.Capital == 0 || p.EntryPriceAvg == 0)
             {
@@ -190,7 +189,7 @@ namespace TradingTools
             
             // Final Validation - Strict
             // Hence, Minimum value 
-            if (p.Capital <= 10 | p.LotSize <= 0 | p.EntryPriceAvg <= 0)
+            if (p.Capital <= 0 | p.LotSize <= 0 | p.EntryPriceAvg <= 0)
             {
                 msg = "Invalid input data";
                 return default;
@@ -412,19 +411,9 @@ namespace TradingTools
         private bool Save()
         {
             // Capture state
-            // 1
             captureCalculatorState().CopyProperties(this.CalculatorState);
 
-            // 2-B Validation - the implementation may be incomplete but suffice for nowInputConverter.MoneyToDecimal
-            string msg;
-            if (!RiskRewardCalc_Serv.CalculatorState_Validate(this.CalculatorState, out msg))
-            {
-                statusMessage.Text = msg;
-                MessageBox.Show(statusMessage.Text, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return false;
-            }
-
-            // 3 - process data collected - this will save data into a data store - no need for step 4 which is to Display Data 
+            // Process data collected - this will save data into a data store - no need for step 4 which is to Display Data 
             if (_master == default) return false;
             if (State == RiskRewardCalcState.Empty)
             {
@@ -432,9 +421,9 @@ namespace TradingTools
                 if (_master.CalculatorState_Add(CalculatorState))
                 {
                     statusMessage.Text = "State save successfully.";
-                    SetLastSavedCalculatorHash();
                     ChangeState(RiskRewardCalcState.Loaded);
                     CalculatorState_Added?.Invoke(CalculatorState);
+                    SetLastSavedCalculatorHash();
                 }
                 else statusMessage.Text = "Saving state failed.";
             }
@@ -593,8 +582,8 @@ namespace TradingTools
                 statusMessage.Text = $"Ticker: {Trade.Ticker} has been officialized successfully.";
                 MyMessageBox.Inform(statusMessage.Text, $"Trade No. {Trade.Id} is Official");
                 ChangeState(RiskRewardCalcState.TradeOpen);
-                SetLastSavedCalculatorHash();
                 Trade_Officialized?.Invoke(this.Trade);
+                SetLastSavedCalculatorHash();
             }
             else
             {
