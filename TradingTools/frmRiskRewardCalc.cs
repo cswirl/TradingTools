@@ -431,8 +431,9 @@ namespace TradingTools
                 // Add to the Owner's List
                 if (_master.CalculatorState_Add(CalculatorState))
                 {
-                    ChangeState(RiskRewardCalcState.Loaded);
                     statusMessage.Text = "State save successfully.";
+                    SetLastSavedCalculatorHash();
+                    ChangeState(RiskRewardCalcState.Loaded);
                     CalculatorState_Added?.Invoke(CalculatorState);
                 }
                 else statusMessage.Text = "Saving state failed.";
@@ -442,11 +443,12 @@ namespace TradingTools
                 if (_master.CalculatorState_Update(this.CalculatorState))
                 {
                     statusMessage.Text = "State updated successfully.";
+                    SetLastSavedCalculatorHash();
                 }
                 else statusMessage.Text = "Updating state failed.";
             }
 
-            SetLastSavedCalculatorHash();
+            
             return true;
         }
 
@@ -591,6 +593,7 @@ namespace TradingTools
                 statusMessage.Text = $"Ticker: {Trade.Ticker} has been officialized successfully.";
                 MyMessageBox.Inform(statusMessage.Text, $"Trade No. {Trade.Id} is Official");
                 ChangeState(RiskRewardCalcState.TradeOpen);
+                SetLastSavedCalculatorHash();
                 Trade_Officialized?.Invoke(this.Trade);
             }
             else
@@ -902,8 +905,9 @@ namespace TradingTools
                 // and will automatically register to the master form internal List
                 if (_master.Trade_Close(Trade))
                 {
-                    ChangeState(RiskRewardCalcState.TradeClosed);
                     statusMessage.Text = $"Trade No. '{Trade.Id}' has been closed successfully.";
+                    ChangeState(RiskRewardCalcState.TradeClosed);
+                    SetLastSavedCalculatorHash();
                 }
                 else
                 {
