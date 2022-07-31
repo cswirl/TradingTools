@@ -16,18 +16,18 @@ using TradingTools.Trunk.Validation;
 
 namespace TradingTools
 {
-    public partial class TradeClosing : Form
+    public partial class dialogTradeClosing : Form
     {
         public Trade? Trade { get; set; }
 
-        public TradeClosing()
+        public dialogTradeClosing()
         {
             InitializeComponent();
 
             dtpDateExit.MaxDate = DateTime.Today.AddDays(1).AddTicks(-1);
         }
 
-        public TradeClosing(Trade t)
+        public dialogTradeClosing(Trade t)
         {
             this.Trade = t;
 

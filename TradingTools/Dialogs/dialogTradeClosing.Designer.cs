@@ -1,7 +1,7 @@
 ﻿
 namespace TradingTools
 {
-    partial class TradeClosing
+    partial class dialogTradeClosing
     {
         /// <summary>
         /// Required designer variable.

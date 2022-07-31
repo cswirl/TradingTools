@@ -528,7 +528,7 @@ namespace TradingTools
                 d.LotSize = txtLotSize.Text;
                 d.EntryPrice = txtEntryPrice.Text;
 
-                var officializeDialog = new TradeOfficialize();
+                var officializeDialog = new dialogTradeOfficialize();
                 officializeDialog.MyProperty = d;
                 officializeDialog.Trade_Officialize += this.officializedTrade;
                 officializeDialog.ShowDialog();
@@ -863,7 +863,7 @@ namespace TradingTools
             t.CalculatorState.ReasonForExit = txtReasonForExit.Text;
 
             // 1 - Input and Sanitize - done on the TradeClosing Dialog
-            var result = new TradeClosing(t).ShowDialog();
+            var result = new dialogTradeClosing(t).ShowDialog();
             if (result == DialogResult.Yes)
             {
                 // Validate the data gathered by the proxy trade object

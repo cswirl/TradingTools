@@ -1,7 +1,7 @@
 ﻿
 namespace TradingTools
 {
-    partial class TradeOfficialize
+    partial class dialogTradeOfficialize
     {
         /// <summary>
         /// Required designer variable.

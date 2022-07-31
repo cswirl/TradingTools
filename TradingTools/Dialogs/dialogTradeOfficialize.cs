@@ -13,14 +13,14 @@ using TradingTools.Trunk.Validation;
 
 namespace TradingTools
 {
-    public partial class TradeOfficialize : Form
+    public partial class dialogTradeOfficialize : Form
     {
         public delegate bool Trade_OnOfficializing(dynamic d);
         public Trade_OnOfficializing Trade_Officialize;
 
         public dynamic MyProperty { get; set; }
 
-        public TradeOfficialize()
+        public dialogTradeOfficialize()
         {
             InitializeComponent();
 
