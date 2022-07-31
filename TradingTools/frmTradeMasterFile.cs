@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TradingTools.Dialogs;
 using TradingTools.Model;
 using TradingTools.Services;
 using TradingTools.Trunk;
@@ -93,19 +94,19 @@ namespace TradingTools
             var t = (Trade)dgvTrades.CurrentRow.DataBoundItem;
             if (t.IsDeleted) { statusMessage.Text = $"Trade {t.Id} is already deleted"; return; }
 
-            DialogResult objDialog = MyMessageBox.Question_YesNo($"Confirmation: DELETE Trade No. {t.Id}?", "Delete");
+            DialogResult objDialog = AppMessageBox.Question_YesNo($"Confirmation: DELETE Trade No. {t.Id}?", "Delete");
             if (objDialog == DialogResult.Yes)
             {
                 if (_master.Trade_Delete(t))
                 {
                     statusMessage.Text = $"Trade No. {t.Id} was deleted successfully.";
-                    MyMessageBox.Inform(statusMessage.Text, "Delete");
+                    AppMessageBox.Inform(statusMessage.Text, "Delete");
                     _trade_bindingList.Remove(t);
                 }
                 else
                 {
                     statusMessage.Text = $"An error occur while deleting Trade No. {t.Id}.";
-                    MyMessageBox.Error(statusMessage.Text, "Delete");
+                    AppMessageBox.Error(statusMessage.Text, "Delete");
                 }
             }
         }
@@ -139,7 +140,7 @@ namespace TradingTools
             var t = (Trade)dgvTrades.CurrentRow.DataBoundItem;
             t.CopyProperties(tradeClone);
 
-            DialogResult objDialog = MyMessageBox.Question_YesNo($"Confirmation: UPDATE Trade No. {t.Id}?", "Update");
+            DialogResult objDialog = AppMessageBox.Question_YesNo($"Confirmation: UPDATE Trade No. {t.Id}?", "Update");
             if (objDialog == DialogResult.Yes)
             {
                 // collect
@@ -157,7 +158,7 @@ namespace TradingTools
                 if (!TradeService.TradeOpening_Validate(tradeClone, out msg))
                 {
                     statusMessage.Text = msg;
-                    MyMessageBox.Error(msg);
+                    AppMessageBox.Error(msg);
                     return;
                 }
 
@@ -173,7 +174,7 @@ namespace TradingTools
                     if (!TradeService.TradeClosing_Validate(t, out msg))
                     {
                         statusMessage.Text = msg;
-                        MyMessageBox.Error(msg);
+                        AppMessageBox.Error(msg);
                         return;
                     }
                 }
@@ -184,14 +185,14 @@ namespace TradingTools
                 if (_master.Trade_Update(t))    // Trade object must be the original
                 {
                     statusMessage.Text = $"Trade No. {t.Id} was updated successfully.";
-                    MyMessageBox.Inform(statusMessage.Text, "Update");
+                    AppMessageBox.Inform(statusMessage.Text, "Update");
                     dgvTrades.Invalidate();
                     dgvTrades_SelectionChanged(null, null);
                 }
                 else
                 {
                     statusMessage.Text = $"An error occur while updating Trade No. {t.Id}.";
-                    MyMessageBox.Error(statusMessage.Text, "Update");
+                    AppMessageBox.Error(statusMessage.Text, "Update");
                 }
             }
         }

@@ -28,24 +28,4 @@ namespace TradingTools
         public static readonly Color TradeOpen = Default;
         public static readonly Color TradeClosed = Default;
     }
-
-    public static class MyMessageBox
-    {
-        public static DialogResult Question_YesNo(string msg, string title)
-        {
-            DialogResult objDialog = MessageBox.Show(msg, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            return objDialog;
-        }
-
-        internal static void Error(string msg, string title = "Error")
-        {
-            MessageBox.Show(msg, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        internal static void Inform(string msg, string title = "")
-        {
-            MessageBox.Show(msg, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-    }
-
 }

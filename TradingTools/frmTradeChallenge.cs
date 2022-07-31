@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TradingTools.Dialogs;
 using TradingTools.Trunk;
 using TradingTools.Trunk.Entity;
 using TradingTools.Trunk.Extensions;
@@ -269,7 +270,7 @@ namespace TradingTools
         private void deleteTradeChallenge(TradeChallenge tc)
         {
             string msg;
-            var result = MyMessageBox.Question_YesNo(
+            var result = AppMessageBox.Question_YesNo(
                 $"Trade Challenge: {tc.Id} does not contain any Trade and will be deleted", 
                 "Ending Trade Challenge");
             if (result == DialogResult.Yes)
@@ -277,7 +278,7 @@ namespace TradingTools
                 {
                     msg = $"Trade Challenge: {tc.Id} is now deleted\n\nThis form will now close";
                     messageBus(msg);
-                    MyMessageBox.Inform(msg);
+                    AppMessageBox.Inform(msg);
                     _prospects.Clear(); // We will rely on foreign key's Cascade on delete
                     this.Close();
                 }
@@ -285,7 +286,7 @@ namespace TradingTools
                 {
                     msg = $"An unexpected error occur while deleting Trade Challenge: {tc.Id}";
                     messageBus(msg);
-                    MyMessageBox.Error(msg);
+                    AppMessageBox.Error(msg);
                 }
         }
 
@@ -298,7 +299,7 @@ namespace TradingTools
             {
                 msg = "To proceed ending this Trade Challenge, the Active Trade need to be closed first";
                 messageBus(msg);
-                MyMessageBox.Error(msg, "Ending Trade Challenge");
+                AppMessageBox.Error(msg, "Ending Trade Challenge");
                 return;
             }
             // Empty Trade Challenge
@@ -310,7 +311,7 @@ namespace TradingTools
             {
                 // Dialog confirmation
                 var premature = (_tradeHistory.Count < TradeChallenge.TradeCap) ? "Pre-Maturely" : "";
-                DialogResult objDialog = MyMessageBox.Question_YesNo(
+                DialogResult objDialog = AppMessageBox.Question_YesNo(
                          $"Are you sure to terminate Trade Challenge: {this.TradeChallenge.Id} {premature} ?",
                          "Terminating Trade Challenge");
                 if (objDialog == DialogResult.Yes)
@@ -321,7 +322,7 @@ namespace TradingTools
                     {
                         msg = $"Trade Challenge: {TradeChallenge.Id} was closed";
                         messageBus(msg);
-                        MyMessageBox.Inform(msg);
+                        AppMessageBox.Inform(msg);
                         changeState(Status.Closed);
                         // delete the CalculatorStates in the TradeProspects linked to this Trade Challenge
                         var tcp = _prospects.Select(p => p.TradeChallengeProspect).ToArray();
@@ -333,14 +334,14 @@ namespace TradingTools
                         {
                             msg = $"Fail deleting the Prospects in the database";
                             messageBus(msg);
-                            MyMessageBox.Error(msg);
+                            AppMessageBox.Error(msg);
                         }
                     }
                     else
                     {
                         msg = $"Fail ending the Trade Challenge: {TradeChallenge.Id}";
                         messageBus(msg);
-                        MyMessageBox.Error(msg);
+                        AppMessageBox.Error(msg);
                     }
                 }
             }
