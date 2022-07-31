@@ -102,6 +102,8 @@ namespace TradingTools
             //    .Include(x => x.Trade));
 
             //_trades_open_bindingList = DbContext.Trades.Local.ToBindingList();
+
+            //DbContext.Database.Migrate();
         }
 
         private void FormTradeMasterFile(object sender, EventArgs e)

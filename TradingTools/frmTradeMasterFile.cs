@@ -91,6 +91,8 @@ namespace TradingTools
         private void btnDelete_Click(object sender, EventArgs e)
         {
             var t = (Trade)dgvTrades.CurrentRow.DataBoundItem;
+            if (t.IsDeleted) { statusMessage.Text = $"Trade {t.Id} is already deleted"; return; }
+
             DialogResult objDialog = MyMessageBox.Question_YesNo($"Confirmation: DELETE Trade No. {t.Id}?", "Delete");
             if (objDialog == DialogResult.Yes)
             {
