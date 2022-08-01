@@ -119,12 +119,12 @@ namespace TradingTools
         // Officialize a Trade means creating a new Trade record
         public void Trade_Officialized(Trade t)
         {
-            if (_statusFilter == StatusFilter.Open | _statusFilter == StatusFilter.All) _trade_bindingList.Add(t);
+            if (_statusFilter == StatusFilter.Open | _statusFilter == StatusFilter.All) _trade_bindingList.Insert(0,t);
         }
 
         public void Trade_Closed(Trade t)
         {
-            if (_statusFilter == StatusFilter.Closed) _trade_bindingList.Add(t);
+            if (_statusFilter == StatusFilter.Closed) _trade_bindingList.Insert(0,t);
             if (_statusFilter == StatusFilter.Open) _trade_bindingList.Remove(t);
             if (_statusFilter == StatusFilter.All)
             {

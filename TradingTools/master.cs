@@ -332,6 +332,7 @@ namespace TradingTools
             return new BindingList<Trade>(DbContext.Trade
                 .Include(x => x.CalculatorState)
                 .Where(x => !x.IsDeleted)
+                .OrderByDescending(x => x.Id)
                 .ToList());
         }
 
@@ -340,6 +341,7 @@ namespace TradingTools
             return new BindingList<Trade>(DbContext.Trade
                 .Where(x => x.Status.Equals("closed"))
                 .Where(x => !x.IsDeleted)
+                .OrderByDescending(x => x.DateExit)
                 .Include(x => x.CalculatorState).ToList());
         }
 
@@ -348,6 +350,7 @@ namespace TradingTools
             return new BindingList<Trade>(DbContext.Trade
                 .Where(x => x.Status.Equals("open"))
                 .Where(x => !x.IsDeleted)
+                .OrderByDescending(x => x.DateEnter)
                 .Include(x => x.CalculatorState).ToList());
         }
 
@@ -355,6 +358,7 @@ namespace TradingTools
         {
             return new BindingList<Trade>(DbContext.Trade
                 .Where(x => x.IsDeleted)
+                .OrderByDescending(x => x.DateEnter)
                 .Include(x => x.CalculatorState).ToList());
         }
 
@@ -400,12 +404,12 @@ namespace TradingTools
 
         public List<TradeChallenge> GetTradeChallenges_Open()
         {
-            return DbContext.TradeChallenge.Where(x => x.IsOpen).ToList();
+            return DbContext.TradeChallenge.Where(x => x.IsOpen).OrderByDescending(x => x.Id).ToList();
                 
         }
         public List<TradeChallenge> GetTradeChallenges_Closed()
         {
-            return DbContext.TradeChallenge.Where(x => !x.IsOpen).ToList();
+            return DbContext.TradeChallenge.Where(x => !x.IsOpen).OrderByDescending(x => x.Id).ToList();
 
         }
 

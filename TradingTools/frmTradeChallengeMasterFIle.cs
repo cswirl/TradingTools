@@ -15,7 +15,6 @@ namespace TradingTools
 {
     public partial class frmTradeChallengeMasterFile : Form
     {
-        //private frmTradeChallenge _frmTradeChallenge;
         private List<frmTradeChallenge> _listOf_frmTradeChallenge;
         private master _master { get { return (master)this.Owner; } }
 
@@ -42,7 +41,7 @@ namespace TradingTools
         {
             tc.IsOpen = true;
             if (_master.TradeChallenge_Create(tc)) {
-               _currentTradeChallenges.Add(tc);
+               _currentTradeChallenges.Insert(0,tc);
                 TradeChallenge_Spawn(tc);
             }
         }
@@ -70,7 +69,7 @@ namespace TradingTools
             if (_currentTradeChallenges.Contains(tc))
             {
                 _currentTradeChallenges.Remove(tc);
-                _closedTradeChallenges.Add(tc);
+                _closedTradeChallenges.Insert(0,tc);
             }
         }
 
