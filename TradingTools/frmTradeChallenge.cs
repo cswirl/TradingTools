@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using TradingTools.Dialogs;
 using TradingTools.Trunk;
 using TradingTools.Trunk.Entity;
@@ -21,7 +22,7 @@ namespace TradingTools
         private BindingList<CalculatorState> _prospects;
 
         public TradeChallenge TradeChallenge { get; set; }
-        public master Master { get; set; }
+        private master _master;
 
         public Status State { get; set; } = Status.Open;
 
@@ -29,39 +30,134 @@ namespace TradingTools
         {
             InitializeComponent();
 
-            this.Master = master;
+            this._master = master;
             appInitialize();
         }
 
         private void appInitialize()
         {
-            timer1.Interval = Presentation.INTERNAL_TIMER_REFRESH_VALUE;
+            // delegates
+            _master.Clock.Tick += this.timer_Tick;
+            /// Use delegate from the master - these are invoked right after DbContext CRUD statements
+            _master.CalculatorState_Updated += this.CalculatorState_Updated;
+            _master.CalculatorState_Deleted += this.CalculatorState_Deleted;
+            _master.Trade_Updated += this.Trade_Updated;
+            _master.Trade_Closed += this.Trade_Closed;
+            _master.Trade_Deleted += this.Trade_Deleted;
+            //
 
             DataGridViewFormat_Common(dgvProspects);
             DataGridViewFormat_Trade_Active(dgvActiveTrade);
             DataGridViewFormat_Trade_Closed(dgvTradeHistory);
-
-            // delegates
-            /// Use delegate from the master - these are invoked right after DbContext CRUD statements
-            Master.CalculatorState_Updated += this.CalculatorState_Updated;
-            Master.CalculatorState_Deleted += this.CalculatorState_Deleted;
-            Master.Trade_Updated += this.Trade_Updated;
-            Master.Trade_Closed += this.Trade_Closed;
-            Master.Trade_Deleted += this.Trade_Deleted;
-            //
-
-            
         }
+
+        #region Delegate Handlers
+        private void CalculatorState_Added(CalculatorState c)
+        {
+            var tcp = new TradeChallengeProspect { TradeChallenge = this.TradeChallenge, CalculatorState = c };
+            // Create record to database
+            if (_master.TradeChallengeProspect_Create(tcp)) _prospects.Insert(0, c);
+            messageBus($"New prospect ticker: {c.Ticker} added successfully");
+        }
+
+        private void CalculatorState_Updated(CalculatorState c)
+        {
+            if (_prospects.Contains(c))
+            {
+                dgvProspects.Invalidate();
+                messageBus($"Prospect with Id: {c.Id} was updated successfully");
+            }
+
+        }
+
+        private void CalculatorState_Deleted(CalculatorState c)
+        {
+            // will rely on Foreign Key referential integrity OnDelete->Cascade
+            if (_prospects.Remove(c))
+                messageBus($"Prospect with Id: {c.Id} was removed successfully");
+        }
+
+        private void Trade_Officialized(Trade t)
+        {
+            // add to TradeThread
+            var tr = new TradeThread
+            {
+                TradeChallenge = this.TradeChallenge,
+                Trade = t,
+            };
+
+            if (_master.TradeThread_Create(tr))
+            {
+                _prospects.Remove(t.CalculatorState);
+                _activeTrades.Insert(0, t);
+                monthCalendarDateEnter.Visible = true;
+                monthCalendarDateEnter.BoldedDates = monthCalendarDateEnter.BoldedDates.Append(t.DateEnter).ToArray();
+                messageBus($"New Trade with ticker: {t.Ticker} was officialized");
+                // Delete the Prospect from the database
+                if (!_master.TradeChallengeProspect_Delete(t.CalculatorState))
+                    messageBus($"An error occur while removing Prospect: {t.CalculatorState.Id} from the database");
+            }
+        }
+        private void Trade_Updated(Trade t)
+        {
+            bool flag = false;
+            if (_activeTrades.Contains(t))
+            {
+                dgvActiveTrade.Invalidate();
+                flag = true;
+            }
+            else if (_tradeHistory.Contains(t))
+            {
+                dgvTradeHistory.Invalidate();
+                flag = true;
+            }
+
+            if (flag)
+            {
+                messageBus($"Trade with Id: {t.Id} was updated successfully");
+                refreshCalendarBoldDates();
+            }
+        }
+
+        private void Trade_Closed(Trade t)
+        {
+            if (_activeTrades.Contains(t))
+            {
+                messageBus($"Trade {t.Id} was closed successfully");
+                _activeTrades.Remove(t);
+                _tradeHistory.Insert(0, t);
+                tradeHistoryStats();
+            }
+        }
+
+        private void Trade_Deleted(Trade t)
+        {
+            bool flag = false;
+            if (_activeTrades.Remove(t)) flag = true;
+            else if (_tradeHistory.Remove(t))
+            {
+                flag = true;
+                tradeHistoryStats();
+            }
+
+            if (flag)
+            {
+                messageBus($"Trade with Id: {t.Id} was removed successfully");
+                refreshCalendarBoldDates();
+            }
+        }
+        #endregion
+
 
         private void btnOpenCalcLong_Empty_Click(object sender, EventArgs e)
         {
-            var rrc = Master.FormRRC_Long_Empty_Spawn();
+            var rrc = _master.FormRRC_Long_Empty_Spawn();
             registerFormRRC(rrc);   
         }
 
         private void btnOpenCalcShort_Empty_Click(object sender, EventArgs e)
         {
-            var rrc = Master.FormRRC_Short_Empty_Spawn();
+            var rrc = _master.FormRRC_Short_Empty_Spawn();
             registerFormRRC(rrc);
         }
 
@@ -70,7 +166,7 @@ namespace TradingTools
             var dgv = (DataGridView)sender;
             var trade = (Trade)dgv.CurrentRow.DataBoundItem;
             if (trade == null) return;
-            var rrc = Master.FormRRC_Trade_Spawn(trade);
+            var rrc = _master.FormRRC_Trade_Spawn(trade);
             registerFormRRC(rrc);
         }
 
@@ -79,7 +175,7 @@ namespace TradingTools
             var dgv = (DataGridView)sender;
             var c = (CalculatorState)dgv.CurrentRow.DataBoundItem;
             if (c == null) return;
-            var rrc = Master.FormRRC_Loaded_Spawn(c);
+            var rrc = _master.FormRRC_Loaded_Spawn(c);
             registerFormRRC(rrc);
         }
 
@@ -109,66 +205,6 @@ namespace TradingTools
 
         private void messageBus(string msg) => statusMessage.Text = msg;
 
-        private void CalculatorState_Added(CalculatorState c)
-        {
-            var tcp = new TradeChallengeProspect { TradeChallenge = this.TradeChallenge, CalculatorState = c};
-            // Create record to database
-            if (Master.TradeChallengeProspect_Create(tcp)) _prospects.Insert(0,c);
-            messageBus($"New prospect ticker: {c.Ticker} added successfully");
-        }
-
-        private void CalculatorState_Updated(CalculatorState c)
-        {
-            if (_prospects.Contains(c))
-            {
-                dgvProspects.Invalidate(); 
-                messageBus($"Prospect with Id: {c.Id} was updated successfully");
-            }
-            
-        }
-
-        private void CalculatorState_Deleted(CalculatorState c)
-        {
-            // will rely on Foreign Key referential integrity OnDelete->Cascade
-            if (_prospects.Remove(c))
-                messageBus($"Prospect with Id: {c.Id} was removed successfully");
-        }
-
-        private void Trade_Updated(Trade t)
-        {
-            bool flag = false;
-            if (_activeTrades.Contains(t))
-            {
-                dgvActiveTrade.Invalidate();
-                flag = true;
-            }
-            else if (_tradeHistory.Contains(t))
-            {
-                dgvTradeHistory.Invalidate();
-                flag = true;
-            }
-
-            if (flag)
-            {
-                messageBus($"Trade with Id: {t.Id} was updated successfully");
-                refreshCalendarBoldDates();
-            }
-            
-        }
-
-        private void Trade_Deleted(Trade t)
-        {
-            bool flag = false;
-            if (_activeTrades.Remove(t)) flag = true;
-            else if (_tradeHistory.Remove(t)) flag = true;
-
-            if (flag)
-            {
-                messageBus($"Trade with Id: {t.Id} was removed successfully");
-                refreshCalendarBoldDates();
-            }
-        }
-
         private void refreshCalendarBoldDates()
         {
             monthCalendarDateEnter.BoldedDates = null;
@@ -182,6 +218,8 @@ namespace TradingTools
             else
                 monthCalendarDateEnter.Visible = false;
         }
+
+        private void tradeHistoryStats() => lblTradeHist.Text = $"Trade History   ( {_tradeHistory.Count()} / {TradeChallenge.TradeCap} )";
 
         private bool CalculatorState_Officializing_IsCancelled_Handler(CalculatorState c, out string msg)
         {
@@ -198,44 +236,12 @@ namespace TradingTools
             return false;
         }
 
-        private void Trade_Officialized(Trade t)
-        {
-            // add to TradeThread
-            var tr = new TradeThread
-            {
-                TradeChallenge = this.TradeChallenge,
-                Trade = t,
-            };
-
-            if (Master.TradeThread_Create(tr))
-            {
-                _prospects.Remove(t.CalculatorState);
-                _activeTrades.Insert(0,t);
-                monthCalendarDateEnter.Visible = true;
-                monthCalendarDateEnter.BoldedDates = monthCalendarDateEnter.BoldedDates.Append(t.DateEnter).ToArray();
-                messageBus($"New Trade with ticker: {t.Ticker} was officialized");
-                // Delete the Prospect from the database
-                if (!Master.TradeChallengeProspect_Delete(t.CalculatorState))
-                    messageBus($"An error occur while removing Prospect: {t.CalculatorState.Id} from the database");
-            }
-        }
-
-        private void Trade_Closed(Trade t)
-        {
-            if (_activeTrades.Contains(t))
-            {
-                _activeTrades.Remove(t);
-                _tradeHistory.Insert(0,t);
-                messageBus($"Trade {t.Id} was closed successfully");
-            }
-        }
-
         private void frmTradeChallenge_Load(object sender, EventArgs e)
         {
             // data bindings
-            _prospects = new(Master.TradeChallengeProspect_GetAll(TradeChallenge.Id, true));
-            _activeTrades = new(Master.TradeThread_GetActiveTrade(TradeChallenge.Id));
-            _tradeHistory = new(Master.TradeThread_GetTradeHistory(TradeChallenge.Id, true));
+            _prospects = new(_master.TradeChallengeProspect_GetAll(TradeChallenge.Id, true));
+            _activeTrades = new(_master.TradeThread_GetActiveTrade(TradeChallenge.Id));
+            _tradeHistory = new(_master.TradeThread_GetTradeHistory(TradeChallenge.Id, true));
 
             dgvProspects.DataSource = _prospects;
             dgvActiveTrade.DataSource = _activeTrades;
@@ -248,6 +254,7 @@ namespace TradingTools
             txtTitle.Text = TradeChallenge.Title;
             // calendar
             refreshCalendarBoldDates();
+            tradeHistoryStats();
 
             changeState(this.TradeChallenge.IsOpen ? Status.Open : Status.Closed);
             messageBus("Form loaded successful");
@@ -257,11 +264,12 @@ namespace TradingTools
         {
             // copy back to original
             captureTradeChallenge().CopyProperties(this.TradeChallenge);
-            if (Master.TradeChallenge_Update(this.TradeChallenge))
+            if (_master.TradeChallenge_Update(this.TradeChallenge))
             {
                 statusMessage.Text = "Changes were saved successfully";
                 txtTitle.Text = TradeChallenge.Title;
                 this.Text = TradeChallenge.Title;
+                tradeHistoryStats();
             }
         }
 
@@ -283,7 +291,7 @@ namespace TradingTools
                 $"Trade Challenge: {tc.Id} does not contain any Trade and will be deleted", 
                 "Ending Trade Challenge");
             if (result == DialogResult.Yes)
-                if (Master.TradeChallenge_Delete(tc))
+                if (_master.TradeChallenge_Delete(tc))
                 {
                     msg = $"Trade Challenge: {tc.Id} is now deleted\n\nThis form will now close";
                     messageBus(msg);
@@ -312,7 +320,7 @@ namespace TradingTools
                 return;
             }
             // Empty Trade Challenge
-            else if (Master.TradeThread_GetAllTrades(TradeChallenge.Id).Count < 1)
+            else if (_master.TradeThread_GetAllTrades(TradeChallenge.Id).Count < 1)
             {
                 deleteTradeChallenge(this.TradeChallenge);
             }
@@ -325,7 +333,7 @@ namespace TradingTools
                          "Terminating Trade Challenge");
                 if (objDialog == DialogResult.Yes)
                 {
-                    if (Master.TradeChallenge_Close(this.TradeChallenge))
+                    if (_master.TradeChallenge_Close(this.TradeChallenge))
                     {
                         msg = $"Trade Challenge: {TradeChallenge.Id} was closed";
                         messageBus(msg);
@@ -333,7 +341,7 @@ namespace TradingTools
                         changeState(Status.Closed);
                         // delete the CalculatorStates in the TradeProspects linked to this Trade Challenge
                         var tcp = _prospects.Select(p => p.TradeChallengeProspect).ToArray();
-                        if (Master.TradeChallengeProspect_Delete(tcp))
+                        if (_master.TradeChallengeProspect_Delete(tcp))
                         {
                             _prospects.Clear();
                         }
@@ -354,7 +362,7 @@ namespace TradingTools
             }
         }
 
-        private List<Trade> getAllTrades() => Master.TradeThread_GetAllTrades(TradeChallenge.Id);
+        private List<Trade> getAllTrades() => _master.TradeThread_GetAllTrades(TradeChallenge.Id);
 
         private void changeState(Status s)
         {
@@ -388,7 +396,25 @@ namespace TradingTools
             if (this.State == Status.Open) monthCalendarDateEnter.MaxDate = DateTime.Now;   
         }
 
+        public enum Status
+        {
+            Open,
+            Closed
+        }
 
+        private void txtCap_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            CalendarMaxDateRefresh();
+            statusMessage.Text = "status . . .";
+        }
 
         #region DataGridView Formatting
         private void DataGridViewFormat_Common(DataGridView d)
@@ -577,26 +603,6 @@ namespace TradingTools
         }
         #endregion
 
-
-        public enum Status
-        {
-            Open,
-            Closed
-        }
-
-        private void txtCap_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            CalendarMaxDateRefresh();
-            statusMessage.Text = "status . . .";
-        }
     }
 
 }

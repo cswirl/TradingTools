@@ -45,7 +45,7 @@
             this.tableLayoutPanel_LongShortButtons = new System.Windows.Forms.TableLayoutPanel();
             this.btnOpenCalcShort_Empty = new System.Windows.Forms.Button();
             this.btnOpenCalcLong_Empty = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblTradeHist = new System.Windows.Forms.Label();
             this.dgvTradeHistory = new System.Windows.Forms.DataGridView();
             this.dgvActiveTrade = new System.Windows.Forms.DataGridView();
             this.label6 = new System.Windows.Forms.Label();
@@ -68,7 +68,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label3.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label3.Location = new System.Drawing.Point(42, 456);
+            this.label3.Location = new System.Drawing.Point(393, 329);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(96, 20);
             this.label3.TabIndex = 11;
@@ -89,14 +89,14 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(42, 67);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(786, 108);
+            this.panel1.Size = new System.Drawing.Size(738, 130);
             this.panel1.TabIndex = 13;
             // 
             // radioClosed
             // 
             this.radioClosed.AutoSize = true;
             this.radioClosed.Enabled = false;
-            this.radioClosed.Location = new System.Drawing.Point(216, 41);
+            this.radioClosed.Location = new System.Drawing.Point(78, 103);
             this.radioClosed.Name = "radioClosed";
             this.radioClosed.Size = new System.Drawing.Size(59, 19);
             this.radioClosed.TabIndex = 3;
@@ -108,7 +108,7 @@
             this.radioOpen.AutoSize = true;
             this.radioOpen.Checked = true;
             this.radioOpen.Enabled = false;
-            this.radioOpen.Location = new System.Drawing.Point(216, 16);
+            this.radioOpen.Location = new System.Drawing.Point(78, 78);
             this.radioOpen.Name = "radioOpen";
             this.radioOpen.Size = new System.Drawing.Size(52, 19);
             this.radioOpen.TabIndex = 2;
@@ -118,10 +118,10 @@
             // 
             // txtDesc
             // 
-            this.txtDesc.Location = new System.Drawing.Point(378, 10);
+            this.txtDesc.Location = new System.Drawing.Point(295, 10);
             this.txtDesc.Multiline = true;
             this.txtDesc.Name = "txtDesc";
-            this.txtDesc.Size = new System.Drawing.Size(387, 85);
+            this.txtDesc.Size = new System.Drawing.Size(423, 102);
             this.txtDesc.TabIndex = 4;
             // 
             // txtId
@@ -129,7 +129,7 @@
             this.txtId.Location = new System.Drawing.Point(78, 15);
             this.txtId.Name = "txtId";
             this.txtId.ReadOnly = true;
-            this.txtId.Size = new System.Drawing.Size(49, 23);
+            this.txtId.Size = new System.Drawing.Size(63, 23);
             this.txtId.TabIndex = 1;
             this.txtId.TabStop = false;
             // 
@@ -137,7 +137,7 @@
             // 
             this.txtCap.Location = new System.Drawing.Point(78, 44);
             this.txtCap.Name = "txtCap";
-            this.txtCap.Size = new System.Drawing.Size(49, 23);
+            this.txtCap.Size = new System.Drawing.Size(63, 23);
             this.txtCap.TabIndex = 1;
             this.txtCap.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtCap.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCap_KeyPress);
@@ -154,7 +154,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(305, 16);
+            this.label4.Location = new System.Drawing.Point(222, 10);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(67, 15);
             this.label4.TabIndex = 0;
@@ -163,7 +163,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(171, 18);
+            this.label8.Location = new System.Drawing.Point(30, 80);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(39, 15);
             this.label8.TabIndex = 0;
@@ -183,9 +183,9 @@
             this.btnCompleted.BackColor = System.Drawing.Color.SteelBlue;
             this.btnCompleted.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnCompleted.ForeColor = System.Drawing.Color.White;
-            this.btnCompleted.Location = new System.Drawing.Point(585, 28);
+            this.btnCompleted.Location = new System.Drawing.Point(786, 107);
             this.btnCompleted.Name = "btnCompleted";
-            this.btnCompleted.Size = new System.Drawing.Size(128, 33);
+            this.btnCompleted.Size = new System.Drawing.Size(128, 38);
             this.btnCompleted.TabIndex = 6;
             this.btnCompleted.Text = "END Challenge";
             this.btnCompleted.UseVisualStyleBackColor = false;
@@ -196,9 +196,9 @@
             this.btnSave.BackColor = System.Drawing.Color.SteelBlue;
             this.btnSave.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(719, 27);
+            this.btnSave.Location = new System.Drawing.Point(786, 67);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(109, 34);
+            this.btnSave.Size = new System.Drawing.Size(128, 34);
             this.btnSave.TabIndex = 5;
             this.btnSave.Text = "SAVE";
             this.btnSave.UseVisualStyleBackColor = false;
@@ -211,11 +211,11 @@
             this.tableLayoutPanel_LongShortButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel_LongShortButtons.Controls.Add(this.btnOpenCalcShort_Empty, 0, 0);
             this.tableLayoutPanel_LongShortButtons.Controls.Add(this.btnOpenCalcLong_Empty, 0, 0);
-            this.tableLayoutPanel_LongShortButtons.Location = new System.Drawing.Point(1111, 22);
+            this.tableLayoutPanel_LongShortButtons.Location = new System.Drawing.Point(641, 310);
             this.tableLayoutPanel_LongShortButtons.Name = "tableLayoutPanel_LongShortButtons";
             this.tableLayoutPanel_LongShortButtons.RowCount = 1;
             this.tableLayoutPanel_LongShortButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_LongShortButtons.Size = new System.Drawing.Size(266, 47);
+            this.tableLayoutPanel_LongShortButtons.Size = new System.Drawing.Size(266, 39);
             this.tableLayoutPanel_LongShortButtons.TabIndex = 0;
             // 
             // btnOpenCalcShort_Empty
@@ -226,7 +226,7 @@
             this.btnOpenCalcShort_Empty.ForeColor = System.Drawing.Color.White;
             this.btnOpenCalcShort_Empty.Location = new System.Drawing.Point(136, 3);
             this.btnOpenCalcShort_Empty.Name = "btnOpenCalcShort_Empty";
-            this.btnOpenCalcShort_Empty.Size = new System.Drawing.Size(127, 41);
+            this.btnOpenCalcShort_Empty.Size = new System.Drawing.Size(127, 33);
             this.btnOpenCalcShort_Empty.TabIndex = 8;
             this.btnOpenCalcShort_Empty.Text = "NEW SHORT";
             this.btnOpenCalcShort_Empty.UseVisualStyleBackColor = false;
@@ -240,22 +240,22 @@
             this.btnOpenCalcLong_Empty.ForeColor = System.Drawing.Color.White;
             this.btnOpenCalcLong_Empty.Location = new System.Drawing.Point(3, 3);
             this.btnOpenCalcLong_Empty.Name = "btnOpenCalcLong_Empty";
-            this.btnOpenCalcLong_Empty.Size = new System.Drawing.Size(127, 41);
+            this.btnOpenCalcLong_Empty.Size = new System.Drawing.Size(127, 33);
             this.btnOpenCalcLong_Empty.TabIndex = 7;
             this.btnOpenCalcLong_Empty.Text = "NEW LONG";
             this.btnOpenCalcLong_Empty.UseVisualStyleBackColor = false;
             this.btnOpenCalcLong_Empty.Click += new System.EventHandler(this.btnOpenCalcLong_Empty_Click);
             // 
-            // label5
+            // lblTradeHist
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label5.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label5.Location = new System.Drawing.Point(42, 584);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(104, 20);
-            this.label5.TabIndex = 11;
-            this.label5.Text = "Trade History";
+            this.lblTradeHist.AutoSize = true;
+            this.lblTradeHist.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblTradeHist.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.lblTradeHist.Location = new System.Drawing.Point(42, 461);
+            this.lblTradeHist.Name = "lblTradeHist";
+            this.lblTradeHist.Size = new System.Drawing.Size(104, 20);
+            this.lblTradeHist.TabIndex = 11;
+            this.lblTradeHist.Text = "Trade History";
             // 
             // dgvTradeHistory
             // 
@@ -263,12 +263,12 @@
             this.dgvTradeHistory.AllowUserToDeleteRows = false;
             this.dgvTradeHistory.AllowUserToResizeRows = false;
             this.dgvTradeHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvTradeHistory.Location = new System.Drawing.Point(42, 613);
+            this.dgvTradeHistory.Location = new System.Drawing.Point(42, 484);
             this.dgvTradeHistory.Name = "dgvTradeHistory";
             this.dgvTradeHistory.ReadOnly = true;
             this.dgvTradeHistory.RowTemplate.Height = 25;
             this.dgvTradeHistory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTradeHistory.Size = new System.Drawing.Size(865, 297);
+            this.dgvTradeHistory.Size = new System.Drawing.Size(865, 405);
             this.dgvTradeHistory.TabIndex = 14;
             this.dgvTradeHistory.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTrades_CellDoubleClick);
             // 
@@ -278,7 +278,7 @@
             this.dgvActiveTrade.AllowUserToDeleteRows = false;
             this.dgvActiveTrade.AllowUserToResizeRows = false;
             this.dgvActiveTrade.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvActiveTrade.Location = new System.Drawing.Point(42, 485);
+            this.dgvActiveTrade.Location = new System.Drawing.Point(393, 358);
             this.dgvActiveTrade.Name = "dgvActiveTrade";
             this.dgvActiveTrade.ReadOnly = true;
             this.dgvActiveTrade.RowTemplate.Height = 25;
@@ -292,7 +292,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label6.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label6.Location = new System.Drawing.Point(42, 197);
+            this.label6.Location = new System.Drawing.Point(42, 221);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(77, 20);
             this.label6.TabIndex = 11;
@@ -304,7 +304,7 @@
             this.dgvProspects.AllowUserToDeleteRows = false;
             this.dgvProspects.AllowUserToResizeRows = false;
             this.dgvProspects.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvProspects.Location = new System.Drawing.Point(42, 226);
+            this.dgvProspects.Location = new System.Drawing.Point(42, 250);
             this.dgvProspects.Name = "dgvProspects";
             this.dgvProspects.ReadOnly = true;
             this.dgvProspects.RowTemplate.Height = 25;
@@ -329,11 +329,11 @@
             // monthCalendarDateEnter
             // 
             this.monthCalendarDateEnter.BackColor = System.Drawing.SystemColors.Window;
-            this.monthCalendarDateEnter.CalendarDimensions = new System.Drawing.Size(2, 6);
+            this.monthCalendarDateEnter.CalendarDimensions = new System.Drawing.Size(1, 6);
             this.monthCalendarDateEnter.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.monthCalendarDateEnter.Location = new System.Drawing.Point(919, 51);
+            this.monthCalendarDateEnter.Location = new System.Drawing.Point(919, 20);
             this.monthCalendarDateEnter.Name = "monthCalendarDateEnter";
-            this.monthCalendarDateEnter.ScrollChange = 12;
+            this.monthCalendarDateEnter.ScrollChange = 6;
             this.monthCalendarDateEnter.ShowToday = false;
             this.monthCalendarDateEnter.TabIndex = 18;
             // 
@@ -343,7 +343,7 @@
             this.statusMessage});
             this.statusStrip1.Location = new System.Drawing.Point(0, 940);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1401, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1184, 22);
             this.statusStrip1.TabIndex = 19;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -358,14 +358,14 @@
             // timer1
             // 
             this.timer1.Enabled = true;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.timer1.Tick += new System.EventHandler(this.timer_Tick);
             // 
             // frmTradeChallenge
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1401, 962);
+            this.ClientSize = new System.Drawing.Size(1184, 962);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.dgvActiveTrade);
             this.Controls.Add(this.dgvProspects);
@@ -376,7 +376,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.txtTitle);
-            this.Controls.Add(this.label5);
+            this.Controls.Add(this.lblTradeHist);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.monthCalendarDateEnter);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
@@ -410,7 +410,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCompleted;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblTradeHist;
         private System.Windows.Forms.DataGridView dgvTradeHistory;
         private System.Windows.Forms.DataGridView dgvActiveTrade;
         private System.Windows.Forms.Label label6;
