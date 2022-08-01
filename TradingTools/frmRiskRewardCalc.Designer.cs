@@ -40,6 +40,7 @@ namespace TradingTools
             this.panelBandTop = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.linkCapital = new System.Windows.Forms.LinkLabel();
             this.radioLotSize = new System.Windows.Forms.RadioButton();
             this.radioLeverage = new System.Windows.Forms.RadioButton();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
@@ -153,7 +154,6 @@ namespace TradingTools
             this.txtOpeningTradingFee_dollar = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.btnSetPEP = new System.Windows.Forms.Button();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
@@ -309,6 +309,7 @@ namespace TradingTools
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainer1.Panel1.Controls.Add(this.linkCapital);
             this.splitContainer1.Panel1.Controls.Add(this.radioLotSize);
             this.splitContainer1.Panel1.Controls.Add(this.radioLeverage);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox8);
@@ -338,7 +339,6 @@ namespace TradingTools
             this.splitContainer1.Panel1.Controls.Add(this.txtTradeNum);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel1.Controls.Add(this.label22);
-            this.splitContainer1.Panel1.Controls.Add(this.label15);
             // 
             // splitContainer1.Panel2
             // 
@@ -346,6 +346,18 @@ namespace TradingTools
             this.splitContainer1.Size = new System.Drawing.Size(1662, 887);
             this.splitContainer1.SplitterDistance = 1225;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // linkCapital
+            // 
+            this.linkCapital.AutoSize = true;
+            this.linkCapital.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.linkCapital.Location = new System.Drawing.Point(75, 70);
+            this.linkCapital.Name = "linkCapital";
+            this.linkCapital.Size = new System.Drawing.Size(44, 15);
+            this.linkCapital.TabIndex = 28;
+            this.linkCapital.TabStop = true;
+            this.linkCapital.Text = "Capital";
+            this.linkCapital.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkCapital_LinkClicked);
             // 
             // radioLotSize
             // 
@@ -1717,15 +1729,6 @@ namespace TradingTools
             this.label22.Text = "TRADE NO.";
             this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(75, 70);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(44, 15);
-            this.label15.TabIndex = 11;
-            this.label15.Text = "Capital";
-            // 
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -2433,7 +2436,6 @@ namespace TradingTools
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox txtCapital;
-        private System.Windows.Forms.Label label15;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel10;
         private System.Windows.Forms.Label label42;
@@ -2517,6 +2519,7 @@ namespace TradingTools
         private System.Windows.Forms.RadioButton radioLotSize;
         private System.Windows.Forms.RadioButton radioLeverage;
         private System.Windows.Forms.TextBox txtDayCount;
+        private System.Windows.Forms.LinkLabel linkCapital;
     }
 }
 

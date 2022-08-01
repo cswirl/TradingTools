@@ -36,6 +36,7 @@ namespace TradingTools
         private TradingStyle _tradingStyle;
         private string _headerMetadata;
         private string _lastSavedStateHash;
+        private dialogCapitalCalc _dialogCapital;
         
         private master _master { get { return (master)this.Owner; } }
 
@@ -1170,6 +1171,22 @@ namespace TradingTools
             }
               
             PositionTextboxes_KeyDown(sender, e);
+        }
+
+        private void linkCapital_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            (string capital, string lotSize, string price) arg = (txtCapital.Text, txtLotSize.Text, txtEntryPrice.Text);
+            if (_dialogCapital == default) _dialogCapital = new dialogCapitalCalc(arg);
+            _dialogCapital.StartPosition = FormStartPosition.Manual;
+            _dialogCapital.Left = this.Left + txtCapital.Left + txtCapital.Width + 50;
+            _dialogCapital.Top = this.Top + txtCapital.Top + 100;
+            _dialogCapital.UseCapital = (pos) => { 
+                txtCapital.Text = pos.capital;
+                txtEntryPrice.Text = pos.price;
+                txtLotSize.Text = pos.lotSize;
+                btnReCalculate_Click(null, null);
+            };
+            _dialogCapital.ShowDialog();
         }
     }
 
