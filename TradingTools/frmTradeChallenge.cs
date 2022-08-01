@@ -25,15 +25,31 @@ namespace TradingTools
 
         public Status State { get; set; } = Status.Open;
 
-        public frmTradeChallenge()
+        public frmTradeChallenge(master master)
         {
             InitializeComponent();
 
+            this.Master = master;
+        }
+
+        private void appInitialize()
+        {
             timer1.Interval = Presentation.INTERNAL_TIMER_REFRESH_VALUE;
 
             DataGridViewFormat_Common(dgvProspects);
             DataGridViewFormat_Trade_Active(dgvActiveTrade);
             DataGridViewFormat_Trade_Closed(dgvTradeHistory);
+
+            // delegates
+            /// Use delegate from the master - these are invoked right after DbContext CRUD statements
+            Master.CalculatorState_Updated += this.CalculatorState_Updated;
+            Master.CalculatorState_Deleted += this.CalculatorState_Deleted;
+            Master.Trade_Updated += this.Trade_Updated;
+            Master.Trade_Closed += this.Trade_Closed;
+            Master.Trade_Deleted += this.Trade_Deleted;
+            //
+
+            
         }
 
         private void btnOpenCalcLong_Empty_Click(object sender, EventArgs e)
@@ -215,22 +231,14 @@ namespace TradingTools
 
         private void frmTradeChallenge_Load(object sender, EventArgs e)
         {
-            _activeTrades = new BindingList<Trade>(Master.TradeThread_GetActiveTrade(TradeChallenge.Id));
-            _tradeHistory = new BindingList<Trade>(Master.TradeThread_GetTradeHistory(TradeChallenge.Id));
-            _prospects = new BindingList<CalculatorState>(Master.TradeChallengeProspect_GetAll(TradeChallenge.Id));
+            // data bindings
+            _prospects = new(Master.TradeChallengeProspect_GetAll(TradeChallenge.Id));
+            _activeTrades = new(Master.TradeThread_GetActiveTrade(TradeChallenge.Id));
+            _tradeHistory = new(Master.TradeThread_GetTradeHistory(TradeChallenge.Id));
 
-            dgvActiveTrade.DataSource = _activeTrades;
             dgvProspects.DataSource = _prospects;
+            dgvActiveTrade.DataSource = _activeTrades;
             dgvTradeHistory.DataSource = _tradeHistory;
-
-            // delegates
-            /// Use delegate from the master - these are invoked right after DbContext CRUD statements
-            Master.CalculatorState_Updated += this.CalculatorState_Updated;
-            Master.CalculatorState_Deleted += this.CalculatorState_Deleted;
-            Master.Trade_Updated += this.Trade_Updated;
-            Master.Trade_Closed += this.Trade_Closed;
-            Master.Trade_Deleted += this.Trade_Deleted;
-            //
 
             // Load Trade Challenge Object
             txtId.Text = TradeChallenge.Id.ToString();

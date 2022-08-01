@@ -40,56 +40,46 @@ namespace TradingTools
         public TradeChallengeProspectDeleted TradeChallengeProspect_Deleted;
         public TradeChallengeProspectDeletedRange TradeChallengeProspect_DeletedRange;
         //
+        public Timer Clock;
         public DelegateHandlers DelegateHandlers { get; set; }
 
         public TradingToolsDbContext DbContext { get; set; }
 
         private List<frmRiskRewardCalc> _listOf_frmRiskRewardCalc;
+        
+        private IContainer components;
 
-        public frmCalculatorStates _frmCalcStates { get; set; }
+        public frmDashboard _frmDashboard { get; set; }
         public frmTradeMasterFile _frmTradeMasterFile { get; set; }
         public frmTradeChallengeMasterFile _frmTradeChallengeMasterFile { get; set; }
-
-        private BindingList<CalculatorState> _calculatorStates_unofficial_bindingList;
 
 
         public master()
         {
-            // make master invisible to the user
+            /// make master invisible to the user
             this.Visible = false;
-            this.Size = new System.Drawing.Size(1, 1);
+            this.Size = new System.Drawing.Size(0, 0);
             this.FormBorderStyle = FormBorderStyle.None;
             this.ShowInTaskbar = false;
             this.Load += new EventHandler(master_Load);
+            ///
 
-            // Initialize Components
             InitializeDbContext();
             _listOf_frmRiskRewardCalc = new();
             this.DelegateHandlers = new(this);
-
+            //
+            if (Clock == default) Clock = new Timer();
+            Clock.Interval = Presentation.INTERNAL_TIMER_REFRESH_VALUE;
 
             // Dashboard (gateway form)
-            _frmCalcStates = new();
-            _frmCalcStates.Owner = this;
-            _frmCalcStates.StartPosition = FormStartPosition.CenterScreen;
-            _frmCalcStates.Show();
-            // delegates
-            _frmCalcStates.CalculatorState_Loaded_OnRequest += this.FormRRC_Loaded_Spawn;
-            _frmCalcStates.Trade_TradeOpen_OnRequest += this.FormRRC_Trade_Spawn;
-            //
-            _frmCalcStates.FormTradeMasterFile += this.FormTradeMasterFile;
-            _frmCalcStates.FormTradeChallengeMasterFile += this.FormTradeChallengeMasterFile;
-            //
-            this.Trade_Officialized += _frmCalcStates.Trade_Officialized;
-            this.Trade_Closed += _frmCalcStates.Trade_Closed;
-            this.Trade_Deleted += _frmCalcStates.Trade_Deleted;
-            this.Trade_Updated += _frmCalcStates.Trade_Updated;
-
+            _frmDashboard = new(this);
+            _frmDashboard.Owner = this;
+            _frmDashboard.StartPosition = FormStartPosition.CenterScreen;
+            _frmDashboard.Show();
         }
 
         private void master_Load(object sender, EventArgs e)
         {
-            this.Size = new System.Drawing.Size(0, 0);
 
         }
 
@@ -106,7 +96,7 @@ namespace TradingTools
             //DbContext.Database.Migrate();
         }
 
-        private void FormTradeMasterFile(object sender, EventArgs e)
+        public void FormTradeMasterFile()
         {
             if (_frmTradeMasterFile == default || _frmTradeMasterFile.IsDisposed)
             {
@@ -125,7 +115,7 @@ namespace TradingTools
             }
         }
 
-        private void FormTradeChallengeMasterFile(object sender, EventArgs e)
+        public void FormTradeChallengeMasterFile()
         {
             if (_frmTradeChallengeMasterFile == default || _frmTradeChallengeMasterFile.IsDisposed)
             {
@@ -248,9 +238,8 @@ namespace TradingTools
         {
             DbContext.CalculatorState.Add(calculatorState);
             DbContext.SaveChanges();
-            _calculatorStates_unofficial_bindingList.Add(calculatorState);
-
             CalculatorState_Added?.Invoke(calculatorState);
+
             return true;
         }
 
@@ -258,9 +247,8 @@ namespace TradingTools
         {
             DbContext.CalculatorState.Update(calculatorState);
             DbContext.SaveChanges();
-            _frmCalcStates.dgvUnofficial_Invalidate();       // Refereshes the DataGridView
-
             CalculatorState_Updated?.Invoke(calculatorState);
+
             return true;
         }
 
@@ -268,19 +256,17 @@ namespace TradingTools
         {
             DbContext.CalculatorState.Remove(calculatorState);
             DbContext.SaveChanges();
-            _calculatorStates_unofficial_bindingList.Remove(calculatorState);
-
             CalculatorState_Deleted?.Invoke(calculatorState);
+
             return true;
         }
 
-        public BindingList<CalculatorState> GetCalculatorStates_Unofficial_BindingList()
+        public List<CalculatorState> CalculatorStates_GetAll_Desc()
         {
-            _calculatorStates_unofficial_bindingList = new BindingList<CalculatorState>(DbContext.CalculatorState
+            return DbContext.CalculatorState
                 .Where(x => x.TradeId == null)
-                .ToList());
-
-            return _calculatorStates_unofficial_bindingList;
+                .OrderByDescending(x => x.Id)
+                .ToList();
         }
 
         /// <summary>
@@ -573,5 +559,23 @@ namespace TradingTools
             //}
         }
         #endregion
+
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this.Clock = new System.Windows.Forms.Timer(this.components);
+            this.SuspendLayout();
+            // 
+            // Clock
+            // 
+            this.Clock.Enabled = true;
+            // 
+            // master
+            // 
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Name = "master";
+            this.ResumeLayout(false);
+
+        }
     }
 }

@@ -84,9 +84,8 @@ namespace TradingTools
 
         private void TradeChallenge_Spawn(TradeChallenge tc)
         {
-            var form = new frmTradeChallenge
+            var form = new frmTradeChallenge(this._master)
             {
-                Master = _master,
                 TradeChallenge = tc 
             };
             // register

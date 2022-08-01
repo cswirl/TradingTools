@@ -1,7 +1,7 @@
 ﻿
 namespace TradingTools
 {
-    partial class frmCalculatorStates
+    partial class frmDashboard
     {
         /// <summary>
         /// Required designer variable.
@@ -39,14 +39,12 @@ namespace TradingTools
             this.menuTradeMasterFile = new System.Windows.Forms.ToolStripMenuItem();
             this.menuTradeChallenge = new System.Windows.Forms.ToolStripMenuItem();
             this.dgvUnofficial = new System.Windows.Forms.DataGridView();
-            this.btnViewUnofficial_Loaded = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.dgvTrades_Open = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnViewOfficial = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusMessage = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1.SuspendLayout();
@@ -172,22 +170,6 @@ namespace TradingTools
             this.dgvUnofficial.TabIndex = 2;
             this.dgvUnofficial.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUnofficial_CellDoubleClick);
             // 
-            // btnViewUnofficial_Loaded
-            // 
-            this.btnViewUnofficial_Loaded.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnViewUnofficial_Loaded.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnViewUnofficial_Loaded.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnViewUnofficial_Loaded.ForeColor = System.Drawing.Color.White;
-            this.btnViewUnofficial_Loaded.Location = new System.Drawing.Point(439, 36);
-            this.btnViewUnofficial_Loaded.Name = "btnViewUnofficial_Loaded";
-            this.btnViewUnofficial_Loaded.Size = new System.Drawing.Size(273, 35);
-            this.btnViewUnofficial_Loaded.TabIndex = 4;
-            this.btnViewUnofficial_Loaded.Text = "View Selected > > >";
-            this.btnViewUnofficial_Loaded.UseVisualStyleBackColor = false;
-            this.btnViewUnofficial_Loaded.Visible = false;
-            this.btnViewUnofficial_Loaded.Click += new System.EventHandler(this.btnOpenCalc_Click);
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.White;
@@ -229,7 +211,6 @@ namespace TradingTools
             // panel2
             // 
             this.panel2.Controls.Add(this.label1);
-            this.panel2.Controls.Add(this.btnViewUnofficial_Loaded);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(13, 328);
             this.panel2.Name = "panel2";
@@ -251,7 +232,6 @@ namespace TradingTools
             // panel3
             // 
             this.panel3.Controls.Add(this.label3);
-            this.panel3.Controls.Add(this.btnViewOfficial);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(13, 3);
             this.panel3.Name = "panel3";
@@ -270,22 +250,6 @@ namespace TradingTools
             this.label3.TabIndex = 9;
             this.label3.Text = "Official Trade - Open";
             // 
-            // btnViewOfficial
-            // 
-            this.btnViewOfficial.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnViewOfficial.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnViewOfficial.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnViewOfficial.ForeColor = System.Drawing.Color.White;
-            this.btnViewOfficial.Location = new System.Drawing.Point(439, 20);
-            this.btnViewOfficial.Name = "btnViewOfficial";
-            this.btnViewOfficial.Size = new System.Drawing.Size(273, 34);
-            this.btnViewOfficial.TabIndex = 10;
-            this.btnViewOfficial.Text = "View Selected > > >";
-            this.btnViewOfficial.UseVisualStyleBackColor = false;
-            this.btnViewOfficial.Visible = false;
-            this.btnViewOfficial.Click += new System.EventHandler(this.btnViewOfficial_Click);
-            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -303,7 +267,7 @@ namespace TradingTools
             this.statusMessage.Size = new System.Drawing.Size(106, 17);
             this.statusMessage.Text = "Status message . . .";
             // 
-            // frmCalculatorStates
+            // frmDashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -312,12 +276,12 @@ namespace TradingTools
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.statusStrip1);
-            this.Name = "frmCalculatorStates";
+            this.Name = "frmDashboard";
             this.Text = "Dashboard";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmCalculatorStates_FormClosing);
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmCalculatorStates_FormClosed);
-            this.Load += new System.EventHandler(this.frmCalculatorStates_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmDashboard_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmDashboard_FormClosed);
+            this.Load += new System.EventHandler(this.frmDashboard_Load);
             this.panel1.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
@@ -343,7 +307,6 @@ namespace TradingTools
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.DataGridView dgvUnofficial;
-        private System.Windows.Forms.Button btnViewUnofficial_Loaded;
         private System.Windows.Forms.Button btnOpenCalcLong_Empty;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label1;
@@ -355,7 +318,6 @@ namespace TradingTools
         private System.Windows.Forms.ToolStripMenuItem menuTradeMasterFile;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Button btnViewOfficial;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Button btnOpenCalcShort_Empty;
         private System.Windows.Forms.ToolStripMenuItem menuTradeChallenge;
