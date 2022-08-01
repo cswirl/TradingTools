@@ -94,6 +94,7 @@ namespace TradingTools
 
         private void myInitializeComponent()
         {
+            splitContainer1.IsSplitterFixed = true;
             panelBandTop.Height = 3;
             panelBandBottom.Height = 3;
             cbxTradingStyle.DataSource = Enum.GetValues(typeof(TradingStyle));
