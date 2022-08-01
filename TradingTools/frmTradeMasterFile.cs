@@ -19,21 +19,30 @@ namespace TradingTools
 {
     public partial class frmTradeMasterFile : Form
     {
+        private BindingList<Trade> _list;
         private StatusFilter _statusFilter;
-        private BindingList<Trade> _trade_bindingList;
-
-        public delegate frmRiskRewardCalc Trade_OnRequest(Trade t);
-        public Trade_OnRequest Trade_TradeOpen_OnRequest;
         private TradingStyle tradeStyle;
 
-        private master? _master { get { return (master)this.Owner; } }
+        private master _master;
 
-        public frmTradeMasterFile()
+        public frmTradeMasterFile(master master)
         {
             InitializeComponent();
 
-            _statusFilter = StatusFilter.Closed;
+            _master = master;
+
+            appInitialize();
+        }
+
+        private void appInitialize()
+        {
+            // delegates
+            _master.Trade_Officialized += this.Trade_Officialized;
+            _master.Trade_Closed += this.Trade_Closed;
+            _master.Trade_Deleted += this.Trade_Deleted;
+
             // initialize controls
+            _statusFilter = StatusFilter.Closed;
             btnUpdate.Visible = false;
             btnDelete.Visible = false;
             dtpDateEnter.MaxDate = DateTime.Today.AddDays(1).AddTicks(-1);
@@ -50,15 +59,15 @@ namespace TradingTools
             timer1.Interval = Presentation.INTERNAL_TIMER_REFRESH_VALUE;
         }
 
-        private void DataGridView_SetDataSource(BindingList<Trade> bindingList)
+        private void DataGridView_SetDataSource(List<Trade> list)
         {
-            _trade_bindingList = bindingList;
-            dgvTrades.DataSource = _trade_bindingList;
+            _list = new(list);
+            dgvTrades.DataSource = _list;
         }
 
         private void btnViewCalculator_Click(object sender, EventArgs e)
         {
-            Trade_TradeOpen_OnRequest((Trade)dgvTrades.CurrentRow.DataBoundItem);
+            _master.FormRRC_Trade_Spawn((Trade)dgvTrades.CurrentRow.DataBoundItem);
         }
 
         private void cmbFilterStatus_SelectedIndexChanged(object sender, EventArgs e)
@@ -72,18 +81,18 @@ namespace TradingTools
             {
                 default:
                 case StatusFilter.All:
-                    DataGridView_SetDataSource(_master?.GetTrades_All());
+                    DataGridView_SetDataSource(_master?.Trades_GetAll(true));
                     break;
 
                 case StatusFilter.Closed:
-                    DataGridView_SetDataSource(_master?.GetTrades_Closed());
+                    DataGridView_SetDataSource(_master?.Trades_GetClosed(true));
                     break;
 
                 case StatusFilter.Open:
-                    DataGridView_SetDataSource(_master?.GetTrades_Open());
+                    DataGridView_SetDataSource(_master?.Trades_GetOpen(true));
                     break;
                 case StatusFilter.Deleted:
-                    DataGridView_SetDataSource(_master?.GetTrades_Deleted());
+                    DataGridView_SetDataSource(_master?.Trades_GetDeleted(true));
                     break;
             }
             dgvTrades.Focus();
@@ -101,7 +110,7 @@ namespace TradingTools
                 {
                     statusMessage.Text = $"Trade No. {t.Id} was deleted successfully.";
                     AppMessageBox.Inform(statusMessage.Text, "Delete");
-                    _trade_bindingList.Remove(t);
+                    _list.Remove(t);
                 }
                 else
                 {
@@ -117,20 +126,25 @@ namespace TradingTools
         }
 
         // Officialize a Trade means creating a new Trade record
-        public void Trade_Officialized(Trade t)
+        private void Trade_Officialized(Trade t)
         {
-            if (_statusFilter == StatusFilter.Open | _statusFilter == StatusFilter.All) _trade_bindingList.Insert(0,t);
+            if (_statusFilter == StatusFilter.Open || _statusFilter == StatusFilter.All) _list.Insert(0,t);
         }
 
-        public void Trade_Closed(Trade t)
+        private void Trade_Closed(Trade t)
         {
-            if (_statusFilter == StatusFilter.Closed) _trade_bindingList.Insert(0,t);
-            if (_statusFilter == StatusFilter.Open) _trade_bindingList.Remove(t);
-            if (_statusFilter == StatusFilter.All)
+            if (_statusFilter == StatusFilter.Closed) _list.Insert(0,t);
+            else if (_statusFilter == StatusFilter.Open) _list.Remove(t);
+            else if (_statusFilter == StatusFilter.All)
             {
                 dgvTrades.Invalidate();
                 dgvTrades_SelectionChanged(default, default);
             }
+        }
+
+        private void Trade_Deleted(Trade t)
+        {
+            if (_statusFilter == StatusFilter.Deleted) _list.Insert(0, t);
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -241,7 +255,7 @@ namespace TradingTools
 
         private void dgvTrades_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            Trade_TradeOpen_OnRequest((Trade)dgvTrades.CurrentRow.DataBoundItem);
+            _master.FormRRC_Trade_Spawn((Trade)dgvTrades.CurrentRow.DataBoundItem);
         }
 
         #region Controls Validation

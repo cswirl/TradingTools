@@ -417,7 +417,7 @@ namespace TradingTools
             if (State == RiskRewardCalcState.Empty)
             {
                 // Add to the Owner's List
-                if (_master.CalculatorState_Add(CalculatorState))
+                if (_master.CalculatorState_Create(CalculatorState))
                 {
                     statusMessage.Text = "State save successfully.";
                     ChangeState(RiskRewardCalcState.Loaded);
@@ -576,7 +576,7 @@ namespace TradingTools
             }
 
             // 4 - Save data into a data store - ChangeState will Display Data 
-            if (_master.Trade_Add(this.Trade))
+            if (_master.Trade_Create(this.Trade))
             {
                 statusMessage.Text = $"Ticker: {Trade.Ticker} has been officialized successfully.";
                 AppMessageBox.Inform(statusMessage.Text, $"Trade No. {Trade.Id} is Official", this);

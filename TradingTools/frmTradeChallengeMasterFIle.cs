@@ -66,6 +66,7 @@ namespace TradingTools
 
         private void TradeChallenge_Closed(TradeChallenge tc)
         {
+            // ignore if it does not contain
             if (_currentTradeChallenges.Contains(tc))
             {
                 _currentTradeChallenges.Remove(tc);
@@ -75,16 +76,13 @@ namespace TradingTools
 
         private void TradeChallenge_Deleted(TradeChallenge tc)
         {
-            if (_currentTradeChallenges.Contains(tc)) 
                 _currentTradeChallenges.Remove(tc);
-
-            else if (_closedTradeChallenges.Contains(tc))
                 _closedTradeChallenges.Remove(tc);
         }
 
         private void TradeChallenge_Spawn(TradeChallenge tc)
         {
-            var form = new frmTradeChallenge(this._master)
+            var form = new frmTradeChallenge(_master)
             {
                 TradeChallenge = tc 
             };
@@ -96,8 +94,8 @@ namespace TradingTools
 
         private void frmTradeChallengeMasterFile_Load(object sender, EventArgs e)
         {
-            _currentTradeChallenges = new BindingList<TradeChallenge>(_master.GetTradeChallenges_Open());
-            _closedTradeChallenges = new BindingList<TradeChallenge>(_master.GetTradeChallenges_Closed());
+            _currentTradeChallenges = new(_master.TradeChallenge_GetOpen(true));
+            _closedTradeChallenges = new(_master.TradeChallenge_GetClosed(true));
 
             dgvOpen.DataSource = _currentTradeChallenges;
             dgvClosed.DataSource = _closedTradeChallenges;

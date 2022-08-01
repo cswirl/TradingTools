@@ -56,6 +56,8 @@ namespace TradingTools
 
         public master()
         {
+            InitializeComponent();
+
             /// make master invisible to the user
             this.Visible = false;
             this.Size = new System.Drawing.Size(0, 0);
@@ -68,7 +70,6 @@ namespace TradingTools
             _listOf_frmRiskRewardCalc = new();
             this.DelegateHandlers = new(this);
             //
-            if (Clock == default) Clock = new Timer();
             Clock.Interval = Presentation.INTERNAL_TIMER_REFRESH_VALUE;
 
             // Dashboard (gateway form)
@@ -100,13 +101,10 @@ namespace TradingTools
         {
             if (_frmTradeMasterFile == default || _frmTradeMasterFile.IsDisposed)
             {
-                _frmTradeMasterFile = new();
+                _frmTradeMasterFile = new(this);
                 _frmTradeMasterFile.Owner = this;
                 _frmTradeMasterFile.Show();
-                // delegates
-                _frmTradeMasterFile.Trade_TradeOpen_OnRequest += this.FormRRC_Trade_Spawn;
-                this.Trade_Officialized += _frmTradeMasterFile.Trade_Officialized;
-                this.Trade_Closed += _frmTradeMasterFile.Trade_Closed;
+                
             }
             else
             {
@@ -234,7 +232,7 @@ namespace TradingTools
         /// CalculatorState
         /// </summary>
         // Return True for sucess
-        public bool CalculatorState_Add(CalculatorState calculatorState)
+        public bool CalculatorState_Create(CalculatorState calculatorState)
         {
             DbContext.CalculatorState.Add(calculatorState);
             DbContext.SaveChanges();
@@ -261,22 +259,24 @@ namespace TradingTools
             return true;
         }
 
-        public List<CalculatorState> CalculatorStates_GetAll_Desc()
+        public List<CalculatorState> CalculatorStates_GetAll(bool descending = false)
         {
-            return DbContext.CalculatorState
+            var c = DbContext.CalculatorState
                 .Where(x => x.TradeId == null)
-                .OrderByDescending(x => x.Id)
-                .ToList();
+                .AsQueryable();
+            
+            if (descending) c = c.OrderByDescending(c => c.Id);
+
+            return c.ToList();
         }
 
         /// <summary>
         /// Trade
         /// </summary>
-        internal bool Trade_Add(Trade t)
+        internal bool Trade_Create(Trade t)
         {
             DbContext.Trade.Add(t);
             DbContext.SaveChanges();
-
             Trade_Officialized?.Invoke(t);
 
             return true;
@@ -296,7 +296,6 @@ namespace TradingTools
         {
             DbContext.Trade.Update(t);
             DbContext.SaveChanges();
-            
             Trade_Closed?.Invoke(t);
 
             return true;
@@ -307,45 +306,57 @@ namespace TradingTools
             t.IsDeleted = true;
             DbContext.Trade.Update(t);
             DbContext.SaveChanges();
-
             Trade_Deleted?.Invoke(t);
 
             return true;
         }
 
-        public BindingList<Trade> GetTrades_All()
+        public List<Trade> Trades_GetAll(bool descending = false)
         {
-            return new BindingList<Trade>(DbContext.Trade
+            var t = DbContext.Trade
                 .Include(x => x.CalculatorState)
                 .Where(x => !x.IsDeleted)
-                .OrderByDescending(x => x.Id)
-                .ToList());
+                .AsQueryable();
+
+            if (descending) t = t.OrderByDescending(x => x.Id);
+
+            return t.ToList();
         }
 
-        public BindingList<Trade> GetTrades_Closed()
+        public List<Trade> Trades_GetOpen(bool descending = false)
         {
-            return new BindingList<Trade>(DbContext.Trade
-                .Where(x => x.Status.Equals("closed"))
-                .Where(x => !x.IsDeleted)
-                .OrderByDescending(x => x.DateExit)
-                .Include(x => x.CalculatorState).ToList());
+            var t = DbContext.Trade
+                .Where(x => x.Status.Equals("open") && !x.IsDeleted)
+                .Include(x => x.CalculatorState)
+                .AsQueryable();
+
+            if (descending) t = t.OrderByDescending(x => x.DateEnter);
+
+            return t.ToList();
         }
 
-        public BindingList<Trade> GetTrades_Open()
+        public List<Trade> Trades_GetClosed(bool descending = false)
         {
-            return new BindingList<Trade>(DbContext.Trade
-                .Where(x => x.Status.Equals("open"))
-                .Where(x => !x.IsDeleted)
-                .OrderByDescending(x => x.DateEnter)
-                .Include(x => x.CalculatorState).ToList());
+            var t = DbContext.Trade
+                .Where(x => x.Status.Equals("closed") && !x.IsDeleted)
+                .Include(x => x.CalculatorState)
+                .AsQueryable();
+
+            if (descending) t = t.OrderByDescending(x => x.DateExit);
+
+            return t.ToList();
         }
 
-        public BindingList<Trade> GetTrades_Deleted()
+        public List<Trade> Trades_GetDeleted(bool descending = false)
         {
-            return new BindingList<Trade>(DbContext.Trade
+            var t = DbContext.Trade
                 .Where(x => x.IsDeleted)
-                .OrderByDescending(x => x.DateEnter)
-                .Include(x => x.CalculatorState).ToList());
+                .Include(x => x.CalculatorState)
+                .AsQueryable();
+
+            if (descending) t = t.OrderByDescending(x => x.Id);
+
+            return t.ToList();
         }
 
         /// <summary>
@@ -372,6 +383,7 @@ namespace TradingTools
 
         public bool TradeChallenge_Close(TradeChallenge tc)
         {
+            tc.IsOpen = false;
             DbContext.TradeChallenge.Update(tc);
             DbContext.SaveChanges();
             TradeChallenge_Closed?.Invoke(tc);
@@ -388,14 +400,22 @@ namespace TradingTools
             return true;
         }
 
-        public List<TradeChallenge> GetTradeChallenges_Open()
+        public List<TradeChallenge> TradeChallenge_GetOpen(bool descending = false)
         {
-            return DbContext.TradeChallenge.Where(x => x.IsOpen).OrderByDescending(x => x.Id).ToList();
+            var tc = DbContext.TradeChallenge.Where(x => x.IsOpen).AsQueryable();
+
+            if (descending) tc = tc.OrderByDescending(x => x.Id);
+
+            return tc.ToList();
                 
         }
-        public List<TradeChallenge> GetTradeChallenges_Closed()
+        public List<TradeChallenge> TradeChallenge_GetClosed(bool descending = false)
         {
-            return DbContext.TradeChallenge.Where(x => !x.IsOpen).OrderByDescending(x => x.Id).ToList();
+            var tc = DbContext.TradeChallenge.Where(x => !x.IsOpen).AsQueryable();
+
+            if (descending) tc = tc.OrderByDescending(x => x.Id);
+
+            return tc.ToList();
 
         }
 
@@ -412,55 +432,55 @@ namespace TradingTools
             return true;
         }
 
-        public List<Trade> TradeThread_GetActiveTrade(int tradeChallengeId)
-        {
-            //var x = DbContext.Trade
-            //    .Where(x => x.Status.Equals("open"))
-            //    .Include(x => x.TradeThreadTail).ThenInclude(tr => tr.TradeChallenge).Where(tc => tc.Id == tradeChallengeId)
-            //    .Include(x => x.TradeThreadHead).ThenInclude(tr => tr.TradeChallenge).Where(tc => tc.Id == tradeChallengeId)
-            //    .ToList();
-
-            return DbContext.TradeThread
-                .Include(tr => tr.Trade).ThenInclude(t => t.CalculatorState).Where(tr => tr.Trade.Status.Equals("open"))
-                .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId != default)
-                .Select(tr => tr.Trade).Where(t => !t.IsDeleted)
-                .ToList();
-        }
-
-        public List<Trade> TradeThread_GetTradeHistory(int tradeChallengeId)
-        {
-            //var a = DbContext.Trade
-            //    .Include(x => x.TradeThreadHead).Where(t => t.TradeThreadHead.TradeChallengeId == tradeChallengeId)
-            //    .ThenInclude(x => x.TradeChallenge).Where(tc => tc.Id == tradeChallengeId)
-            //    .Where(x => x.Status.Equals("closed"))
-            //    .ToList();
-
-            return DbContext.TradeThread
-                .Include(tr => tr.Trade).ThenInclude(t => t.CalculatorState).Where(tr => tr.Trade.Status.Equals("closed"))
-                .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId != default)
-                .Select(tr => tr.Trade).Where(t => !t.IsDeleted)
-                .OrderBy(t => t.DateExit)
-                .ToList();
-        }
-
         public List<Trade> TradeThread_GetAllTrades(int tradeChallengeId)
         {
-
-            return DbContext.TradeThread
-                .Include(tr => tr.Trade).ThenInclude(t => t.CalculatorState)
-                .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId != default)
-                .Select(tr => tr.Trade).Where(t => !t.IsDeleted)
+            return DbContext.Trade
+                .Include(x => x.CalculatorState)
+                .Include(x => x.TradeThread)
+                .Where(x => !x.IsDeleted && x.TradeThread.TradeChallengeId == tradeChallengeId)
                 .ToList();
+
+            //return DbContext.TradeThread
+            //    .Include(tr => tr.Trade).ThenInclude(t => t.CalculatorState)
+            //    .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId != default)
+            //    .Select(tr => tr.Trade).Where(t => !t.IsDeleted)
+            //    .ToList();
         }
 
-        public Trade TradeThread_GetNextTail(int tradeChallengeId)
+        public List<Trade> TradeThread_GetActiveTrade(int tradeChallengeId)
         {
-            return DbContext.TradeThread
-                .Include(tr => tr.Trade).ThenInclude(t => t.CalculatorState).Where(tr => tr.Trade.Status.Equals("closed"))
-                .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId != default)
-                .Select(tr => tr.Trade).Where(t => !t.IsDeleted)
-                .OrderBy(t => t.DateExit)
-                .LastOrDefault();
+            return DbContext.Trade
+                .Include(x => x.CalculatorState)
+                .Include(x => x.TradeThread).ThenInclude(tr => tr.TradeChallenge)
+                .Where(x => !x.IsDeleted && x.Status.Equals("open") && x.TradeThread.TradeChallengeId == tradeChallengeId)
+                .ToList();
+                
+
+            //return DbContext.TradeThread
+            //    .Include(tr => tr.Trade).ThenInclude(t => t.CalculatorState).Where(tr => tr.Trade.Status.Equals("open"))
+            //    .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId != default)
+            //    .Select(tr => tr.Trade).Where(t => !t.IsDeleted)
+            //    .ToList();
+        }
+
+        public List<Trade> TradeThread_GetTradeHistory(int tradeChallengeId, bool descending = false)
+        {
+            var q = DbContext.Trade
+                .Include(x => x.CalculatorState)
+                .Include(x => x.TradeThread).ThenInclude(tr => tr.TradeChallenge)
+                .Where(x => !x.IsDeleted && x.Status.Equals("closed") && x.TradeThread.TradeChallengeId == tradeChallengeId)
+                .AsQueryable();
+
+            if (descending) q = q.OrderByDescending(x => x.DateExit);
+
+            return q.ToList();
+
+            //return DbContext.TradeThread
+            //    .Include(tr => tr.Trade).ThenInclude(t => t.CalculatorState).Where(tr => tr.Trade.Status.Equals("closed"))
+            //    .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId != default)
+            //    .Select(tr => tr.Trade).Where(t => !t.IsDeleted)
+            //    .OrderBy(t => t.DateExit)
+            //    .ToList();
         }
 
         public int TradeThread_GetTradeChallengeId(int tradeId)
@@ -469,6 +489,7 @@ namespace TradingTools
                 .Where(tr => tr.TradeId == tradeId)
                 .FirstOrDefault();
 
+            // return zero if no match found
             return x?.TradeChallengeId ?? 0;
         }
 
@@ -509,13 +530,17 @@ namespace TradingTools
             return true;
         }
 
-        public List<CalculatorState> TradeChallengeProspect_GetAll(int tradeChallengeId)
+        public List<CalculatorState> TradeChallengeProspect_GetAll(int tradeChallengeId, bool descending = false)
         {
-            return DbContext.CalculatorState
+            var c = DbContext.CalculatorState
                 .Include(c => c.TradeChallengeProspect)
                 .Where(c => c.TradeChallengeProspect.TradeChallengeId == tradeChallengeId
-                    && c.TradeId == default || c.TradeId < 1)
-                .ToList();
+                    && c.TradeId == default)
+                .AsQueryable();
+
+            if (descending) c = c.OrderByDescending(c => c.TradeId);
+
+            return c.ToList();
         }
 
         public int TradeChallengeProspect_GetTradeChallengeId(int calculatorStateId)

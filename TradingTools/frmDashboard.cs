@@ -51,13 +51,13 @@ namespace TradingTools
 
         public void dgvUnofficial_SetDatasource()
         {
-            _unofficialCalculatorStates = new(_master.CalculatorStates_GetAll_Desc());
+            _unofficialCalculatorStates = new(_master.CalculatorStates_GetAll(true));
             dgvUnofficial.DataSource = _unofficialCalculatorStates;
         }
 
         public void dgvTrades_Open_SetDatasource()
         {
-            _openTrades = _master.GetTrades_Open();
+            _openTrades = new(_master.Trades_GetOpen(true));
             dgvTrades_Open.DataSource = _openTrades;
         }
 

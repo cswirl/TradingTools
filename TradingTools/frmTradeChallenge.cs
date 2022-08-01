@@ -30,6 +30,7 @@ namespace TradingTools
             InitializeComponent();
 
             this.Master = master;
+            appInitialize();
         }
 
         private void appInitialize()
@@ -112,7 +113,7 @@ namespace TradingTools
         {
             var tcp = new TradeChallengeProspect { TradeChallenge = this.TradeChallenge, CalculatorState = c};
             // Create record to database
-            if (Master.TradeChallengeProspect_Create(tcp)) _prospects.Add(c);
+            if (Master.TradeChallengeProspect_Create(tcp)) _prospects.Insert(0,c);
             messageBus($"New prospect ticker: {c.Ticker} added successfully");
         }
 
@@ -209,7 +210,7 @@ namespace TradingTools
             if (Master.TradeThread_Create(tr))
             {
                 _prospects.Remove(t.CalculatorState);
-                _activeTrades.Add(t);
+                _activeTrades.Insert(0,t);
                 monthCalendarDateEnter.Visible = true;
                 monthCalendarDateEnter.BoldedDates = monthCalendarDateEnter.BoldedDates.Append(t.DateEnter).ToArray();
                 messageBus($"New Trade with ticker: {t.Ticker} was officialized");
@@ -224,7 +225,7 @@ namespace TradingTools
             if (_activeTrades.Contains(t))
             {
                 _activeTrades.Remove(t);
-                _tradeHistory.Add(t);
+                _tradeHistory.Insert(0,t);
                 messageBus($"Trade {t.Id} was closed successfully");
             }
         }
@@ -232,9 +233,9 @@ namespace TradingTools
         private void frmTradeChallenge_Load(object sender, EventArgs e)
         {
             // data bindings
-            _prospects = new(Master.TradeChallengeProspect_GetAll(TradeChallenge.Id));
+            _prospects = new(Master.TradeChallengeProspect_GetAll(TradeChallenge.Id, true));
             _activeTrades = new(Master.TradeThread_GetActiveTrade(TradeChallenge.Id));
-            _tradeHistory = new(Master.TradeThread_GetTradeHistory(TradeChallenge.Id));
+            _tradeHistory = new(Master.TradeThread_GetTradeHistory(TradeChallenge.Id, true));
 
             dgvProspects.DataSource = _prospects;
             dgvActiveTrade.DataSource = _activeTrades;
@@ -324,8 +325,6 @@ namespace TradingTools
                          "Terminating Trade Challenge");
                 if (objDialog == DialogResult.Yes)
                 {
-                    // mark trade challenge as closed
-                    TradeChallenge.IsOpen = false;
                     if (Master.TradeChallenge_Close(this.TradeChallenge))
                     {
                         msg = $"Trade Challenge: {TradeChallenge.Id} was closed";
