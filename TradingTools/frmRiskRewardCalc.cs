@@ -448,7 +448,7 @@ namespace TradingTools
             if (State == RiskRewardCalcState.TradeOpen) return;
             if (State == RiskRewardCalcState.TradeClosed) return;
 
-            DialogResult objDialog = AppMessageBox.Question_YesNo("This action is not reversible\n\n Confirm DELETE?", "Delete");
+            DialogResult objDialog = AppMessageBox.Question_YesNo("This action is not reversible\n\n Confirm DELETE?", "Delete", this);
             if (objDialog == DialogResult.Yes)
             {
                 // Remove from the Owner's List
@@ -463,7 +463,7 @@ namespace TradingTools
                 else
                 {
                     statusMessage.Text = "Deleting state failed.";
-                    AppMessageBox.Error(statusMessage.Text, "Delete");
+                    AppMessageBox.Error(statusMessage.Text, "Delete", this);
                 }
             }
 
@@ -514,7 +514,7 @@ namespace TradingTools
             string msg;
             if (CalculatorState_Officializing_IsCancelled?.Invoke(this.CalculatorState, out msg) ?? false)
             {
-                AppMessageBox.Error(msg, "Officializing a Trade Denied");
+                AppMessageBox.Error(msg, "Officializing a Trade Denied", this);
                 return;
             }
 
@@ -571,7 +571,7 @@ namespace TradingTools
             if (!RiskRewardCalc_Serv.CalculatorState_Validate(this.CalculatorState, out msg) || !TradeService.TradeOpening_Validate(this.Trade, out msg))
             {
                 statusMessage.Text = msg;
-                AppMessageBox.Error(statusMessage.Text, "");
+                AppMessageBox.Error(statusMessage.Text, "", this);
                 return false;
             }
 
@@ -579,7 +579,7 @@ namespace TradingTools
             if (_master.Trade_Add(this.Trade))
             {
                 statusMessage.Text = $"Ticker: {Trade.Ticker} has been officialized successfully.";
-                AppMessageBox.Inform(statusMessage.Text, $"Trade No. {Trade.Id} is Official");
+                AppMessageBox.Inform(statusMessage.Text, $"Trade No. {Trade.Id} is Official", this);
                 ChangeState(RiskRewardCalcState.TradeOpen);
                 Trade_Officialized?.Invoke(this.Trade);
                 SetLastSavedCalculatorHash();
@@ -587,7 +587,7 @@ namespace TradingTools
             else
             {
                 statusMessage.Text = "Officializing a Trade failure";
-                AppMessageBox.Error(statusMessage.Text, "");
+                AppMessageBox.Error(statusMessage.Text, "", this);
                 return false;
             }
 
@@ -702,14 +702,14 @@ namespace TradingTools
                     if (CalculatorState == null)
                     {
                         statusMessage.Text = "Internal error: CalculatorState instance was not forwarded.";
-                        AppMessageBox.Error(statusMessage.Text);
+                        AppMessageBox.Error(statusMessage.Text, "", this);
                         this.Close();
                         return;
                     }
                     else if (Trade == null)
                     {
                         statusMessage.Text = "Internal error: Trade instance was not forwarded.";
-                        AppMessageBox.Error(statusMessage.Text);
+                        AppMessageBox.Error(statusMessage.Text, "", this);
                         this.Close();
                         return;
                     }
@@ -849,7 +849,7 @@ namespace TradingTools
             string msg;
             if (Trade_Closing_IsCancelled?.Invoke(this.Trade, out msg) ?? false)
             {
-                AppMessageBox.Error(msg, "Closing a Trade Denied");
+                AppMessageBox.Error(msg, "Closing a Trade Denied", this);
                 return;
             }
             
@@ -869,7 +869,7 @@ namespace TradingTools
                 if (!TradeService.TradeClosing_Validate(t, out msg))
                 {
                     statusMessage.Text = msg;
-                    AppMessageBox.Error(msg);
+                    AppMessageBox.Error(msg, "", this);
                     return;
                 }
 
