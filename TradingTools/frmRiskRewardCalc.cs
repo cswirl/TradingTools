@@ -265,9 +265,8 @@ namespace TradingTools
             if (priceTarget <= 0) return;
 
             // 3
-            Tuple<PnLRecord, decimal, decimal> exitPnl = null;
-            try { exitPnl = _rrc.PnlExitPlan(priceTarget, Position); }
-            catch (NullReferenceException) { return; }
+            if (Position == default) return;
+            var exitPnl = _rrc.PnlExitPlan(priceTarget, Position);
 
             var rec = exitPnl.Item1;
             var pv = exitPnl.Item2;
@@ -294,9 +293,8 @@ namespace TradingTools
             if (priceTarget <= 0) return;
 
             // 3
-            Tuple<PnLRecord, decimal, decimal> exitPnl = null;
-            try { exitPnl = _rrc.PnlExitPlan(priceTarget, Position); }
-            catch (NullReferenceException) { return; }
+            if (Position == default) return;
+            var exitPnl = _rrc.PnlExitPlan(priceTarget, Position);
 
             var rec = exitPnl.Item1;
             var sPV = exitPnl.Item2;
@@ -322,9 +320,8 @@ namespace TradingTools
             if (priceTarget <= 0) return;
 
             // 3
-            Tuple<PnLRecord, decimal, decimal> exitPnl = null;
-            try { exitPnl = _rrc.PnlExitPlan(priceTarget, Position); }
-            catch (NullReferenceException) { return; }
+            if (Position == default) return;
+            var exitPnl = _rrc.PnlExitPlan(priceTarget, Position);
 
             var rec = exitPnl.Item1;
             var pv = exitPnl.Item2;
