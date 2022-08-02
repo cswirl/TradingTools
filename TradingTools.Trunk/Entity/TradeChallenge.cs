@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace TradingTools.Trunk.Entity
 {
@@ -28,7 +29,9 @@ namespace TradingTools.Trunk.Entity
 
 
         // Navigation Properties
+        [JsonIgnore]
         public virtual ICollection<TradeThread> TradeThreads { get; set; }
+        [JsonIgnore]
         public virtual ICollection<TradeChallengeProspect> TradeChallengeProspects { get; set; }
 
     }

@@ -349,18 +349,6 @@ namespace TradingTools
             txtMultiple.Text = (1 + (pcp / 100)).ToString_UptoTwoDecimal() + "x";
         }
 
-        //private void btnSetLEP_Click(object sender, EventArgs e)
-        //{
-        //    txtLEP_ExitPrice.Text = txtPriceDecrease_target.Text;
-        //    //LEP_Compute(null, null);
-        //}
-
-        //private void btnSetPEP_Click(object sender, EventArgs e)
-        //{
-        //    txtPEP_ExitPrice.Text = txtPriceIncrease_target.Text;
-        //    //PEP_Compute(null, null);
-        //}
-
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (State == RiskRewardCalcState.Deleted) return;

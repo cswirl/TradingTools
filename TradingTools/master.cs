@@ -113,8 +113,6 @@ namespace TradingTools
         }
 
         
-
-
         #region Trade Challenge
         public void FormTradeChallengeMasterFile()
         {
@@ -144,15 +142,22 @@ namespace TradingTools
                 var form = new frmTradeChallenge(this);
                 form.TradeChallenge = tradeChallenge;
                 // register
-                form.FormClosed += (object sender, FormClosedEventArgs e)
-                    => { _listOf_frmTradeChallenge.Remove((frmTradeChallenge)sender); };
+                form.FormClosed += FormTradeChallenge_FormClosed;
 
                 _listOf_frmTradeChallenge.Add(form);
+                //
 
                 form.Show();
 
                 return form;
             }
+        }
+
+        private void FormTradeChallenge_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _listOf_frmTradeChallenge.Remove((frmTradeChallenge)sender);
+            // another contingency exit - to avoid master hidden in the background
+            if (_frmDashboard == default && _listOf_frmRiskRewardCalc.Count < 1 && _listOf_frmTradeChallenge.Count < 1) Application.Exit();
         }
         #endregion
 
@@ -179,7 +184,7 @@ namespace TradingTools
         {
             _listOf_frmRiskRewardCalc.Remove((frmRiskRewardCalc)sender);
             // another contingency exit - to avoid master hidden in the background
-            if (_frmDashboard == default && _listOf_frmRiskRewardCalc.Count < 1) Application.Exit();
+            if (_frmDashboard == default && _listOf_frmRiskRewardCalc.Count < 1 && _listOf_frmTradeChallenge.Count < 1) Application.Exit();
         }
 
         public frmRiskRewardCalc FormRRC_Trade_Spawn(Trade t)

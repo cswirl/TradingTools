@@ -23,6 +23,7 @@ namespace TradingTools
 
         public TradeChallenge TradeChallenge { get; set; }
         private master _master;
+        private string _lastSavedStateHash;
 
         public Status State { get; set; } = Status.Open;
 
@@ -258,9 +259,16 @@ namespace TradingTools
 
             changeState(this.TradeChallenge.IsOpen ? Status.Open : Status.Closed);
             messageBus("Form loaded successful");
+
+            SetLastSavedCalculatorHash();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
+        {
+            Save();
+        }
+
+        private bool Save()
         {
             // copy back to original
             captureTradeChallenge().CopyProperties(this.TradeChallenge);
@@ -270,7 +278,11 @@ namespace TradingTools
                 txtTitle.Text = TradeChallenge.Title;
                 this.Text = TradeChallenge.Title;
                 tradeHistoryStats();
+                SetLastSavedCalculatorHash();
+                return true;
             }
+
+            return false;
         }
 
         private TradeChallenge captureTradeChallenge()
@@ -351,6 +363,7 @@ namespace TradingTools
                             messageBus(msg);
                             AppMessageBox.Error(msg);
                         }
+                        SetLastSavedCalculatorHash();
                     }
                     else
                     {
@@ -605,24 +618,37 @@ namespace TradingTools
 
         private void frmTradeChallenge_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.ApplicationExitCall)
+            // Just ignore and close the form
+            if (DoNotAskSave()) return;
+
+            // show the form in case was minimized and closing was came from external such as from a parent form
+            this.WindowState = FormWindowState.Normal;
+            this.Focus();
+
+            var msgBoxButtons = (e.CloseReason == CloseReason.ApplicationExitCall) ? MessageBoxButtons.YesNo : MessageBoxButtons.YesNoCancel;
+            DialogResult objDialog = MessageBox.Show("Do you want to save before closing ?", this.Text, msgBoxButtons, MessageBoxIcon.Question);
+
+            if (objDialog == DialogResult.Cancel)
+            {
+                // keep the form open
+                e.Cancel = true;
+            }
+            else if (objDialog == DialogResult.No)
             {
                 // let the form close gracefully
             }
-            else
+            else if (objDialog == DialogResult.Yes)
             {
-                DialogResult objDialog = MessageBox.Show("Confirm to close this form ?", this.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                if (objDialog == DialogResult.Cancel)
-                {
-                    // keep the form open
-                    e.Cancel = true;
-                }
-                else if (objDialog == DialogResult.OK)
-                {
-                    // let the form close gracefully
-                }
+                // try saving state then let it close gracefully
+                // BUT keep the form open if is any are complication while saving
+                e.Cancel = !Save();
             }
         }
+
+        private bool DoNotAskSave() => _lastSavedStateHash == captureTradeChallenge().CreateHash();
+
+        private void SetLastSavedCalculatorHash() => _lastSavedStateHash = captureTradeChallenge().CreateHash();
+
     }
 
 }
