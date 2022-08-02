@@ -170,7 +170,7 @@ namespace TradingTools
             else
             {
                 var riskRewardCalc = TradeService.RiskRewardCalcGetInstance(t.Side);
-                var form = new frmRiskRewardCalc(riskRewardCalc);
+                var form = new frmRiskRewardCalc(riskRewardCalc, this);
                 form.State = t.Status.Equals("open") ? RiskRewardCalcState.TradeOpen : RiskRewardCalcState.TradeClosed;
                 form.Trade = t;
                 form.CalculatorState = t.CalculatorState;
@@ -193,7 +193,7 @@ namespace TradingTools
             else
             {
                 var riskRewardCalc = TradeService.RiskRewardCalcGetInstance(c.Side);
-                var form = new frmRiskRewardCalc(riskRewardCalc);
+                var form = new frmRiskRewardCalc(riskRewardCalc, this);
                 form.State = RiskRewardCalcState.Loaded;
                 form.CalculatorState = c;
 
@@ -218,7 +218,7 @@ namespace TradingTools
 
         private frmRiskRewardCalc FormRRC_Empty_Spawn(IRiskRewardCalc riskRewardCalc)
         {
-            var form = new frmRiskRewardCalc(riskRewardCalc);
+            var form = new frmRiskRewardCalc(riskRewardCalc, this);
             registerNewRiskRewardCalcForm(form);
             form.Show();
 

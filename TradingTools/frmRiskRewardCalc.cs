@@ -37,8 +37,8 @@ namespace TradingTools
         private string _headerMetadata;
         private string _lastSavedStateHash;
         private dialogCapitalCalc _dialogCapital;
-        
-        private master _master { get { return (master)this.Owner; } }
+
+        private master _master;
 
         // Properties
         public RiskRewardCalcState State { get; set; } = RiskRewardCalcState.Empty;
@@ -49,7 +49,7 @@ namespace TradingTools
         public Position Position { get; set; }
         public ISideTheme Theme { get; private set; }
 
-        public frmRiskRewardCalc(IRiskRewardCalc riskRewardCalc)
+        public frmRiskRewardCalc(IRiskRewardCalc riskRewardCalc, master master)
         {
             InitializeComponent();
 
@@ -57,6 +57,7 @@ namespace TradingTools
             // Dependency Injection of RiskRewardCalc
             _rrc = riskRewardCalc;
             Side = riskRewardCalc.Side;
+            _master = master;
 
             this.Theme = TradingTools.Theme.SideTheme_GetInstance(riskRewardCalc.Side);
 
@@ -82,16 +83,6 @@ namespace TradingTools
             lblHeader.Text = $"{Theme.Title} - {_headerMetadata}";
         }
 
-
-
-        // May be obsoleted - but this cannot be deleted as empty constructor is needed by .NET
-        public frmRiskRewardCalc()
-        {
-            InitializeComponent();
-
-            myInitializeComponent();
-        }
-
         private void myInitializeComponent()
         {
             splitContainer1.IsSplitterFixed = true;
@@ -105,6 +96,13 @@ namespace TradingTools
 
             // timer
             timer1.Interval = Presentation.INTERNAL_TIMER_REFRESH_VALUE;
+
+            // Ticker auto complete
+            var autoComplete = new AutoCompleteStringCollection();
+            autoComplete.AddRange(_master.Trades_GetAll().Select(t => t.Ticker.ToUpper()).ToArray());
+            txtTicker.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            txtTicker.AutoCompleteCustomSource = autoComplete;
+            txtTicker.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
         }
 
         private void btnReCalculate_Click(object sender, EventArgs e)
@@ -731,7 +729,7 @@ namespace TradingTools
                     panelBandBottom.BackColor = Theme.TradeClosed;
                     lblHeader.Text = Trade.Ticker;
                     lblHeader.ForeColor = Color.LightSteelBlue;
-                    _headerMetadata = "Trade CLOSED";
+                    _headerMetadata = $"Trade CLOSED - {this.Trade.DateExit?.ToString("F")}";
                     // Controls
                     txtPEP_ExitPrice.ReadOnly = true;
                     txtLEP_ExitPrice.ReadOnly = true;
@@ -779,6 +777,9 @@ namespace TradingTools
             this.Text = Trade.Ticker + $" - Trade No. {Trade?.Id}";
             txtTradeNum.Text = Trade.Id.ToString();
             txtTicker.Text = Trade.Ticker;
+            txtTradeDates.Visible = true;
+            txtTradeDates.Text = $"Enter: {this.Trade.DateEnter.ToString("F")}{Environment.NewLine}" +
+                $"Exit: {this.Trade.DateExit?.ToString("F")}";
 
             // Independent data
             txtReasonForEntry.Text = CalculatorState.ReasonForEntry;

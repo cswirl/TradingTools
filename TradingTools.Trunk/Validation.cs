@@ -93,7 +93,7 @@ namespace TradingTools.Trunk.Validation
         public static bool isTicker(string value, out string errorMsg)
         {
             // Pattern example: AAAAA/ZZZZZ 
-            string pattern = @"^[a-zA-Z]{1,5}[\/][a-zA-Z]{1,5}$";
+            string pattern = @"^[a-zA-Z]{1,10}[\/][a-zA-Z]{1,10}$";
             Regex rg = new Regex(pattern);
 
             errorMsg = "";

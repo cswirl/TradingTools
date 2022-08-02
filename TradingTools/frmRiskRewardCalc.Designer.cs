@@ -155,6 +155,7 @@ namespace TradingTools
             this.label14 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.txtTradeDates = new System.Windows.Forms.TextBox();
             this.btnSetPEP = new System.Windows.Forms.Button();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
@@ -773,6 +774,8 @@ namespace TradingTools
             // 
             // txtTicker
             // 
+            this.txtTicker.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.txtTicker.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtTicker.Location = new System.Drawing.Point(125, 38);
             this.txtTicker.Name = "txtTicker";
             this.txtTicker.Size = new System.Drawing.Size(95, 23);
@@ -820,7 +823,6 @@ namespace TradingTools
             this.tableLayoutPanel11.Controls.Add(this.label32, 0, 0);
             this.tableLayoutPanel11.Controls.Add(this.txtReasonForEntry, 0, 1);
             this.tableLayoutPanel11.Controls.Add(this.label6, 1, 0);
-            this.tableLayoutPanel11.Cursor = System.Windows.Forms.Cursors.Default;
             this.tableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel11.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel11.Name = "tableLayoutPanel11";
@@ -1740,6 +1742,7 @@ namespace TradingTools
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.txtTradeDates);
             this.splitContainer2.Panel1.Controls.Add(this.btnSetPEP);
             this.splitContainer2.Panel1.Controls.Add(this.tableLayoutPanel6);
             this.splitContainer2.Panel1.Controls.Add(this.panel5);
@@ -1752,6 +1755,18 @@ namespace TradingTools
             this.splitContainer2.Size = new System.Drawing.Size(429, 887);
             this.splitContainer2.SplitterDistance = 419;
             this.splitContainer2.TabIndex = 0;
+            // 
+            // txtTradeDates
+            // 
+            this.txtTradeDates.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtTradeDates.Location = new System.Drawing.Point(3, 3);
+            this.txtTradeDates.Multiline = true;
+            this.txtTradeDates.Name = "txtTradeDates";
+            this.txtTradeDates.ReadOnly = true;
+            this.txtTradeDates.Size = new System.Drawing.Size(423, 46);
+            this.txtTradeDates.TabIndex = 2;
+            this.txtTradeDates.Text = "test\r\ntest";
+            this.txtTradeDates.Visible = false;
             // 
             // btnSetPEP
             // 
@@ -2328,6 +2343,7 @@ namespace TradingTools
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
@@ -2522,6 +2538,7 @@ namespace TradingTools
         private System.Windows.Forms.RadioButton radioLeverage;
         private System.Windows.Forms.TextBox txtDayCount;
         private System.Windows.Forms.LinkLabel linkCapital;
+        private System.Windows.Forms.TextBox txtTradeDates;
     }
 }
 
