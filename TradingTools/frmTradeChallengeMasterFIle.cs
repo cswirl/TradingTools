@@ -16,14 +16,16 @@ namespace TradingTools
     public partial class frmTradeChallengeMasterFile : Form
     {
         private List<frmTradeChallenge> _listOf_frmTradeChallenge;
-        private master _master { get { return (master)this.Owner; } }
+        private master _master;
 
         private BindingList<TradeChallenge> _currentTradeChallenges;
         private BindingList<TradeChallenge> _closedTradeChallenges;
 
-        public frmTradeChallengeMasterFile()
+        public frmTradeChallengeMasterFile(master master)
         {
             InitializeComponent();
+
+            _master = master;
 
             _listOf_frmTradeChallenge = new();
             DataGridViewFormat_Common(dgvOpen);
@@ -84,7 +86,7 @@ namespace TradingTools
         {
             var form = new frmTradeChallenge(_master)
             {
-                TradeChallenge = tc 
+                TradeChallenge = tc
             };
             // register
             registerForm(form);

@@ -415,7 +415,6 @@ namespace TradingTools
             if (_master == default) return false;
             if (State == RiskRewardCalcState.Empty)
             {
-                // Add to the Owner's List
                 if (_master.CalculatorState_Create(CalculatorState))
                 {
                     statusMessage.Text = "State save successfully.";
@@ -450,7 +449,6 @@ namespace TradingTools
             DialogResult objDialog = AppMessageBox.Question_YesNo("This action is not reversible\n\n Confirm DELETE?", "Delete", this);
             if (objDialog == DialogResult.Yes)
             {
-                // Remove from the Owner's List
                 if (_master.CalculatorState_Delete(this.CalculatorState))
                 {
                     ChangeState(RiskRewardCalcState.Deleted);

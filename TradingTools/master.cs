@@ -74,7 +74,6 @@ namespace TradingTools
 
             // Dashboard (gateway form)
             _frmDashboard = new(this);
-            _frmDashboard.Owner = this;
             _frmDashboard.StartPosition = FormStartPosition.CenterScreen;
             _frmDashboard.Show();
         }
@@ -102,7 +101,6 @@ namespace TradingTools
             if (_frmTradeMasterFile == default || _frmTradeMasterFile.IsDisposed)
             {
                 _frmTradeMasterFile = new(this);
-                _frmTradeMasterFile.Owner = this;
                 _frmTradeMasterFile.Show();
                 
             }
@@ -117,8 +115,7 @@ namespace TradingTools
         {
             if (_frmTradeChallengeMasterFile == default || _frmTradeChallengeMasterFile.IsDisposed)
             {
-                _frmTradeChallengeMasterFile = new();
-                _frmTradeChallengeMasterFile.Owner = this;
+                _frmTradeChallengeMasterFile = new(this);
                 _frmTradeChallengeMasterFile.Show();
                 // delegates
             }
@@ -133,7 +130,6 @@ namespace TradingTools
         private void registerNewRiskRewardCalcForm(frmRiskRewardCalc form)
         {
             //Delegates assignment here
-            form.Owner = this;
             form.FormClosed += this.FormRRC_FormClosed;
             form.CalculatorState_Officializing_IsCancelled += this.DelegateHandlers.CalculatorState_Officializing_IsCancelled_Handler;
             form.Trade_Closing_IsCancelled += this.DelegateHandlers.Trade_Closing_IsCancelled_Handler;
@@ -152,8 +148,8 @@ namespace TradingTools
         private void FormRRC_FormClosed(object sender, FormClosedEventArgs e)
         {
             _listOf_frmRiskRewardCalc.Remove((frmRiskRewardCalc)sender);
-            // 1 means this is the last form
-            if (this.OwnedForms.Length == 1) Application.Exit();
+            // another contingency exit - to avoid master hidden in the background
+            if (_frmDashboard == default && _listOf_frmRiskRewardCalc.Count < 1) Application.Exit();
         }
 
         public frmRiskRewardCalc FormRRC_Trade_Spawn(Trade t)
