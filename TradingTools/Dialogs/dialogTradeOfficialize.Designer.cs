@@ -228,6 +228,7 @@ namespace TradingTools
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "dialogTradeOfficialize";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Trade Officialize";
             this.Load += new System.EventHandler(this.TradeOfficialize_Load);

@@ -1172,6 +1172,10 @@ namespace TradingTools
 
         private void linkCapital_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            if (this.State == RiskRewardCalcState.TradeOpen
+                || this.State == RiskRewardCalcState.TradeClosed
+                || this.State == RiskRewardCalcState.Deleted) return;
+
             (string capital, string lotSize, string price) arg = (txtCapital.Text, txtLotSize.Text, txtEntryPrice.Text);
             if (_dialogCapital == default) _dialogCapital = new dialogCapitalCalc(arg);
             _dialogCapital.StartPosition = FormStartPosition.Manual;
