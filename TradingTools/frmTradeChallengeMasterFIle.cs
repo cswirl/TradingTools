@@ -27,6 +27,11 @@ namespace TradingTools
 
             _master = master;
 
+            // delegates
+            _master.TradeChallenge_Updated += this.TradeChallenge_Updated;
+            _master.TradeChallenge_Closed += this.TradeChallenge_Closed;
+            _master.TradeChallenge_Deleted += this.TradeChallenge_Deleted;
+
             _listOf_frmTradeChallenge = new();
             DataGridViewFormat_Common(dgvOpen);
             DataGridViewFormat_Common(dgvClosed);
@@ -50,10 +55,6 @@ namespace TradingTools
 
         private void registerForm(frmTradeChallenge form)
         {
-            _master.TradeChallenge_Updated += this.TradeChallenge_Updated;
-            _master.TradeChallenge_Closed += this.TradeChallenge_Closed;
-            _master.TradeChallenge_Deleted += this.TradeChallenge_Deleted;
-
             form.FormClosed += (object sender, FormClosedEventArgs e)
                 => { _listOf_frmTradeChallenge.Remove((frmTradeChallenge)sender); };
 

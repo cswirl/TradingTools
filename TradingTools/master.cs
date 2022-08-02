@@ -60,7 +60,6 @@ namespace TradingTools
 
             /// make master invisible to the user
             this.Visible = false;
-            this.Size = new System.Drawing.Size(0, 0);
             this.FormBorderStyle = FormBorderStyle.None;
             this.ShowInTaskbar = false;
             this.Load += new EventHandler(master_Load);
@@ -80,7 +79,7 @@ namespace TradingTools
 
         private void master_Load(object sender, EventArgs e)
         {
-
+            this.Size = new System.Drawing.Size(0, 0);
         }
 
         private void InitializeDbContext()
