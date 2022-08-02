@@ -384,6 +384,7 @@
             this.Name = "frmTradeChallenge";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Trade Challenge";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmTradeChallenge_FormClosing);
             this.Load += new System.EventHandler(this.frmTradeChallenge_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

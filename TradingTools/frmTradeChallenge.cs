@@ -603,6 +603,26 @@ namespace TradingTools
         }
         #endregion
 
+        private void frmTradeChallenge_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.ApplicationExitCall)
+            {
+                // let the form close gracefully
+            }
+            else
+            {
+                DialogResult objDialog = MessageBox.Show("Confirm to close this form ?", this.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (objDialog == DialogResult.Cancel)
+                {
+                    // keep the form open
+                    e.Cancel = true;
+                }
+                else if (objDialog == DialogResult.OK)
+                {
+                    // let the form close gracefully
+                }
+            }
+        }
     }
 
 }

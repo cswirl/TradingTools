@@ -136,7 +136,6 @@
             this.Name = "frmTradeChallengeMasterFile";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Trade Challeng Master File";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmTradeChallengeMasterFile_FormClosing);
             this.Load += new System.EventHandler(this.frmTradeChallengeMasterFile_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

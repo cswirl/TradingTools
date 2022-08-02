@@ -15,7 +15,6 @@ namespace TradingTools
 {
     public partial class frmTradeChallengeMasterFile : Form
     {
-        private List<frmTradeChallenge> _listOf_frmTradeChallenge;
         private master _master;
 
         private BindingList<TradeChallenge> _currentTradeChallenges;
@@ -32,7 +31,6 @@ namespace TradingTools
             _master.TradeChallenge_Closed += this.TradeChallenge_Closed;
             _master.TradeChallenge_Deleted += this.TradeChallenge_Deleted;
 
-            _listOf_frmTradeChallenge = new();
             DataGridViewFormat_Common(dgvOpen);
             DataGridViewFormat_Common(dgvClosed);
         }
@@ -49,16 +47,8 @@ namespace TradingTools
             tc.IsOpen = true;
             if (_master.TradeChallenge_Create(tc)) {
                _currentTradeChallenges.Insert(0,tc);
-                TradeChallenge_Spawn(tc);
+                _master.TradeChallenge_Spawn(tc);
             }
-        }
-
-        private void registerForm(frmTradeChallenge form)
-        {
-            form.FormClosed += (object sender, FormClosedEventArgs e)
-                => { _listOf_frmTradeChallenge.Remove((frmTradeChallenge)sender); };
-
-            _listOf_frmTradeChallenge.Add(form);
         }
 
         private void TradeChallenge_Updated(TradeChallenge tc)
@@ -83,18 +73,6 @@ namespace TradingTools
                 _closedTradeChallenges.Remove(tc);
         }
 
-        private void TradeChallenge_Spawn(TradeChallenge tc)
-        {
-            var form = new frmTradeChallenge(_master)
-            {
-                TradeChallenge = tc
-            };
-            // register
-            registerForm(form);
-
-            form.Show(this);
-        }
-
         private void frmTradeChallengeMasterFile_Load(object sender, EventArgs e)
         {
             _currentTradeChallenges = new(_master.TradeChallenge_GetOpen(true));
@@ -107,23 +85,7 @@ namespace TradingTools
         private void dgv_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             var dgv = (DataGridView)sender;
-            TradeChallenge_ActivateForm((TradeChallenge)dgv.CurrentRow.DataBoundItem);
-        }
-
-        private bool TradeChallenge_ActivateForm(TradeChallenge tradeChallenge)
-        {
-            var tc = _listOf_frmTradeChallenge.Find(x => x.TradeChallenge.Id == tradeChallenge.Id);
-            if (tc != null)
-            {
-                tc.WindowState = FormWindowState.Normal;
-                tc.Focus();
-            }
-            else
-            {
-                TradeChallenge_Spawn(tradeChallenge);
-            }
-
-            return true;
+            _master.TradeChallenge_Spawn((TradeChallenge)dgv.CurrentRow.DataBoundItem);
         }
 
         #region DataGridView Formatting
@@ -206,26 +168,5 @@ namespace TradingTools
         }
         #endregion
 
-        private void frmTradeChallengeMasterFile_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (e.CloseReason == CloseReason.ApplicationExitCall)
-            {
-                // let the form close gracefully
-            }
-            else
-            {
-                DialogResult objDialog = MessageBox.Show("Confirm to close this form ?", this.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                if (objDialog == DialogResult.Cancel)
-                {
-                    // keep the form open
-                    e.Cancel = true;
-                }
-                else if (objDialog == DialogResult.OK)
-                {
-                    // let the form close gracefully
-                }
-            }
-            
-        }
     }
 }

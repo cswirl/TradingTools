@@ -46,7 +46,8 @@ namespace TradingTools
         public TradingToolsDbContext DbContext { get; set; }
 
         private List<frmRiskRewardCalc> _listOf_frmRiskRewardCalc;
-        
+        private List<frmTradeChallenge> _listOf_frmTradeChallenge;
+
         private IContainer components;
 
         public frmDashboard _frmDashboard { get; set; }
@@ -67,6 +68,7 @@ namespace TradingTools
 
             InitializeDbContext();
             _listOf_frmRiskRewardCalc = new();
+            _listOf_frmTradeChallenge = new();
             this.DelegateHandlers = new(this);
             //
             Clock.Interval = Presentation.INTERNAL_TIMER_REFRESH_VALUE;
@@ -110,6 +112,10 @@ namespace TradingTools
             }
         }
 
+        
+
+
+        #region Trade Challenge
         public void FormTradeChallengeMasterFile()
         {
             if (_frmTradeChallengeMasterFile == default || _frmTradeChallengeMasterFile.IsDisposed)
@@ -125,6 +131,31 @@ namespace TradingTools
             }
         }
 
+        public frmTradeChallenge TradeChallenge_Spawn(TradeChallenge tradeChallenge)
+        {
+            var tc = _listOf_frmTradeChallenge.Find(x => x.TradeChallenge.Id == tradeChallenge.Id);
+            if (tc != null)
+            {
+                activateForm(tc);
+                return tc;
+            }
+            else
+            {
+                var form = new frmTradeChallenge(this);
+                form.TradeChallenge = tradeChallenge;
+                // register
+                form.FormClosed += (object sender, FormClosedEventArgs e)
+                    => { _listOf_frmTradeChallenge.Remove((frmTradeChallenge)sender); };
+
+                _listOf_frmTradeChallenge.Add(form);
+
+                form.Show();
+
+                return form;
+            }
+        }
+        #endregion
+
         #region Risk Reward Calculator Forms
         private void registerNewRiskRewardCalcForm(frmRiskRewardCalc form)
         {
@@ -138,10 +169,10 @@ namespace TradingTools
             _listOf_frmRiskRewardCalc.Add(form);
         }
 
-        private void activateRiskRewardCalcForm(frmRiskRewardCalc rrc)
+        private void activateForm(Form form)
         {
-            rrc.WindowState = FormWindowState.Normal;
-            rrc.Focus();
+            form.WindowState = FormWindowState.Normal;
+            form.Focus();
         }
 
         private void FormRRC_FormClosed(object sender, FormClosedEventArgs e)
@@ -159,7 +190,7 @@ namespace TradingTools
             var rrc = _listOf_frmRiskRewardCalc.Find(x => x.Trade?.Equals(t) ?? false);       // THOUGH THIS IS WORKING FINE
             if (rrc != null)
             {
-                activateRiskRewardCalcForm(rrc);
+                activateForm(rrc);
                 return rrc;
             }
             else
@@ -182,7 +213,7 @@ namespace TradingTools
             var rrc = _listOf_frmRiskRewardCalc.Find(x => x.CalculatorState?.Equals(c) ?? false);
             if (rrc != null)
             {
-                activateRiskRewardCalcForm (rrc);
+                activateForm (rrc);
                 return rrc;
             }
             else
