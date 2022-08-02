@@ -41,30 +41,32 @@ namespace TradingTools
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.txtReasonForExit = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dtpDateExit
             // 
-            this.dtpDateExit.Location = new System.Drawing.Point(29, 36);
+            this.dtpDateExit.Location = new System.Drawing.Point(25, 57);
             this.dtpDateExit.Name = "dtpDateExit";
-            this.dtpDateExit.Size = new System.Drawing.Size(181, 23);
+            this.dtpDateExit.Size = new System.Drawing.Size(181, 25);
             this.dtpDateExit.TabIndex = 8;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(29, 18);
+            this.label2.Location = new System.Drawing.Point(25, 39);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 15);
+            this.label2.Size = new System.Drawing.Size(59, 17);
             this.label2.TabIndex = 33;
             this.label2.Text = "Date Exit";
             // 
             // txtExitPrice
             // 
-            this.txtExitPrice.Location = new System.Drawing.Point(29, 113);
+            this.txtExitPrice.Location = new System.Drawing.Point(25, 134);
             this.txtExitPrice.Name = "txtExitPrice";
-            this.txtExitPrice.Size = new System.Drawing.Size(111, 23);
+            this.txtExitPrice.Size = new System.Drawing.Size(111, 25);
             this.txtExitPrice.TabIndex = 4;
             this.txtExitPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtExitPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
@@ -73,18 +75,18 @@ namespace TradingTools
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(29, 95);
+            this.label7.Location = new System.Drawing.Point(25, 116);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(87, 15);
+            this.label7.Size = new System.Drawing.Size(94, 17);
             this.label7.TabIndex = 39;
             this.label7.Text = "Exit Price (Avg)";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtFinalCapital
             // 
-            this.txtFinalCapital.Location = new System.Drawing.Point(161, 113);
+            this.txtFinalCapital.Location = new System.Drawing.Point(157, 134);
             this.txtFinalCapital.Name = "txtFinalCapital";
-            this.txtFinalCapital.Size = new System.Drawing.Size(111, 23);
+            this.txtFinalCapital.Size = new System.Drawing.Size(111, 25);
             this.txtFinalCapital.TabIndex = 2;
             this.txtFinalCapital.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtFinalCapital.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
@@ -93,15 +95,15 @@ namespace TradingTools
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(159, 95);
+            this.label15.Location = new System.Drawing.Point(155, 116);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(72, 15);
+            this.label15.Size = new System.Drawing.Size(78, 17);
             this.label15.TabIndex = 42;
             this.label15.Text = "Final Capital";
             // 
             // btnCloseTrade
             // 
-            this.btnCloseTrade.Location = new System.Drawing.Point(397, 108);
+            this.btnCloseTrade.Location = new System.Drawing.Point(393, 129);
             this.btnCloseTrade.Name = "btnCloseTrade";
             this.btnCloseTrade.Size = new System.Drawing.Size(108, 31);
             this.btnCloseTrade.TabIndex = 6;
@@ -111,7 +113,7 @@ namespace TradingTools
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(302, 108);
+            this.btnCancel.Location = new System.Drawing.Point(298, 129);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(89, 31);
             this.btnCancel.TabIndex = 7;
@@ -125,48 +127,62 @@ namespace TradingTools
             // 
             // txtReasonForExit
             // 
-            this.txtReasonForExit.Location = new System.Drawing.Point(29, 183);
+            this.txtReasonForExit.Location = new System.Drawing.Point(25, 204);
             this.txtReasonForExit.Multiline = true;
             this.txtReasonForExit.Name = "txtReasonForExit";
-            this.txtReasonForExit.Size = new System.Drawing.Size(476, 118);
+            this.txtReasonForExit.Size = new System.Drawing.Size(476, 83);
             this.txtReasonForExit.TabIndex = 43;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(29, 165);
+            this.label1.Location = new System.Drawing.Point(25, 186);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(85, 15);
+            this.label1.Size = new System.Drawing.Size(96, 17);
             this.label1.TabIndex = 44;
             this.label1.Text = "Reason for Exit";
             // 
-            // TradeClosing
+            // groupBox1
+            // 
+            this.groupBox1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.dtpDateExit);
+            this.groupBox1.Controls.Add(this.txtReasonForExit);
+            this.groupBox1.Controls.Add(this.label15);
+            this.groupBox1.Controls.Add(this.btnCancel);
+            this.groupBox1.Controls.Add(this.txtFinalCapital);
+            this.groupBox1.Controls.Add(this.btnCloseTrade);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.txtExitPrice);
+            this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.groupBox1.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(525, 307);
+            this.groupBox1.TabIndex = 45;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Trade Closing";
+            // 
+            // dialogTradeClosing
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(541, 313);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtReasonForExit);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnCloseTrade);
-            this.Controls.Add(this.txtExitPrice);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.txtFinalCapital);
-            this.Controls.Add(this.label15);
-            this.Controls.Add(this.dtpDateExit);
-            this.Controls.Add(this.label2);
+            this.ClientSize = new System.Drawing.Size(549, 331);
+            this.Controls.Add(this.groupBox1);
+            this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "TradeClosing";
-            this.ShowInTaskbar = false;
+            this.Name = "dialogTradeClosing";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Trade Officialize";
+            this.Text = "Trade Closing";
             this.Load += new System.EventHandler(this.TradeClosing_Load);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -183,5 +199,6 @@ namespace TradingTools
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtReasonForExit;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

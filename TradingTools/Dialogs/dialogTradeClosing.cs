@@ -8,7 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TradingTools.Dialogs;
 using TradingTools.Model;
+using TradingTools.Services;
 using TradingTools.Trunk;
 using TradingTools.Trunk.Entity;
 using TradingTools.Trunk.Extensions;
@@ -43,6 +45,15 @@ namespace TradingTools
             Trade.CalculatorState.ReasonForExit = txtReasonForExit.Text;
             Trade.Status = "closed";
 
+            // Validate the data gathered by the proxy trade object
+            string msg = "Error closing the trade";
+            if (!TradeService.TradeClosing_Validate(Trade, out msg))
+            {
+                AppMessageBox.Error(msg, "", this);
+                return;
+            }
+
+            // proceed to close the trade
             this.DialogResult = DialogResult.Yes;
             this.Close();
         }

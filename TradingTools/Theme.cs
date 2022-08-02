@@ -95,7 +95,7 @@ namespace TradingTools
             exitPrice.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             exitPrice.DefaultCellStyle.Format = Constant.DECIMAL_UPTO_MAX;
             exitPrice.DefaultCellStyle.ForeColor = Color.White;
-            exitPrice.DefaultCellStyle.Font = new Font(new FontFamily("tahoma"), 8.5f, FontStyle.Bold);
+            exitPrice.DefaultCellStyle.Font = new Font(new FontFamily("tahoma"), 8f, FontStyle.Bold);
             exitPrice.DefaultCellStyle.BackColor = Color.SteelBlue;
             //exitPrice.DefaultCellStyle.SelectionBackColor = Color.Transparent;
             //exitPrice.DefaultCellStyle.SelectionForeColor = Color.White;

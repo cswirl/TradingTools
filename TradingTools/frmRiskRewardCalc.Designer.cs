@@ -253,7 +253,7 @@ namespace TradingTools
             this.panelTitleBand.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTitleBand.Location = new System.Drawing.Point(0, 0);
             this.panelTitleBand.Name = "panelTitleBand";
-            this.panelTitleBand.Size = new System.Drawing.Size(1551, 52);
+            this.panelTitleBand.Size = new System.Drawing.Size(1556, 52);
             this.panelTitleBand.TabIndex = 0;
             // 
             // lblHeader
@@ -277,7 +277,7 @@ namespace TradingTools
             this.panelBandBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelBandBottom.Location = new System.Drawing.Point(0, 47);
             this.panelBandBottom.Name = "panelBandBottom";
-            this.panelBandBottom.Size = new System.Drawing.Size(1551, 5);
+            this.panelBandBottom.Size = new System.Drawing.Size(1556, 5);
             this.panelBandBottom.TabIndex = 1;
             // 
             // panelBandTop
@@ -286,7 +286,7 @@ namespace TradingTools
             this.panelBandTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelBandTop.Location = new System.Drawing.Point(0, 0);
             this.panelBandTop.Name = "panelBandTop";
-            this.panelBandTop.Size = new System.Drawing.Size(1551, 5);
+            this.panelBandTop.Size = new System.Drawing.Size(1556, 5);
             this.panelBandTop.TabIndex = 0;
             // 
             // panel2
@@ -296,7 +296,7 @@ namespace TradingTools
             this.panel2.Location = new System.Drawing.Point(0, 52);
             this.panel2.Name = "panel2";
             this.panel2.Padding = new System.Windows.Forms.Padding(15);
-            this.panel2.Size = new System.Drawing.Size(1551, 917);
+            this.panel2.Size = new System.Drawing.Size(1556, 917);
             this.panel2.TabIndex = 1;
             // 
             // splitContainer1
@@ -343,7 +343,7 @@ namespace TradingTools
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(1521, 887);
+            this.splitContainer1.Size = new System.Drawing.Size(1526, 887);
             this.splitContainer1.SplitterDistance = 1088;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -364,7 +364,7 @@ namespace TradingTools
             this.radioLotSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.radioLotSize.AutoSize = true;
             this.radioLotSize.Checked = true;
-            this.radioLotSize.Location = new System.Drawing.Point(-118, 159);
+            this.radioLotSize.Location = new System.Drawing.Point(18, 159);
             this.radioLotSize.Name = "radioLotSize";
             this.radioLotSize.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.radioLotSize.Size = new System.Drawing.Size(49, 19);
@@ -378,7 +378,7 @@ namespace TradingTools
             // 
             this.radioLeverage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.radioLeverage.AutoSize = true;
-            this.radioLeverage.Location = new System.Drawing.Point(-92, 129);
+            this.radioLeverage.Location = new System.Drawing.Point(45, 129);
             this.radioLeverage.Name = "radioLeverage";
             this.radioLeverage.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.radioLeverage.Size = new System.Drawing.Size(14, 13);
@@ -1752,7 +1752,7 @@ namespace TradingTools
             this.splitContainer2.Panel2.Controls.Add(this.btnSetLEP);
             this.splitContainer2.Panel2.Controls.Add(this.tableLayoutPanel4);
             this.splitContainer2.Panel2.Controls.Add(this.panel4);
-            this.splitContainer2.Size = new System.Drawing.Size(429, 887);
+            this.splitContainer2.Size = new System.Drawing.Size(434, 887);
             this.splitContainer2.SplitterDistance = 419;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -1890,7 +1890,7 @@ namespace TradingTools
             this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel5.Location = new System.Drawing.Point(0, 152);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(429, 267);
+            this.panel5.Size = new System.Drawing.Size(434, 267);
             this.panel5.TabIndex = 0;
             // 
             // dgvPriceIncreaseTable
@@ -1920,7 +1920,7 @@ namespace TradingTools
             this.dgvPriceIncreaseTable.ReadOnly = true;
             this.dgvPriceIncreaseTable.RowTemplate.Height = 25;
             this.dgvPriceIncreaseTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPriceIncreaseTable.Size = new System.Drawing.Size(429, 267);
+            this.dgvPriceIncreaseTable.Size = new System.Drawing.Size(434, 267);
             this.dgvPriceIncreaseTable.TabIndex = 0;
             this.dgvPriceIncreaseTable.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.PCP_Table_CellClick);
             // 
@@ -2045,7 +2045,7 @@ namespace TradingTools
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(429, 265);
+            this.panel4.Size = new System.Drawing.Size(434, 265);
             this.panel4.TabIndex = 0;
             // 
             // dgvPriceDecreaseTable
@@ -2075,7 +2075,7 @@ namespace TradingTools
             this.dgvPriceDecreaseTable.ReadOnly = true;
             this.dgvPriceDecreaseTable.RowTemplate.Height = 25;
             this.dgvPriceDecreaseTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPriceDecreaseTable.Size = new System.Drawing.Size(429, 265);
+            this.dgvPriceDecreaseTable.Size = new System.Drawing.Size(434, 265);
             this.dgvPriceDecreaseTable.TabIndex = 1;
             this.dgvPriceDecreaseTable.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.PCP_Table_CellClick);
             // 
@@ -2087,7 +2087,7 @@ namespace TradingTools
             this.panelFooterBand.ForeColor = System.Drawing.Color.Black;
             this.panelFooterBand.Location = new System.Drawing.Point(0, 937);
             this.panelFooterBand.Name = "panelFooterBand";
-            this.panelFooterBand.Size = new System.Drawing.Size(1551, 32);
+            this.panelFooterBand.Size = new System.Drawing.Size(1556, 32);
             this.panelFooterBand.TabIndex = 2;
             // 
             // statusStrip1
@@ -2096,7 +2096,7 @@ namespace TradingTools
             this.statusMessage});
             this.statusStrip1.Location = new System.Drawing.Point(0, 10);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1551, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1556, 22);
             this.statusStrip1.SizingGrip = false;
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
@@ -2289,7 +2289,7 @@ namespace TradingTools
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1551, 969);
+            this.ClientSize = new System.Drawing.Size(1556, 969);
             this.Controls.Add(this.panelFooterBand);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panelTitleBand);
