@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TradingTools.DAL;
+using TradingTools.Dialogs;
 using TradingTools.Helpers;
 //using TradingTools.DAL.Migrations;
 using TradingTools.Services;
@@ -59,7 +60,6 @@ namespace TradingTools
         {
             InitializeComponent();
 
-            /// make master invisible to the user
             this.Visible = false;
             this.FormBorderStyle = FormBorderStyle.None;
             this.ShowInTaskbar = false;
@@ -81,20 +81,8 @@ namespace TradingTools
 
         private void master_Load(object sender, EventArgs e)
         {
+            /// make master invisible to the user
             this.Size = new System.Drawing.Size(0, 0);
-        }
-
-        private void InitializeDbContext()
-        {
-            DbContext = new();
-            // This will load all the CalculatorStates and all the Trades records - Except to the closed Trades - enough for current application requirement
-            //Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.Load(DbContext.CalculatorStates
-            //    .Where(x => x.Trade.Status.Equals("open"))
-            //    .Include(x => x.Trade));
-
-            //_trades_open_bindingList = DbContext.Trades.Local.ToBindingList();
-
-            //DbContext.Database.Migrate();
         }
 
         public void FormTradeMasterFile()
@@ -120,7 +108,6 @@ namespace TradingTools
             {
                 _frmTradeChallengeMasterFile = new(this);
                 _frmTradeChallengeMasterFile.Show();
-                // delegates
             }
             else
             {
@@ -141,9 +128,9 @@ namespace TradingTools
             {
                 var form = new frmTradeChallenge(this);
                 form.TradeChallenge = tradeChallenge;
+
                 // register
                 form.FormClosed += FormTradeChallenge_FormClosed;
-
                 _listOf_frmTradeChallenge.Add(form);
                 //
 
@@ -189,10 +176,7 @@ namespace TradingTools
 
         public frmRiskRewardCalc FormRRC_Trade_Spawn(Trade t)
         {
-            // TODO: the EF core list is being renew whenever a Trade or CalculatorState is Updated fron the 
-            // - maybe use id or something, maybe hash
-            //var rrc = _listOf_frmRRC_Long.Find(x => x.CalculatorState.GetHashCode().Equals(c.GetHashCode()));
-            var rrc = _listOf_frmRiskRewardCalc.Find(x => x.Trade?.Equals(t) ?? false);       // THOUGH THIS IS WORKING FINE
+            var rrc = _listOf_frmRiskRewardCalc.Find(x => x.Trade?.Equals(t) ?? false);       // Id is suffice. See Trading Challenge Implementation
             if (rrc != null)
             {
                 activateForm(rrc);
@@ -586,33 +570,27 @@ namespace TradingTools
 
             return 0;
         }
-        #endregion
 
-        #region UNUSED
-        private BindingSource _calculatorStates_unsaved;
-        public BindingSource GetCalculatorStates_Unsaved_BindingSource()
+        private void InitializeDbContext()
         {
-            _calculatorStates_unsaved.DataSource = _listOf_frmRiskRewardCalc
-                .Where(x => x.State == RiskRewardCalcState.Empty)
-                .Select(x => x.CalculatorState)
-                .ToList();
+            DbContext = new();
+            // This will load all the CalculatorStates and all the Trades records - Except to the closed Trades - enough for current application requirement
+            //Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.Load(DbContext.CalculatorStates
+            //    .Where(x => x.Trade.Status.Equals("open"))
+            //    .Include(x => x.Trade));
 
-            return _calculatorStates_unsaved;
-
-
-            //// Another implementation for a list of Unsaved RRC Form i.e. their Id == default(int) - maybe create a dedicated List() for this
-            //// They will have their own DataGridView - same functionality as the first dgv
-            //var rrc_forms = Array.ConvertAll(this.OwnedForms, form => (frmRiskRewardCalc_Long)form).ToList();
-            //var rrc = rrc_forms.Find(x => x.CalculatorState.Id == default(int));
-            //if (rrc != null)
-            //{
-            //    rrc.WindowState = FormWindowState.Normal;
-            //    rrc.Focus();
-            //}
-            //else
-            //{
-
-            //}
+            //var _trades_open_bindingList = DbContext.Trade.Local.ToBindingList();
+            
+            try
+            {
+                // This will run the ef core database update command - if it detects pending migration
+                DbContext.Database.Migrate();
+            }
+            catch (Exception e)
+            {
+                AppMessageBox.Error(e.Message, "An error occurred during migration.");
+            }
+            
         }
         #endregion
 
@@ -631,7 +609,6 @@ namespace TradingTools
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Name = "master";
             this.ResumeLayout(false);
-
-        }
+        }     
     }
 }
