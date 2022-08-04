@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace TradingTools.Trunk.Entity
 {
@@ -15,23 +16,31 @@ namespace TradingTools.Trunk.Entity
         public int Id { get; set; }
         [MaxLength(20)]
         public string Ticker { get; set; }
-        [Required, MaxLength(20)]
+        [MaxLength(20)]
         public string Side { get; set; }
-        [Required]
+        [DefaultValue(0.0)]
         [Column(TypeName = "money")]
         public decimal Capital { get; set; }
-        [Required]
+        [DefaultValue(0.0)]
         public decimal Leverage { get; set; }
-        [Required]
+        [DefaultValue(0.0)]
         public decimal EntryPriceAvg { get; set; }
+        [DefaultValue(0.0)]
         public decimal LotSize { get; set; }
         public string CounterBias { get; set; }
         public string ReasonForEntry { get; set; }
         [Required, MaxLength(20)]
         public string TradingStyle { get; set; }
+
+
+        [DefaultValue(0.0)]
         [Column(TypeName = "decimal(18, 5)")]
         public decimal ExchangeFee { get; set; }
         public decimal? DayCount { get; set; }
+
+        [DefaultValue(0.0)]
+        [Column(TypeName = "decimal(18, 5)")]
+        public decimal DailyInterestRate { get; set; }
 
         #region "Computed Data"
         // Leveraged Capital
@@ -47,7 +56,7 @@ namespace TradingTools.Trunk.Entity
 
         // Borrow
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public decimal BorrowAmount
+        public decimal? BorrowAmount
         {
             get
             {
@@ -58,7 +67,7 @@ namespace TradingTools.Trunk.Entity
 
         // Opening Cost
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public decimal OpeningTradingFee
+        public decimal? OpeningTradingFee
         {
             get
             {
@@ -69,7 +78,7 @@ namespace TradingTools.Trunk.Entity
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public decimal OpeningTradingCost
+        public decimal? OpeningTradingCost
         {
             get
             {
@@ -78,13 +87,9 @@ namespace TradingTools.Trunk.Entity
             private set { }
         }
 
-
-        [Column(TypeName = "decimal(18, 5)")]
-        public decimal DailyInterestRate { get; set; }
-
         // 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public decimal InterestCost
+        public decimal? InterestCost
         {
             get
             {
@@ -115,6 +120,7 @@ namespace TradingTools.Trunk.Entity
         public decimal? TradeExit_ExitPrice { get; set; }
 
         // Meta data
+        [DefaultValue(true)]
         public bool IsLotSizeChecked { get; set; }
 
         // Navigation Properties

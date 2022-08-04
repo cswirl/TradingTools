@@ -17,11 +17,6 @@ namespace TradingTools.Trunk.Entity
         public string Ticker { get; set; }
         [Required, MaxLength(20)]
         public string Side { get; set; }      //long or short
-        [Required, MaxLength(20)]
-        public string TradingStyle { get; set; }
-        [Required]
-        public DateTime DateEnter { get; set; }
-
         // Position
         [Required]
         [Column(TypeName = "money")]
@@ -32,6 +27,10 @@ namespace TradingTools.Trunk.Entity
         public decimal LotSize { get; set; }
         [Required]
         public decimal Leverage { get; set; }
+        [Required, MaxLength(20)]
+        public string TradingStyle { get; set; }
+        [Required]
+        public DateTime DateEnter { get; set; }
 
         #region "Computed Data"
         // Leveraged Capital
