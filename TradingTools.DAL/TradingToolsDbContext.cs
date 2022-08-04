@@ -13,21 +13,14 @@ namespace TradingTools.DAL
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(Configuration.GetConnectionString())
-                .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information)
-                .EnableSensitiveDataLogging();
+            optionsBuilder.UseSqlServer(Configuration.GetConnectionString(Configuration.DatabaseProvider.SqlServer))
+                .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            /// Using keyless entity is not generating migration file - failing on Add-Migration - Null Reference
-            //modelBuilder.Entity<TradeThread>()
-            //    .HasNoKey();
-
             /// Explicit Entities Relationship Declaration
             /// 
-
-
 
             /// TradeChallengeProspect Entity Relationship
             /// Explicitly declared to cascade on delete

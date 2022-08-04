@@ -11,18 +11,28 @@ namespace TradingTools.DAL
     {
         private const string connectionStringName = "TradingToolsConnectionString";
 
-        private  const string connectionString = @"Server=localhost\SQLEXPRESS;Database=TradingToolsProd;Trusted_Connection=True;";
+        private const string sqlServerConnectionString = @"Server=localhost\SQLEXPRESS;Database=TradingToolsProd;Trusted_Connection=True;";
+        private const string sqliteConnectionString = @"Data source=TradingTools.db";
 
         public static void SetConnectionString(string connectionString)
         {
             ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString = connectionString;
         }
 
-        public static string GetConnectionString()
+        public static string GetConnectionString(DatabaseProvider provider)
         {
-            //return ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
-            return connectionString;
-            //return @"Data Source=(localdb)\\MSSQLLocalDB; Initial Catalog=TradingToolsDB;";
+            switch (provider)
+            {
+                case DatabaseProvider.SqlServer: return sqlServerConnectionString;
+                case DatabaseProvider.Sqlite: return sqliteConnectionString;
+                default: return sqlServerConnectionString;
+            };
+        }
+
+        public enum DatabaseProvider
+        {
+            SqlServer,
+            Sqlite
         }
     }
 }
