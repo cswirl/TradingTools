@@ -33,7 +33,6 @@ namespace TradingTools
             this.panel1 = new System.Windows.Forms.Panel();
             this.checkCorrection = new System.Windows.Forms.CheckBox();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.btnViewCalculator = new System.Windows.Forms.Button();
             this.cbxFilterStatus = new System.Windows.Forms.ComboBox();
             this.FILTER = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -91,7 +90,6 @@ namespace TradingTools
             this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.panel1.Controls.Add(this.checkCorrection);
             this.panel1.Controls.Add(this.btnDelete);
-            this.panel1.Controls.Add(this.btnViewCalculator);
             this.panel1.Controls.Add(this.cbxFilterStatus);
             this.panel1.Controls.Add(this.FILTER);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -124,18 +122,6 @@ namespace TradingTools
             this.btnDelete.Text = "DELETE";
             this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // btnViewCalculator
-            // 
-            this.btnViewCalculator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnViewCalculator.Location = new System.Drawing.Point(506, 40);
-            this.btnViewCalculator.Name = "btnViewCalculator";
-            this.btnViewCalculator.Size = new System.Drawing.Size(230, 31);
-            this.btnViewCalculator.TabIndex = 3;
-            this.btnViewCalculator.Text = "Selected Row >> View Calculator";
-            this.btnViewCalculator.UseVisualStyleBackColor = true;
-            this.btnViewCalculator.Click += new System.EventHandler(this.btnViewCalculator_Click);
             // 
             // cbxFilterStatus
             // 
@@ -491,7 +477,7 @@ namespace TradingTools
             // 
             // btnUpdate
             // 
-            this.btnUpdate.BackColor = System.Drawing.Color.MediumAquamarine;
+            this.btnUpdate.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnUpdate.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnUpdate.ForeColor = System.Drawing.Color.White;
             this.btnUpdate.Location = new System.Drawing.Point(12, 13);
@@ -678,7 +664,6 @@ namespace TradingTools
         private System.Windows.Forms.ComboBox cbxFilterStatus;
         private System.Windows.Forms.Label FILTER;
         private System.Windows.Forms.DataGridView dgvTrades;
-        private System.Windows.Forms.Button btnViewCalculator;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.MenuStrip menuStrip1;

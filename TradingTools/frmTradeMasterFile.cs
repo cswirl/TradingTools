@@ -65,11 +65,6 @@ namespace TradingTools
             dgvTrades.DataSource = _list;
         }
 
-        private void btnViewCalculator_Click(object sender, EventArgs e)
-        {
-            _master.FormRRC_Trade_Spawn((Trade)dgvTrades.CurrentRow.DataBoundItem);
-        }
-
         private void cmbFilterStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
             Enum.TryParse<StatusFilter>(cbxFilterStatus.SelectedValue.ToString(), out _statusFilter);
@@ -100,6 +95,8 @@ namespace TradingTools
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            if (isListEmpty()) return;
+
             var t = (Trade)dgvTrades.CurrentRow.DataBoundItem;
             if (t.IsDeleted) { statusMessage.Text = $"Trade {t.Id} is already deleted"; return; }
 
@@ -150,6 +147,8 @@ namespace TradingTools
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             if (!checkCorrection.Checked) return;
+            if (isListEmpty()) return;
+
             var tradeClone = new Trade();
             var t = (Trade)dgvTrades.CurrentRow.DataBoundItem;
             t.CopyProperties(tradeClone);
@@ -211,8 +210,20 @@ namespace TradingTools
             }
         }
 
+        private bool isListEmpty()
+        {
+            if (_list.Count < 1) return true;
+            var dataBound = dgvTrades.CurrentRow?.DataBoundItem ?? default;
+            if (dataBound == default) return true;
+
+            return false;
+        }
+
         private void dgvTrades_SelectionChanged(object sender, EventArgs e)
         {
+            // null safety check
+            if (isListEmpty()) return;
+
             var t = (Trade)dgvTrades.CurrentRow.DataBoundItem;
             if (t == default) return;
             txtTradeNum.Text = t.Id.ToString();
