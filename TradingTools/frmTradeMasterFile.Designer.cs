@@ -30,6 +30,7 @@ namespace TradingTools
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmTradeMasterFile));
             this.panel1 = new System.Windows.Forms.Panel();
             this.checkCorrection = new System.Windows.Forms.CheckBox();
             this.btnDelete = new System.Windows.Forms.Button();
@@ -616,6 +617,7 @@ namespace TradingTools
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmTradeMasterFile";
             this.Text = "Trade Master File";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;

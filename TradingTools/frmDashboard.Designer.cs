@@ -29,6 +29,7 @@ namespace TradingTools
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDashboard));
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.btnOpenCalcShort_Empty = new System.Windows.Forms.Button();
@@ -276,6 +277,7 @@ namespace TradingTools
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.statusStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmDashboard";
             this.Text = "Dashboard";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;

@@ -10,7 +10,15 @@
     <Copyright>Copyright © THT 2021</Copyright>
     <PackageReleaseNotes>Beta</PackageReleaseNotes>
     <Authors>Jay Angeles</Authors>
+    <PackageIcon>bull-circular.png</PackageIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\doc\img\bull-circular.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.10">
