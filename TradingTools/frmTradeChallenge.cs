@@ -92,9 +92,10 @@ namespace TradingTools
                 _prospects.Remove(t.CalculatorState);
                 _activeTrades.Insert(0, t);
                 monthCalendarDateEnter.Visible = true;
-                monthCalendarDateEnter.BoldedDates = monthCalendarDateEnter.BoldedDates.Append(t.DateEnter).ToArray();
+                if (_tradeHistory.Count < 1) refreshCalendarBoldDates();
+                else monthCalendarDateEnter.BoldedDates = monthCalendarDateEnter.BoldedDates.Append(t.DateEnter).ToArray();
                 messageBus($"New Trade with ticker: {t.Ticker} was officialized");
-                // Delete the Prospect from the database
+                // Delete the Prospect from the TradeChallengeProspect table
                 if (!_master.TradeChallengeProspect_Delete(t.CalculatorState))
                     messageBus($"An error occur while removing Prospect: {t.CalculatorState.Id} from the database");
             }
