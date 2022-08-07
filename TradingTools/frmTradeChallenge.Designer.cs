@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmTradeChallenge));
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.radioClosed = new System.Windows.Forms.RadioButton();
@@ -380,6 +381,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.monthCalendarDateEnter);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "frmTradeChallenge";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

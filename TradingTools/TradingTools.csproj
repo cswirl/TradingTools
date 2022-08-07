@@ -4,13 +4,21 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <Company>Divergent Trading Group</Company>
-    <Product>Trading Tools Suite (TTS)</Product>
-    <Description>This application will equip traders with calculation tools for trading and record keeping.</Description>
-    <Copyright>Copyright © TTS 2021</Copyright>
-    <PackageReleaseNotes>MVP release. This release only supports Long position.</PackageReleaseNotes>
+    <Company>Time Horizon Trading</Company>
+    <Product>Trading Tools </Product>
+    <Description>This application will equip traders with Risk/Reward calculation, trading  journal, and record keeping.</Description>
+    <Copyright>Copyright © THT 2021</Copyright>
+    <PackageReleaseNotes>Beta</PackageReleaseNotes>
     <Authors>Jay Angeles</Authors>
+    <PackageIcon>bull-circular.png</PackageIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\doc\img\bull-circular.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.10">

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TradingTools.DAL;
+using TradingTools.Dialogs;
 using TradingTools.Helpers;
 //using TradingTools.DAL.Migrations;
 using TradingTools.Services;
@@ -578,9 +579,18 @@ namespace TradingTools
             //    .Where(x => x.Trade.Status.Equals("open"))
             //    .Include(x => x.Trade));
 
-            //_trades_open_bindingList = DbContext.Trades.Local.ToBindingList();
-
-            //DbContext.Database.Migrate();
+            //var _trades_open_bindingList = DbContext.Trade.Local.ToBindingList();
+            
+            try
+            {
+                // This will run the ef core database update command - if it detects pending migration
+                DbContext.Database.Migrate();
+            }
+            catch (Exception e)
+            {
+                AppMessageBox.Error(e.Message, "An error occurred during migration.");
+            }
+            
         }
         #endregion
 

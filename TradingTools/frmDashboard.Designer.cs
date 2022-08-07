@@ -29,6 +29,7 @@ namespace TradingTools
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDashboard));
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.btnOpenCalcShort_Empty = new System.Windows.Forms.Button();
@@ -65,9 +66,9 @@ namespace TradingTools
             this.panel1.Controls.Add(this.panel5);
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(1176, 24);
+            this.panel1.Location = new System.Drawing.Point(1156, 24);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(112, 642);
+            this.panel1.Size = new System.Drawing.Size(132, 642);
             this.panel1.TabIndex = 0;
             // 
             // panel5
@@ -78,7 +79,7 @@ namespace TradingTools
             this.panel5.Location = new System.Drawing.Point(0, 57);
             this.panel5.Name = "panel5";
             this.panel5.Padding = new System.Windows.Forms.Padding(3);
-            this.panel5.Size = new System.Drawing.Size(112, 57);
+            this.panel5.Size = new System.Drawing.Size(132, 57);
             this.panel5.TabIndex = 1;
             // 
             // btnOpenCalcShort_Empty
@@ -89,7 +90,7 @@ namespace TradingTools
             this.btnOpenCalcShort_Empty.ForeColor = System.Drawing.Color.White;
             this.btnOpenCalcShort_Empty.Location = new System.Drawing.Point(3, 3);
             this.btnOpenCalcShort_Empty.Name = "btnOpenCalcShort_Empty";
-            this.btnOpenCalcShort_Empty.Size = new System.Drawing.Size(106, 51);
+            this.btnOpenCalcShort_Empty.Size = new System.Drawing.Size(126, 51);
             this.btnOpenCalcShort_Empty.TabIndex = 5;
             this.btnOpenCalcShort_Empty.Text = "NEW SHORT";
             this.btnOpenCalcShort_Empty.UseVisualStyleBackColor = false;
@@ -103,7 +104,7 @@ namespace TradingTools
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
             this.panel4.Padding = new System.Windows.Forms.Padding(3);
-            this.panel4.Size = new System.Drawing.Size(112, 57);
+            this.panel4.Size = new System.Drawing.Size(132, 57);
             this.panel4.TabIndex = 0;
             // 
             // btnOpenCalcLong_Empty
@@ -114,7 +115,7 @@ namespace TradingTools
             this.btnOpenCalcLong_Empty.ForeColor = System.Drawing.Color.White;
             this.btnOpenCalcLong_Empty.Location = new System.Drawing.Point(3, 3);
             this.btnOpenCalcLong_Empty.Name = "btnOpenCalcLong_Empty";
-            this.btnOpenCalcLong_Empty.Size = new System.Drawing.Size(106, 51);
+            this.btnOpenCalcLong_Empty.Size = new System.Drawing.Size(126, 51);
             this.btnOpenCalcLong_Empty.TabIndex = 5;
             this.btnOpenCalcLong_Empty.Text = "NEW LONG";
             this.btnOpenCalcLong_Empty.UseVisualStyleBackColor = false;
@@ -161,12 +162,12 @@ namespace TradingTools
             this.dgvUnofficial.AllowUserToResizeRows = false;
             this.dgvUnofficial.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvUnofficial.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvUnofficial.Location = new System.Drawing.Point(13, 408);
+            this.dgvUnofficial.Location = new System.Drawing.Point(13, 309);
             this.dgvUnofficial.Name = "dgvUnofficial";
             this.dgvUnofficial.ReadOnly = true;
             this.dgvUnofficial.RowTemplate.Height = 25;
             this.dgvUnofficial.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvUnofficial.Size = new System.Drawing.Size(1150, 170);
+            this.dgvUnofficial.Size = new System.Drawing.Size(1130, 269);
             this.dgvUnofficial.TabIndex = 2;
             this.dgvUnofficial.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUnofficial_CellDoubleClick);
             // 
@@ -174,7 +175,7 @@ namespace TradingTools
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.White;
             this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.dgvUnofficial, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.dgvTrades_Open, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 2);
@@ -185,11 +186,11 @@ namespace TradingTools
             this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.tableLayoutPanel1.RowCount = 5;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 63F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1176, 642);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1156, 642);
             this.tableLayoutPanel1.TabIndex = 6;
             // 
             // dgvTrades_Open
@@ -204,7 +205,7 @@ namespace TradingTools
             this.dgvTrades_Open.ReadOnly = true;
             this.dgvTrades_Open.RowTemplate.Height = 25;
             this.dgvTrades_Open.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTrades_Open.Size = new System.Drawing.Size(1150, 259);
+            this.dgvTrades_Open.Size = new System.Drawing.Size(1130, 177);
             this.dgvTrades_Open.TabIndex = 7;
             this.dgvTrades_Open.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTrades_Open_CellDoubleClick);
             // 
@@ -212,9 +213,9 @@ namespace TradingTools
             // 
             this.panel2.Controls.Add(this.label1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(13, 328);
+            this.panel2.Location = new System.Drawing.Point(13, 246);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1150, 74);
+            this.panel2.Size = new System.Drawing.Size(1130, 57);
             this.panel2.TabIndex = 11;
             // 
             // label1
@@ -223,7 +224,7 @@ namespace TradingTools
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label1.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label1.Location = new System.Drawing.Point(3, 54);
+            this.label1.Location = new System.Drawing.Point(3, 37);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(77, 20);
             this.label1.TabIndex = 5;
@@ -235,7 +236,7 @@ namespace TradingTools
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(13, 3);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1150, 54);
+            this.panel3.Size = new System.Drawing.Size(1130, 54);
             this.panel3.TabIndex = 12;
             // 
             // label3
@@ -276,6 +277,7 @@ namespace TradingTools
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.statusStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmDashboard";
             this.Text = "Dashboard";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
