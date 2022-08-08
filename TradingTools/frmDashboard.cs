@@ -32,7 +32,7 @@ namespace TradingTools
         private void appInitialize()
         {
             // delegates
-            _master.Clock.Tick += (s, e) => { statusMessage.Text = "Status . . ."; };
+            _master.RefreshTimer.Tick += (s, e) => { statusMessage.Text = "Status . . ."; };
             /// Use delegate from the master - these are invoked right after DbContext CRUD statements
             _master.Trade_Officialized += this.Trade_Officialized;
             _master.Trade_Updated += this.Trade_Updated;

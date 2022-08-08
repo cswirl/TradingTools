@@ -38,7 +38,7 @@ namespace TradingTools
         private void appInitialize()
         {
             // delegates
-            _master.Clock.Tick += this.timer_Tick;
+            _master.RefreshTimer.Tick += this.timer_Tick;
             /// Use delegate from the master - these are invoked right after DbContext CRUD statements
             _master.CalculatorState_Updated += this.CalculatorState_Updated;
             _master.CalculatorState_Deleted += this.CalculatorState_Deleted;

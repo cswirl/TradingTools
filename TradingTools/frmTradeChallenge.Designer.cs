@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmTradeChallenge));
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -55,7 +54,6 @@
             this.monthCalendarDateEnter = new System.Windows.Forms.MonthCalendar();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusMessage = new System.Windows.Forms.ToolStripStatusLabel();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.tableLayoutPanel_LongShortButtons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTradeHistory)).BeginInit();
@@ -356,11 +354,6 @@
             this.statusMessage.Size = new System.Drawing.Size(63, 17);
             this.statusMessage.Text = "status . . .";
             // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            this.timer1.Tick += new System.EventHandler(this.timer_Tick);
-            // 
             // frmTradeChallenge
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -428,6 +421,5 @@
         private System.Windows.Forms.MonthCalendar monthCalendarDateEnter;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel statusMessage;
-        private System.Windows.Forms.Timer timer1;
     }
 }

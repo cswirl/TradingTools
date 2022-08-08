@@ -42,6 +42,7 @@ namespace TradingTools
         public TradeChallengeProspectDeletedRange TradeChallengeProspect_DeletedRange;
         //
         public Timer Clock;
+        public Timer RefreshTimer;
         public DelegateHandlers DelegateHandlers { get; set; }
 
         public TradingToolsDbContext DbContext { get; set; }
@@ -72,6 +73,9 @@ namespace TradingTools
             this.DelegateHandlers = new(this);
             //
             Clock.Interval = Presentation.INTERNAL_TIMER_REFRESH_VALUE;
+            RefreshTimer = new();
+            RefreshTimer.Interval = Presentation.INTERNAL_TIMER_REFRESH_VALUE;
+            RefreshTimer.Start();
 
             // Dashboard (gateway form)
             _frmDashboard = new(this);
