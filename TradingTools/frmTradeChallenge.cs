@@ -240,6 +240,7 @@ namespace TradingTools
 
         private void frmTradeChallenge_Load(object sender, EventArgs e)
         {
+            if (TradeChallenge == default) return;
             // data bindings
             _prospects = new(_master.TradeChallengeProspect_GetAll(TradeChallenge.Id, true));
             _activeTrades = new(_master.TradeThread_GetActiveTrade(TradeChallenge.Id));
@@ -262,6 +263,9 @@ namespace TradingTools
             messageBus("Form loaded successful");
 
             SetLastSavedCalculatorHash();
+
+            // form properties
+            this.Owner = null;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -271,6 +275,7 @@ namespace TradingTools
 
         private bool Save()
         {
+            if (TradeChallenge == default) return false;
             // copy back to original
             captureTradeChallenge().CopyProperties(this.TradeChallenge);
             if (_master.TradeChallenge_Update(this.TradeChallenge))
@@ -288,6 +293,7 @@ namespace TradingTools
 
         private TradeChallenge captureTradeChallenge()
         {
+            if (TradeChallenge == default) return default;
             // make a clone
             var clone = new TradeChallenge();
             TradeChallenge.CopyProperties(clone);
@@ -619,7 +625,8 @@ namespace TradingTools
 
         private void frmTradeChallenge_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Just ignore and close the form
+            // statements to just ignore and close the form
+            if (TradeChallenge == default) return;
             if (DoNotAskSave()) return;
 
             // show the form in case was minimized and closing was came from external such as from a parent form
