@@ -29,6 +29,7 @@ namespace TradingTools.Trunk.Entity
         public decimal LotSize { get; set; }
         public string CounterBias { get; set; }
         public string ReasonForEntry { get; set; }
+        public string Note { get; set; }
         [Required, MaxLength(20)]
         public string TradingStyle { get; set; }
 
@@ -112,7 +113,7 @@ namespace TradingTools.Trunk.Entity
         public string PEP_Note { get; set; }
         public decimal? LEP_ExitPrice { get; set; }
         public string LEP_Note { get; set; }
-        public string Note { get; set; }
+        
         //
         public decimal? PerfectEntry_EntryPrice { get; set; }
         public decimal? PerfectEntry_ExitPrice { get; set; }

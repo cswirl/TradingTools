@@ -66,9 +66,9 @@ namespace TradingTools
             this.panel1.Controls.Add(this.panel5);
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(1156, 24);
+            this.panel1.Location = new System.Drawing.Point(1563, 24);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(132, 642);
+            this.panel1.Size = new System.Drawing.Size(132, 924);
             this.panel1.TabIndex = 0;
             // 
             // panel5
@@ -128,7 +128,7 @@ namespace TradingTools
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1288, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1695, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -162,12 +162,12 @@ namespace TradingTools
             this.dgvUnofficial.AllowUserToResizeRows = false;
             this.dgvUnofficial.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvUnofficial.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvUnofficial.Location = new System.Drawing.Point(13, 309);
+            this.dgvUnofficial.Location = new System.Drawing.Point(33, 422);
             this.dgvUnofficial.Name = "dgvUnofficial";
             this.dgvUnofficial.ReadOnly = true;
             this.dgvUnofficial.RowTemplate.Height = 25;
             this.dgvUnofficial.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvUnofficial.Size = new System.Drawing.Size(1130, 269);
+            this.dgvUnofficial.Size = new System.Drawing.Size(1517, 438);
             this.dgvUnofficial.TabIndex = 2;
             this.dgvUnofficial.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUnofficial_CellDoubleClick);
             // 
@@ -180,17 +180,17 @@ namespace TradingTools
             this.tableLayoutPanel1.Controls.Add(this.dgvTrades_Open, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.panel3, 0, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 24);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(30, 0, 10, 0);
             this.tableLayoutPanel1.RowCount = 5;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 63F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1156, 642);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1563, 924);
             this.tableLayoutPanel1.TabIndex = 6;
             // 
             // dgvTrades_Open
@@ -200,12 +200,12 @@ namespace TradingTools
             this.dgvTrades_Open.AllowUserToResizeRows = false;
             this.dgvTrades_Open.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTrades_Open.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvTrades_Open.Location = new System.Drawing.Point(13, 63);
+            this.dgvTrades_Open.Location = new System.Drawing.Point(33, 63);
             this.dgvTrades_Open.Name = "dgvTrades_Open";
             this.dgvTrades_Open.ReadOnly = true;
             this.dgvTrades_Open.RowTemplate.Height = 25;
             this.dgvTrades_Open.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTrades_Open.Size = new System.Drawing.Size(1130, 177);
+            this.dgvTrades_Open.Size = new System.Drawing.Size(1517, 290);
             this.dgvTrades_Open.TabIndex = 7;
             this.dgvTrades_Open.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTrades_Open_CellDoubleClick);
             // 
@@ -213,9 +213,9 @@ namespace TradingTools
             // 
             this.panel2.Controls.Add(this.label1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(13, 246);
+            this.panel2.Location = new System.Drawing.Point(33, 359);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1130, 57);
+            this.panel2.Size = new System.Drawing.Size(1517, 57);
             this.panel2.TabIndex = 11;
             // 
             // label1
@@ -234,9 +234,9 @@ namespace TradingTools
             // 
             this.panel3.Controls.Add(this.label3);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(13, 3);
+            this.panel3.Location = new System.Drawing.Point(33, 3);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1130, 54);
+            this.panel3.Size = new System.Drawing.Size(1517, 54);
             this.panel3.TabIndex = 12;
             // 
             // label3
@@ -255,9 +255,9 @@ namespace TradingTools
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusMessage});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 666);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 948);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1288, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1695, 22);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -272,7 +272,8 @@ namespace TradingTools
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1288, 688);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(1695, 970);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
@@ -280,7 +281,6 @@ namespace TradingTools
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmDashboard";
             this.Text = "Dashboard";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmDashboard_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmDashboard_FormClosed);
             this.Load += new System.EventHandler(this.frmDashboard_Load);
