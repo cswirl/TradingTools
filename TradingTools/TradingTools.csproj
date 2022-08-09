@@ -11,7 +11,12 @@
     <PackageReleaseNotes>Beta</PackageReleaseNotes>
     <Authors>Jay Angeles</Authors>
     <PackageIcon>bull-circular.png</PackageIcon>
+    <ApplicationIcon>bull-circular.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="bull-circular.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\..\doc\img\bull-circular.png">
