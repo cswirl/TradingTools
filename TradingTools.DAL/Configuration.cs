@@ -11,8 +11,8 @@ namespace TradingTools.DAL
     {
         private const string connectionStringName = "TradingToolsConnectionString";
 
-        private const string sqlServerConnectionString = @"Server=localhost\SQLEXPRESS;Database=TradingToolsDB;Trusted_Connection=True;";
-        //private const string sqlServerConnectionString = @"Server=localhost\SQLEXPRESS;Database=TradingToolsProd;Trusted_Connection=True;";
+        //private const string sqlServerConnectionString = @"Server=localhost\SQLEXPRESS;Database=TradingToolsDB;Trusted_Connection=True;";
+        private const string sqlServerConnectionString = @"Server=localhost\SQLEXPRESS;Database=TimeHorizonTradingToolsProd;Trusted_Connection=True;";
         private const string sqliteConnectionString = @"Data source=TradingTools.db";
 
         public static void SetConnectionString(string connectionString)

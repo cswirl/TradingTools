@@ -12,6 +12,7 @@
     <Authors>Jay Angeles</Authors>
     <PackageIcon>bull-circular.png</PackageIcon>
     <ApplicationIcon>bull-circular.ico</ApplicationIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +21,10 @@
 
   <ItemGroup>
     <None Include="..\..\..\doc\img\bull-circular.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
