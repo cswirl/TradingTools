@@ -74,7 +74,6 @@ namespace TradingTools
             this.label2 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.dgvTrades = new System.Windows.Forms.DataGridView();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.panel1.SuspendLayout();
@@ -589,11 +588,6 @@ namespace TradingTools
             this.dgvTrades.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTrades_CellDoubleClick);
             this.dgvTrades.SelectionChanged += new System.EventHandler(this.dgvTrades_SelectionChanged);
             // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // menuStrip1
             // 
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -667,7 +661,6 @@ namespace TradingTools
         private System.Windows.Forms.Label FILTER;
         private System.Windows.Forms.DataGridView dgvTrades;
         private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Panel panelTradeClosed;

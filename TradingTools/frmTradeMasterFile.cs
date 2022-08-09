@@ -37,6 +37,8 @@ namespace TradingTools
         private void appInitialize()
         {
             // delegates
+            _master.RefreshTimer.Tick += this.timer1_Tick;
+            //
             _master.Trade_Officialized += this.Trade_Officialized;
             _master.Trade_Closed += this.Trade_Closed;
             _master.Trade_Deleted += this.Trade_Deleted;
@@ -55,8 +57,6 @@ namespace TradingTools
         private void frmTradeMasterFile_Load(object sender, EventArgs e)
         {
             cbxFilterStatus.SelectedIndex = 1;  // status = closed
-            // timer
-            timer1.Interval = Presentation.INTERNAL_TIMER_REFRESH_VALUE;
         }
 
         private void DataGridView_SetDataSource(List<Trade> list)

@@ -14,28 +14,25 @@ namespace TradingTools
 {
     public partial class dialogNewTradeChallenge : Form
     {
-        public delegate void TradeChallenge_Create(TradeChallenge tc);
-        public TradeChallenge_Create TradeChallenge_Save;
+        public TradeChallenge TradeChallenge { get; set; }
 
         public dialogNewTradeChallenge()
         {
             InitializeComponent();
+            TradeChallenge = new();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            var tc = new TradeChallenge
-            {
-                TradeCap = txtCap.Text.ToInteger(),
-                Description = txtDesc.Text
-            };
+            TradeChallenge.TradeCap = txtCap.Text.ToInteger();
+            TradeChallenge.Description = txtDesc.Text;
+            this.DialogResult = DialogResult.OK;
             this.Close();
-            // invoke delegate for Trade Challenge Master File
-            TradeChallenge_Save?.Invoke(tc);
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            this.DialogResult=DialogResult.Cancel;
             this.Close();
         }
 

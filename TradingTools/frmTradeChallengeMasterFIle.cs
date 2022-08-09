@@ -38,16 +38,16 @@ namespace TradingTools
         private void createNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var dialog = new dialogNewTradeChallenge();
-            dialog.TradeChallenge_Save += TradeChallenge_Save;
             dialog.ShowDialog();
+            if (dialog.DialogResult == DialogResult.OK)
+                Create(dialog.TradeChallenge);
         }
-
-        private void TradeChallenge_Save(TradeChallenge tc)
+        private void Create(TradeChallenge tc)
         {
             tc.IsOpen = true;
             if (_master.TradeChallenge_Create(tc)) {
                _currentTradeChallenges.Insert(0,tc);
-                _master.TradeChallenge_Spawn(tc);
+               _master.TradeChallenge_Spawn(tc);
             }
         }
 
