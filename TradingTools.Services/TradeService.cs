@@ -32,15 +32,30 @@ namespace TradingTools.Services
             if (!validateStatus(t.Status, out msg)) return false;
             if (!validatePositionSide(t.Side, out msg)) return false;
             if (!validateTradeStyle(t.TradingStyle, out msg)) return false;
-            if (t.DateEnter == default) { msg = "Invalid data. Date is not set."; return false; }
+            if (t.DateEnter == default) { msg = "Date Enter is not set."; return false; }
             if (t.DateEnter > DateTime.Now)
             {
                 msg = "'Date Enter'cannot exceed the Date and Time right now.";
                 return false;
             }
-            if (t.Capital <= 10 | t.Leverage < 1 | t.EntryPriceAvg <= 0 | t.LotSize <= 0)
+            if (t.Capital <= 0)
             {
-                msg = "Invalid input data";
+                msg = "Capital must be greater than zero";
+                return false;
+            }
+            if (t.Leverage <= 0)
+            {
+                msg = "Leverage must be greater than zero";
+                return false;
+            }
+            if (t.EntryPriceAvg <= 0)
+            {
+                msg = "Entry Price must be greater than zero";
+                return false;
+            }
+            if (t.LotSize <= 0)
+            {
+                msg = "Lot Size must be greater than zero";
                 return false;
             }
             if (t.CalculatorState == default) { msg = "Internal Error: Calculator is not set."; return false; }

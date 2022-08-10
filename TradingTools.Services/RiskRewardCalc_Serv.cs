@@ -19,17 +19,6 @@ namespace TradingTools.Services
             _priceDecreaseTable = new();
         }
 
-        public static bool CalculatorState_Validate(CalculatorState c, out string msg)
-        {
-            msg = string.Empty;
-            if (c.Capital <= 10 | c.Leverage < 1 | c.EntryPriceAvg <= 0)
-            {
-                msg = "Invalid input data";
-                return false;
-            }
-            return true;
-        }
-
         public static decimal PCP(decimal EntryPrice, decimal? ExitPrice)
         {
             if (EntryPrice == 0) return 0;      // divide by zero
