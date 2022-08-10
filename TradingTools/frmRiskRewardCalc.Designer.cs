@@ -30,10 +30,10 @@ namespace TradingTools
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelTitleBand = new System.Windows.Forms.Panel();
             this.lblHeader = new System.Windows.Forms.Label();
             this.panelBandBottom = new System.Windows.Forms.Panel();
@@ -54,7 +54,7 @@ namespace TradingTools
             this.txtPerfectEntry_PCP = new System.Windows.Forms.TextBox();
             this.label62 = new System.Windows.Forms.Label();
             this.txtPerfectEntry_Note = new System.Windows.Forms.TextBox();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.gbTradeExit = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
             this.label31 = new System.Windows.Forms.Label();
             this.txtTradeExit_TC = new System.Windows.Forms.TextBox();
@@ -86,7 +86,7 @@ namespace TradingTools
             this.txtNote = new System.Windows.Forms.TextBox();
             this.label30 = new System.Windows.Forms.Label();
             this.label53 = new System.Windows.Forms.Label();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.gbLEP = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
             this.label42 = new System.Windows.Forms.Label();
             this.label43 = new System.Windows.Forms.Label();
@@ -110,7 +110,7 @@ namespace TradingTools
             this.label5 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
             this.txtLeveragedCapital = new System.Windows.Forms.TextBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.gbPEP = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label40 = new System.Windows.Forms.Label();
             this.txtPEP_TradingCost = new System.Windows.Forms.TextBox();
@@ -207,7 +207,7 @@ namespace TradingTools
             this.splitContainer1.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.tableLayoutPanel13.SuspendLayout();
-            this.groupBox7.SuspendLayout();
+            this.gbTradeExit.SuspendLayout();
             this.tableLayoutPanel12.SuspendLayout();
             this.gbxNotes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerNotes)).BeginInit();
@@ -215,9 +215,9 @@ namespace TradingTools
             this.splitContainerNotes.Panel2.SuspendLayout();
             this.splitContainerNotes.SuspendLayout();
             this.tableLayoutPanel11.SuspendLayout();
-            this.groupBox5.SuspendLayout();
+            this.gbLEP.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
-            this.groupBox4.SuspendLayout();
+            this.gbPEP.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -313,7 +313,7 @@ namespace TradingTools
             this.splitContainer1.Panel1.Controls.Add(this.radioLotSize);
             this.splitContainer1.Panel1.Controls.Add(this.radioLeverage);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox8);
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox7);
+            this.splitContainer1.Panel1.Controls.Add(this.gbTradeExit);
             this.splitContainer1.Panel1.Controls.Add(this.label2);
             this.splitContainer1.Panel1.Controls.Add(this.cbxTradingStyle);
             this.splitContainer1.Panel1.Controls.Add(this.btnCloseTheTrade);
@@ -322,7 +322,7 @@ namespace TradingTools
             this.splitContainer1.Panel1.Controls.Add(this.gbxNotes);
             this.splitContainer1.Panel1.Controls.Add(this.label30);
             this.splitContainer1.Panel1.Controls.Add(this.label53);
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox5);
+            this.splitContainer1.Panel1.Controls.Add(this.gbLEP);
             this.splitContainer1.Panel1.Controls.Add(this.txtLeverage);
             this.splitContainer1.Panel1.Controls.Add(this.txtRRR);
             this.splitContainer1.Panel1.Controls.Add(this.txtEntryPrice);
@@ -330,7 +330,7 @@ namespace TradingTools
             this.splitContainer1.Panel1.Controls.Add(this.label5);
             this.splitContainer1.Panel1.Controls.Add(this.label33);
             this.splitContainer1.Panel1.Controls.Add(this.txtLeveragedCapital);
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox4);
+            this.splitContainer1.Panel1.Controls.Add(this.gbPEP);
             this.splitContainer1.Panel1.Controls.Add(this.label7);
             this.splitContainer1.Panel1.Controls.Add(this.txtCapital);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox3);
@@ -521,23 +521,23 @@ namespace TradingTools
             this.txtPerfectEntry_Note.Size = new System.Drawing.Size(209, 86);
             this.txtPerfectEntry_Note.TabIndex = 9;
             // 
-            // groupBox7
+            // gbTradeExit
             // 
-            this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox7.Controls.Add(this.tableLayoutPanel12);
-            this.groupBox7.Controls.Add(this.txtReasonForExit);
-            this.groupBox7.Controls.Add(this.label55);
-            this.groupBox7.Controls.Add(this.txtTradeExit_PV);
-            this.groupBox7.Controls.Add(this.txtTradeExit_ExitPrice);
-            this.groupBox7.Controls.Add(this.label56);
-            this.groupBox7.Controls.Add(this.txtFinalCapital);
-            this.groupBox7.Controls.Add(this.label57);
-            this.groupBox7.Location = new System.Drawing.Point(13, 270);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(577, 134);
-            this.groupBox7.TabIndex = 23;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "TRADE EXIT";
+            this.gbTradeExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.gbTradeExit.Controls.Add(this.tableLayoutPanel12);
+            this.gbTradeExit.Controls.Add(this.txtReasonForExit);
+            this.gbTradeExit.Controls.Add(this.label55);
+            this.gbTradeExit.Controls.Add(this.txtTradeExit_PV);
+            this.gbTradeExit.Controls.Add(this.txtTradeExit_ExitPrice);
+            this.gbTradeExit.Controls.Add(this.label56);
+            this.gbTradeExit.Controls.Add(this.txtFinalCapital);
+            this.gbTradeExit.Controls.Add(this.label57);
+            this.gbTradeExit.Location = new System.Drawing.Point(13, 270);
+            this.gbTradeExit.Name = "gbTradeExit";
+            this.gbTradeExit.Size = new System.Drawing.Size(577, 134);
+            this.gbTradeExit.TabIndex = 23;
+            this.gbTradeExit.TabStop = false;
+            this.gbTradeExit.Text = "TRADE EXIT";
             // 
             // tableLayoutPanel12
             // 
@@ -903,23 +903,23 @@ namespace TradingTools
             this.label53.TabIndex = 16;
             this.label53.Text = "Risk/Reward Ratio";
             // 
-            // groupBox5
+            // gbLEP
             // 
-            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox5.Controls.Add(this.tableLayoutPanel10);
-            this.groupBox5.Controls.Add(this.txtLEP_Note);
-            this.groupBox5.Controls.Add(this.label45);
-            this.groupBox5.Controls.Add(this.txtLEP_sPV);
-            this.groupBox5.Controls.Add(this.txtLEP_ExitPrice);
-            this.groupBox5.Controls.Add(this.label47);
-            this.groupBox5.Controls.Add(this.txtLEP_AccountEquity);
-            this.groupBox5.Controls.Add(this.label48);
-            this.groupBox5.Location = new System.Drawing.Point(13, 728);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(580, 134);
-            this.groupBox5.TabIndex = 15;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "LOSS EXIT PLAN";
+            this.gbLEP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.gbLEP.Controls.Add(this.tableLayoutPanel10);
+            this.gbLEP.Controls.Add(this.txtLEP_Note);
+            this.gbLEP.Controls.Add(this.label45);
+            this.gbLEP.Controls.Add(this.txtLEP_sPV);
+            this.gbLEP.Controls.Add(this.txtLEP_ExitPrice);
+            this.gbLEP.Controls.Add(this.label47);
+            this.gbLEP.Controls.Add(this.txtLEP_AccountEquity);
+            this.gbLEP.Controls.Add(this.label48);
+            this.gbLEP.Location = new System.Drawing.Point(13, 728);
+            this.gbLEP.Name = "gbLEP";
+            this.gbLEP.Size = new System.Drawing.Size(580, 134);
+            this.gbLEP.TabIndex = 15;
+            this.gbLEP.TabStop = false;
+            this.gbLEP.Text = "LOSS EXIT PLAN";
             // 
             // tableLayoutPanel10
             // 
@@ -1191,23 +1191,23 @@ namespace TradingTools
             this.txtLeveragedCapital.TabStop = false;
             this.txtLeveragedCapital.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // groupBox4
+            // gbPEP
             // 
-            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox4.Controls.Add(this.tableLayoutPanel1);
-            this.groupBox4.Controls.Add(this.txtPEP_Note);
-            this.groupBox4.Controls.Add(this.label27);
-            this.groupBox4.Controls.Add(this.txtPEP_sPV);
-            this.groupBox4.Controls.Add(this.txtPEP_ExitPrice);
-            this.groupBox4.Controls.Add(this.label29);
-            this.groupBox4.Controls.Add(this.txtPEP_AccountEquity);
-            this.groupBox4.Controls.Add(this.label28);
-            this.groupBox4.Location = new System.Drawing.Point(13, 590);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(577, 132);
-            this.groupBox4.TabIndex = 14;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "PROFIT EXIT PLAN";
+            this.gbPEP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.gbPEP.Controls.Add(this.tableLayoutPanel1);
+            this.gbPEP.Controls.Add(this.txtPEP_Note);
+            this.gbPEP.Controls.Add(this.label27);
+            this.gbPEP.Controls.Add(this.txtPEP_sPV);
+            this.gbPEP.Controls.Add(this.txtPEP_ExitPrice);
+            this.gbPEP.Controls.Add(this.label29);
+            this.gbPEP.Controls.Add(this.txtPEP_AccountEquity);
+            this.gbPEP.Controls.Add(this.label28);
+            this.gbPEP.Location = new System.Drawing.Point(13, 590);
+            this.gbPEP.Name = "gbPEP";
+            this.gbPEP.Size = new System.Drawing.Size(577, 132);
+            this.gbPEP.TabIndex = 14;
+            this.gbPEP.TabStop = false;
+            this.gbPEP.Text = "PROFIT EXIT PLAN";
             // 
             // tableLayoutPanel1
             // 
@@ -1526,6 +1526,7 @@ namespace TradingTools
             327680});
             this.nudDailyInterestRate.Location = new System.Drawing.Point(88, 62);
             this.nudDailyInterestRate.Name = "nudDailyInterestRate";
+            this.nudDailyInterestRate.ReadOnly = true;
             this.nudDailyInterestRate.Size = new System.Drawing.Size(75, 23);
             this.nudDailyInterestRate.TabIndex = 10;
             this.nudDailyInterestRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -1897,23 +1898,23 @@ namespace TradingTools
             // 
             this.dgvPriceIncreaseTable.AllowUserToAddRows = false;
             this.dgvPriceIncreaseTable.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvPriceIncreaseTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvPriceIncreaseTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.dgvPriceIncreaseTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvPriceIncreaseTable.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvPriceIncreaseTable.DefaultCellStyle = dataGridViewCellStyle6;
             this.dgvPriceIncreaseTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvPriceIncreaseTable.Location = new System.Drawing.Point(0, 0);
             this.dgvPriceIncreaseTable.Name = "dgvPriceIncreaseTable";
@@ -2052,23 +2053,23 @@ namespace TradingTools
             // 
             this.dgvPriceDecreaseTable.AllowUserToAddRows = false;
             this.dgvPriceDecreaseTable.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvPriceDecreaseTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvPriceDecreaseTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dgvPriceDecreaseTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvPriceDecreaseTable.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvPriceDecreaseTable.DefaultCellStyle = dataGridViewCellStyle8;
             this.dgvPriceDecreaseTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvPriceDecreaseTable.Location = new System.Drawing.Point(0, 0);
             this.dgvPriceDecreaseTable.Name = "dgvPriceDecreaseTable";
@@ -2313,8 +2314,8 @@ namespace TradingTools
             this.groupBox8.PerformLayout();
             this.tableLayoutPanel13.ResumeLayout(false);
             this.tableLayoutPanel13.PerformLayout();
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
+            this.gbTradeExit.ResumeLayout(false);
+            this.gbTradeExit.PerformLayout();
             this.tableLayoutPanel12.ResumeLayout(false);
             this.tableLayoutPanel12.PerformLayout();
             this.gbxNotes.ResumeLayout(false);
@@ -2326,12 +2327,12 @@ namespace TradingTools
             this.splitContainerNotes.ResumeLayout(false);
             this.tableLayoutPanel11.ResumeLayout(false);
             this.tableLayoutPanel11.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
+            this.gbLEP.ResumeLayout(false);
+            this.gbLEP.PerformLayout();
             this.tableLayoutPanel10.ResumeLayout(false);
             this.tableLayoutPanel10.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
+            this.gbPEP.ResumeLayout(false);
+            this.gbPEP.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -2438,7 +2439,7 @@ namespace TradingTools
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox gbPEP;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.Label label35;
@@ -2454,7 +2455,7 @@ namespace TradingTools
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox txtCapital;
-        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.GroupBox gbLEP;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel10;
         private System.Windows.Forms.Label label42;
         private System.Windows.Forms.Label label43;
@@ -2512,7 +2513,7 @@ namespace TradingTools
         private System.Windows.Forms.TextBox txtPerfectEntry_Note;
         private System.Windows.Forms.TextBox txtPerfectEntry_ExitPrice;
         private System.Windows.Forms.Label label63;
-        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.GroupBox gbTradeExit;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel12;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.TextBox txtTradeExit_TC;

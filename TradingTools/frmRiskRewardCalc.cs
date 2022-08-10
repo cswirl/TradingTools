@@ -37,8 +37,10 @@ namespace TradingTools
         private string _headerMetadata;
         private string _lastSavedStateHash;
         private dialogCapitalCalc _dialogCapital;
+        private bool _flagCalculate = false;
 
         private master _master;
+        
 
         // Properties
         public RiskRewardCalcState State { get; set; } = RiskRewardCalcState.Empty;
@@ -146,6 +148,17 @@ namespace TradingTools
             LEP_Compute(null, null);
             TradeExit_Compute(null, null);
             PerfectEntry_Compute(null, null);
+
+            // enable controls
+            if (!_flagCalculate)
+            {
+                gbTradeExit.Enabled = true;
+                gbPEP.Enabled = true;
+                gbLEP.Enabled = true;
+                txtPriceIncrease_target.Enabled = true;
+                txtPriceDecrease_target.Enabled=true;
+                _flagCalculate = true;
+            }
         }
 
         private Position GetPositionData(out string msg)
@@ -552,8 +565,8 @@ namespace TradingTools
                 CalculatorState = this.CalculatorState
             };
 
-            // 3 - Validation - the implementation may be incomplete but suffice for now - InputConverter.MoneyToDecimal
-            if (!RiskRewardCalc_Serv.CalculatorState_Validate(this.CalculatorState, out msg) || !TradeService.TradeOpening_Validate(this.Trade, out msg))
+            // 3 - Validation
+            if (!TradeService.TradeOpening_Validate(this.Trade, out msg))
             {
                 statusMessage.Text = msg;
                 AppMessageBox.Error(statusMessage.Text, "", this);
@@ -621,6 +634,14 @@ namespace TradingTools
                     txtLEP_Note.Text = "stop-loss: inactive";
 
                     btnCloseTheTrade.Visible = false;
+
+                    // disable controls
+                    gbTradeExit.Enabled = false;
+                    gbPEP.Enabled = false;
+                    gbLEP.Enabled = false;
+                    txtPriceIncrease_target.Enabled = false;
+                    txtPriceDecrease_target.Enabled = false;
+
                     break;
 
                 case RiskRewardCalcState.Loaded:
