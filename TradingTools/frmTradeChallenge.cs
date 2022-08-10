@@ -213,9 +213,13 @@ namespace TradingTools
             var allTrades = getAllTrades();
             if (allTrades.Count > 0)
             {
-                monthCalendarDateEnter.MinDate = allTrades.First().DateEnter;
+                var min = allTrades.First().DateEnter.Date;
+                var max = DateTime.Today;
+                max = max.AddHours(23).AddMinutes(59).AddSeconds(59);
+                if (min > max) return;  // monthCalendarDateEnter is throwing an error if MinDate is greater than MaxDate
+                monthCalendarDateEnter.MaxDate = max;
+                monthCalendarDateEnter.MinDate = min;
                 monthCalendarDateEnter.BoldedDates = allTrades.Select(x => x.DateEnter).ToArray();
-                monthCalendarDateEnter.MaxDate = DateTime.Now;
             }
             else
                 monthCalendarDateEnter.Visible = false;
