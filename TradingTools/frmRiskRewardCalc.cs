@@ -933,13 +933,9 @@ namespace TradingTools
             {
                 e.Handled = true;
             }
-
-            // only allow one decimal point
-            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
-            {
-                e.Handled = true;
-            }
         }
+
+        
 
         private void TextBox_Money_Validating(object sender, CancelEventArgs e)
         {
@@ -1147,11 +1143,13 @@ namespace TradingTools
 
         private void PositionTextboxes_KeyDown(object sender, KeyEventArgs e)
         {
+            var tb = (TextBox)sender;
             if (State == RiskRewardCalcState.TradeOpen || State == RiskRewardCalcState.TradeClosed) return;
 
             if (e.KeyCode == Keys.Enter)
             {
                 btnReCalculate_Click(null, null);
+                errorProvider1.SetError(tb, null);
             }
         }
 

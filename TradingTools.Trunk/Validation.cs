@@ -42,8 +42,8 @@ namespace TradingTools.Trunk.Validation
     {
         public static bool isDecimal(string value, out string errorMsg)
         {
-            string pattern = @"^((\d+)((\.\d{1,6})?))$";
-            Regex rg = new Regex(pattern);
+            string pattern2 = @"^((\d+)?((\.\d{1,6})?))$";
+            Regex rg = new Regex(pattern2);
 
             errorMsg = "";
             if (!rg.IsMatch(value))
