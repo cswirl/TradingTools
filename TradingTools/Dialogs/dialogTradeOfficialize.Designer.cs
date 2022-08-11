@@ -95,8 +95,9 @@ namespace TradingTools
             this.txtLeverage.Tag = "";
             this.txtLeverage.Text = "1";
             this.txtLeverage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtLeverage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Numeric_KeyPress);
-            this.txtLeverage.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Integer_Validating);
+            this.txtLeverage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLeverage_KeyDown);
+            this.txtLeverage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_Decimal_KeyPress);
+            this.txtLeverage.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Decimal_Validating);
             // 
             // txtEntryPrice
             // 

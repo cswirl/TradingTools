@@ -159,6 +159,8 @@ namespace TradingTools
                 txtPriceDecrease_target.Enabled=true;
                 _flagCalculate = true;
             }
+
+            this.ValidateChildren();
         }
 
         private Position GetPositionData(out string msg)
@@ -1149,7 +1151,6 @@ namespace TradingTools
             if (e.KeyCode == Keys.Enter)
             {
                 btnReCalculate_Click(null, null);
-                errorProvider1.SetError(tb, null);
             }
         }
 

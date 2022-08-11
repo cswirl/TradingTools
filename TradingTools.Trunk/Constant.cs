@@ -19,7 +19,7 @@ namespace TradingTools.Trunk
         public const string DECIMAL_TWO = "0.00";
         public const string DECIMAL_UPTO_ONE = "0.#";
         public const string DECIMAL_UPTO_TWO = "0.##";
-        public const string DECIMAL_UPTO_MAX = "0.########";
+        public const string DECIMAL_UPTO_MAX = "0.######";
 
         public const string DATE_MMMM_DD_YYYY = "MMMM dd, yyyy";
     }

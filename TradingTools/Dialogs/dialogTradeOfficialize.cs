@@ -8,7 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TradingTools.Dialogs;
 using TradingTools.Model;
+using TradingTools.Trunk.Extensions;
 using TradingTools.Trunk.Validation;
 
 namespace TradingTools
@@ -66,14 +68,6 @@ namespace TradingTools
             }
         }
 
-        private void TextBox_Numeric_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
-
         private void TextBox_Money_Validating(object sender, CancelEventArgs e)
         {
             var tb = (TextBox)sender;
@@ -96,7 +90,7 @@ namespace TradingTools
             var tb = (TextBox)sender;
             string msg;
 
-            if (!Format.isInteger(tb.Text, out msg))
+            if (!Format.isWholeNumber(tb.Text, out msg))
             {
                 //e.Cancel = true;
                 errorProvider1.SetError(tb, msg);
@@ -157,6 +151,21 @@ namespace TradingTools
             txtLeverage.Text = MyProperty.Leverage;
             txtLotSize.Text = Validation.HasProperty(MyProperty, "LotSize") ? MyProperty.LotSize : "";
             txtEntryPrice.Text = MyProperty.EntryPrice;
+        }
+
+        private void txtLeverage_KeyDown(object sender, KeyEventArgs e)
+        {
+            var tb = (TextBox)sender;
+            var val = tb.Text.ToDecimal();
+            if (e.KeyCode == Keys.Up)
+            {
+                tb.Text = (val + 1).ToString_UptoMaxDecimal();
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                if ((val - 1) < 1) { tb.Text = "1"; return; }
+                else tb.Text = (val - 1).ToString_UptoTwoDecimal();
+            }
         }
     }
 }

@@ -310,23 +310,6 @@ namespace TradingTools
             }
         }
 
-        private void TextBox_Integer_Validating(object sender, CancelEventArgs e)
-        {
-            var tb = (TextBox)sender;
-            string msg;
-
-            if (!Format.isInteger(tb.Text, out msg))
-            {
-                //e.Cancel = true;
-                errorProvider1.SetError(tb, msg);
-            }
-            else
-            {
-                e.Cancel = false;
-                errorProvider1.SetError(tb, null);
-            }
-        }
-
         private void TextBox_Decimal_Validating(object sender, CancelEventArgs e)
         {
             var tb = (TextBox)sender;

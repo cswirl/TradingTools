@@ -76,7 +76,7 @@ namespace TradingTools.Trunk.Validation
 
             return true;
         }
-        public static bool isInteger(string value, out string errorMsg)
+        public static bool isWholeNumber(string value, out string errorMsg)
         {
             string pattern = @"^[1-9]{1,3}$";
             Regex rg = new Regex(pattern);
@@ -93,7 +93,7 @@ namespace TradingTools.Trunk.Validation
         public static bool isTicker(string value, out string errorMsg)
         {
             // Pattern example: AAAAA/ZZZZZ 
-            string pattern = @"^[a-zA-Z]{1,10}[\/][a-zA-Z]{1,10}$";
+            string pattern = @"^[a-zA-Z]{1,9}[\/][a-zA-Z]{1,9}$";
             Regex rg = new Regex(pattern);
 
             errorMsg = "";
