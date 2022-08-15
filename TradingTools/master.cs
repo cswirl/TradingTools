@@ -592,7 +592,9 @@ namespace TradingTools
             }
             catch (Exception e)
             {
-                AppMessageBox.Error(e.Message, "An error occurred during migration.");
+                // Log
+                AppMessageBox.Error("An error occurred during migration.", "Critical Error");
+                Environment.Exit(-1);
             }
             
         }

@@ -93,13 +93,13 @@ namespace TradingTools.Trunk.Validation
         public static bool isTicker(string value, out string errorMsg)
         {
             // Pattern example: AAAAA/ZZZZZ 
-            string pattern = @"^[a-zA-Z]{1,9}[\/][a-zA-Z]{1,9}$";
+            string pattern = @"^[a-zA-Z0-9]{1,9}[\/][a-zA-Z0-9]{1,9}$";
             Regex rg = new Regex(pattern);
 
             errorMsg = "";
             if (!rg.IsMatch(value))
             {
-                errorMsg = message("Must be a trading pair", "btc/usdt or BTC/USDT");
+                errorMsg = message("Must be a trading pair\nMax of 9 characters for symbol", "btc/usdt or BTC/USDT or ABCDEFGHI/ABCDEFGHI");
                 return false;
             }
             return true;
