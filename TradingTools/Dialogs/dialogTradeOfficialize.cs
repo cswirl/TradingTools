@@ -22,11 +22,18 @@ namespace TradingTools
 
         public dynamic MyProperty { get; set; }
 
-        public dialogTradeOfficialize()
+        public dialogTradeOfficialize(master master)
         {
             InitializeComponent();
 
             dtpDateEnter.MaxDate = DateTime.Today.AddDays(1).AddTicks(-1);
+
+            // Ticker auto complete
+            var autoComplete = new AutoCompleteStringCollection();
+            autoComplete.AddRange(master.TickerAutoCompleteSource());
+            txtTicker.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            txtTicker.AutoCompleteCustomSource = autoComplete;
+            txtTicker.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
         }
 
         private void btnOfficialize_Click(object sender, EventArgs e)

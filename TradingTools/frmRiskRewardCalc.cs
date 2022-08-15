@@ -101,7 +101,7 @@ namespace TradingTools
 
             // Ticker auto complete
             var autoComplete = new AutoCompleteStringCollection();
-            autoComplete.AddRange(_master.Trades_GetAll().Select(t => t.Ticker.ToUpper()).ToArray());
+            autoComplete.AddRange(_master.TickerAutoCompleteSource());
             txtTicker.AutoCompleteSource = AutoCompleteSource.CustomSource;
             txtTicker.AutoCompleteCustomSource = autoComplete;
             txtTicker.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
@@ -527,7 +527,7 @@ namespace TradingTools
                 d.LotSize = txtLotSize.Text;
                 d.EntryPrice = txtEntryPrice.Text;
 
-                var officializeDialog = new dialogTradeOfficialize();
+                var officializeDialog = new dialogTradeOfficialize(_master);
                 officializeDialog.MyProperty = d;
                 officializeDialog.Trade_Officialize += this.officializedTrade;
                 officializeDialog.ShowDialog();

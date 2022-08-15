@@ -48,4 +48,10 @@
     </Compile>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Assets\ticker-source.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

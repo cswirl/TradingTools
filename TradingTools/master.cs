@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -376,6 +377,26 @@ namespace TradingTools
             if (descending) t = t.OrderByDescending(x => x.Id);
 
             return t.ToList();
+        }
+
+        public string[] TickerAutoCompleteSource()
+        {
+            // database source
+            var tradeHist = Trades_GetAll().Select(t => t.Ticker.ToUpper());
+            var sources = tradeHist.ToList();
+
+            // file source
+            string exePath = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+            string fileName = "Assets\\ticker-source.txt";
+            var path = Path.Combine(exePath, fileName);
+            if (!File.Exists(path)) return Array.Empty<string>();
+            IEnumerable<string> lines = File.ReadLines(path);
+            var textFile = lines.Select(x => x.Trim().Replace('-', '/').ToUpper());
+
+            // combine sources
+            sources.AddRange(textFile);
+
+            return sources.ToArray();
         }
 
         /// <summary>
