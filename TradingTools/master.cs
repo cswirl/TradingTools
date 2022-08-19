@@ -224,21 +224,22 @@ namespace TradingTools
             }
         }
 
-        public frmRiskRewardCalc FormRRC_Long_Empty_Spawn()
+        public frmRiskRewardCalc FormRRC_Long_Empty_Spawn(decimal capital = 0)
         {
             var rrc = TradeService.RiskRewardCalcGetInstance("long");
-            return FormRRC_Empty_Spawn(rrc);
+            return FormRRC_Empty_Spawn(rrc, capital);
         }
 
-        public frmRiskRewardCalc FormRRC_Short_Empty_Spawn()
+        public frmRiskRewardCalc FormRRC_Short_Empty_Spawn(decimal capital = 0)
         {
             var rrc = TradeService.RiskRewardCalcGetInstance("short");
-            return FormRRC_Empty_Spawn(rrc); ;
+            return FormRRC_Empty_Spawn(rrc, capital); ;
         }
 
-        private frmRiskRewardCalc FormRRC_Empty_Spawn(IRiskRewardCalc riskRewardCalc)
+        private frmRiskRewardCalc FormRRC_Empty_Spawn(IRiskRewardCalc riskRewardCalc, decimal capital)
         {
             var form = new frmRiskRewardCalc(riskRewardCalc, this);
+            if (capital > 0) form.SetCapital(capital);
             registerNewRiskRewardCalcForm(form);
             form.Show();
 

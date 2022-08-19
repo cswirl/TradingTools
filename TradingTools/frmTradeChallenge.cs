@@ -150,16 +150,24 @@ namespace TradingTools
         }
         #endregion
 
+        private decimal getFinalCapital()
+        {
+            if (_tradeHistory.Count < 1) return 0;
+            
+            return _tradeHistory[0].FinalCapital ?? 0;
+        }
 
         private void btnOpenCalcLong_Empty_Click(object sender, EventArgs e)
         {
-            var rrc = _master.FormRRC_Long_Empty_Spawn();
+            var f_capital = getFinalCapital();
+            var rrc = _master.FormRRC_Long_Empty_Spawn(f_capital);
             registerFormRRC(rrc);   
         }
 
         private void btnOpenCalcShort_Empty_Click(object sender, EventArgs e)
         {
-            var rrc = _master.FormRRC_Short_Empty_Spawn();
+            var f_capital = getFinalCapital();
+            var rrc = _master.FormRRC_Short_Empty_Spawn(f_capital);
             registerFormRRC(rrc);
         }
 

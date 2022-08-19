@@ -80,6 +80,8 @@ namespace TradingTools
             myInitializeComponent();
         }
 
+        public void SetCapital(decimal capital) => txtCapital.Text = capital.ToMoney();
+
         private void OnStateChanged_Invoked(object sender, RiskRewardCalcState e)
         {
             lblHeader.Text = $"{Theme.Title} - {_headerMetadata}";
