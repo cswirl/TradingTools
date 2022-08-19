@@ -269,7 +269,7 @@ namespace TradingTools
 
 
             // Display RRR
-            txtRRR.Text = "1 / " + (rrr == null ? "NA" : rrr?.ToString("0.0"));
+            txtRRR.Text = (rrr == null ? "NA" : rrr?.ToString("0.0"));
         }
 
         private void PEP_Compute(object sender, EventArgs e)
