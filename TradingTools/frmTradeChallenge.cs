@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using TradingTools.Dialogs;
+using TradingTools.Extensions;
 using TradingTools.Trunk;
 using TradingTools.Trunk.Entity;
 using TradingTools.Trunk.Extensions;
@@ -24,6 +25,7 @@ namespace TradingTools
         public TradeChallenge TradeChallenge { get; set; }
         private master _master;
         private string _lastSavedStateHash;
+        private int _pnl_columnIndex = 5;
 
         public Status State { get; set; } = Status.Open;
 
@@ -129,6 +131,7 @@ namespace TradingTools
                 _activeTrades.Remove(t);
                 _tradeHistory.Insert(0, t);
                 tradeHistoryStats();
+                tradeHistoryPnlStyle();
             }
         }
 
@@ -235,6 +238,8 @@ namespace TradingTools
 
         private void tradeHistoryStats() => lblTradeHist.Text = $"Trade History   ( {_tradeHistory.Count()} / {TradeChallenge.TradeCap} )";
 
+        private void tradeHistoryPnlStyle() => dgvTradeHistory.Pnl_ApplyBackColor(_pnl_columnIndex);
+
         private bool CalculatorState_Officializing_IsCancelled_Handler(CalculatorState c, out string msg)
         {
             msg = "";
@@ -268,8 +273,10 @@ namespace TradingTools
             txtDesc.Text = TradeChallenge.Description;
             txtTitle.Text = TradeChallenge.Title;
             // calendar
+
             refreshCalendarBoldDates();
             tradeHistoryStats();
+            tradeHistoryPnlStyle();
 
             changeState(this.TradeChallenge.IsOpen ? Status.Open : Status.Closed);
             messageBus("Form loaded successful");
@@ -482,6 +489,27 @@ namespace TradingTools
 
         private void SetLastSavedCalculatorHash() => _lastSavedStateHash = captureTradeChallenge().CreateHash();
 
+        private void dgvTradeHistory_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            var dgv = (DataGridView)sender;
+            if (dgv.Rows[e.RowIndex].Selected)
+            {
+                var penColor = dgv.Rows[e.RowIndex].Cells[_pnl_columnIndex].Style.BackColor;
+                using (Pen pen = new Pen(penColor))
+                {
+                    int penWidth = 2;
+
+                    pen.Width = penWidth;
+
+                    int x = e.RowBounds.Left + (penWidth / 2);
+                    int y = e.RowBounds.Top + (penWidth / 2);
+                    int width = e.RowBounds.Width - penWidth;
+                    int height = e.RowBounds.Height - penWidth;
+
+                    e.Graphics.DrawRectangle(pen, x, y, width, height);
+                }
+            }
+        }
     }
 
 }

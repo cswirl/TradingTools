@@ -36,7 +36,7 @@ namespace TradingTools
         {
             d.DefaultCellStyle.SelectionForeColor = Color.White;
             d.AutoGenerateColumns = false;
-            d.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            d.SelectionMode = DataGridViewSelectionMode.RowHeaderSelect;
             d.AllowUserToOrderColumns = true;
             d.AllowUserToDeleteRows = false;
             d.AllowUserToAddRows = false;
@@ -158,7 +158,7 @@ namespace TradingTools
             PnL.HeaderText = "PnL";
             PnL.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             PnL.DefaultCellStyle.Format = Constant.MONEY_FORMAT;
-            PnL.Width = 60;
+            PnL.Width = 80;
             PnL.ReadOnly = true;
             PnL.SortMode = DataGridViewColumnSortMode.NotSortable;
             PnL.Visible = true;

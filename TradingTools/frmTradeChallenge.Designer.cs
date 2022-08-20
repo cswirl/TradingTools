@@ -270,6 +270,7 @@
             this.dgvTradeHistory.Size = new System.Drawing.Size(865, 405);
             this.dgvTradeHistory.TabIndex = 14;
             this.dgvTradeHistory.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTrades_CellDoubleClick);
+            this.dgvTradeHistory.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dgvTradeHistory_RowPostPaint);
             // 
             // dgvActiveTrade
             // 
