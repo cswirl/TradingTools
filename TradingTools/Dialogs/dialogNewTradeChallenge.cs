@@ -25,6 +25,7 @@ namespace TradingTools
         private void btnSave_Click(object sender, EventArgs e)
         {
             TradeChallenge.TradeCap = txtCap.Text.ToInteger();
+            TradeChallenge.TargetPercentage = txtTargetPercentage.Text.ToDecimal();
             TradeChallenge.Description = txtDesc.Text;
             this.DialogResult = DialogResult.OK;
             this.Close();
@@ -39,6 +40,21 @@ namespace TradingTools
         private void txtCap_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtTargetPercentage_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+                (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+
+            // only allow one decimal point
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
             {
                 e.Handled = true;
             }

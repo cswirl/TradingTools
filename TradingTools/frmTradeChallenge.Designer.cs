@@ -31,13 +31,14 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmTradeChallenge));
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.radioClosed = new System.Windows.Forms.RadioButton();
-            this.radioOpen = new System.Windows.Forms.RadioButton();
             this.txtDesc = new System.Windows.Forms.TextBox();
             this.txtId = new System.Windows.Forms.TextBox();
+            this.txtStatus = new System.Windows.Forms.TextBox();
+            this.txtTargetPercentage = new System.Windows.Forms.TextBox();
             this.txtCap = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnCompleted = new System.Windows.Forms.Button();
@@ -77,67 +78,64 @@
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.Control;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.radioClosed);
-            this.panel1.Controls.Add(this.radioOpen);
             this.panel1.Controls.Add(this.txtDesc);
             this.panel1.Controls.Add(this.txtId);
+            this.panel1.Controls.Add(this.txtStatus);
+            this.panel1.Controls.Add(this.txtTargetPercentage);
             this.panel1.Controls.Add(this.txtCap);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(42, 67);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(738, 130);
+            this.panel1.Size = new System.Drawing.Size(738, 139);
             this.panel1.TabIndex = 13;
-            // 
-            // radioClosed
-            // 
-            this.radioClosed.AutoSize = true;
-            this.radioClosed.Enabled = false;
-            this.radioClosed.Location = new System.Drawing.Point(78, 103);
-            this.radioClosed.Name = "radioClosed";
-            this.radioClosed.Size = new System.Drawing.Size(59, 19);
-            this.radioClosed.TabIndex = 3;
-            this.radioClosed.Text = "closed";
-            this.radioClosed.UseVisualStyleBackColor = true;
-            // 
-            // radioOpen
-            // 
-            this.radioOpen.AutoSize = true;
-            this.radioOpen.Checked = true;
-            this.radioOpen.Enabled = false;
-            this.radioOpen.Location = new System.Drawing.Point(78, 78);
-            this.radioOpen.Name = "radioOpen";
-            this.radioOpen.Size = new System.Drawing.Size(52, 19);
-            this.radioOpen.TabIndex = 2;
-            this.radioOpen.TabStop = true;
-            this.radioOpen.Text = "open";
-            this.radioOpen.UseVisualStyleBackColor = true;
             // 
             // txtDesc
             // 
-            this.txtDesc.Location = new System.Drawing.Point(295, 10);
+            this.txtDesc.Location = new System.Drawing.Point(292, 15);
             this.txtDesc.Multiline = true;
             this.txtDesc.Name = "txtDesc";
-            this.txtDesc.Size = new System.Drawing.Size(423, 102);
-            this.txtDesc.TabIndex = 4;
+            this.txtDesc.Size = new System.Drawing.Size(423, 110);
+            this.txtDesc.TabIndex = 2;
             // 
             // txtId
             // 
             this.txtId.Location = new System.Drawing.Point(78, 15);
             this.txtId.Name = "txtId";
             this.txtId.ReadOnly = true;
-            this.txtId.Size = new System.Drawing.Size(63, 23);
+            this.txtId.Size = new System.Drawing.Size(74, 23);
             this.txtId.TabIndex = 1;
             this.txtId.TabStop = false;
+            // 
+            // txtStatus
+            // 
+            this.txtStatus.Location = new System.Drawing.Point(78, 102);
+            this.txtStatus.Name = "txtStatus";
+            this.txtStatus.ReadOnly = true;
+            this.txtStatus.Size = new System.Drawing.Size(74, 23);
+            this.txtStatus.TabIndex = 1;
+            this.txtStatus.TabStop = false;
+            this.txtStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtStatus.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCap_KeyPress);
+            // 
+            // txtTargetPercentage
+            // 
+            this.txtTargetPercentage.Location = new System.Drawing.Point(78, 73);
+            this.txtTargetPercentage.Name = "txtTargetPercentage";
+            this.txtTargetPercentage.Size = new System.Drawing.Size(74, 23);
+            this.txtTargetPercentage.TabIndex = 1;
+            this.txtTargetPercentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtTargetPercentage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTargetPercentage_KeyPress);
             // 
             // txtCap
             // 
             this.txtCap.Location = new System.Drawing.Point(78, 44);
             this.txtCap.Name = "txtCap";
-            this.txtCap.Size = new System.Drawing.Size(63, 23);
-            this.txtCap.TabIndex = 1;
+            this.txtCap.Size = new System.Drawing.Size(74, 23);
+            this.txtCap.TabIndex = 0;
             this.txtCap.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtCap.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCap_KeyPress);
             // 
@@ -153,16 +151,25 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(222, 10);
+            this.label4.Location = new System.Drawing.Point(219, 18);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(67, 15);
             this.label4.TabIndex = 0;
             this.label4.Text = "Description";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(17, 76);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(52, 15);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Target %";
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(30, 80);
+            this.label8.Location = new System.Drawing.Point(30, 105);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(39, 15);
             this.label8.TabIndex = 0;
@@ -416,11 +423,12 @@
         private System.Windows.Forms.TextBox txtId;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.RadioButton radioClosed;
-        private System.Windows.Forms.RadioButton radioOpen;
         private System.Windows.Forms.TextBox txtTitle;
         private System.Windows.Forms.MonthCalendar monthCalendarDateEnter;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel statusMessage;
+        private System.Windows.Forms.TextBox txtStatus;
+        private System.Windows.Forms.TextBox txtTargetPercentage;
+        private System.Windows.Forms.Label label2;
     }
 }

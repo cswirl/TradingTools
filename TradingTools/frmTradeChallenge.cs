@@ -270,10 +270,10 @@ namespace TradingTools
             // Load Trade Challenge Object
             txtId.Text = TradeChallenge.Id.ToString();
             txtCap.Text = TradeChallenge.TradeCap.ToString();
+            txtTargetPercentage.Text = TradeChallenge.TargetPercentage.ToString_UptoTwoDecimal();
             txtDesc.Text = TradeChallenge.Description;
             txtTitle.Text = TradeChallenge.Title;
             // calendar
-
             refreshCalendarBoldDates();
             tradeHistoryStats();
             tradeHistoryPnlStyle();
@@ -318,6 +318,7 @@ namespace TradingTools
             TradeChallenge.CopyProperties(clone);
             // get changes
             clone.TradeCap = txtCap.Text.ToInteger();
+            clone.TargetPercentage = txtTargetPercentage.Text.ToDecimal();
             clone.Description = txtDesc.Text;
             return clone;
         }
@@ -410,15 +411,16 @@ namespace TradingTools
             switch (s)
             {
                 case Status.Open:
-                    radioOpen.Checked = true;
+                    txtStatus.Text = "open";
 
                     break;
 
                 case Status.Closed:
-                    radioClosed.Checked = true;
+                    txtStatus.Text = "closed";
                     btnCompleted.Visible = false;
                     tableLayoutPanel_LongShortButtons.Visible = false;
                     txtCap.ReadOnly = true;
+                    txtTargetPercentage.ReadOnly = true;
 
                     // calendar
                     var allTrades = getAllTrades();
@@ -444,6 +446,21 @@ namespace TradingTools
         private void txtCap_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtTargetPercentage_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+                (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+
+            // only allow one decimal point
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
             {
                 e.Handled = true;
             }
