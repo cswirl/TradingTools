@@ -46,7 +46,7 @@ namespace TradingTools.DAL
                 //property.Relational().ColumnType = "decimal(18, 6)";
 
                 //EF Core 3
-                property.SetColumnType("decimal(18, 6)");
+                property.SetColumnType("decimal(18, 9)");
             }
         }
 

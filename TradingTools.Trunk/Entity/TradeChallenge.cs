@@ -27,6 +27,7 @@ namespace TradingTools.Trunk.Entity
         }
         public string Description { get; set; }
 
+        public decimal TargetPercentage { get; set; }
 
         // Navigation Properties
         [JsonIgnore]
