@@ -24,23 +24,28 @@ namespace TradingTools
 
         public TradeChallenge TradeChallenge { get; set; }
         private master _master;
+        private Timer _timer;
         private string _lastSavedStateHash;
         private int _pnl_columnIndex = 5;
 
         public Status State { get; set; } = Status.Open;
 
-        public frmTradeChallenge(master master)
+        public frmTradeChallenge(master master, TradeChallenge tradeChallenge)
         {
             InitializeComponent();
 
-            this._master = master;
+            _master = master;
+            this.TradeChallenge = tradeChallenge;
+            this.State = tradeChallenge.IsOpen ? Status.Open : Status.Closed;
+            _timer = new Timer();
+            _timer.Interval = Presentation.INTERNAL_TIMER_REFRESH_VALUE;
             appInitialize();
         }
 
         private void appInitialize()
         {
             // delegates
-            _master.RefreshTimer.Tick += this.timer_Tick;
+            _timer.Tick += this.timer_Tick;
             /// Use delegate from the master - these are invoked right after DbContext CRUD statements
             _master.CalculatorState_Updated += this.CalculatorState_Updated;
             _master.CalculatorState_Deleted += this.CalculatorState_Deleted;
@@ -100,6 +105,7 @@ namespace TradingTools
                 // Delete the Prospect from the TradeChallengeProspect table
                 if (!_master.TradeChallengeProspect_Delete(t.CalculatorState))
                     messageBus($"An error occur while removing Prospect: {t.CalculatorState.Id} from the database");
+                insightReport();
             }
         }
         private void Trade_Updated(Trade t)
@@ -120,6 +126,7 @@ namespace TradingTools
             {
                 messageBus($"Trade with Id: {t.Id} was updated successfully");
                 refreshCalendarBoldDates();
+                insightReport();
             }
         }
 
@@ -132,6 +139,7 @@ namespace TradingTools
                 _tradeHistory.Insert(0, t);
                 tradeHistoryStats();
                 tradeHistoryPnlStyle();
+                insightReport();
             }
         }
 
@@ -149,6 +157,7 @@ namespace TradingTools
             {
                 messageBus($"Trade with Id: {t.Id} was removed successfully");
                 refreshCalendarBoldDates();
+                insightReport();
             }
         }
         #endregion
@@ -277,14 +286,17 @@ namespace TradingTools
             refreshCalendarBoldDates();
             tradeHistoryStats();
             tradeHistoryPnlStyle();
+            
 
-            changeState(this.TradeChallenge.IsOpen ? Status.Open : Status.Closed);
+            changeState(this.State);
             messageBus("Form loaded successful");
+            insightReport();
 
             SetLastSavedCalculatorHash();
-
             // form properties
             this.Owner = null;
+
+            _timer.Start();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -304,6 +316,8 @@ namespace TradingTools
                 this.Text = TradeChallenge.Title;
                 tradeHistoryStats();
                 SetLastSavedCalculatorHash();
+                if (State == Status.Open) insightReport();
+
                 return true;
             }
 
@@ -406,16 +420,15 @@ namespace TradingTools
 
         private void changeState(Status s)
         {
-            this.Text = TradeChallenge.Title;
-
             switch (s)
             {
                 case Status.Open:
+                    this.Text = $"[id::{TradeChallenge.Id}] {TradeChallenge.Title}";
                     txtStatus.Text = "open";
-
                     break;
 
                 case Status.Closed:
+                    this.Text =  $"[id::{TradeChallenge.Id}] {TradeChallenge.Title} - CLOSED";
                     txtStatus.Text = "closed";
                     btnCompleted.Visible = false;
                     tableLayoutPanel_LongShortButtons.Visible = false;
@@ -468,8 +481,9 @@ namespace TradingTools
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            CalendarMaxDateRefresh();
             statusMessage.Text = "status . . .";
+            CalendarMaxDateRefresh();
+            if (State == Status.Open) insightReport();
         }
 
         private void frmTradeChallenge_FormClosing(object sender, FormClosingEventArgs e)
@@ -506,6 +520,69 @@ namespace TradingTools
 
         private void SetLastSavedCalculatorHash() => _lastSavedStateHash = captureTradeChallenge().CreateHash();
 
+        private void insightReport()
+        {
+            var allTrades = getAllTrades();
+            if (allTrades.Count > 0)
+            {
+                txtInsight.Clear();
+                // Initial Capital
+                var initialCapital = allTrades.First().Capital;
+                txtInsight.AppendLine($"Initial Capital: {initialCapital.ToMoney()}");
+                // Goal
+                double baseNum = solveBaseNumber(TradeChallenge.TargetPercentage);
+                double exponent = TradeChallenge.TradeCap;
+                double compound = Math.Pow(baseNum, exponent);
+                double goal = decimal.ToDouble(initialCapital) * compound;
+                txtInsight.AppendLine($"Goal: {initialCapital.ToMoney()} x " +
+                    $"1.{TradeChallenge.TargetPercentage.ToString_UptoTwoDecimal()}" +
+                    $"^{TradeChallenge.TradeCap} = {goal.ToMoney()}");
+                // Final Capital
+                var idealFinalCapital = decimal.ToDouble(initialCapital) * Math.Pow(baseNum, _tradeHistory.Count());
+                var finalCapital = _tradeHistory.FirstOrDefault()?.FinalCapital ?? 0m;
+                if (finalCapital > 0)
+                {
+                    txtInsight.AppendLine($"Final Capital: {finalCapital.ToMoney()} ---> ideal( {idealFinalCapital.ToMoney()} )");
+                    // PnL (to-date)
+                    txtInsight.AppendLine($"PnL (To-Date): {(finalCapital - initialCapital).ToMoney()}");
+                }
+                // Total Trades --- Win / Lose
+                var win = _tradeHistory.Where(t => t.PnL > 0).ToList();
+                var lose = _tradeHistory.Where(t => t.PnL < 0).ToList().Count();
+                txtInsight.AppendLine($"Completed Trades: {_tradeHistory.Count()} ---->( {win.Count()} Win : {lose} Lose )");
+                // Winning Trades ============
+                if (win.Count > 0)
+                {
+                    // Avg. profits percentage
+                    txtInsight.AppendLine("Winning Trades ====================");
+                    txtInsight.AppendLine($"    Avg. profits percentage: {win.Select(t => t.PnL_percentage).Average()?.ToString(Constant.PERCENTAGE_FORMAT_SINGLE)}");
+                    // Avg. length of days
+                    var avgLength = win.Select(t => ((t.DateExit ?? t.DateEnter) - t.DateEnter).TotalDays).Average();
+                    txtInsight.AppendLine($"    Avg. length of days: : {avgLength.ToString_UptoOneDecimal()} day/s");
+                }
+                // Running days
+                var timeAhead = (this.State == Status.Closed) ? allTrades.Last().DateExit ?? DateTime.Now : DateTime.Now;
+                var days = (timeAhead - allTrades.First().DateEnter).TotalDays;
+                txtInsight.AppendLine("Running days: " + days.ToString_UptoOneDecimal());
+                // Running days from Last Trade 
+                if (this.State == Status.Open)
+                {
+                    var lastDateExit = _tradeHistory.FirstOrDefault()?.DateExit;
+                    if (lastDateExit != null)
+                        txtInsight.AppendLine("Days since last completed trade: " + (DateTime.Now - (lastDateExit ?? DateTime.Now)).TotalDays.ToString_UptoOneDecimal());
+                }
+
+                //======= Last Update: 
+                txtInsight.AppendLine(Environment.NewLine + "  **Last Update: Today at " + DateTime.Now.ToLongTimeString());
+            }
+        }
+
+        private double solveBaseNumber(decimal targetPercent)
+        {
+            var strBase = $"1." + targetPercent.ToString_UptoTwoDecimal().Replace(".", string.Empty);
+            return Convert.ToDouble(strBase.Trim());
+        }
+
         private void dgvTradeHistory_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
             var dgv = (DataGridView)sender;
@@ -526,6 +603,11 @@ namespace TradingTools
                     e.Graphics.DrawRectangle(pen, x, y, width, height);
                 }
             }
+        }
+
+        private void frmTradeChallenge_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _timer.Stop();
         }
     }
 

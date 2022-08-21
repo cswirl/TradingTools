@@ -70,5 +70,8 @@ namespace TradingTools.Trunk.Extensions
             else
                 return (decimal)input;
         }
+
+        public static string ToMoney(this double d) => d.ToString(Constant.MONEY_FORMAT);
+        public static string ToString_UptoOneDecimal(this double d) => d.ToString(Constant.DECIMAL_UPTO_ONE);
     }
 }

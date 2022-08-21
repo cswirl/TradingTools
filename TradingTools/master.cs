@@ -131,8 +131,7 @@ namespace TradingTools
             }
             else
             {
-                var form = new frmTradeChallenge(this);
-                form.TradeChallenge = tradeChallenge;
+                var form = new frmTradeChallenge(this, tradeChallenge);
 
                 // register
                 form.FormClosed += FormTradeChallenge_FormClosed;

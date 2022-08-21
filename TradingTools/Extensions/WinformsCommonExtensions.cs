@@ -16,5 +16,14 @@ namespace TradingTools.Extensions
 
             return dtp;
         }
+
+        public static void AppendLine(this TextBox source, string value)
+        {
+            if (source.IsDisposed) return;
+            if (source.Text.Length == 0)
+                source.Text = value;
+            else
+                source.AppendText("\r\n" + value);
+        }
     }
 }
