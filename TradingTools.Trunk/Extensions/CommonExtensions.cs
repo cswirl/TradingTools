@@ -74,4 +74,17 @@ namespace TradingTools.Trunk.Extensions
         public static string ToMoney(this double d) => d.ToString(Constant.MONEY_FORMAT);
         public static string ToString_UptoOneDecimal(this double d) => d.ToString(Constant.DECIMAL_UPTO_ONE);
     }
+
+    public static class DateTimeExtensions
+    {
+        public static string ToConvention(this DateTime dt)
+        {
+            return dt.ToString(Constant.DATE_MMMM_DD_YYYY);
+        }
+
+        public static string ToFull(this DateTime dt)
+        {
+            return dt.ToString(Constant.DATE_FULL);
+        }
+    }
 }

@@ -789,8 +789,8 @@ namespace TradingTools
             txtTradeNum.Text = Trade.Id.ToString();
             txtTicker.Text = Trade.Ticker;
             txtTradeDates.Visible = true;
-            txtTradeDates.Text = $"Enter: {this.Trade.DateEnter.ToString("F")}{Environment.NewLine}" +
-                $"Exit: {this.Trade.DateExit?.ToString("F")}";
+            txtTradeDates.Text = $"Enter: {this.Trade.DateEnter.ToFull()}{Environment.NewLine}" +
+                $"Exit: {this.Trade.DateExit?.ToFull()}";
 
             // Independent data
             txtReasonForEntry.Text = CalculatorState.ReasonForEntry;
@@ -1198,6 +1198,11 @@ namespace TradingTools
                 btnReCalculate_Click(null, null);
             };
             _dialogCapital.ShowDialog();
+        }
+
+        private void frmRiskRewardCalc_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            timer1.Stop();
         }
     }
 

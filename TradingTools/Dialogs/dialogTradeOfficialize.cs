@@ -97,7 +97,7 @@ namespace TradingTools
             var tb = (TextBox)sender;
             string msg;
 
-            if (!Format.isWholeNumber(tb.Text, out msg))
+            if (!Format.isWholeNumberAboveZero(tb.Text, out msg))
             {
                 //e.Cancel = true;
                 errorProvider1.SetError(tb, msg);

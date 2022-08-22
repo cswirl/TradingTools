@@ -42,13 +42,13 @@ namespace TradingTools.Trunk.Validation
     {
         public static bool isDecimal(string value, out string errorMsg)
         {
-            string pattern2 = @"^((\d+)?((\.\d{1,6})?))$";
+            string pattern2 = @"^((\d+)?((\.\d{1,9})?))$";
             Regex rg = new Regex(pattern2);
 
             errorMsg = "";
             if (!rg.IsMatch(value))
             {
-                errorMsg = message("Must be numeric with up-to 6 decimal place", "8.123456");
+                errorMsg = message("Must be numeric with up-to 9 decimal place", "8.123456789");
                 return false;
             }
 
@@ -76,15 +76,15 @@ namespace TradingTools.Trunk.Validation
 
             return true;
         }
-        public static bool isWholeNumber(string value, out string errorMsg)
+        public static bool isWholeNumberAboveZero(string value, out string errorMsg)
         {
-            string pattern = @"^[1-9]{1,3}$";
+            string pattern = @"^[1-9][0-9]*$";
             Regex rg = new Regex(pattern);
 
             errorMsg = "";
             if (!rg.IsMatch(value))
             {
-                errorMsg = message("Must be a whole number", "any number from 1-999");
+                errorMsg = message("Must be a whole number", "any number above zero");
                 return false;
             }
             return true;

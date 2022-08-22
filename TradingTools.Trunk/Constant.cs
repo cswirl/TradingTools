@@ -7,6 +7,8 @@ namespace TradingTools.Trunk
         public const decimal TRADING_FEE = 0.001M;      // Binance
         public const decimal DAILY_INTEREST_RATE = 0.0002M;
 
+        public const int DECIMAL_PLACE_MAX = 9;
+
         public const string WHOLE_NUMBER = "0";
         
         public const string MONEY_FORMAT = "C";
@@ -19,9 +21,10 @@ namespace TradingTools.Trunk
         public const string DECIMAL_TWO = "0.00";
         public const string DECIMAL_UPTO_ONE = "0.#";
         public const string DECIMAL_UPTO_TWO = "0.##";
-        public const string DECIMAL_UPTO_MAX = "0.######";
+        public const string DECIMAL_UPTO_MAX = "0.#########";
 
         public const string DATE_MMMM_DD_YYYY = "MMMM dd, yyyy";
+        public const string DATE_FULL = "F";
     }
 
     public class Position

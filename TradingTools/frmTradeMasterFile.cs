@@ -22,6 +22,7 @@ namespace TradingTools
         private BindingList<Trade> _list;
         private StatusFilter _statusFilter;
         private TradingStyle tradeStyle;
+        private Timer _timer;
 
         private master _master;
 
@@ -30,14 +31,14 @@ namespace TradingTools
             InitializeComponent();
 
             _master = master;
-
+            _timer = new Timer();
             appInitialize();
         }
 
         private void appInitialize()
         {
             // delegates
-            _master.RefreshTimer.Tick += this.timer1_Tick;
+            _timer.Tick += this.timer1_Tick;
             //
             _master.Trade_Officialized += this.Trade_Officialized;
             _master.Trade_Closed += this.Trade_Closed;
@@ -57,6 +58,7 @@ namespace TradingTools
         private void frmTradeMasterFile_Load(object sender, EventArgs e)
         {
             cbxFilterStatus.SelectedIndex = 1;  // status = closed
+            _timer.Start();
         }
 
         private void DataGridView_SetDataSource(List<Trade> list)
@@ -383,6 +385,11 @@ namespace TradingTools
                 // cancel changes
                 dgvTrades_SelectionChanged(default, EventArgs.Empty);
             }
+        }
+
+        private void frmTradeMasterFile_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _timer.Stop();
         }
     }
 

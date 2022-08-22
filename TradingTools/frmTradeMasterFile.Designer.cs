@@ -615,6 +615,7 @@ namespace TradingTools
             this.Name = "frmTradeMasterFile";
             this.Text = "Trade Master File";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmTradeMasterFile_FormClosed);
             this.Load += new System.EventHandler(this.frmTradeMasterFile_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
