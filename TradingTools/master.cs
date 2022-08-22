@@ -389,7 +389,7 @@ namespace TradingTools
             string exePath = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
             string fileName = "Assets\\ticker-source.txt";
             var path = Path.Combine(exePath, fileName);
-            if (!File.Exists(path)) return Array.Empty<string>();
+            if (!File.Exists(path)) return sources.ToArray();
             IEnumerable<string> lines = File.ReadLines(path);
             var textFile = lines.Select(x => x.Trim().Replace('-', '/').ToUpper());
 
