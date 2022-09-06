@@ -1,6 +1,6 @@
 # Time Horizon Trading Tools
 
-This application will equip traders with a quick and detailed Risk/Reward calculation with note taking functionality written in C#. It can be used as a trading journal for future study and reference which is very valuable for a trader. It may also be used as a record keeping for tax reporting purpose.
+This application will equip traders with a quick and detailed Risk/Reward calculation with note taking functionality written in C#. It can be used as a paper trading and trading journal for future study and reference which is very valuable for a trader. It may also be used as a record keeping for tax reporting purpose.
 
 ## Technologies
 + .NET 5
@@ -30,5 +30,27 @@ __TradingTools_SQL Server__ *(database installation required)*: [download here](
 
 __TradingTools_SQLite__ : [download here](https://1drv.ms/u/s!AlGVeLI71LLXi7lDM88vL-DRKuNbYQ?e=2CfqqM/)
 
+
 ## Uninstallation
 The application can be easily removed via 'Add or remove programs'
+
+## User Interface
+### Dashboard
+![dashboard](https://res.cloudinary.com/dbccui5km/image/upload/v1662430399/TradingToolsUI/dashboard_f9znym.jpg)
+
+### Risk / Reward Calculator
+- #### Long Position - Open State
+![risk reward calculator - long open](https://res.cloudinary.com/dbccui5km/image/upload/v1662430326/TradingToolsUI/rrc-open_h89xds.jpg)
+
+- #### Long Position - Closed State
+![risk reward calculator - long closed](https://res.cloudinary.com/dbccui5km/image/upload/v1662430326/TradingToolsUI/rrc-closed_xs2oma.jpg)
+
+- #### Short Position - Closed State
+![risk reward calculator - short closed](https://res.cloudinary.com/dbccui5km/image/upload/v1662430326/TradingToolsUI/rrc-closed-short_re9qtu.jpg)
+
+
+### Trade Challenge
+![trade challenge form](https://res.cloudinary.com/dbccui5km/image/upload/v1662434635/TradingToolsUI/tradeChallenge_dy0v5c.jpg)
+
+### Trade Master File
+![trade master file form](https://res.cloudinary.com/dbccui5km/image/upload/v1662430326/TradingToolsUI/tradeMasterFile_yxktst.jpg)
