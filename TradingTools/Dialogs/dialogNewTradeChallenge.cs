@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TradingTools.Dialogs;
 using TradingTools.Trunk.Entity;
 using TradingTools.Trunk.Extensions;
 
@@ -15,6 +16,7 @@ namespace TradingTools
     public partial class dialogNewTradeChallenge : Form
     {
         public TradeChallenge TradeChallenge { get; set; }
+        private dialogCompoundCalc _dialogCompundCalc;
 
         public dialogNewTradeChallenge()
         {
@@ -58,6 +60,17 @@ namespace TradingTools
             {
                 e.Handled = true;
             }
+        }
+
+        private void btnCompoundCalc_Click(object sender, EventArgs e)
+        {
+            (string initialCapital, string targetPercent, string tradeCap) arg = ("100", txtTargetPercentage.Text, txtCap.Text);
+            if (_dialogCompundCalc == default) _dialogCompundCalc = new dialogCompoundCalc(arg);
+            _dialogCompundCalc.UseData = (pos) => {
+                txtTargetPercentage.Text = pos.targetPercent;
+                txtCap.Text = pos.tradeCap;
+            };
+            _dialogCompundCalc.ShowDialog();
         }
     }
 }

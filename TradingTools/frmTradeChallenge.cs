@@ -23,6 +23,7 @@ namespace TradingTools
         private BindingList<CalculatorState> _prospects;
 
         public TradeChallenge TradeChallenge { get; set; }
+        private dialogCompoundCalc _dialogCompundCalc;
         private master _master;
         private Timer _timer;
         private string _lastSavedStateHash;
@@ -530,7 +531,7 @@ namespace TradingTools
                 var initialCapital = allTrades.First().Capital;
                 txtInsight.AppendLine($"Initial Capital: {initialCapital.ToMoney()}");
                 // Goal
-                double baseNum = solveBaseNumber(TradeChallenge.TargetPercentage);
+                double baseNum = TradeChallenge.TargetPercentage.SolveBaseNumber();
                 double exponent = TradeChallenge.TradeCap;
                 double compound = Math.Pow(baseNum, exponent);
                 double goal = decimal.ToDouble(initialCapital) * compound;
@@ -577,12 +578,6 @@ namespace TradingTools
             }
         }
 
-        private double solveBaseNumber(decimal targetPercent)
-        {
-            var strBase = $"1." + targetPercent.ToString_UptoTwoDecimal().Replace(".", string.Empty);
-            return Convert.ToDouble(strBase.Trim());
-        }
-
         private void dgvTradeHistory_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
             var dgv = (DataGridView)sender;
@@ -609,6 +604,21 @@ namespace TradingTools
         {
             _timer.Stop();
         }
+
+        private void btnCompoundCalc_Click(object sender, EventArgs e)
+        {
+            decimal i_capital = initialCapital();
+            i_capital = (i_capital == 0) ? 100 : i_capital; // Use 100 as default value
+            (string initialCapital, string targetPercent, string tradeCap) arg = (i_capital.ToString_UptoTwoDecimal(), txtTargetPercentage.Text, txtCap.Text);
+            if (_dialogCompundCalc == default) _dialogCompundCalc = new dialogCompoundCalc(arg);
+            _dialogCompundCalc.UseData = (pos) => {
+                txtTargetPercentage.Text = pos.targetPercent;
+                txtCap.Text = pos.tradeCap;
+            };
+            _dialogCompundCalc.ShowDialog();
+        }
+
+        private decimal initialCapital() => getAllTrades().FirstOrDefault()?.Capital ?? 0;
     }
 
 }

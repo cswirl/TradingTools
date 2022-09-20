@@ -43,6 +43,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Dialogs\dialogCompoundCalc.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Dialogs\dialogTradeClosing.cs">
       <SubType>Form</SubType>
     </Compile>

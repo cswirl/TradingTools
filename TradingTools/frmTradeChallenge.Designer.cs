@@ -57,6 +57,7 @@
             this.statusMessage = new System.Windows.Forms.ToolStripStatusLabel();
             this.txtInsight = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.btnCompoundCalc = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel_LongShortButtons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTradeHistory)).BeginInit();
@@ -189,7 +190,7 @@
             this.btnCompleted.BackColor = System.Drawing.Color.SteelBlue;
             this.btnCompleted.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnCompleted.ForeColor = System.Drawing.Color.White;
-            this.btnCompleted.Location = new System.Drawing.Point(237, 165);
+            this.btnCompleted.Location = new System.Drawing.Point(237, 126);
             this.btnCompleted.Name = "btnCompleted";
             this.btnCompleted.Size = new System.Drawing.Size(128, 38);
             this.btnCompleted.TabIndex = 6;
@@ -202,7 +203,7 @@
             this.btnSave.BackColor = System.Drawing.Color.SteelBlue;
             this.btnSave.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(237, 125);
+            this.btnSave.Location = new System.Drawing.Point(237, 86);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(128, 34);
             this.btnSave.TabIndex = 5;
@@ -382,6 +383,19 @@
             this.label5.TabIndex = 0;
             this.label5.Text = "Insight Report";
             // 
+            // btnCompoundCalc
+            // 
+            this.btnCompoundCalc.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnCompoundCalc.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnCompoundCalc.ForeColor = System.Drawing.Color.White;
+            this.btnCompoundCalc.Location = new System.Drawing.Point(237, 168);
+            this.btnCompoundCalc.Name = "btnCompoundCalc";
+            this.btnCompoundCalc.Size = new System.Drawing.Size(128, 38);
+            this.btnCompoundCalc.TabIndex = 7;
+            this.btnCompoundCalc.Text = "Compund Calc";
+            this.btnCompoundCalc.UseVisualStyleBackColor = false;
+            this.btnCompoundCalc.Click += new System.EventHandler(this.btnCompoundCalc_Click);
+            // 
             // frmTradeChallenge
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -394,6 +408,7 @@
             this.Controls.Add(this.dgvActiveTrade);
             this.Controls.Add(this.dgvProspects);
             this.Controls.Add(this.dgvTradeHistory);
+            this.Controls.Add(this.btnCompoundCalc);
             this.Controls.Add(this.btnCompleted);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -457,5 +472,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtInsight;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnCompoundCalc;
     }
 }

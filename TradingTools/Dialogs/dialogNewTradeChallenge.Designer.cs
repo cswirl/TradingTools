@@ -37,6 +37,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtTargetPercentage = new System.Windows.Forms.TextBox();
+            this.btnCompoundCalc = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -97,6 +98,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnCompoundCalc);
             this.groupBox1.Controls.Add(this.btnCancel);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
@@ -131,6 +133,16 @@
             this.txtTargetPercentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtTargetPercentage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTargetPercentage_KeyPress);
             // 
+            // btnCompoundCalc
+            // 
+            this.btnCompoundCalc.Location = new System.Drawing.Point(186, 45);
+            this.btnCompoundCalc.Name = "btnCompoundCalc";
+            this.btnCompoundCalc.Size = new System.Drawing.Size(177, 50);
+            this.btnCompoundCalc.TabIndex = 6;
+            this.btnCompoundCalc.Text = "Open Compund Calculator";
+            this.btnCompoundCalc.UseVisualStyleBackColor = true;
+            this.btnCompoundCalc.Click += new System.EventHandler(this.btnCompoundCalc_Click);
+            // 
             // dialogNewTradeChallenge
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -159,5 +171,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtTargetPercentage;
+        private System.Windows.Forms.Button btnCompoundCalc;
     }
 }

@@ -43,6 +43,23 @@ namespace TradingTools.Trunk.Extensions
                 return int.TryParse(str, style, culture, out def_out) ? def_out : 0;
             }
         }
+
+        public static double ToDouble(this string str)
+        {
+            try
+            {
+                return Convert.ToDouble(str);
+
+            }
+            catch (FormatException)
+            {
+                NumberStyles style = NumberStyles.Currency;
+                CultureInfo culture = null;
+                double def_out;
+
+                return double.TryParse(str, style, culture, out def_out) ? def_out : 0;
+            }
+        }
     }
 
     public static class DecimalExtensions 
@@ -56,6 +73,15 @@ namespace TradingTools.Trunk.Extensions
         public static string ToString_UptoOneDecimal(this decimal d) => d.ToString(Constant.DECIMAL_UPTO_ONE);
         public static string ToString_UptoTwoDecimal(this decimal d) => d.ToString(Constant.DECIMAL_UPTO_TWO);
         public static string ToString_UptoMaxDecimal(this decimal d) => d.ToString(Constant.DECIMAL_UPTO_MAX);
+
+        public static double SolveBaseNumber(this decimal d)
+        {
+            decimal target = d / 100;
+            if (target >= 1) return Convert.ToDouble(target.ToString_UptoTwoDecimal());
+
+            decimal baseNum = 1 + target;
+            return Convert.ToDouble(baseNum.ToString_UptoMaxDecimal());
+        }
 
     }
 
@@ -73,6 +99,7 @@ namespace TradingTools.Trunk.Extensions
 
         public static string ToMoney(this double d) => d.ToString(Constant.MONEY_FORMAT);
         public static string ToString_UptoOneDecimal(this double d) => d.ToString(Constant.DECIMAL_UPTO_ONE);
+        public static string ToString_UptoTwoDecimal(this double d) => d.ToString(Constant.DECIMAL_UPTO_TWO);
     }
 
     public static class DateTimeExtensions
