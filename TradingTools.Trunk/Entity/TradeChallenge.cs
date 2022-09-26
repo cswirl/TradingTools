@@ -29,6 +29,10 @@ namespace TradingTools.Trunk.Entity
 
         public decimal TargetPercentage { get; set; }
 
+        // Meta Data
+        [DefaultValue(false)]
+        public bool IsDeleted { get; set; }
+
         // Navigation Properties
         [JsonIgnore]
         public virtual ICollection<TradeThread> TradeThreads { get; set; }

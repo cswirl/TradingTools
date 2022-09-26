@@ -433,7 +433,8 @@ namespace TradingTools
 
         public bool TradeChallenge_Delete(TradeChallenge tc)
         {
-            DbContext.TradeChallenge.Remove(tc);
+            tc.IsDeleted = true;
+            DbContext.TradeChallenge.Update(tc);
             DbContext.SaveChanges();
             TradeChallenge_Deleted?.Invoke(tc);
 
@@ -442,7 +443,7 @@ namespace TradingTools
 
         public List<TradeChallenge> TradeChallenge_GetOpen(bool descending = false)
         {
-            var tc = DbContext.TradeChallenge.Where(x => x.IsOpen).AsQueryable();
+            var tc = DbContext.TradeChallenge.Where(x => x.IsOpen && !x.IsDeleted).AsQueryable();
 
             if (descending) tc = tc.OrderByDescending(x => x.Id);
 
@@ -451,7 +452,7 @@ namespace TradingTools
         }
         public List<TradeChallenge> TradeChallenge_GetClosed(bool descending = false)
         {
-            var tc = DbContext.TradeChallenge.Where(x => !x.IsOpen).AsQueryable();
+            var tc = DbContext.TradeChallenge.Where(x => !x.IsOpen && !x.IsDeleted).AsQueryable();
 
             if (descending) tc = tc.OrderByDescending(x => x.Id);
 
