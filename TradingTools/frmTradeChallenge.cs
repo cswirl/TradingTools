@@ -491,6 +491,7 @@ namespace TradingTools
         {
             // statements to just ignore and close the form
             if (TradeChallenge == default) return;
+            if (TradeChallenge.IsDeleted) return;
             if (DoNotAskSave()) return;
 
             // show the form in case was minimized and closing was came from external such as from a parent form
