@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +15,7 @@ using TradingTools.Helpers;
 using TradingTools.Services;
 using TradingTools.Services.Interface;
 using TradingTools.Trunk;
+using TradingTools.Trunk.Contracts;
 using TradingTools.Trunk.Entity;
 
 namespace TradingTools
@@ -47,6 +49,7 @@ namespace TradingTools
         public DelegateHandlers DelegateHandlers { get; set; }
 
         public TradingToolsDbContext DbContext { get; set; }
+        public ILoggerManager LoggerManager { get; set; }
 
         private List<frmRiskRewardCalc> _listOf_frmRiskRewardCalc;
         private List<frmTradeChallenge> _listOf_frmTradeChallenge;
@@ -67,6 +70,9 @@ namespace TradingTools
             this.ShowInTaskbar = false;
             this.Load += new EventHandler(master_Load);
             ///
+            // Logger
+            LogManager.LoadConfiguration(Path.Combine(Directory.GetCurrentDirectory(), "nlog.config"));
+            this.LoggerManager = new LoggerManager();
 
             InitializeDbContext();
             _listOf_frmRiskRewardCalc = new();
@@ -88,6 +94,7 @@ namespace TradingTools
         {
             /// make master invisible to the user
             this.Size = new System.Drawing.Size(0, 0);
+            LoggerManager.LogInfo("master form loaded");
         }
 
         public void FormTradeMasterFile()

@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NLog.Extensions.Logging" Version="5.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TradingTools.DAL\TradingTools.DAL.csproj" />
     <ProjectReference Include="..\TradingTools.Trunk\TradingTools.Trunk.csproj" />
   </ItemGroup>
