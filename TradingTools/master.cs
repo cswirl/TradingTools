@@ -43,8 +43,6 @@ namespace TradingTools
         public TradeChallengeProspectCreated TradeChallengeProspect_Created;
         public TradeChallengeProspectDeleted TradeChallengeProspect_Deleted;
         public TradeChallengeProspectDeletedRange TradeChallengeProspect_DeletedRange;
-        //
-        public Timer Clock;
         public Timer RefreshTimer;
         public DelegateHandlers DelegateHandlers { get; set; }
 
@@ -53,8 +51,6 @@ namespace TradingTools
 
         private List<frmRiskRewardCalc> _listOf_frmRiskRewardCalc;
         private List<frmTradeChallenge> _listOf_frmTradeChallenge;
-
-        private IContainer components;
 
         public frmDashboard _frmDashboard { get; set; }
         public frmTradeMasterFile _frmTradeMasterFile { get; set; }
@@ -79,7 +75,6 @@ namespace TradingTools
             _listOf_frmTradeChallenge = new();
             this.DelegateHandlers = new(this);
             //
-            Clock.Interval = Presentation.INTERNAL_TIMER_REFRESH_VALUE;
             RefreshTimer = new();
             RefreshTimer.Interval = Presentation.INTERNAL_TIMER_REFRESH_VALUE;
             RefreshTimer.Start();
@@ -631,19 +626,14 @@ namespace TradingTools
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.Clock = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
-            // 
-            // Clock
-            // 
-            this.Clock.Enabled = true;
             // 
             // master
             // 
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Name = "master";
             this.ResumeLayout(false);
+
         }     
     }
 }

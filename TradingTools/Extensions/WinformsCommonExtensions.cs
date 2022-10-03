@@ -9,7 +9,7 @@ namespace TradingTools.Extensions
 {
     public static class WinformsCommonExtensions
     {
-        public static DateTimePicker MaxDate_SafeAssign(this DateTimePicker dtp, DateTime value)
+        public static DateTimePicker SafeValueAssignment(this DateTimePicker dtp, DateTime value)
         {
             dtp.MaxDate = DateTime.Today.AddDays(1).AddTicks(-1);
             dtp.Value = value;

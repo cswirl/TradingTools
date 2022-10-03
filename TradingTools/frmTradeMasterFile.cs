@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TradingTools.Dialogs;
+using TradingTools.Extensions;
 using TradingTools.Model;
 using TradingTools.Services;
 using TradingTools.Trunk;
@@ -180,7 +181,7 @@ namespace TradingTools
                 // for status = closed
                 if (t.Status.Equals("closed"))
                 {
-                    tradeClone.DateExit = Validation.DateExit_PreDate_Fixer(dtpDateExit.Value);
+                    tradeClone.DateExit = Validation.DateExit_LateSetting_Fixer(dtpDateExit.Value);
                     tradeClone.ExitPriceAvg = txtExitPrice.Text.ToDecimal();
                     tradeClone.FinalCapital = txtFinalCapital.Text.ToDecimal();
                     // auto-compute
@@ -231,7 +232,7 @@ namespace TradingTools
             txtTradeNum.Text = t.Id.ToString();
             txtTicker.Text = t.Ticker;
             // todo: refactor
-            Presentation.DateTimePicker_MaxDate_SafeAssign(dtpDateEnter, t.DateEnter); 
+            dtpDateEnter.SafeValueAssignment(t.DateEnter); 
 
             txtCapital.Text = t.Capital.ToMoney();
             txtLotSize.Text = t.LotSize.ToString();
@@ -243,7 +244,7 @@ namespace TradingTools
             if (t.Status.Equals("closed"))
             {
                 panelTradeClosed.Visible = true;
-                Presentation.DateTimePicker_MaxDate_SafeAssign(dtpDateExit, t.DateExit ?? dtpDateExit.Value);
+                dtpDateExit.SafeValueAssignment(t.DateExit ?? dtpDateExit.Value);
                 txtExitPrice.Text = t.ExitPriceAvg?.ToString_UptoMaxDecimal();
                 txtFinalCapital.Text = t.FinalCapital?.ToMoney();
                 // PCP, PnL etc
@@ -255,7 +256,7 @@ namespace TradingTools
             else
             {
                 panelTradeClosed.Visible = false;
-                Presentation.DateTimePicker_MaxDate_SafeAssign(dtpDateExit, DateTime.Now);
+                dtpDateExit.SafeValueAssignment(DateTime.Now);
                 txtExitPrice.Text = "0";
                 txtFinalCapital.Text = "0";
                 // PCP, PnL etc

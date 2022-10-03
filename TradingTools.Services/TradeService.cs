@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TradingTools.Services.Extensions;
 using TradingTools.Services.Interface;
 using TradingTools.Trunk;
 using TradingTools.Trunk.Entity;
@@ -72,10 +73,18 @@ namespace TradingTools.Services
                 msg =  pref + " invalid data found.";
                 return false; 
             }
-            if (t.DateEnter > t.DateExit) 
-            { 
-                msg = pref + " 'Date Exit' must come later in time from 'Date Enter'"; 
-                return false; 
+            if (t.DateEnter > t.DateExit)
+            {
+                // try to auto fix it if same day
+                if (t.DateEnter > DateTime.Today && t.DateExit > DateTime.Today)
+                {
+                    t.FixDateEnterExit();
+                }
+                else
+                {
+                    msg = pref + " 'Date Exit' must come later in time from 'Date Enter'";
+                    return false;
+                }
             }
             if (t.DateExit > DateTime.Now)  // THis means Date Exit cannot be future dated
             {

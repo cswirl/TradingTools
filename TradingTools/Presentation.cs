@@ -13,12 +13,6 @@ namespace TradingTools
     {
         private const int SECOND = 1000;
         public const int INTERNAL_TIMER_REFRESH_VALUE = SECOND * 60;
-
-        public static void DateTimePicker_MaxDate_SafeAssign(DateTimePicker dtp, DateTime d)
-        {
-            dtp.MaxDate = DateTime.Today.AddDays(1).AddTicks(-1);
-            dtp.Value = d;
-        }
     }
 
     public static class BandColor

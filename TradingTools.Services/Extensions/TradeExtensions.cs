@@ -14,5 +14,14 @@ namespace TradingTools.Services.Extensions
         {
             return Formula.DayCount(t.DateEnter, t.DateExit ?? DateTime.Now);
         }
+
+        public static Trade FixDateEnterExit(this Trade t)
+        {
+            var tmp = t.DateEnter;
+            t.DateEnter = t.DateExit ?? tmp.AddMinutes(-1);
+            t.DateExit = tmp;
+
+            return t;
+        }
     }
 }

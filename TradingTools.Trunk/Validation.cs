@@ -25,7 +25,7 @@ namespace TradingTools.Trunk.Validation
             return objType.GetProperty(name) != null;
         }
 
-        public static DateTime DateExit_PreDate_Fixer(DateTime dateExit)
+        public static DateTime DateExit_LateSetting_Fixer(DateTime dateExit)
         {
             if (dateExit < DateTime.Today)
             {

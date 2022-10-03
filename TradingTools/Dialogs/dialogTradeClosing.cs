@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TradingTools.Dialogs;
+using TradingTools.Extensions;
 using TradingTools.Model;
 using TradingTools.Services;
 using TradingTools.Trunk;
@@ -39,7 +40,7 @@ namespace TradingTools
 
         private void btnCloseTrade_Click(object sender, EventArgs e)
         {
-            Trade.DateExit = Validation.DateExit_PreDate_Fixer(dtpDateExit.Value);
+            Trade.DateExit = Validation.DateExit_LateSetting_Fixer(dtpDateExit.Value);
             Trade.ExitPriceAvg = txtExitPrice.Text.ToDecimal();
             Trade.FinalCapital = txtFinalCapital.Text.ToDecimal();
             Trade.CalculatorState.ReasonForExit = txtReasonForExit.Text;
@@ -119,7 +120,7 @@ namespace TradingTools
         private void TradeClosing_Load(object sender, EventArgs e)
         {
             if (Trade == null) return;
-            Presentation.DateTimePicker_MaxDate_SafeAssign(dtpDateExit, DateTime.Now);
+            dtpDateExit.SafeValueAssignment(DateTime.Now);
             txtExitPrice.Text = Trade?.ExitPriceAvg?.ToString_UptoMaxDecimal();
             txtFinalCapital.Text = Trade?.FinalCapital?.ToMoney();
             txtReasonForExit.Text = Trade?.CalculatorState.ReasonForExit;

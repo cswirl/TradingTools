@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TradingTools.Dialogs;
+using TradingTools.Extensions;
 using TradingTools.Model;
 using TradingTools.Trunk.Extensions;
 using TradingTools.Trunk.Validation;
@@ -152,7 +153,7 @@ namespace TradingTools
         private void TradeOfficialize_Load(object sender, EventArgs e)
         {
             if (MyProperty == null) return;
-            Presentation.DateTimePicker_MaxDate_SafeAssign(dtpDateEnter, DateTime.Now);
+            dtpDateEnter.SafeValueAssignment(DateTime.Now);
             txtTicker.Text = MyProperty.Ticker;
             txtCapital.Text = MyProperty.Capital;
             txtLeverage.Text = MyProperty.Leverage;
