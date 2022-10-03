@@ -181,13 +181,12 @@ namespace TradingTools
                 // for status = closed
                 if (t.Status.Equals("closed"))
                 {
-                    tradeClone.DateExit = Validation.DateExit_LateSetting_Fixer(dtpDateExit.Value);
+                    tradeClone.DateExit = dtpDateExit.Value;
                     tradeClone.ExitPriceAvg = txtExitPrice.Text.ToDecimal();
                     tradeClone.FinalCapital = txtFinalCapital.Text.ToDecimal();
-                    // auto-compute
 
                     // validate
-                    if (!TradeService.TradeClosing_Validate(t, out msg))
+                    if (!TradeService.TradeClosing_Validate(tradeClone, out msg))
                     {
                         statusMessage.Text = msg;
                         AppMessageBox.Error(msg);

@@ -113,5 +113,10 @@ namespace TradingTools.Trunk.Extensions
         {
             return dt.ToString(Constant.DATE_FULL);
         }
+
+        public static DateTime Midnight(this DateTime dt)
+        {
+            return dt.Date.AddDays(1).AddSeconds(-1);
+        }
     }
 }

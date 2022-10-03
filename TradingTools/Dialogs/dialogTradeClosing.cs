@@ -40,7 +40,7 @@ namespace TradingTools
 
         private void btnCloseTrade_Click(object sender, EventArgs e)
         {
-            Trade.DateExit = Validation.DateExit_LateSetting_Fixer(dtpDateExit.Value);
+            Trade.DateExit = dtpDateExit.Value;
             Trade.ExitPriceAvg = txtExitPrice.Text.ToDecimal();
             Trade.FinalCapital = txtFinalCapital.Text.ToDecimal();
             Trade.CalculatorState.ReasonForExit = txtReasonForExit.Text;

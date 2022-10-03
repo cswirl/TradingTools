@@ -7,6 +7,7 @@ using TradingTools.Services.Extensions;
 using TradingTools.Services.Interface;
 using TradingTools.Trunk;
 using TradingTools.Trunk.Entity;
+using TradingTools.Trunk.Extensions;
 using TradingTools.Trunk.Validation;
 
 namespace TradingTools.Services
@@ -68,30 +69,33 @@ namespace TradingTools.Services
         {
             msg = string.Empty;
             string pref = "Trade Closing Validation failed: ";
-            if (t.ExitPriceAvg <= 0 | t.FinalCapital < 0)   // Liquated will result in zero final capital
+            if (t.ExitPriceAvg <= 0)   
             {
-                msg =  pref + " invalid data found.";
+                msg =  pref + "Exit Price must be more than zero.";
                 return false; 
             }
-            if (t.DateEnter > t.DateExit)
+
+            if (t.FinalCapital < 0) // Liquated will result in zero final capital
             {
-                // try to auto fix it if same day
-                if (t.DateEnter > DateTime.Today && t.DateExit > DateTime.Today)
-                {
-                    t.FixDateEnterExit();
-                }
-                else
-                {
-                    msg = pref + " 'Date Exit' must come later in time from 'Date Enter'";
-                    return false;
-                }
-            }
-            if (t.DateExit > DateTime.Now)  // THis means Date Exit cannot be future dated
-            {
-                msg = pref + " 'Date Exit'cannot exceed the Date and Time right now.";
+                msg = pref + "Final Capital cannot be less than zero.";
                 return false;
             }
-            if (!t.Status.Equals("closed")) { msg = pref + "invalid Status value"; return false; }
+
+            // Trade Dates validation
+            t.FixSameDayDateEnterAndExit();
+            if (t.DateEnter > t.DateExit)
+            {
+                msg = pref + $"'Date Exit' must come later in time from 'Date Enter: {t.DateEnter.ToFull()}'";
+                return false;
+            }
+
+            if (t.DateExit > DateTime.Today.Midnight())  // Date Exit cannot be future dated
+            {
+                msg = pref + "'Date Exit'cannot exceed the Date and Time right now.";
+                return false;
+            }
+            
+            if (!t.Status.Equals("closed")) t.Status = "closed";    // just fix it and set to 'closed'
 
             return true;
         }
