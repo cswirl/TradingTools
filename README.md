@@ -3,7 +3,7 @@
 This application will equip traders with a quick and detailed Risk/Reward calculation with note taking functionality written in C#. It can be used as a paper trading and trading journal for future study and reference which is very valuable for a trader. It may also be used as a record keeping for tax reporting purpose.
 
 ## Technologies
-+ .NET 5
++ .NET 6
 + Windows Forms
 + Entity Framework Core
 + SQL Server 2019
@@ -25,6 +25,8 @@ Click the link below to download all files and run the Setup.exe to begin instal
 The application will create the database automatically via EF Core migration.
 
 Choose the database of your choice. SQLite is a more lightweight and portable database with no additional installation . However, the application is developed using SQL Server.
+
+Current Release: v2.1.2-beta
 
 __TradingTools_SQL Server__ *(database installation required)*: [download here](https://1drv.ms/u/s!AlGVeLI71LLXi7lEOZCrOWRqk6sYKg?e=4wNgaM)
 
