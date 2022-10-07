@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TradingTools.Trunk.Entity;
 
-namespace TradingTools.DAL
+namespace TradingTools.Repository
 {
     public class TradingToolsDbContext : DbContext
     {

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using TradingTools.DAL;
+using TradingTools.Repository;
 using TradingTools.Dialogs;
 using TradingTools.Helpers;
 //using TradingTools.DAL.Migrations;

@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TradingTools.DAL;
+using TradingTools.Repository;
 
-namespace TradingTools.DAL.Migrations
+namespace TradingTools.Repository.Migrations
 {
     [DbContext(typeof(TradingToolsDbContext))]
     [Migration("20211024231659_CalculatorStates-TradeExit-PerfectEntry")]

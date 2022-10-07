@@ -9,14 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradingTools.Services", "..
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradingTools.Trunk", "..\TradingTools.Trunk\TradingTools.Trunk.csproj", "{4B5CE692-634D-467D-A638-08C50CC52844}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradingTools.DAL", "..\TradingTools.DAL\TradingTools.DAL.csproj", "{E89A978E-DE93-42BA-A444-5FE0D7F9287D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradingTools.Repository", "..\TradingTools.DAL\TradingTools.Repository.csproj", "{E89A978E-DE93-42BA-A444-5FE0D7F9287D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{24020D32-DF89-40FB-819A-9606BB28DAD9}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingTools.Services.UnitTests", "..\TradingTools.Services.UnitTests\TradingTools.Services.UnitTests.csproj", "{31AA28B4-190B-4474-B6A4-6DE9F5CF5FCF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradingTools.Services.UnitTests", "..\TradingTools.Services.UnitTests\TradingTools.Services.UnitTests.csproj", "{31AA28B4-190B-4474-B6A4-6DE9F5CF5FCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

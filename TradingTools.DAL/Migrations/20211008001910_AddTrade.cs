@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace TradingTools.DAL.Migrations
+namespace TradingTools.Repository.Migrations
 {
     public partial class AddTrade : Migration
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace TradingTools.DAL.Migrations
+namespace TradingTools.Repository.Migrations
 {
     public partial class TradeIsDeletedProperty : Migration
     {

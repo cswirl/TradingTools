@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TradingTools.DAL\TradingTools.DAL.csproj" />
+    <ProjectReference Include="..\TradingTools.DAL\TradingTools.Repository.csproj" />
     <ProjectReference Include="..\TradingTools.Trunk\TradingTools.Trunk.csproj" />
   </ItemGroup>
 

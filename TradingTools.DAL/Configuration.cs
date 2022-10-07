@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TradingTools.DAL
+namespace TradingTools.Repository
 {
     public class Configuration
     {
