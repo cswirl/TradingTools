@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TradingTools.Repository;
 using TradingTools.Trunk.Contracts;
+using TradingTools.Trunk.Entity;
 
 namespace TradingTools.Repository
 {

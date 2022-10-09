@@ -6,14 +6,24 @@ using System.Threading.Tasks;
 using TradingTools.Services.Extensions;
 using TradingTools.Services.Interface;
 using TradingTools.Trunk;
+using TradingTools.Trunk.Contracts;
 using TradingTools.Trunk.Entity;
 using TradingTools.Trunk.Extensions;
 using TradingTools.Trunk.Validation;
 
 namespace TradingTools.Services
 {
-    public class TradeService
-    {
+    public class TradeService : ITradeService
+    { 
+        private readonly IRepositoryManager _repository;
+        private readonly ILoggerManager _logger;
+
+        public TradeService(IRepositoryManager repository, ILoggerManager logger)
+        {
+            _repository = repository;
+            _logger = logger;
+        }
+
         public static IRiskRewardCalc RiskRewardCalcGetInstance(string side)
         {
             if (side == "short")
@@ -151,5 +161,7 @@ namespace TradingTools.Services
 
             return true;
         }
+
+
     }
 }

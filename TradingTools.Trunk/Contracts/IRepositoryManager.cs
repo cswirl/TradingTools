@@ -8,5 +8,9 @@ namespace TradingTools.Trunk.Contracts
 {
     public interface IRepositoryManager
     {
+        ITradeRepository Trade { get; }
+        ICalculatorStateRepository CalculatorState { get; }
+
+        public void Save();
     }
 }

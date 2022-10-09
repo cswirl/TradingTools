@@ -40,7 +40,8 @@ namespace TradingTools
         private bool _flagCalculate = false;
 
         private master _master;
-        
+        private IServiceManager _service;
+
 
         // Properties
         public RiskRewardCalcState State { get; set; } = RiskRewardCalcState.Empty;
@@ -60,6 +61,7 @@ namespace TradingTools
             _rrc = riskRewardCalc;
             Side = riskRewardCalc.Side;
             _master = master;
+            _service = master.ServiceManager;
 
             this.Theme = TradingTools.Theme.SideTheme_GetInstance(riskRewardCalc.Side);
 
@@ -420,25 +422,26 @@ namespace TradingTools
             if (_master == default) return false;
             if (State == RiskRewardCalcState.Empty)
             {
-                if (_master.CalculatorState_Create(CalculatorState))
+                if (_service.CalculatorStateService.Add(CalculatorState))
                 {
                     statusMessage.Text = "State save successfully.";
                     ChangeState(RiskRewardCalcState.Loaded);
                     CalculatorState_Added?.Invoke(CalculatorState);
                     SetLastSavedCalculatorHash();
+                    _master.CalculatorState_Added?.Invoke(CalculatorState);
                 }
                 else statusMessage.Text = "Saving state failed.";
             }
             else if (State == RiskRewardCalcState.Loaded | State == RiskRewardCalcState.TradeOpen | State == RiskRewardCalcState.TradeClosed)
             {
-                if (_master.CalculatorState_Update(this.CalculatorState))
+                if (_service.CalculatorStateService.Update(CalculatorState))
                 {
                     statusMessage.Text = "State updated successfully.";
                     SetLastSavedCalculatorHash();
+                    _master.CalculatorState_Updated?.Invoke(CalculatorState);
                 }
                 else statusMessage.Text = "Updating state failed.";
             }
-
             
             return true;
         }
@@ -454,11 +457,12 @@ namespace TradingTools
             DialogResult objDialog = AppMessageBox.Question_YesNo("This action is not reversible\n\n Confirm DELETE?", "Delete", this);
             if (objDialog == DialogResult.Yes)
             {
-                if (_master.CalculatorState_Delete(this.CalculatorState))
+                if (_service.CalculatorStateService.Delete(CalculatorState))
                 {
                     ChangeState(RiskRewardCalcState.Deleted);
                     statusMessage.Text = "State was deleted successfully. \n\nThis form will now close.";
                     MessageBox.Show(statusMessage.Text, "Delete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    _master.CalculatorState_Deleted?.Invoke(CalculatorState);
                     // just close the form
                     this.Close();
                 }

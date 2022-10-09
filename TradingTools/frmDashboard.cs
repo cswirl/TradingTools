@@ -8,7 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TradingTools.Services;
+using TradingTools.Services.Interface;
 using TradingTools.Trunk;
+using TradingTools.Trunk.Contracts;
 using TradingTools.Trunk.Entity;
 
 namespace TradingTools
@@ -20,12 +22,14 @@ namespace TradingTools
         private BindingList<Trade> _openTrades;
 
         private master _master;
+        private IServiceManager _service;
 
         public frmDashboard(master master)
         {
             InitializeComponent();
 
             _master = master;
+            _service = master.ServiceManager;
             //
             appInitialize();
         }
@@ -55,7 +59,9 @@ namespace TradingTools
 
         public void dgvUnofficial_SetDatasource()
         {
-            _unofficialCalculatorStates = new(_master.CalculatorStates_GetAll(true));
+            var list = _service.CalculatorStateService.GetAllProspects(false);
+            if (list == null) return;
+            _unofficialCalculatorStates = new(list);
             dgvUnofficial.DataSource = _unofficialCalculatorStates;
         }
 

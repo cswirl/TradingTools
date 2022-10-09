@@ -56,6 +56,8 @@ namespace TradingTools
         public frmTradeMasterFile _frmTradeMasterFile { get; set; }
         public frmTradeChallengeMasterFile _frmTradeChallengeMasterFile { get; set; }
 
+        // Service
+        public IServiceManager ServiceManager { get; private set; }
 
         public master()
         {
@@ -250,47 +252,6 @@ namespace TradingTools
 
 
         #region Repository
-        /// <summary>
-        /// CalculatorState
-        /// </summary>
-        // Return True for sucess
-        public bool CalculatorState_Create(CalculatorState calculatorState)
-        {
-            DbContext.CalculatorState.Add(calculatorState);
-            DbContext.SaveChanges();
-            CalculatorState_Added?.Invoke(calculatorState);
-
-            return true;
-        }
-
-        public bool CalculatorState_Update(CalculatorState calculatorState)
-        {
-            DbContext.CalculatorState.Update(calculatorState);
-            DbContext.SaveChanges();
-            CalculatorState_Updated?.Invoke(calculatorState);
-
-            return true;
-        }
-
-        public bool CalculatorState_Delete(CalculatorState calculatorState)
-        {
-            DbContext.CalculatorState.Remove(calculatorState);
-            DbContext.SaveChanges();
-            CalculatorState_Deleted?.Invoke(calculatorState);
-
-            return true;
-        }
-
-        public List<CalculatorState> CalculatorStates_GetAll(bool descending = false)
-        {
-            var c = DbContext.CalculatorState
-                .Where(x => x.TradeId == null)
-                .AsQueryable();
-            
-            if (descending) c = c.OrderByDescending(c => c.Id);
-
-            return c.ToList();
-        }
 
         /// <summary>
         /// Trade
@@ -602,21 +563,17 @@ namespace TradingTools
         private void InitializeDbContext()
         {
             DbContext = new();
-            // This will load all the CalculatorStates and all the Trades records - Except to the closed Trades - enough for current application requirement
-            //Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.Load(DbContext.CalculatorStates
-            //    .Where(x => x.Trade.Status.Equals("open"))
-            //    .Include(x => x.Trade));
+            ServiceManager = new ServiceManager(new RepositoryManager(DbContext), LoggerManager);
 
-            //var _trades_open_bindingList = DbContext.Trade.Local.ToBindingList();
-            
             try
             {
                 // This will run the ef core database update command - if it detects pending migration
                 DbContext.Database.Migrate();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 // Log
+                LoggerManager.LogError($"Something went wrong in the {nameof(InitializeDbContext)} service method {ex}");
                 AppMessageBox.Error("An error occurred during migration.", "Critical Error");
                 Environment.Exit(-1);
             }
