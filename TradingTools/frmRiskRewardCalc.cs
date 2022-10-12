@@ -582,12 +582,13 @@ namespace TradingTools
             }
 
             // 4 - Save data into a data store - ChangeState will Display Data 
-            if (_master.Trade_Create(this.Trade))
+            if (_service.TradeService.Create(Trade))
             {
                 statusMessage.Text = $"Ticker: {Trade.Ticker} has been officialized successfully.";
                 AppMessageBox.Inform(statusMessage.Text, $"Trade No. {Trade.Id} is Official", this);
                 ChangeState(RiskRewardCalcState.TradeOpen);
-                Trade_Officialized?.Invoke(this.Trade);
+                Trade_Officialized?.Invoke(Trade);
+                _master.Trade_Officialized?.Invoke(Trade);
                 SetLastSavedCalculatorHash();
             }
             else
@@ -657,6 +658,7 @@ namespace TradingTools
                     if (CalculatorState == null)
                     {
                         statusMessage.Text = "Internal error: CalculatorState instance was not forwarded.";
+                        _master.LoggerManager.LogError(statusMessage.Text);
                         MessageBox.Show(statusMessage.Text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                         this.Close();
                         return;
@@ -716,6 +718,7 @@ namespace TradingTools
                     if (CalculatorState == null)
                     {
                         statusMessage.Text = "Internal error: CalculatorState instance was not forwarded.";
+                        _master.LoggerManager.LogError(statusMessage.Text);
                         AppMessageBox.Error(statusMessage.Text, "", this);
                         this.Close();
                         return;
@@ -723,6 +726,7 @@ namespace TradingTools
                     else if (Trade == null)
                     {
                         statusMessage.Text = "Internal error: Trade instance was not forwarded.";
+                        _master.LoggerManager.LogError(statusMessage.Text);
                         AppMessageBox.Error(statusMessage.Text, "", this);
                         this.Close();
                         return;
@@ -926,8 +930,10 @@ namespace TradingTools
 
         public void Trade_Updated_Handler(Trade t)
         {
-            if (Trade != default && Trade.Equals(t))
+            if (Trade != default && Trade.Id == t.Id)
             {
+                this.Trade = t;
+                this.CalculatorState = t.CalculatorState;
                 ChangeState(State);
                 Save();
             }

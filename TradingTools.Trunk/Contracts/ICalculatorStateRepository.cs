@@ -9,7 +9,7 @@ namespace TradingTools.Trunk.Contracts
 {
     public interface ICalculatorStateRepository
     {
-        IEnumerable<CalculatorState> GetAllProspects(bool descending = false);
+        IEnumerable<CalculatorState> GetAllProspects(bool descending);
         void Create(CalculatorState calculatorState);
         void Update(CalculatorState calculatorState);
         void Delete(CalculatorState calculatorState);

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -24,6 +26,17 @@ namespace TradingTools.Extensions
                 source.Text = value;
             else
                 source.AppendText("\r\n" + value);
+        }
+
+        public static T Replace<T>(this BindingList<T> bindingList, T item, Func<T, bool> predicate) where T : class
+        {
+            var updated = bindingList.FirstOrDefault(predicate);
+            if (updated == default) return null;
+            var index = bindingList.IndexOf(updated);
+            bindingList.RemoveAt(index);
+            bindingList.Insert(index, item);
+
+            return item;
         }
     }
 }

@@ -24,6 +24,123 @@ namespace TradingTools.Services
             _logger = logger;
         }
 
+        public bool Create(Trade trade)
+        {
+            try
+            {
+                var calcState = trade.CalculatorState;
+                if (calcState == default)
+                {
+                    _logger.LogError("Fatal Error: Trade object must have a CalculatorState instance.");
+                    return false;
+                }
+
+                // EF Core will create a new Trade record into the Database Trade table
+                if (calcState.Trade == default) calcState.Trade = trade;
+                _repository.CalculatorState.Update(calcState);  
+                _repository.Save();
+
+                if (trade.Id > 0) return true;
+                else return false;
+            }
+            catch (Exception ex)
+            {
+                logError(nameof(Create), ex);
+                return false;
+            }
+        }
+
+        public bool Update(Trade trade)
+        {
+            try
+            {
+                _repository.Trade.Update(trade);
+                _repository.Save();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logError(nameof(Update), ex);
+                return false;
+            }
+        }
+
+        public IList<Trade> GetAll(bool descending = false)
+        {
+            try
+            {
+                var trade = _repository.Trade.GetAll(true);
+                return trade.ToList();
+            }
+            catch (Exception ex)
+            {
+                logError(nameof(GetAll), ex);
+                return null;
+            }
+
+        }
+
+        public IList<Trade> GetStatusOpen(bool descending = false)
+        {
+            try
+            {
+                var trade = _repository.Trade.GetStatusOpen(true);
+                return trade.ToList();
+            }
+            catch (Exception ex)
+            {
+                logError(nameof(GetStatusOpen), ex);
+                return null;
+            }
+        }
+
+        public IList<Trade> GetStatusClosed(bool descending = false)
+        {
+            try
+            {
+                var trade = _repository.Trade.GetStatusClosed(true);
+                return trade.ToList();
+            }
+            catch (Exception ex)
+            {
+                logError(nameof(GetStatusOpen), ex);
+                return null;
+            }
+        }
+
+        public IList<Trade> GetDeleted(bool descending = false)
+        {
+            try
+            {
+                var trade = _repository.Trade.GetDeleted(true);
+                return trade.ToList();
+            }
+            catch (Exception ex)
+            {
+                logError(nameof(GetStatusOpen), ex);
+                return null;
+            }
+        }
+
+
+        public IEnumerable<string> GetTickers()
+        {
+            try
+            {
+                var tickers = _repository.Trade.GetTickers();
+                return tickers.ToList();
+            }
+            catch (Exception ex)
+            {
+                logError(nameof(GetAll), ex);
+                return null;
+            }
+
+        }
+
+
+        private void logError(string method, Exception ex) => _logger.LogError($"Something went wrong in the {method} service method {ex}");
+
         public static IRiskRewardCalc RiskRewardCalcGetInstance(string side)
         {
             if (side == "short")

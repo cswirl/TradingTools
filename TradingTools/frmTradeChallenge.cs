@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -112,16 +113,9 @@ namespace TradingTools
         private void Trade_Updated(Trade t)
         {
             bool flag = false;
-            if (_activeTrades.Contains(t))
-            {
-                dgvActiveTrade.Invalidate();
-                flag = true;
-            }
-            else if (_tradeHistory.Contains(t))
-            {
-                dgvTradeHistory.Invalidate();
-                flag = true;
-            }
+
+            if (_activeTrades.Replace(t, x => x.Id == t.Id) != null) flag = true;
+            else if (_tradeHistory.Replace(t, x => x.Id == t.Id) != null) flag = true;
 
             if (flag)
             {

@@ -11,6 +11,7 @@ using TradingTools.Dialogs;
 using TradingTools.Extensions;
 using TradingTools.Model;
 using TradingTools.Services;
+using TradingTools.Services.Interface;
 using TradingTools.Trunk;
 using TradingTools.Trunk.Entity;
 using TradingTools.Trunk.Extensions;
@@ -26,12 +27,14 @@ namespace TradingTools
         private Timer _timer;
 
         private master _master;
+        private IServiceManager _service;
 
         public frmTradeMasterFile(master master)
         {
             InitializeComponent();
 
             _master = master;
+            _service = master.ServiceManager;
             _timer = new Timer();
             appInitialize();
         }
@@ -62,7 +65,7 @@ namespace TradingTools
             _timer.Start();
         }
 
-        private void DataGridView_SetDataSource(List<Trade> list)
+        private void DataGridView_SetDataSource(IList<Trade> list)
         {
             _list = new(list);
             dgvTrades.DataSource = _list;
@@ -79,18 +82,26 @@ namespace TradingTools
             {
                 default:
                 case StatusFilter.All:
-                    DataGridView_SetDataSource(_master?.Trades_GetAll(true));
+                    var list = _service.TradeService.GetAll(true);
+                    if (list == null) return;
+                    DataGridView_SetDataSource(list);
                     break;
 
                 case StatusFilter.Closed:
-                    DataGridView_SetDataSource(_master?.Trades_GetClosed(true));
+                    list = _service.TradeService.GetStatusClosed(true);
+                    if (list == null) return;
+                    DataGridView_SetDataSource(list);
                     break;
 
                 case StatusFilter.Open:
-                    DataGridView_SetDataSource(_master?.Trades_GetOpen(true));
+                    list = _service.TradeService.GetStatusOpen(true);
+                    if (list == null) return;
+                    DataGridView_SetDataSource(list);
                     break;
                 case StatusFilter.Deleted:
-                    DataGridView_SetDataSource(_master?.Trades_GetDeleted(true));
+                    list = _service.TradeService.GetDeleted(true);
+                    if (list == null) return;
+                    DataGridView_SetDataSource(list);
                     break;
             }
             dgvTrades.Focus();
@@ -153,10 +164,10 @@ namespace TradingTools
             if (isListEmpty()) return;
 
             var tradeClone = new Trade();
-            var t = (Trade)dgvTrades.CurrentRow.DataBoundItem;
-            t.CopyProperties(tradeClone);
+            var trade = (Trade)dgvTrades.CurrentRow.DataBoundItem;
+            trade.CopyProperties(tradeClone);
 
-            DialogResult objDialog = AppMessageBox.Question_YesNo($"Confirmation: UPDATE Trade No. {t.Id}?", "Update");
+            DialogResult objDialog = AppMessageBox.Question_YesNo($"Confirmation: UPDATE Trade No. {trade.Id}?", "Update");
             if (objDialog == DialogResult.Yes)
             {
                 // collect
@@ -169,7 +180,7 @@ namespace TradingTools
                 tradeClone.TradingStyle = cbxTradingStyle.SelectedValue.ToString();
 
                 string msg;
-                // validate
+                // validate the clone
                 // for status = open
                 if (!TradeService.TradeOpening_Validate(tradeClone, out msg))
                 {
@@ -179,7 +190,7 @@ namespace TradingTools
                 }
 
                 // for status = closed
-                if (t.Status.Equals("closed"))
+                if (trade.Status.Equals("closed"))
                 {
                     tradeClone.DateExit = dtpDateExit.Value;
                     tradeClone.ExitPriceAvg = txtExitPrice.Text.ToDecimal();
@@ -194,19 +205,20 @@ namespace TradingTools
                     }
                 }
 
-                tradeClone.CopyProperties(t);
+                tradeClone.CopyProperties(trade);
 
                 // update database
-                if (_master.Trade_Update(t))    // Trade object must be the original
+                if (_service.TradeService.Update(trade))    // Trade object must be the original
                 {
-                    statusMessage.Text = $"Trade No. {t.Id} was updated successfully.";
+                    statusMessage.Text = $"Trade No. {trade.Id} was updated successfully.";
                     AppMessageBox.Inform(statusMessage.Text, "Update");
                     dgvTrades.Invalidate();
                     dgvTrades_SelectionChanged(null, null);
+                    _master.Trade_Updated?.Invoke(trade);
                 }
                 else
                 {
-                    statusMessage.Text = $"An error occur while updating Trade No. {t.Id}.";
+                    statusMessage.Text = $"An error occur while updating Trade No. {trade.Id}.";
                     AppMessageBox.Error(statusMessage.Text, "Update");
                 }
             }

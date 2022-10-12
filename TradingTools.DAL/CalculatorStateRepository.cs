@@ -18,7 +18,7 @@ namespace TradingTools.Repository
 
         public IEnumerable<CalculatorState> GetAllProspects(bool descending = false)
         {
-            var c = FindAll(true).Where(x => x.TradeId == null);
+            var c = FindAll(false).Where(x => x.TradeId == null);
 
             if (descending) c = c.OrderByDescending(c => c.Id);
 

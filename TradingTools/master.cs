@@ -184,7 +184,7 @@ namespace TradingTools
 
         public frmRiskRewardCalc FormRRC_Trade_Spawn(Trade t)
         {
-            var rrc = _listOf_frmRiskRewardCalc.Find(x => x.Trade?.Equals(t) ?? false);       // Id is suffice. See Trading Challenge Implementation
+            var rrc = _listOf_frmRiskRewardCalc.Find(x => x.Trade?.Id == t.Id);       // Id is suffice. See Trading Challenge Implementation
             if (rrc != null)
             {
                 activateForm(rrc);
@@ -256,24 +256,6 @@ namespace TradingTools
         /// <summary>
         /// Trade
         /// </summary>
-        internal bool Trade_Create(Trade t)
-        {
-            DbContext.Trade.Add(t);
-            DbContext.SaveChanges();
-            Trade_Officialized?.Invoke(t);
-
-            return true;
-        }
-
-        internal bool Trade_Update(Trade t)
-        {
-            DbContext.Trade.Update(t);
-            DbContext.SaveChanges();
-
-            Trade_Updated?.Invoke(t);
-
-            return true;
-        }
 
         internal bool Trade_Close(Trade t)
         {
@@ -294,58 +276,10 @@ namespace TradingTools
             return true;
         }
 
-        public List<Trade> Trades_GetAll(bool descending = false)
-        {
-            var t = DbContext.Trade
-                .Include(x => x.CalculatorState)
-                .Where(x => !x.IsDeleted)
-                .AsQueryable();
-
-            if (descending) t = t.OrderByDescending(x => x.Id);
-
-            return t.ToList();
-        }
-
-        public List<Trade> Trades_GetOpen(bool descending = false)
-        {
-            var t = DbContext.Trade
-                .Where(x => x.Status.Equals("open") && !x.IsDeleted)
-                .Include(x => x.CalculatorState)
-                .AsQueryable();
-
-            if (descending) t = t.OrderByDescending(x => x.DateEnter);
-
-            return t.ToList();
-        }
-
-        public List<Trade> Trades_GetClosed(bool descending = false)
-        {
-            var t = DbContext.Trade
-                .Where(x => x.Status.Equals("closed") && !x.IsDeleted)
-                .Include(x => x.CalculatorState)
-                .AsQueryable();
-
-            if (descending) t = t.OrderByDescending(x => x.DateExit);
-
-            return t.ToList();
-        }
-
-        public List<Trade> Trades_GetDeleted(bool descending = false)
-        {
-            var t = DbContext.Trade
-                .Where(x => x.IsDeleted)
-                .Include(x => x.CalculatorState)
-                .AsQueryable();
-
-            if (descending) t = t.OrderByDescending(x => x.Id);
-
-            return t.ToList();
-        }
-
         public string[] TickerAutoCompleteSource()
         {
             // database source
-            var tradeHist = Trades_GetAll().Select(t => t.Ticker.ToUpper());
+            var tradeHist = ServiceManager.TradeService.GetTickers();
             var sources = tradeHist.ToList();
 
             // file source
@@ -442,6 +376,7 @@ namespace TradingTools
                 .Include(x => x.CalculatorState)
                 .Include(x => x.TradeThread)
                 .Where(x => !x.IsDeleted && x.TradeThread.TradeChallengeId == tradeChallengeId)
+                .AsNoTracking()
                 .ToList();
 
             //return DbContext.TradeThread
@@ -457,6 +392,7 @@ namespace TradingTools
                 .Include(x => x.CalculatorState)
                 .Include(x => x.TradeThread).ThenInclude(tr => tr.TradeChallenge)
                 .Where(x => !x.IsDeleted && x.Status.Equals("open") && x.TradeThread.TradeChallengeId == tradeChallengeId)
+                .AsNoTracking()
                 .ToList();
                 
 
@@ -473,6 +409,7 @@ namespace TradingTools
                 .Include(x => x.CalculatorState)
                 .Include(x => x.TradeThread).ThenInclude(tr => tr.TradeChallenge)
                 .Where(x => !x.IsDeleted && x.Status.Equals("closed") && x.TradeThread.TradeChallengeId == tradeChallengeId)
+                .AsNoTracking()
                 .AsQueryable();
 
             if (descending) q = q.OrderByDescending(x => x.DateExit);

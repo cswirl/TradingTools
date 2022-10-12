@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TradingTools.Extensions;
 using TradingTools.Services;
 using TradingTools.Services.Interface;
 using TradingTools.Trunk;
@@ -59,7 +60,7 @@ namespace TradingTools
 
         public void dgvUnofficial_SetDatasource()
         {
-            var list = _service.CalculatorStateService.GetAllProspects(false);
+            var list = _service.CalculatorStateService.GetAllProspects(true);
             if (list == null) return;
             _unofficialCalculatorStates = new(list);
             dgvUnofficial.DataSource = _unofficialCalculatorStates;
@@ -67,7 +68,9 @@ namespace TradingTools
 
         public void dgvTrades_Open_SetDatasource()
         {
-            _openTrades = new(_master.Trades_GetOpen(true));
+            var list = _service.TradeService.GetStatusOpen(true);
+            if (list == null) return;
+            _openTrades = new(list);
             dgvTrades_Open.DataSource = _openTrades;
         }
 
@@ -138,12 +141,13 @@ namespace TradingTools
             if (_openTrades.Remove(t)) statusMessage.Text = $"Trade Id: {t.Id} was deleted externally";
         }
 
+        // Replace the item/object with the updated one
         public void Trade_Updated(Trade t)
         {
             if (t.Status.Equals("open"))
             {
+                _openTrades.Replace(t, x => x.Id == t.Id);
                 statusMessage.Text = $"Trade Id: {t.Id} was updated externally";
-                dgvTrades_Open.Invalidate();
             }
         }
 
@@ -159,6 +163,8 @@ namespace TradingTools
 
         private void CalculatorState_Updated(CalculatorState c)
         {
+            var updated = _unofficialCalculatorStates.FirstOrDefault(x => x.Id == c.Id);
+            if (updated == default) return;
             dgvUnofficial.Invalidate();
             statusMessage.Text = $"CalculatorState Id: {c.Id} was updated externally";
         }
