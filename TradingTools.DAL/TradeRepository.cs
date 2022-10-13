@@ -17,7 +17,7 @@ namespace TradingTools.Repository
 
         public IEnumerable<Trade> GetAll(bool descending = false)
         {
-            var trade = FindByCondition(t => !t.IsDeleted, false)
+            var trade = FindByCondition(t => !t.IsDeleted)
                 .Include(t => t.CalculatorState)
                 .AsQueryable();
 
@@ -28,7 +28,7 @@ namespace TradingTools.Repository
 
         public IEnumerable<Trade> GetStatusOpen(bool descending)
         {
-            var trade = FindByCondition(x => x.Status.Equals("open") && !x.IsDeleted, false)
+            var trade = FindByCondition(x => x.Status.Equals("open") && !x.IsDeleted)
                 .Include(t => t.CalculatorState)
                 .AsQueryable();
 
@@ -39,7 +39,7 @@ namespace TradingTools.Repository
 
         public IEnumerable<Trade> GetStatusClosed(bool descending)
         {
-            var trade = FindByCondition(x => x.Status.Equals("closed") && !x.IsDeleted, false)
+            var trade = FindByCondition(x => x.Status.Equals("closed") && !x.IsDeleted)
                 .Include(t => t.CalculatorState)
                 .AsQueryable();
 
@@ -50,7 +50,7 @@ namespace TradingTools.Repository
 
         public IEnumerable<Trade> GetDeleted(bool descending)
         {
-            var trade = FindByCondition(x => x.IsDeleted, false)
+            var trade = FindByCondition(x => x.IsDeleted)
                 .Include(t => t.CalculatorState)
                 .AsQueryable();
 
@@ -59,6 +59,6 @@ namespace TradingTools.Repository
             return trade.ToList();
         }
 
-        public IEnumerable<string> GetTickers() => FindAll(false).Select(t => t.Ticker.ToUpper());
+        public IEnumerable<string> GetTickers() => FindAll().Select(t => t.Ticker.ToUpper());
     }
 }

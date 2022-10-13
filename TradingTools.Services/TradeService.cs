@@ -65,6 +65,38 @@ namespace TradingTools.Services
             }
         }
 
+        public bool Close(Trade trade)
+        {
+            try
+            {
+                trade.Status = "closed";
+                _repository.Trade.Update(trade);
+                _repository.Save();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logError(nameof(Close), ex);
+                return false;
+            }
+        }
+
+        public bool Delete(Trade trade)
+        {
+            try
+            {
+                trade.IsDeleted = true;
+                _repository.Trade.Update(trade);
+                _repository.Save();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logError(nameof(Delete), ex);
+                return false;
+            }
+        }
+
         public IList<Trade> GetAll(bool descending = false)
         {
             try

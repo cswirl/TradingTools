@@ -604,7 +604,7 @@ namespace TradingTools
 
         public void MarkAsDeleted(Trade t)
         {
-            if (Trade != default && Trade.Equals(t)) ChangeState(RiskRewardCalcState.Deleted);
+            if (Trade != default && Trade.Id == t.Id) ChangeState(RiskRewardCalcState.Deleted);
         }
 
         private void callOnLoad()
@@ -912,10 +912,11 @@ namespace TradingTools
                 // 4 - store and set display
                 // This method will save the Trade object together with its CalculatorState object
                 // and will automatically register to the master form internal List
-                if (_master.Trade_Close(Trade))
+                if (_service.TradeService.Close(Trade))
                 {
-                    statusMessage.Text = $"Trade No. '{Trade.Id}' has been closed successfully.";
+                    statusMessage.Text = $"Trade Id: {Trade.Id} - {Trade.Ticker} has been closed successfully.";
                     ChangeState(RiskRewardCalcState.TradeClosed);
+                    _master.Trade_Closed?.Invoke(Trade);
                     SetLastSavedCalculatorHash();
                 }
                 else

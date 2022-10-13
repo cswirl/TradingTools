@@ -31,12 +31,21 @@ namespace TradingTools.Extensions
         public static T Replace<T>(this BindingList<T> bindingList, T item, Func<T, bool> predicate) where T : class
         {
             var updated = bindingList.FirstOrDefault(predicate);
-            if (updated == default) return null;
+            if (updated == default) return default;
             var index = bindingList.IndexOf(updated);
             bindingList.RemoveAt(index);
             bindingList.Insert(index, item);
 
             return item;
+        }
+
+        public static T Remove<T>(this BindingList<T> bindingList, Func<T, bool> predicate) where T : class
+        {
+            var updated = bindingList.FirstOrDefault(predicate);
+            if (updated == default) return default;
+            bindingList.Remove(updated);
+
+            return updated;
         }
     }
 }

@@ -42,11 +42,12 @@ namespace TradingTools
         private void appInitialize()
         {
             // delegates
-            _timer.Tick += this.timer1_Tick;
+            _timer.Interval = Presentation.INTERNAL_TIMER_REFRESH_VALUE;
+            _timer.Tick += this.timer_Tick;
+            _timer.Start();
             //
             _master.Trade_Officialized += this.Trade_Officialized;
             _master.Trade_Closed += this.Trade_Closed;
-            _master.Trade_Deleted += this.Trade_Deleted;
 
             // initialize controls
             _statusFilter = StatusFilter.Closed;
@@ -117,11 +118,12 @@ namespace TradingTools
             DialogResult objDialog = AppMessageBox.Question_YesNo($"Confirmation: DELETE Trade No. {t.Id}?", "Delete");
             if (objDialog == DialogResult.Yes)
             {
-                if (_master.Trade_Delete(t))
+                if (_service.TradeService.Delete(t))
                 {
-                    statusMessage.Text = $"Trade No. {t.Id} was deleted successfully.";
+                    statusMessage.Text = $"Trade Id: {t.Id} - {t.Ticker} was deleted successfully.";
                     AppMessageBox.Inform(statusMessage.Text, "Delete");
-                    _list.Remove(t);
+                    deleteTrade(t);
+                    _master.Trade_Deleted?.Invoke(t);
                 }
                 else
                 {
@@ -131,7 +133,22 @@ namespace TradingTools
             }
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void deleteTrade(Trade trade)
+        {
+            switch(_statusFilter)
+            {
+                case StatusFilter.All:
+                case StatusFilter.Open:
+                case StatusFilter.Closed:
+                    _list.Remove(trade);
+                    break;
+                case StatusFilter.Deleted:
+                    _list.Insert(0, trade);
+                    break;
+            }
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
         {
             statusMessage.Text = "Status message . . .";
         }
@@ -145,17 +162,20 @@ namespace TradingTools
         private void Trade_Closed(Trade t)
         {
             if (_statusFilter == StatusFilter.Closed) _list.Insert(0,t);
-            else if (_statusFilter == StatusFilter.Open) _list.Remove(t);
+            else if (_statusFilter == StatusFilter.Open)
+            {
+                if (_list.Remove(x => x.Id == t.Id) != null)
+                    statusMessage.Text = $"Trade Id: {t.Id} - {t.Ticker} was closed externally";
+            }
             else if (_statusFilter == StatusFilter.All)
             {
-                dgvTrades.Invalidate();
-                dgvTrades_SelectionChanged(default, default);
+                if (_list.Replace(t, x => x.Id == t.Id) != null)
+                {
+                    dgvTrades_SelectionChanged(default, default);
+                    dgvTrades.Invalidate();
+                    statusMessage.Text = $"Trade Id: {t.Id} - {t.Ticker} was closed externally";
+                }
             }
-        }
-
-        private void Trade_Deleted(Trade t)
-        {
-            if (_statusFilter == StatusFilter.Deleted) _list.Insert(0, t);
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)

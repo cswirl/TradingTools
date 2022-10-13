@@ -16,6 +16,7 @@ namespace TradingTools.Services.Interface
         IEnumerable<string> GetTickers();
         bool Create(Trade trade);
         bool Update(Trade trade);
-        //bool Delete(Trade trade);
+        bool Close(Trade trade);
+        bool Delete(Trade trade);
     }
 }

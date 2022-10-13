@@ -18,7 +18,7 @@ namespace TradingTools.Repository
 		public RepositoryBase(TradingToolsDbContext repositoryContext)
 			=> RepositoryContext = repositoryContext;
 
-		public IQueryable<T> FindAll(bool trackChanges) 
+		public IQueryable<T> FindAll(bool trackChanges = false) 
 			=>
 			!trackChanges 
 			?
@@ -27,7 +27,7 @@ namespace TradingTools.Repository
 			:
 			  RepositoryContext.Set<T>();
 
-		public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges) 
+		public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges = false) 
 			=>
 			!trackChanges 
 			?

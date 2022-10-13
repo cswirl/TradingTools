@@ -133,12 +133,14 @@ namespace TradingTools
 
         public void Trade_Closed(Trade t)
         {
-            if (_openTrades.Remove(t)) statusMessage.Text = $"Trade Id: {t.Id} was closed externally";
+            if (_openTrades.Remove(x => x.Id == t.Id) != default)
+                statusMessage.Text = $"Trade Id: {t.Id} - {t.Ticker} was closed externally";
         }
 
         public void Trade_Deleted(Trade t)
         {
-            if (_openTrades.Remove(t)) statusMessage.Text = $"Trade Id: {t.Id} was deleted externally";
+            if (_openTrades.Remove(x => x.Id == t.Id) != default)
+                statusMessage.Text = $"Trade Id: {t.Id} - {t.Ticker} was deleted externally";
         }
 
         // Replace the item/object with the updated one
@@ -147,7 +149,7 @@ namespace TradingTools
             if (t.Status.Equals("open"))
             {
                 _openTrades.Replace(t, x => x.Id == t.Id);
-                statusMessage.Text = $"Trade Id: {t.Id} was updated externally";
+                statusMessage.Text = $"Trade Id: {t.Id} - {t.Ticker} was updated externally";
             }
         }
 

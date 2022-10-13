@@ -127,10 +127,9 @@ namespace TradingTools
 
         private void Trade_Closed(Trade t)
         {
-            if (_activeTrades.Contains(t))
+            if (_activeTrades.Remove(x => x.Id == t.Id) != null)
             {
                 messageBus($"Trade {t.Id} was closed successfully");
-                _activeTrades.Remove(t);
                 _tradeHistory.Insert(0, t);
                 tradeHistoryStats();
                 tradeHistoryPnlStyle();
@@ -141,16 +140,16 @@ namespace TradingTools
         private void Trade_Deleted(Trade t)
         {
             bool flag = false;
-            if (_activeTrades.Remove(t)) flag = true;
-            else if (_tradeHistory.Remove(t))
+            if (_activeTrades.Remove(x => x.Id == t.Id) != default) flag = true;
+            else if (_tradeHistory.Remove(x => x.Id == t.Id) != default)
             {
-                flag = true;
                 tradeHistoryStats();
+                flag = true;
             }
 
             if (flag)
             {
-                messageBus($"Trade with Id: {t.Id} was removed successfully");
+                messageBus($"Trade with Id: {t.Id} - {t.Ticker} was deleted externally");
                 refreshCalendarBoldDates();
                 insightReport();
             }

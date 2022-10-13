@@ -252,30 +252,6 @@ namespace TradingTools
 
 
         #region Repository
-
-        /// <summary>
-        /// Trade
-        /// </summary>
-
-        internal bool Trade_Close(Trade t)
-        {
-            DbContext.Trade.Update(t);
-            DbContext.SaveChanges();
-            Trade_Closed?.Invoke(t);
-
-            return true;
-        }
-
-        internal bool Trade_Delete(Trade t)
-        {
-            t.IsDeleted = true;
-            DbContext.Trade.Update(t);
-            DbContext.SaveChanges();
-            Trade_Deleted?.Invoke(t);
-
-            return true;
-        }
-
         public string[] TickerAutoCompleteSource()
         {
             // database source
@@ -500,6 +476,7 @@ namespace TradingTools
         private void InitializeDbContext()
         {
             DbContext = new();
+            DbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             ServiceManager = new ServiceManager(new RepositoryManager(DbContext), LoggerManager);
 
             try
