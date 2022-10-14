@@ -9,7 +9,7 @@ using TradingTools.Trunk.Entity;
 
 namespace TradingTools.Repository
 {
-    public class TradeRepository : RepositoryBase<Trade>, ITradeRepository
+    internal sealed class TradeRepository : RepositoryBase<Trade>, ITradeRepository
     {
         public TradeRepository(TradingToolsDbContext repositoryContext) : base(repositoryContext)
         {

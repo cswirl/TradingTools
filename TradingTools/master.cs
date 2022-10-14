@@ -184,7 +184,7 @@ namespace TradingTools
 
         public frmRiskRewardCalc FormRRC_Trade_Spawn(Trade t)
         {
-            var rrc = _listOf_frmRiskRewardCalc.Find(x => x.Trade?.Id == t.Id);       // Id is suffice. See Trading Challenge Implementation
+            var rrc = _listOf_frmRiskRewardCalc.Find(x => x.Trade?.Id == t.Id);
             if (rrc != null)
             {
                 activateForm(rrc);
@@ -207,7 +207,7 @@ namespace TradingTools
 
         public frmRiskRewardCalc FormRRC_Loaded_Spawn(CalculatorState c)
         {
-            var rrc = _listOf_frmRiskRewardCalc.Find(x => x.CalculatorState?.Equals(c) ?? false);
+            var rrc = _listOf_frmRiskRewardCalc.Find(x => x.CalculatorState.Id == c.Id);
             if (rrc != null)
             {
                 activateForm (rrc);
@@ -250,8 +250,7 @@ namespace TradingTools
         }
         #endregion
 
-
-        #region Repository
+        // Use two sources: Database records and External text file
         public string[] TickerAutoCompleteSource()
         {
             // database source
@@ -272,66 +271,9 @@ namespace TradingTools
             return sources.ToArray();
         }
 
-        /// <summary>
-        ///  Trade Challenge
-        /// </summary>
-        /// 
-        public bool TradeChallenge_Create(TradeChallenge tc)
-        {
-            DbContext.TradeChallenge.Add(tc);
-            DbContext.SaveChanges();
-            TradeChallenge_Created?.Invoke(tc);
 
-            return true;
-        }
+        #region Repository
 
-        public bool TradeChallenge_Update(TradeChallenge tc)
-        {
-            DbContext.TradeChallenge.Update(tc);
-            DbContext.SaveChanges();
-            TradeChallenge_Updated?.Invoke(tc);
-
-            return true;
-        }
-
-        public bool TradeChallenge_Close(TradeChallenge tc)
-        {
-            tc.IsOpen = false;
-            DbContext.TradeChallenge.Update(tc);
-            DbContext.SaveChanges();
-            TradeChallenge_Closed?.Invoke(tc);
-
-            return true;
-        }
-
-        public bool TradeChallenge_Delete(TradeChallenge tc)
-        {
-            tc.IsDeleted = true;
-            DbContext.TradeChallenge.Update(tc);
-            DbContext.SaveChanges();
-            TradeChallenge_Deleted?.Invoke(tc);
-
-            return true;
-        }
-
-        public List<TradeChallenge> TradeChallenge_GetOpen(bool descending = false)
-        {
-            var tc = DbContext.TradeChallenge.Where(x => x.IsOpen && !x.IsDeleted).AsQueryable();
-
-            if (descending) tc = tc.OrderByDescending(x => x.Id);
-
-            return tc.ToList();
-                
-        }
-        public List<TradeChallenge> TradeChallenge_GetClosed(bool descending = false)
-        {
-            var tc = DbContext.TradeChallenge.Where(x => !x.IsOpen && !x.IsDeleted).AsQueryable();
-
-            if (descending) tc = tc.OrderByDescending(x => x.Id);
-
-            return tc.ToList();
-
-        }
 
         /// <summary>
         ///  Trade Thread

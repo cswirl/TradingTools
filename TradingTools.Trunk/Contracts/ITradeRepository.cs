@@ -16,6 +16,5 @@ namespace TradingTools.Trunk.Contracts
         IEnumerable<string> GetTickers();
         void Create(Trade trade);
         void Update(Trade trade);
-        void Delete(Trade trade);
     }
 }

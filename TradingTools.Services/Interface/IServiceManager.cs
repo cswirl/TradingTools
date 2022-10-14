@@ -10,5 +10,6 @@ namespace TradingTools.Services.Interface
     {
         ICalculatorStateService CalculatorStateService { get; }
         ITradeService TradeService { get; }
+        ITradeChallengeService TradeChallengeService { get; }
     }
 }

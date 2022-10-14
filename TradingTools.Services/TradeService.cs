@@ -135,7 +135,7 @@ namespace TradingTools.Services
             }
             catch (Exception ex)
             {
-                logError(nameof(GetStatusOpen), ex);
+                logError(nameof(GetStatusClosed), ex);
                 return null;
             }
         }
@@ -149,7 +149,7 @@ namespace TradingTools.Services
             }
             catch (Exception ex)
             {
-                logError(nameof(GetStatusOpen), ex);
+                logError(nameof(GetDeleted), ex);
                 return null;
             }
         }
@@ -164,12 +164,11 @@ namespace TradingTools.Services
             }
             catch (Exception ex)
             {
-                logError(nameof(GetAll), ex);
+                logError(nameof(GetTickers), ex);
                 return null;
             }
 
         }
-
 
         private void logError(string method, Exception ex) => _logger.LogError($"Something went wrong in the {method} service method {ex}");
 

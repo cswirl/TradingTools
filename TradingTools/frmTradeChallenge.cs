@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using TradingTools.Dialogs;
 using TradingTools.Extensions;
+using TradingTools.Services.Interface;
 using TradingTools.Trunk;
 using TradingTools.Trunk.Entity;
 using TradingTools.Trunk.Extensions;
@@ -26,6 +27,7 @@ namespace TradingTools
         public TradeChallenge TradeChallenge { get; set; }
         private dialogCompoundCalc _dialogCompundCalc;
         private master _master;
+        private IServiceManager _service;
         private Timer _timer;
         private string _lastSavedStateHash;
         private int _pnl_columnIndex = 5;
@@ -37,6 +39,7 @@ namespace TradingTools
             InitializeComponent();
 
             _master = master;
+            _service = master.ServiceManager;
             this.TradeChallenge = tradeChallenge;
             this.State = tradeChallenge.IsOpen ? Status.Open : Status.Closed;
             _timer = new Timer();
@@ -302,8 +305,8 @@ namespace TradingTools
         {
             if (TradeChallenge == default) return false;
             // copy back to original
-            captureTradeChallenge().CopyProperties(this.TradeChallenge);
-            if (_master.TradeChallenge_Update(this.TradeChallenge))
+            captureTradeChallenge().CopyProperties(TradeChallenge);
+            if (_service.TradeChallengeService.Update(TradeChallenge))
             {
                 statusMessage.Text = "Changes were saved successfully";
                 txtTitle.Text = TradeChallenge.Title;
@@ -311,11 +314,16 @@ namespace TradingTools
                 tradeHistoryStats();
                 SetLastSavedCalculatorHash();
                 if (State == Status.Open) insightReport();
+                _master.TradeChallenge_Updated?.Invoke(TradeChallenge);
 
                 return true;
             }
-
-            return false;
+            else
+            {
+                statusMessage.Text = "Saving changes failed";
+                AppMessageBox.Error(statusMessage.Text, "", this);
+                return false;
+            }
         }
 
         private TradeChallenge captureTradeChallenge()
@@ -338,12 +346,13 @@ namespace TradingTools
                 $"Trade Challenge: {tc.Id} does not contain any Trade and will be deleted", 
                 "Ending Trade Challenge");
             if (result == DialogResult.Yes)
-                if (_master.TradeChallenge_Delete(tc))
+                if (_service.TradeChallengeService.Delete(tc))
                 {
                     msg = $"Trade Challenge: {tc.Id} is now deleted\n\nThis form will now close";
                     messageBus(msg);
                     AppMessageBox.Inform(msg);
                     _prospects.Clear(); // We will rely on foreign key's Cascade on delete
+                    _master.TradeChallenge_Deleted?.Invoke(tc);
                     this.Close();
                 }
                 else
@@ -380,7 +389,7 @@ namespace TradingTools
                          "Terminating Trade Challenge");
                 if (objDialog == DialogResult.Yes)
                 {
-                    if (_master.TradeChallenge_Close(this.TradeChallenge))
+                    if (_service.TradeChallengeService.Close(TradeChallenge))
                     {
                         msg = $"Trade Challenge: {TradeChallenge.Id} was closed";
                         messageBus(msg);
@@ -398,6 +407,7 @@ namespace TradingTools
                             messageBus(msg);
                             AppMessageBox.Error(msg);
                         }
+                        _master.TradeChallenge_Closed?.Invoke(TradeChallenge);
                         SetLastSavedCalculatorHash();
                     }
                     else

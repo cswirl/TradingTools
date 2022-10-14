@@ -10,6 +10,7 @@ namespace TradingTools.Trunk.Contracts
     {
         ITradeRepository Trade { get; }
         ICalculatorStateRepository CalculatorState { get; }
+        ITradeChallengeRepository TradeChallenge { get; }  
 
         public void Save();
     }

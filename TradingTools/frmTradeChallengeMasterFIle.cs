@@ -7,7 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TradingTools.Dialogs;
 using TradingTools.Services;
+using TradingTools.Services.Interface;
 using TradingTools.Trunk;
 using TradingTools.Trunk.Entity;
 
@@ -16,6 +18,7 @@ namespace TradingTools
     public partial class frmTradeChallengeMasterFile : Form
     {
         private master _master;
+        private IServiceManager _service;
 
         private BindingList<TradeChallenge> _currentTradeChallenges;
         private BindingList<TradeChallenge> _closedTradeChallenges;
@@ -25,6 +28,7 @@ namespace TradingTools
             InitializeComponent();
 
             _master = master;
+            _service = master.ServiceManager;
 
             // delegates
             _master.TradeChallenge_Updated += this.TradeChallenge_Updated;
@@ -42,12 +46,17 @@ namespace TradingTools
             if (dialog.DialogResult == DialogResult.OK)
                 Create(dialog.TradeChallenge);
         }
+
         private void Create(TradeChallenge tc)
         {
-            tc.IsOpen = true;
-            if (_master.TradeChallenge_Create(tc)) {
+            if (_service.TradeChallengeService.Create(tc)) {
                _currentTradeChallenges.Insert(0,tc);
                _master.TradeChallenge_Spawn(tc);
+               _master.TradeChallenge_Created?.Invoke(tc);
+            }
+            else
+            {
+                AppMessageBox.Error("Creating a Trade Challenge failed", "", this);
             }
         }
 
@@ -75,8 +84,8 @@ namespace TradingTools
 
         private void frmTradeChallengeMasterFile_Load(object sender, EventArgs e)
         {
-            _currentTradeChallenges = new(_master.TradeChallenge_GetOpen(true));
-            _closedTradeChallenges = new(_master.TradeChallenge_GetClosed(true));
+            _currentTradeChallenges = new(_service.TradeChallengeService.GetStatusOpen(true));
+            _closedTradeChallenges = new(_service.TradeChallengeService.GetStatusClosed(true));
 
             dgvOpen.DataSource = _currentTradeChallenges;
             dgvClosed.DataSource = _closedTradeChallenges;
