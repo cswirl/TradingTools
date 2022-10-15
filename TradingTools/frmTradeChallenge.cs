@@ -67,10 +67,25 @@ namespace TradingTools
         #region Delegate Handlers
         private void CalculatorState_Added(CalculatorState c)
         {
-            var tcp = new TradeChallengeProspect { TradeChallenge = this.TradeChallenge, CalculatorState = c };
+            var tcp = new TradeChallengeProspect 
+            { 
+                //TradeChallengeId = TradeChallenge.Id,
+                TradeChallenge = TradeChallenge, 
+                //CalculatorStateId = c.Id,
+                CalculatorState = c 
+            };
             // Create record to database
-            if (_master.TradeChallengeProspect_Create(tcp)) _prospects.Insert(0, c);
-            messageBus($"New prospect ticker: {c.Ticker} added successfully");
+            if (_service.TradeChallengeProspectService.Create(tcp))
+            {
+                _prospects.Insert(0, c);
+                messageBus($"New prospect ticker: {c.Ticker} added successfully");
+                _master.TradeChallengeProspect_Created?.Invoke(tcp);
+            }
+            else
+            {
+                messageBus($"An error occur while creating prospect with ticker: {c.Ticker}");
+            }
+            
         }
 
         private void CalculatorState_Updated(CalculatorState c)
@@ -108,8 +123,12 @@ namespace TradingTools
                 else monthCalendarDateEnter.BoldedDates = monthCalendarDateEnter.BoldedDates.Append(t.DateEnter).ToArray();
                 messageBus($"New Trade with ticker: {t.Ticker} was officialized");
                 // Delete the Prospect from the TradeChallengeProspect table
-                if (!_master.TradeChallengeProspect_Delete(t.CalculatorState))
+                var tcp = _service.TradeChallengeProspectService.Delete(t.CalculatorState);
+                if (tcp == default)
                     messageBus($"An error occur while removing Prospect: {t.CalculatorState.Id} from the database");
+                else
+                    _master.TradeChallengeProspect_Deleted?.Invoke(tcp);
+
                 insightReport();
             }
         }
@@ -265,7 +284,9 @@ namespace TradingTools
         {
             if (TradeChallenge == default) return;
             // data bindings
-            _prospects = new(_master.TradeChallengeProspect_GetAll(TradeChallenge.Id, true));
+            var prospects = _service.TradeChallengeProspectService.GetAllByTradeChallenge(TradeChallenge.Id, true);
+            if (prospects != default) _prospects = new(prospects);
+
             _activeTrades = new(_master.TradeThread_GetActiveTrade(TradeChallenge.Id));
             _tradeHistory = new(_master.TradeThread_GetTradeHistory(TradeChallenge.Id, true));
 
@@ -397,9 +418,10 @@ namespace TradingTools
                         changeState(Status.Closed);
                         // delete the CalculatorStates in the TradeProspects linked to this Trade Challenge
                         var tcp = _prospects.Select(p => p.TradeChallengeProspect).ToArray();
-                        if (_master.TradeChallengeProspect_Delete(tcp))
+                        if (_service.TradeChallengeProspectService.DeleteBatch(tcp))
                         {
                             _prospects.Clear();
+                            _master.TradeChallengeProspect_DeletedRange?.Invoke(tcp);
                         }
                         else
                         {

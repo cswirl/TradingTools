@@ -74,6 +74,7 @@ namespace TradingTools.Services
             {
                 tradeChallenge.IsDeleted = true;
                 _repository.TradeChallenge.Update(tradeChallenge);
+                //Todo: find all prospects related to this trade challenge
                 _repository.Save();
                 return true;
             }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TradingTools.Services.Interface;
 using TradingTools.Trunk.Entity;
 
 namespace TradingTools.Helpers
@@ -10,15 +11,17 @@ namespace TradingTools.Helpers
     public class DelegateHandlers
     {
         public master Master { get; set; }
-        public DelegateHandlers(master m)
+        private IServiceManager _service;
+        public DelegateHandlers(master master)
         {
-            this.Master = m;
+            this.Master = master;
+            _service = master.ServiceManager;
         }
         public bool CalculatorState_Officializing_IsCancelled_Handler(CalculatorState c, out string msg)
         {
             msg = "";
 
-            var tradeChallengeId = Master.TradeChallengeProspect_GetTradeChallengeId(c.Id);
+            var tradeChallengeId = _service.TradeChallengeProspectService.GetTradeChallengeId(c.Id);
             if (tradeChallengeId > 0)
             {
                 msg = $"This Risk/Reward Calculator belongs to Trade Challenge Id: {tradeChallengeId}" +

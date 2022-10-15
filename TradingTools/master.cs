@@ -352,69 +352,6 @@ namespace TradingTools
             return x?.TradeChallengeId ?? 0;
         }
 
-        /// <summary>
-        ///  Trade Challenge Prospect
-        /// </summary>
-        /// 
-        public bool TradeChallengeProspect_Create(TradeChallengeProspect tcp)
-        {
-            DbContext.TradeChallengeProspect.Add(tcp);
-            DbContext.SaveChanges();
-            TradeChallengeProspect_Created?.Invoke(tcp);
-
-            return true;
-        }
-
-        public bool TradeChallengeProspect_Delete(TradeChallengeProspect[] tcp)
-        {
-            DbContext.TradeChallengeProspect.RemoveRange(tcp);
-            DbContext.SaveChanges();
-            TradeChallengeProspect_DeletedRange?.Invoke(tcp);
-
-            return true;
-        }
-
-        public bool TradeChallengeProspect_Delete(CalculatorState c)
-        {
-            var tcp = DbContext.TradeChallengeProspect
-                .Where(tcp => tcp.CalculatorStateId == c.Id)
-                .FirstOrDefault();
-            // when there's nothing to remove - just return success/true
-            if (tcp == default) return true;
-
-            DbContext.TradeChallengeProspect.Remove(tcp);
-            DbContext.SaveChanges();
-            TradeChallengeProspect_Deleted?.Invoke(tcp);
-
-            return true;
-        }
-
-        public List<CalculatorState> TradeChallengeProspect_GetAll(int tradeChallengeId, bool descending = false)
-        {
-            var c = DbContext.CalculatorState
-                .Include(c => c.TradeChallengeProspect)
-                .Where(c => c.TradeChallengeProspect.TradeChallengeId == tradeChallengeId
-                    && c.TradeId == default)
-                .AsQueryable();
-
-            if (descending) c = c.OrderByDescending(c => c.TradeId);
-
-            return c.ToList();
-        }
-
-        public int TradeChallengeProspect_GetTradeChallengeId(int calculatorStateId)
-        {
-            var p = DbContext.TradeChallengeProspect
-                .Include(tcp => tcp.CalculatorState)
-                .Where(tcp => tcp.CalculatorStateId == calculatorStateId)
-                .FirstOrDefault();
-   
-            if (p != default) 
-                return p.TradeChallengeId;
-
-            return 0;
-        }
-
         private void InitializeDbContext()
         {
             DbContext = new();

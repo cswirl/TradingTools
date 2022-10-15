@@ -14,17 +14,20 @@ namespace TradingTools.Services
         private readonly Lazy<ICalculatorStateService> _calculatorStateService;
         private readonly Lazy<ITradeService> _tradeService;
         private readonly Lazy<ITradeChallengeService> _tradeChallengeService;
+        private readonly Lazy<ITradeChallengeProspectService> _tradeChallengeProspectService;
 
         public ServiceManager(IRepositoryManager repository, ILoggerManager logger)
         {
             _calculatorStateService = new(() => new CalculatorStateService(repository, logger));
             _tradeService = new(() => new TradeService(repository, logger));
             _tradeChallengeService = new(() => new TradeChallengeService(repository, logger));
+            _tradeChallengeProspectService = new(() => new TradeChallengeProspectService(repository, logger));
         }
 
         
         public ICalculatorStateService CalculatorStateService => _calculatorStateService.Value;
         public ITradeService TradeService => _tradeService.Value;
         public ITradeChallengeService TradeChallengeService => _tradeChallengeService.Value;
+        public ITradeChallengeProspectService TradeChallengeProspectService => _tradeChallengeProspectService.Value;
     }
 }

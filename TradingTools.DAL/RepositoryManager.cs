@@ -13,6 +13,7 @@ namespace TradingTools.Repository
 		private readonly Lazy<ITradeRepository> _tradeRepository;
 		private readonly Lazy<ICalculatorStateRepository> _calculatorStateRepository;
 		private readonly Lazy<ITradeChallengeRepository> _tradeChallengeRepository;
+		private readonly Lazy<ITradeChallengeProspectRepository> _tradeChallengeProspectRepository;	
 
 		public RepositoryManager(TradingToolsDbContext repositoryContext)
 		{
@@ -20,11 +21,13 @@ namespace TradingTools.Repository
 			_tradeRepository = new(() => new TradeRepository(repositoryContext));
 			_calculatorStateRepository = new(() => new CalculatorStateRepository(repositoryContext));
 			_tradeChallengeRepository = new(() => new TradeChallengeRepository(repositoryContext));	
+			_tradeChallengeProspectRepository = new(() => new TradeChallengeProspectRepository(repositoryContext));
 		}
 
 		public ITradeRepository Trade => _tradeRepository.Value;
 		public ICalculatorStateRepository CalculatorState => _calculatorStateRepository.Value;
 		public ITradeChallengeRepository TradeChallenge => _tradeChallengeRepository.Value;
+		public ITradeChallengeProspectRepository TradeChallengeProspect => _tradeChallengeProspectRepository.Value;
 
 		public void Save() => _repositoryContext.SaveChanges();
 	}
