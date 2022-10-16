@@ -22,6 +22,7 @@ namespace TradingTools.Trunk
     public delegate void TradeDeleted(Trade t);
 
     public delegate bool TradeUpdating(Trade t, out string msg);
+    public delegate void TradeOfficializing(Trade t);
     //
     public delegate void TradeChallengeCreated(TradeChallenge tc);
     public delegate void TradeChallengeUpdated(TradeChallenge tc);

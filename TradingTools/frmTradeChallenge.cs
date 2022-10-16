@@ -105,31 +105,34 @@ namespace TradingTools
                 messageBus($"Prospect with Id: {c.Id} was removed successfully");
         }
 
-        private void Trade_Officialized(Trade t)
+        private void Trade_Officializing(Trade trade)
         {
-            // add to TradeThread
-            var tr = new TradeThread
+            // configure relationship for ef core
+            var tradeThread = new TradeThread
             {
                 TradeChallenge = this.TradeChallenge,
-                Trade = t,
+                Trade = trade,
             };
 
-            if (_service.TradeChallengeService.CreateThread(tr))
-            {
-                _prospects.Remove(t.CalculatorState);
-                _activeTrades.Insert(0, t);
-                monthCalendarDateEnter.Visible = true;
-                if (_tradeHistory.Count < 1) refreshCalendarBoldDates();
-                else monthCalendarDateEnter.BoldedDates = monthCalendarDateEnter.BoldedDates.Append(t.DateEnter).ToArray();
-                messageBus($"New Trade with ticker: {t.Ticker} was officialized");
-                // Delete the Prospect from the TradeChallengeProspect table
-                var tcp = _service.TradeChallengeProspectService.Delete(t.CalculatorState);
-                if (tcp != default)
-                    _master.TradeChallengeProspect_Deleted?.Invoke(tcp);
+            // configure relationship for ef core
+            trade.TradeThread = tradeThread;
+        }
 
-                insightReport();
-                _master.TradeThread_Created?.Invoke(tr);
-            }
+        private void Trade_Officialized(Trade t)
+        {
+            _prospects.Remove(t.CalculatorState);
+            _activeTrades.Insert(0, t);
+            monthCalendarDateEnter.Visible = true;
+            if (_tradeHistory.Count < 1) refreshCalendarBoldDates();
+            else monthCalendarDateEnter.BoldedDates = monthCalendarDateEnter.BoldedDates.Append(t.DateEnter).ToArray();
+            messageBus($"New Trade with ticker: {t.Ticker} was officialized");
+            // Delete the Prospect from the TradeChallengeProspect table
+            var tcp = _service.TradeChallengeProspectService.Delete(t.CalculatorState);
+            if (tcp != default)
+                _master.TradeChallengeProspect_Deleted?.Invoke(tcp);
+
+            insightReport();
+            _master.TradeThread_Created?.Invoke(t.TradeThread);
         }
         private void Trade_Updated(Trade t)
         {
@@ -230,9 +233,11 @@ namespace TradingTools
             // Empty frmRRC - Trade Challenge object has exclusive access to empty frmRRC spawned by it
             rrc.CalculatorState_Added += this.CalculatorState_Added;
 
-            /// Once a Trade Challenge object has a hook to rrc.Trade_Officialized delegate thru here, 
+            /// Once a Trade Challenge object has a subscription to rrc.Trade_Officialized delegate thru here, 
             /// it doesn't matter if a frmRRC object is re-activated anywhere in the program
             rrc.Trade_Officialized = this.Trade_Officialized;
+
+            rrc.Trade_Officializing += this.Trade_Officializing;
 
             /// Bypass delegate handler from master.DelegateHandlers
             // Here, not using the '+=' assignment to override the handler in master.DelegateHandlers

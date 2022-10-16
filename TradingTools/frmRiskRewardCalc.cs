@@ -28,6 +28,7 @@ namespace TradingTools
         public CalculatorStateUpdating CalculatorState_Officializing_IsCancelled;
         //
         public TradeCreated Trade_Officialized;
+        public TradeOfficializing Trade_Officializing;
         public TradeUpdating Trade_Closing_IsCancelled;
         //
         public EventHandler<RiskRewardCalcState> OnStateChanged;
@@ -580,6 +581,10 @@ namespace TradingTools
                 AppMessageBox.Error(statusMessage.Text, "", this);
                 return false;
             }
+
+            // This is a hook to add additioanl properties to Trade instance prior to ef core update
+            // ex. attaching TradeThread instance to Trade property for ef core update and auto INSERT thru relationship
+            Trade_Officializing?.Invoke(Trade);
 
             // 4 - Save data into a data store - ChangeState will Display Data 
             if (_service.TradeService.Create(Trade))

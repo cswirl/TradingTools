@@ -169,38 +169,6 @@ namespace TradingTools.Services
             }
         }
 
-        public bool CreateThread(TradeThread tradeThread)
-        {
-            try
-            {
-                var trade = tradeThread.Trade;
-                var tradeChallenge = tradeThread.TradeChallenge;
-                if (trade == default)
-                {
-                    _logger.LogError("TradeThread requires an instance of Trade");
-                    return false;
-                }
-                if (tradeChallenge == default)
-                {
-                    _logger.LogError("TradeThread requires an instance of TradeChallenge");
-                    return false;
-                }
-                // configure relationship for ef core
-                trade.TradeThread = tradeThread;
-
-                // EF Core will create a new TradeThread record into the Database
-                _repository.Trade.Update(trade);
-                _repository.Save();
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                logError(nameof(CreateThread), ex);
-                return false;
-            }
-        }
-
         #endregion
 
         private void logError(string method, Exception ex) => _logger.LogError($"Something went wrong in the {method} service method {ex}");

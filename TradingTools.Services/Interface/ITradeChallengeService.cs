@@ -14,7 +14,6 @@ namespace TradingTools.Services.Interface
         IList<Trade> GetActiveTrades(int tradeChallengeId);
         IList<Trade> GetTradeHistory(int tradeChallengeId, bool descending = false);
         TradeChallenge GetTradeChallenge(int tradeId);
-        bool CreateThread(TradeThread tr);
         //
         IList<TradeChallenge> GetStatusOpen(bool descending);
         IList<TradeChallenge> GetStatusClosed(bool descending);
