@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,46 @@ namespace TradingTools.Repository
             if (descending) trade = trade.OrderByDescending(t => t.Id);
 
             return trade.ToList();
+        }
+
+        public IEnumerable<Trade> GetAllTrades(int tradeChallengeId)
+        {
+            return RepositoryContext.Trade
+                .Include(x => x.CalculatorState)
+                .Include(x => x.TradeThread)
+                .Where(x => !x.IsDeleted && x.TradeThread.TradeChallengeId == tradeChallengeId)
+                .AsNoTracking();
+        }
+
+        public IEnumerable<Trade> GetActiveTrades(int tradeChallengeId)
+        {
+            return RepositoryContext.Trade
+                .Include(x => x.CalculatorState)
+                .Include(x => x.TradeThread).ThenInclude(tr => tr.TradeChallenge)
+                .Where(x => !x.IsDeleted && x.Status.Equals("open") && x.TradeThread.TradeChallengeId == tradeChallengeId)
+                .AsNoTracking();
+        }
+
+        public IEnumerable<Trade> GetTradeHistory(int tradeChallengeId, bool descending = false)
+        {
+            var tradeHist = RepositoryContext.Trade
+                .Include(x => x.CalculatorState)
+                .Include(x => x.TradeThread).ThenInclude(tr => tr.TradeChallenge)
+                .Where(x => !x.IsDeleted && x.Status.Equals("closed") && x.TradeThread.TradeChallengeId == tradeChallengeId)
+                .AsNoTracking();
+
+            if (descending) tradeHist = tradeHist.OrderByDescending(x => x.DateExit);
+
+            return tradeHist;
+        }
+
+        public TradeChallenge GetTradeChallenge(int tradeId)
+        {
+            return RepositoryContext.TradeThread
+                .Where(tr => tr.TradeId == tradeId)
+                .AsNoTracking()
+                .Select(x => x.TradeChallenge)
+                .FirstOrDefault();
         }
     }
 }

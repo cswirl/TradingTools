@@ -20,6 +20,7 @@ namespace TradingTools.Repository
         {
             var tcp = RepositoryContext.TradeChallengeProspect
                 .Where(tcp => tcp.CalculatorStateId == calculatorState.Id)
+                .AsNoTracking()
                 .FirstOrDefault();
             // when there's nothing to remove - just return success/true
             if (tcp == default) return default;

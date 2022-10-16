@@ -113,6 +113,96 @@ namespace TradingTools.Services
             }
         }
 
+        #region Trade Thread
+        public IList<Trade> GetAllTrades(int tradeChallengeId)
+        {
+            try
+            {
+                var trades = _repository.TradeChallenge.GetAllTrades(tradeChallengeId);
+                return trades.ToList();
+            }
+            catch (Exception ex)
+            {
+                logError(nameof(GetAllTrades), ex);
+                return null;
+            }
+        }
+
+        public IList<Trade> GetActiveTrades(int tradeChallengeId)
+        {
+            try
+            {
+                var trades = _repository.TradeChallenge.GetActiveTrades(tradeChallengeId);
+                return trades.ToList();
+            }
+            catch (Exception ex)
+            {
+                logError(nameof(GetActiveTrades), ex);
+                return null;
+            }
+        }
+
+        public IList<Trade> GetTradeHistory(int tradeChallengeId, bool descending = false)
+        {
+            try
+            {
+                var trades = _repository.TradeChallenge.GetTradeHistory(tradeChallengeId, descending);
+                return trades.ToList();
+            }
+            catch (Exception ex)
+            {
+                logError(nameof(GetTradeHistory), ex);
+                return null;
+            }
+        }
+
+        public TradeChallenge GetTradeChallenge(int tradeId)
+        {
+            try
+            {
+                return _repository.TradeChallenge.GetTradeChallenge(tradeId);
+            }
+            catch (Exception ex)
+            {
+                logError(nameof(GetTradeChallenge), ex);
+                return default;
+            }
+        }
+
+        public bool CreateThread(TradeThread tradeThread)
+        {
+            try
+            {
+                var trade = tradeThread.Trade;
+                var tradeChallenge = tradeThread.TradeChallenge;
+                if (trade == default)
+                {
+                    _logger.LogError("TradeThread requires an instance of Trade");
+                    return false;
+                }
+                if (tradeChallenge == default)
+                {
+                    _logger.LogError("TradeThread requires an instance of TradeChallenge");
+                    return false;
+                }
+                // configure relationship for ef core
+                trade.TradeThread = tradeThread;
+
+                // EF Core will create a new TradeThread record into the Database
+                _repository.Trade.Update(trade);
+                _repository.Save();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logError(nameof(CreateThread), ex);
+                return false;
+            }
+        }
+
+        #endregion
+
         private void logError(string method, Exception ex) => _logger.LogError($"Something went wrong in the {method} service method {ex}");
     }
 }

@@ -11,7 +11,6 @@ using System.Windows.Forms;
 using TradingTools.Repository;
 using TradingTools.Dialogs;
 using TradingTools.Helpers;
-//using TradingTools.DAL.Migrations;
 using TradingTools.Services;
 using TradingTools.Services.Interface;
 using TradingTools.Trunk;
@@ -72,7 +71,7 @@ namespace TradingTools
             LogManager.LoadConfiguration(Path.Combine(Directory.GetCurrentDirectory(), "nlog.config"));
             this.LoggerManager = new LoggerManager();
 
-            InitializeDbContext();
+            InitializeServiceManager();
             _listOf_frmRiskRewardCalc = new();
             _listOf_frmTradeChallenge = new();
             this.DelegateHandlers = new(this);
@@ -271,88 +270,7 @@ namespace TradingTools
             return sources.ToArray();
         }
 
-
-        #region Repository
-
-
-        /// <summary>
-        ///  Trade Thread
-        /// </summary>
-        /// 
-        public bool TradeThread_Create(TradeThread tr)
-        {
-            DbContext.TradeThread.Add(tr);
-            DbContext.SaveChanges();
-            TradeThread_Created?.Invoke(tr);
-
-            return true;
-        }
-
-        public List<Trade> TradeThread_GetAllTrades(int tradeChallengeId)
-        {
-            return DbContext.Trade
-                .Include(x => x.CalculatorState)
-                .Include(x => x.TradeThread)
-                .Where(x => !x.IsDeleted && x.TradeThread.TradeChallengeId == tradeChallengeId)
-                .AsNoTracking()
-                .ToList();
-
-            //return DbContext.TradeThread
-            //    .Include(tr => tr.Trade).ThenInclude(t => t.CalculatorState)
-            //    .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId != default)
-            //    .Select(tr => tr.Trade).Where(t => !t.IsDeleted)
-            //    .ToList();
-        }
-
-        public List<Trade> TradeThread_GetActiveTrade(int tradeChallengeId)
-        {
-            return DbContext.Trade
-                .Include(x => x.CalculatorState)
-                .Include(x => x.TradeThread).ThenInclude(tr => tr.TradeChallenge)
-                .Where(x => !x.IsDeleted && x.Status.Equals("open") && x.TradeThread.TradeChallengeId == tradeChallengeId)
-                .AsNoTracking()
-                .ToList();
-                
-
-            //return DbContext.TradeThread
-            //    .Include(tr => tr.Trade).ThenInclude(t => t.CalculatorState).Where(tr => tr.Trade.Status.Equals("open"))
-            //    .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId != default)
-            //    .Select(tr => tr.Trade).Where(t => !t.IsDeleted)
-            //    .ToList();
-        }
-
-        public List<Trade> TradeThread_GetTradeHistory(int tradeChallengeId, bool descending = false)
-        {
-            var q = DbContext.Trade
-                .Include(x => x.CalculatorState)
-                .Include(x => x.TradeThread).ThenInclude(tr => tr.TradeChallenge)
-                .Where(x => !x.IsDeleted && x.Status.Equals("closed") && x.TradeThread.TradeChallengeId == tradeChallengeId)
-                .AsNoTracking()
-                .AsQueryable();
-
-            if (descending) q = q.OrderByDescending(x => x.DateExit);
-
-            return q.ToList();
-
-            //return DbContext.TradeThread
-            //    .Include(tr => tr.Trade).ThenInclude(t => t.CalculatorState).Where(tr => tr.Trade.Status.Equals("closed"))
-            //    .Where(tr => tr.TradeChallengeId == tradeChallengeId && tr.TradeId != default)
-            //    .Select(tr => tr.Trade).Where(t => !t.IsDeleted)
-            //    .OrderBy(t => t.DateExit)
-            //    .ToList();
-        }
-
-        public int TradeThread_GetTradeChallengeId(int tradeId)
-        {
-            var x = DbContext.TradeThread
-                .Where(tr => tr.TradeId == tradeId)
-                .FirstOrDefault();
-
-            // return zero if no match found
-            return x?.TradeChallengeId ?? 0;
-        }
-
-        private void InitializeDbContext()
+        private void InitializeServiceManager()
         {
             DbContext = new();
             DbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
@@ -366,13 +284,12 @@ namespace TradingTools
             catch (Exception ex)
             {
                 // Log
-                LoggerManager.LogError($"Something went wrong in the {nameof(InitializeDbContext)} service method {ex}");
+                LoggerManager.LogError($"Something went wrong in the {nameof(InitializeServiceManager)} service method {ex}");
                 AppMessageBox.Error("An error occurred during migration.", "Critical Error");
                 Environment.Exit(-1);
             }
             
         }
-        #endregion
 
         private void InitializeComponent()
         {

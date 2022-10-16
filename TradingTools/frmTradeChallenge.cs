@@ -114,7 +114,7 @@ namespace TradingTools
                 Trade = t,
             };
 
-            if (_master.TradeThread_Create(tr))
+            if (_service.TradeChallengeService.CreateThread(tr))
             {
                 _prospects.Remove(t.CalculatorState);
                 _activeTrades.Insert(0, t);
@@ -124,12 +124,11 @@ namespace TradingTools
                 messageBus($"New Trade with ticker: {t.Ticker} was officialized");
                 // Delete the Prospect from the TradeChallengeProspect table
                 var tcp = _service.TradeChallengeProspectService.Delete(t.CalculatorState);
-                if (tcp == default)
-                    messageBus($"An error occur while removing Prospect: {t.CalculatorState.Id} from the database");
-                else
+                if (tcp != default)
                     _master.TradeChallengeProspect_Deleted?.Invoke(tcp);
 
                 insightReport();
+                _master.TradeThread_Created?.Invoke(tr);
             }
         }
         private void Trade_Updated(Trade t)
@@ -221,7 +220,7 @@ namespace TradingTools
         internal void registerFormRRC(frmRiskRewardCalc rrc)
         {
             /// this block of code prevents duplicate delegate registration for frmRRC objects
-            /// - only one of the delegates below is enough for checking
+            /// - only one of the delegates below is enough for checking for a duplicate
             if (rrc.CalculatorState_Added != default)
                 foreach (var x in rrc.CalculatorState_Added.GetInvocationList())
                     if (x.Target.Equals(this)) return;
@@ -285,14 +284,25 @@ namespace TradingTools
             if (TradeChallenge == default) return;
             // data bindings
             var prospects = _service.TradeChallengeProspectService.GetAllByTradeChallenge(TradeChallenge.Id, true);
-            if (prospects != default) _prospects = new(prospects);
+            if (prospects != default)
+            {
+                _prospects = new(prospects);
+                dgvProspects.DataSource = _prospects;
+            }
 
-            _activeTrades = new(_master.TradeThread_GetActiveTrade(TradeChallenge.Id));
-            _tradeHistory = new(_master.TradeThread_GetTradeHistory(TradeChallenge.Id, true));
+            var activeTrades = _service.TradeChallengeService.GetActiveTrades(TradeChallenge.Id);
+            if (activeTrades != default)
+            {
+                _activeTrades = new(activeTrades);
+                dgvActiveTrade.DataSource = _activeTrades;
+            }
 
-            dgvProspects.DataSource = _prospects;
-            dgvActiveTrade.DataSource = _activeTrades;
-            dgvTradeHistory.DataSource = _tradeHistory;
+            var tradeHist = _service.TradeChallengeService.GetTradeHistory(TradeChallenge.Id, true);
+            if (tradeHist != default)
+            {
+                _tradeHistory = new(tradeHist);
+                dgvTradeHistory.DataSource = _tradeHistory;
+            }
 
             // Load Trade Challenge Object
             txtId.Text = TradeChallenge.Id.ToString();
@@ -397,7 +407,7 @@ namespace TradingTools
                 return;
             }
             // Empty Trade Challenge
-            else if (_master.TradeThread_GetAllTrades(TradeChallenge.Id).Count < 1)
+            else if (_service.TradeChallengeService.GetAllTrades(TradeChallenge.Id).Count < 1)
             {
                 deleteTradeChallenge(this.TradeChallenge);
             }
@@ -442,7 +452,7 @@ namespace TradingTools
             }
         }
 
-        private List<Trade> getAllTrades() => _master.TradeThread_GetAllTrades(TradeChallenge.Id);
+        private IList<Trade> getAllTrades() => _service.TradeChallengeService.GetAllTrades(TradeChallenge.Id);
 
         private void changeState(Status s)
         {

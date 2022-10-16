@@ -39,7 +39,7 @@ namespace TradingTools.Services
                     _logger.LogError("TradeChallengeProspect requires an instance of TradeChallenge");
                     return false;
                 }
-                // configure relationship values
+                // configure relationship for ef core
                 calcState.TradeChallengeProspect = tradeChallengeProspect;
                
                 // EF Core will create a new TradeChallengeProspect record into the Database
