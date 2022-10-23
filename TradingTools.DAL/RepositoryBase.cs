@@ -18,24 +18,11 @@ namespace TradingTools.Repository
 		public RepositoryBase(TradingToolsDbContext repositoryContext)
 			=> RepositoryContext = repositoryContext;
 
-		public IQueryable<T> FindAll(bool trackChanges = false) 
-			=>
-			!trackChanges 
-			?
-			  RepositoryContext.Set<T>()
-				.AsNoTracking() 
-			:
-			  RepositoryContext.Set<T>();
+		public IQueryable<T> FindAll() 
+			=> RepositoryContext.Set<T>();
 
-		public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges = false) 
-			=>
-			!trackChanges 
-			?
-			  RepositoryContext.Set<T>()
-				.Where(expression)
-				.AsNoTracking() 
-			:
-			  RepositoryContext.Set<T>()
+		public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression) 
+			=> RepositoryContext.Set<T>()
 				.Where(expression);
 
 		public void Create(T entity) => RepositoryContext.Set<T>().Add(entity);

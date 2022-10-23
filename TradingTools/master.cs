@@ -273,7 +273,6 @@ namespace TradingTools
         private void InitializeServiceManager()
         {
             DbContext = new();
-            DbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             ServiceManager = new ServiceManager(new RepositoryManager(DbContext), LoggerManager);
 
             try
