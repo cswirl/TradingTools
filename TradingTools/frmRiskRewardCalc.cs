@@ -772,6 +772,7 @@ namespace TradingTools
                     // Trade Exit - Override Values
                     //txtTradeExit_PV.Text = Formula.PositionValue(Trade.LotSize, Trade.ExitPriceAvg ?? 0).ToMoney();
                     //txtTradeExit_PCP.Text = Formula.PCP(Trade.EntryPriceAvg, Trade.ExitPriceAvg).ToPercentageSingle();
+                    txtTradeExit_ExitPrice.Text = Trade.ExitPriceAvg?.ToString_UptoMaxDecimal();
                     txtFinalCapital.Text = Trade.FinalCapital?.ToMoney();
 
                     txtTradeExit_PnL_percentage.Text = Trade.PnL_percentage?.ToPercentageSingle();
