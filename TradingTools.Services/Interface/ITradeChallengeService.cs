@@ -13,7 +13,11 @@ namespace TradingTools.Services.Interface
         IList<Trade> GetAllTrades(int tradeChallengeId);
         IList<Trade> GetActiveTrades(int tradeChallengeId);
         IList<Trade> GetTradeHistory(int tradeChallengeId, bool descending = false);
-        TradeChallenge GetTradeChallenge(int tradeId);
+        TradeChallenge GetTradeChallenge(Trade trade, bool deleted = false);
+
+        // Prospects
+        TradeChallenge GetTradeChallenge(CalculatorState calcState, bool deleted = false);
+
         //
         IList<TradeChallenge> GetStatusOpen(bool descending);
         IList<TradeChallenge> GetStatusClosed(bool descending);

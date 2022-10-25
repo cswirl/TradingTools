@@ -21,10 +21,10 @@ namespace TradingTools.Helpers
         {
             msg = "";
 
-            var tradeChallengeId = _service.TradeChallengeProspectService.GetTradeChallengeId(c.Id);
-            if (tradeChallengeId > 0)
+            var tradeChallenge = _service.TradeChallengeService.GetTradeChallenge(c);
+            if (tradeChallenge != default)
             {
-                msg = $"This Risk/Reward Calculator belongs to Trade Challenge Id: {tradeChallengeId}" +
+                msg = $"This Risk/Reward Calculator belongs to Trade Challenge Id: {tradeChallenge.Id}" +
                     $"\n\nYou need to re-open this form in the Trade Challenge window";
                 return true;
             }
@@ -35,7 +35,7 @@ namespace TradingTools.Helpers
         {
             msg = "";
 
-            var tradeChallenge = Master.ServiceManager.TradeChallengeService.GetTradeChallenge(t.Id);
+            var tradeChallenge = Master.ServiceManager.TradeChallengeService.GetTradeChallenge(t);
             if (tradeChallenge != default)
             {
                 msg = $"This Risk/Reward Calculator belongs to Trade Challenge Id: {tradeChallenge.Id}" +

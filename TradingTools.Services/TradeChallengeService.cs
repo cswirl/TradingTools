@@ -156,11 +156,11 @@ namespace TradingTools.Services
             }
         }
 
-        public TradeChallenge GetTradeChallenge(int tradeId)
+        public TradeChallenge GetTradeChallenge(Trade trade, bool deleted = false)
         {
             try
             {
-                return _repository.TradeChallenge.GetTradeChallenge(tradeId);
+                return _repository.TradeChallenge.GetTradeChallenge(trade);
             }
             catch (Exception ex)
             {
@@ -169,6 +169,21 @@ namespace TradingTools.Services
             }
         }
 
+        #endregion
+
+        #region Prospects
+        public TradeChallenge GetTradeChallenge(CalculatorState calcState, bool deleted = false)
+        {
+            try
+            {
+                return _repository.TradeChallenge.GetTradeChallenge(calcState);
+            }
+            catch (Exception ex)
+            {
+                logError(nameof(GetTradeChallenge), ex);
+                return default;
+            }
+        }
         #endregion
 
         private void logError(string method, Exception ex) => _logger.LogError($"Something went wrong in the {method} service method {ex}");

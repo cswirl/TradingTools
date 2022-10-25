@@ -13,13 +13,15 @@ namespace TradingTools.Trunk.Contracts
         IEnumerable<Trade> GetAllTrades(int tradeChallengeId);
         IEnumerable<Trade> GetActiveTrades(int tradeChallengeId);
         IEnumerable<Trade> GetTradeHistory(int tradeChallengeId, bool descending = false);
-        TradeChallenge GetTradeChallenge(int tradeId);
+        TradeChallenge GetTradeChallenge(Trade trade, bool deleted = false);
+
+        // Prospects
+        TradeChallenge GetTradeChallenge(CalculatorState c, bool deleted = false);
 
         //
         IEnumerable<TradeChallenge> GetStatusOpen(bool descending);
         IEnumerable<TradeChallenge> GetStatusClosed(bool descending);
         void Create(TradeChallenge tradeChallenge);
         void Update(TradeChallenge tradeChallenge);
-        //void Delete(TradeChallenge tradeChallenge);
     }
 }

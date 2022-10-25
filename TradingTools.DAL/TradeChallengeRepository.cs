@@ -33,6 +33,7 @@ namespace TradingTools.Repository
             return trade.ToList();
         }
 
+        #region Trade Thread
         public IEnumerable<Trade> GetAllTrades(int tradeChallengeId)
         {
             return RepositoryContext.Trade
@@ -61,12 +62,23 @@ namespace TradingTools.Repository
             return tradeHist;
         }
 
-        public TradeChallenge GetTradeChallenge(int tradeId)
+        public TradeChallenge GetTradeChallenge(Trade trade, bool deleted = false)
         {
             return RepositoryContext.TradeThread
-                .Where(tr => tr.TradeId == tradeId)
+                .Where(tr => tr.TradeId == trade.Id)
                 .Select(x => x.TradeChallenge)
                 .FirstOrDefault();
         }
+        #endregion
+
+        #region Prospects
+        public TradeChallenge GetTradeChallenge(CalculatorState c, bool deleted = false)
+        {
+            return RepositoryContext.TradeChallengeProspect
+                .Where(tcp => tcp.CalculatorStateId == c.Id && tcp.TradeChallenge.IsDeleted == deleted)
+                .Select(x => x.TradeChallenge)
+                .FirstOrDefault();  
+        }
+        #endregion
     }
 }
