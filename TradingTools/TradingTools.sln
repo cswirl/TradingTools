@@ -9,14 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradingTools.Services", "..
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradingTools.Trunk", "..\TradingTools.Trunk\TradingTools.Trunk.csproj", "{4B5CE692-634D-467D-A638-08C50CC52844}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradingTools.Repository", "..\TradingTools.DAL\TradingTools.Repository.csproj", "{E89A978E-DE93-42BA-A444-5FE0D7F9287D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{24020D32-DF89-40FB-819A-9606BB28DAD9}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradingTools.Services.UnitTests", "..\TradingTools.Services.UnitTests\TradingTools.Services.UnitTests.csproj", "{31AA28B4-190B-4474-B6A4-6DE9F5CF5FCF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradingTools.Repository", "..\TradingTools.Repository\TradingTools.Repository.csproj", "{14670641-BE83-4A97-9F00-34517498A94B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,14 +36,14 @@ Global
 		{4B5CE692-634D-467D-A638-08C50CC52844}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B5CE692-634D-467D-A638-08C50CC52844}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B5CE692-634D-467D-A638-08C50CC52844}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E89A978E-DE93-42BA-A444-5FE0D7F9287D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E89A978E-DE93-42BA-A444-5FE0D7F9287D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E89A978E-DE93-42BA-A444-5FE0D7F9287D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E89A978E-DE93-42BA-A444-5FE0D7F9287D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{31AA28B4-190B-4474-B6A4-6DE9F5CF5FCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{31AA28B4-190B-4474-B6A4-6DE9F5CF5FCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31AA28B4-190B-4474-B6A4-6DE9F5CF5FCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31AA28B4-190B-4474-B6A4-6DE9F5CF5FCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14670641-BE83-4A97-9F00-34517498A94B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14670641-BE83-4A97-9F00-34517498A94B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14670641-BE83-4A97-9F00-34517498A94B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14670641-BE83-4A97-9F00-34517498A94B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,7 +6,7 @@ This application will equip traders with a quick and detailed Risk/Reward calcul
 + .NET 6
 + Windows Forms
 + Entity Framework Core
-+ SQL Server 2019
++ SQL Server 2019 / SQLite
 
 ## Features
 + Risk/Reward Calculator with notes taking
@@ -14,9 +14,10 @@ This application will equip traders with a quick and detailed Risk/Reward calcul
   - Create trade prospects or watch list
 
 + Trade Challenges
-  - This functionality may help  a trader re-frame his trading goal.
-  - The user can create Trade Challenges which is a group of trades arranged in a sequential order with a couple of rules: only 1 active trade is allowed and a maximum trade limit.
-  - It has a calendar control marking the dates of entry of each trades.
+  - This functionality may help  a trader re-frame his trading goal
+  - The user can create Trade Challenges which is a group of trades arranged in a sequential order with a couple of rules: only 1 active trade is allowed and a maximum trade limit
+  - It has a calendar control marking the dates of entry of each trades
+  - Provides insight report to help trader identify winning trade strategy
   
 ## Installation
 The application was published using ClickOnce.
@@ -26,7 +27,17 @@ The application will create the database automatically via EF Core migration.
 
 Choose the database of your choice. SQLite is a more lightweight and portable database with no additional installation . However, the application is developed using SQL Server.
 
-Current Release: v2.1.2-beta
+Current Release: v2.1.3-beta.1
+```
+Changelog:
+
+ Add logging via Nlog
+
+ Refactor
+ - use Repository Pattern
+ - rename the folder TradingTools.DAL to TradingTools.Repository
+ - add Service layer
+```
 
 __TradingTools_SQL Server__ *(database installation required)*: [download here](https://1drv.ms/u/s!AlGVeLI71LLXi7lEOZCrOWRqk6sYKg?e=4wNgaM)
 
